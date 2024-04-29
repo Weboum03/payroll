@@ -1,0 +1,122 @@
+.emp-img{
+    background-image: url('../IMAGE/WhatsApp\ Image\ 2024-01-25\ at\ 04.41.25_b53bd3e5.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 150px;
+    height: 140px;
+    border-radius: 50%;
+}
+
+#Emp-details {
+    background-color:#FFFFFF ;
+    padding: 28px;
+}
+
+#editButton{
+    color: #2DB9F8!important;
+    width: 100px !important;
+    border: none !important;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+#editButton:hover{
+    box-shadow: 0px 0px 3px rgb(199, 199, 199) !important;
+   }
+#plannerButton{
+    color: #2DB9F8!important;
+    width: 100px !important;
+    border: none !important;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+#plannerButton:hover{
+    box-shadow: 0px 0px 3px rgb(199, 199, 199) !important;
+   }
+
+
+
+#de-boardButton{
+    font-size: 10px;
+    width: 74px;
+    height: 39px;
+}
+
+#de-boardButton:hover{
+    box-shadow: 0px 0px 3px rgb(199, 199, 199) !important;
+
+}
+
+
+#lengthOfEmp{
+    background-color: white;
+    width: 186px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#lengthOfEmp>p:nth-of-type(1){
+    font-size: 10px;
+    color: #A8A8A8;
+    font-weight: 500;
+    margin-bottom: .5rem !important;
+}
+
+#lengthOfEmp>p:nth-of-type(2),#lengthOfEmp>p:nth-of-type(3){
+    margin-bottom: 0px !important;
+    font-weight: 600;
+}
+
+#Absences{
+    background-color: white;
+    width: 186px;
+    height: 102px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#Absences>p:nth-of-type(1){
+    font-size: 10px;
+    color: #A8A8A8;
+    font-weight: 500;
+    margin-bottom: 1rem !important;
+}
+
+#Absences>p:nth-of-type(2){
+    margin-bottom: 0px !important;
+    font-weight: 600;
+}
+
+
+#Remaining-Leaves{
+    background-color: white;
+    width: 186px;
+    height: 102px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#Remaining-Leaves>p:nth-of-type(1){
+    font-size: 10px;
+    color: #A8A8A8;
+    font-weight: 500;
+    margin-bottom: 1rem !important;
+}
+
+#Remaining-Leaves>p:nth-of-type(2){
+    margin-bottom: 0px !important;
+    font-weight: 600;
+}
+
+#Name,#Gender,#DOB,#Email,#Mobile,#Address,#EmpID,#SD,#ProbationDay,#Company,#Location,#Aadhar,#PAN{
+    
+    font-size: 11px;
+    color: #A8A8A8;
+    font-weight: 500;
+}
+
+.Name-value,.Gender-value,.DOB-value,.Email-value,.Mobile-value,.address-Value,.EmpID-value,.SD-value,.ProbationDay-value,.Company-value,.Location-value,.Aadhar-value,.PAN-value{
+    font-size: 14px;
+    font-weight: 500;
+}
