@@ -84,7 +84,7 @@ export default [
         // redirect: {
         //     name: 'admin.index'
         // },
-        // beforeEnter: requireLogin,
+        beforeEnter: requireLogin,
         children: [
             {
                 name: "admin.index",

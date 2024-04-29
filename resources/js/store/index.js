@@ -1,7 +1,8 @@
 import { createStore } from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-import auth from '../store/auth'
+// import auth from '../store/auth'
 import lang from '../store/lang'
+import { auth } from "./auth.module";
 
 const store = createStore({
     plugins:[

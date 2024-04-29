@@ -23,6 +23,13 @@
                             <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
                         </li>
                     </template>
+                    <template v-if="user?.name">
+                        <li class="nav-item">
+                            <router-link class="nav-link" to="/admin"
+                            >{{ $t('Dashboard') }}</router-link
+                            >
+                        </li>
+                    </template>
                     <li v-if="user?.name" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ user.name }}
@@ -45,8 +52,10 @@ import { useStore } from "vuex";
 import useAuth from "@/composables/auth";
 import { computed } from "vue";
 import LocaleSwitcher from "../components/LocaleSwitcher.vue";
+import store from "../store";
 
-const store = useStore();
-const user = computed(() => store.getters["auth/user"])
+// const store = useStore();
+// const user = computed(() => store.getters["auth/user"])
+const user = store.state.auth.user;
 const { processing, logout } = useAuth();
 </script>

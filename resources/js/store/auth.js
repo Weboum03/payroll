@@ -1,4 +1,5 @@
 import apiClient from "../composables/api-client"
+import axios from "axios"
 
 export default {
     namespaced: true,
@@ -35,7 +36,7 @@ export default {
             })
         },
         getUser({commit}) {
-            return apiClient.get('/api/auth/user').then(({data}) => {
+            return axio.get('/api/auth/user').then(({data}) => {
                 console.log('actions getUser');
                 if (data.success) {
                     commit('SET_USER', data.data)
@@ -47,7 +48,7 @@ export default {
                 //     commit('SET_AUTHENTICATED', false)
                 // }
             }).catch(({res}) => {
-                console.log('actions getUser');
+                console.log('actions getUser error',);
                 commit('SET_USER', {})
                 commit('SET_AUTHENTICATED', false)
             })

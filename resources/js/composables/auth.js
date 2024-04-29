@@ -56,7 +56,7 @@ export default function useAuth() {
                   }
                 swal({
                     icon: 'success',
-                    title: 'Login successfully',
+                    title: 'Login successfully 1',
                     showConfirmButton: false,
                     timer: 1500
                 })

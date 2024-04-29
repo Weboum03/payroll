@@ -4,17 +4,15 @@
             <div class="col-md-6">
                 <div class="border-0 shadow-sm">
                     <div class="card-body">
-                        <form @submit.prevent="submitLogin" :validation-schema="schema">
+                        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
                             <div class="">
                                 <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">{{ $t('email') }}</label>
-                                    <input v-model="loginForm.email" id="email" type="email" class="form-control" autofocus autocomplete="username">
+                                    <Field  v-model="loginForm.email" id="email" type="email" name="email" :class="{ 'is-invalid': errors.email }" class="form-control" autofocus autocomplete="username" />
                                     <!-- Validation Errors -->
                                     <div class="text-danger mt-1">
-                                        <div v-for="message in validationErrors?.email">
-                                            {{ message }}
-                                        </div>
+                                        {{errors.email}}
                                     </div>
                                     <!-- <ErrorMessage name="email" class="error-feedback" /> -->
                                 </div>
@@ -23,12 +21,10 @@
                                     <label for="password" class="form-label">
                                         {{ $t('password') }}
                                     </label>
-                                    <input v-model="loginForm.password" id="password" type="password" class="form-control" required autocomplete="current-password">
+                                    <Field name="password" :class="{ 'is-invalid': errors.password }" v-model="loginForm.password" id="password" type="password" class="form-control" required autocomplete="current-password" />
                                     <!-- Validation Errors -->
-                                    <div class="text-danger-600 mt-1">
-                                        <div v-for="message in validationErrors?.password">
-                                            {{ message }}
-                                        </div>
+                                    <div class="text-danger mt-1">
+                                        {{errors.password}}
                                     </div>
                                 </div>
                                 <!-- Remember me -->
@@ -61,12 +57,58 @@ import useAuth from '@/composables/auth'
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 const { loginForm, validationErrors, processing, submitLogin } = useAuth();
+import store from '../../store';
+import { useRouter } from "vue-router";
 
-// const loading = false;
-// const message = "",
+let loading = false;
+const message = "";
 const schema = yup.object().shape({
         email: yup.string().required("Email is required!"),
         password: yup.string().required("Password is required!"),
     });
+
+    const router = useRouter()
+
+    const handleLogin = (user) => {
+        loading = true;
+        store.dispatch("auth/login", user).then(
+        () => {
+            router.push({ name: 'admin.index' })
+        },
+        (error) => {
+          loading = false;
+          message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    }
+
+
+  const onSubmit = (values) => {
+
+        console.log(store.state.auth.authenticated);
+        // this.loading = true;
+
+    //   this.$store.dispatch("auth/login", user).then(
+    //     () => {
+    //       this.$router.push("/profile");
+    //     },
+    //     (error) => {
+    //       this.loading = false;
+    //       this.message =
+    //         (error.response &&
+    //           error.response.data &&
+    //           error.response.data.message) ||
+    //         error.message ||
+    //         error.toString();
+    //     }
+    //   );
+    // display form values on success
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(values, null, 4));
+}
 
 </script>
