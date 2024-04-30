@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,7 @@ class AdminAuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:adminApi', ['except' => ['login']]);
+        $this->middleware('auth:adminApi', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -45,8 +46,8 @@ class AdminAuthController extends BaseController
     public function register(Request $request)
     {
         $rules = [
-            'name' => 'unique:admins|required',
-            'email'    => 'unique:users|required',
+            'name' => 'required',
+            'email'    => 'unique:admins|required',
             'password' => 'required',
         ];
     
@@ -54,8 +55,10 @@ class AdminAuthController extends BaseController
         $validator = Validator::make($input, $rules);
     
         if ($validator->fails()) {
-            return $this->sendError($validator->first());
+            return $this->sendError($validator->errors()->first(), $validator->errors());
         }
+
+        Admin::create($input);
 
         return $this->sendSuccess(__('ApiMessage.register'));
     }

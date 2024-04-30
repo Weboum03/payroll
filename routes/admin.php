@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::group(['middleware' => 'admin','prefix' => 'auth'], function ($router) {
     $router->post('login', [AdminAuthController::class, 'login']);
+    $router->post('register', [AdminAuthController::class, 'register']);
     $router->post('logout', [AdminAuthController::class, 'logout']);
     $router->post('refresh', [AdminAuthController::class, 'refresh']);
     $router->post('me', [AdminAuthController::class, 'me']);

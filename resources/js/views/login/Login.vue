@@ -87,28 +87,4 @@ const schema = yup.object().shape({
       );
     }
 
-
-  const onSubmit = (values) => {
-
-        console.log(store.state.auth.authenticated);
-        // this.loading = true;
-
-    //   this.$store.dispatch("auth/login", user).then(
-    //     () => {
-    //       this.$router.push("/profile");
-    //     },
-    //     (error) => {
-    //       this.loading = false;
-    //       this.message =
-    //         (error.response &&
-    //           error.response.data &&
-    //           error.response.data.message) ||
-    //         error.message ||
-    //         error.toString();
-    //     }
-    //   );
-    // display form values on success
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(values, null, 4));
-}
-
 </script>

@@ -47,7 +47,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/api/auth/login', loginForm)
+        await axios.post('/admin/auth/login', loginForm)
             .then(async response => {
                 await store.dispatch('auth/getUser')
                 await loginUser()
@@ -76,7 +76,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/api/auth/register', registerForm)
+        await axios.post('/admin/auth/register', registerForm)
             .then(async response => {
                 // await store.dispatch('auth/getUser')
                 // await loginUser()
@@ -102,7 +102,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/api/forget-password', forgotForm)
+        await axios.post('/admin/forget-password', forgotForm)
             .then(async response => {
                 swal({
                     icon: 'success',
@@ -126,7 +126,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/api/reset-password', resetForm)
+        await axios.post('/admin/reset-password', resetForm)
             .then(async response => {
                 swal({
                     icon: 'success',
