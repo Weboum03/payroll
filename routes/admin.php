@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\UserController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,15 @@ Route::group(['middleware' => 'admin','prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => 'admin'], function ($router) {
     $router->apiResource('users', UserController::class);
+    $router->get('abilities', function(Request $request) {
+        //return Auth::guard('adminApi')->user();
+        return Auth::guard('adminApi')->user()->roles()->with('permissions')
+            ->get()
+            ->pluck('permissions')
+            ->flatten()
+            ->pluck('name')
+            ->unique()
+            ->values()
+            ->toArray();
+    });
 });

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useStore } from "vuex";
 import store from "../store";
 // const baseURL = import.meta.env.VITE_BASE_API;
-const baseURL = "http://localhost:8000/api/";
+const baseURL = "http://localhost:8000/api/admin/";
 
 const apiClient = axios.create({
     baseURL,
@@ -12,7 +12,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
     (config) => {
-        isLogin = store.state.auth.authenticated;
+        const isLogin = store.state.auth.authenticated;
         if (isLogin) {
             const user = store.state.auth.user;
             if (user && user.access_token) {

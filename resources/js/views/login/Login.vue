@@ -4,7 +4,7 @@
             <div class="col-md-6">
                 <div class="border-0 shadow-sm">
                     <div class="card-body">
-                        <Form @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
+                        <Form @submit="submitLogin" :validation-schema="schema" v-slot="{ errors }">
                             <div class="">
                                 <!-- Email -->
                                 <div class="mb-3">

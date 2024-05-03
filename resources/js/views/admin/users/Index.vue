@@ -194,12 +194,12 @@ watch(search_title, (current, previous) => {
         search_global.value
     )
 })
-watch(search_global, _.debounce((current, previous) => {
-    getUsers(
-        1,
-        search_id.value,
-        search_title.value,
-        current
-    )
-}, 200))
+// watch(search_global, _.debounce((current, previous) => {
+//     getUsers(
+//         1,
+//         search_id.value,
+//         search_title.value,
+//         current
+//     )
+// }, 200))
 </script>

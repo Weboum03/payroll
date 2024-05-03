@@ -24,7 +24,7 @@ export default function useUsers() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
-        apiClient.get('/api/users?page=' + page +
+        apiClient.get('/users?page=' + page +
             '&search_id=' + search_id +
             '&search_title=' + search_title +
             '&search_global=' + search_global +
@@ -55,7 +55,7 @@ export default function useUsers() {
             }
         }
 
-        apiClient.post('/api/users', serializedPost)
+        apiClient.post('/users', serializedPost)
             .then(response => {
                 router.push({name: 'users.index'})
                 swal({
@@ -77,7 +77,7 @@ export default function useUsers() {
         isLoading.value = true
         validationErrors.value = {}
 
-        apiClient.put('/api/users/' + user.id, user)
+        apiClient.put('/users/' + user.id, user)
             .then(response => {
                 router.push({name: 'users.index'})
                 swal({

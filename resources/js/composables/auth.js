@@ -15,7 +15,7 @@ export default function useAuth() {
     const validationErrors = ref({})
     const router = useRouter()
     const swal = inject('$swal')
-    // const ability = inject(ABILITY_TOKEN)
+    const ability = inject(ABILITY_TOKEN)
 
     const loginForm = reactive({
         email: '',
@@ -46,28 +46,43 @@ export default function useAuth() {
 
         processing.value = true
         validationErrors.value = {}
-
-        await axios.post('/admin/auth/login', loginForm)
-            .then(async response => {
-                await store.dispatch('auth/getUser')
+        store.dispatch("auth/login", loginForm).then(
+            async () => {
                 await loginUser()
-                if (response.data.access_token) {
-                    localStorage.setItem('user', JSON.stringify(response.data));
-                  }
-                swal({
-                    icon: 'success',
-                    title: 'Login successfully 1',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                await router.push({ name: 'admin.index' })
-            })
-            .catch(error => {
-                if (error.response?.data) {
-                    validationErrors.value = error.response.data.errors
-                }
-            })
-            .finally(() => processing.value = false)
+                router.push({ name: 'admin.index' })
+            },
+            (error) => {
+              loading = false;
+              message =
+                (error.response &&
+                  error.response.data &&
+                  error.response.data.message) ||
+                error.message ||
+                error.toString();
+            }
+          );
+
+        // await axios.post('/api/admin/auth/login', loginForm)
+        //     .then(async response => {
+        //         await store.dispatch('auth/getUser')
+        //         await loginUser()
+        //         if (response.data.access_token) {
+        //             localStorage.setItem('user', JSON.stringify(response.data));
+        //           }
+        //         swal({
+        //             icon: 'success',
+        //             title: 'Login successfully 1',
+        //             showConfirmButton: false,
+        //             timer: 1500
+        //         })
+        //         await router.push({ name: 'admin.index' })
+        //     })
+        //     .catch(error => {
+        //         if (error.response?.data) {
+        //             validationErrors.value = error.response.data.errors
+        //         }
+        //     })
+        //     .finally(() => processing.value = false)
     }
 
     const submitRegister = async () => {
@@ -76,7 +91,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/admin/auth/register', registerForm)
+        await axios.post('/api/admin/auth/register', registerForm)
             .then(async response => {
                 // await store.dispatch('auth/getUser')
                 // await loginUser()
@@ -102,7 +117,7 @@ export default function useAuth() {
         processing.value = true
         validationErrors.value = {}
 
-        await axios.post('/admin/forget-password', forgotForm)
+        await axios.post('/api/admin/forget-password', forgotForm)
             .then(async response => {
                 swal({
                     icon: 'success',
@@ -147,7 +162,7 @@ export default function useAuth() {
     const loginUser = () => {
         user = store.state.auth.user
         // Cookies.set('loggedIn', true)
-       // getAbilities()
+       getAbilities()
     }
 
     const getUser = async () => {
@@ -168,38 +183,40 @@ export default function useAuth() {
         localStorage.removeItem('user');
         router.push({ name: 'auth.login' })
 
-        // axios.post('/api/auth/logout')
-        //     .then(response => {
-        //         user.name = ''
-        //         user.email = ''
-        //         store.dispatch('auth/logout')
-        //         localStorage.removeItem('user');
-        //         router.push({ name: 'auth.login' })
-        //     })
-        //     .catch(error => {
-        //         // swal({
-        //         //     icon: 'error',
-        //         //     title: error.response.status,
-        //         //     text: error.response.statusText
-        //         // })
-        //     })
-        //     .finally(() => {
-        //         processing.value = false
-        //         // Cookies.remove('loggedIn')
-        //     })
+        axios.post('/api/auth/logout')
+            .then(response => {
+                user.name = ''
+                user.email = ''
+                store.dispatch('auth/logout')
+                localStorage.removeItem('user');
+                router.push({ name: 'auth.login' })
+            })
+            .catch(error => {
+                // swal({
+                //     icon: 'error',
+                //     title: error.response.status,
+                //     text: error.response.statusText
+                // })
+            })
+            .finally(() => {
+                processing.value = false
+                // Cookies.remove('loggedIn')
+            })
     }
 
-    // const getAbilities = async() => {
-    //     await axios.get('/api/abilities')
-    //         .then(response => {
-    //             const permissions = response.data
-    //             const { can, rules } = new AbilityBuilder(createMongoAbility)
+    const getAbilities = async() => {
+        console.log('Rahul', store.state.auth.user.access_token);
+        const loginUser = store.state.auth.user;
+        await axios.get('/api/admin/abilities',{ headers: {"Authorization" : `Bearer ${loginUser.access_token}`} })
+            .then(response => {
+                const permissions = response.data
+                const { can, rules } = new AbilityBuilder(createMongoAbility)
 
-    //             can(permissions)
+                can(permissions)
 
-    //             ability.update(rules)
-    //         })
-    // }
+                ability.update(rules)
+            })
+    }
 
     return {
         loginForm,
@@ -215,6 +232,6 @@ export default function useAuth() {
         user,
         getUser,
         logout,
-        // getAbilities
+        getAbilities
     }
 }
