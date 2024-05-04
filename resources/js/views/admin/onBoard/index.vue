@@ -606,11 +606,10 @@ import '@/assets/css/onBoard.css'
 // import { ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { getCurrentInstance, ref, reactive, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import useUsers from "@/composables/users";
 
-// const apiPath = this.$root.app.config.globalProperties.apiPath;
-// const { storeUser, validationErrors, isLoading } = useUsers();
+const { storeUser, validationErrors, isLoading } = useUsers();
 
 const currentStep = ref(0);
 
