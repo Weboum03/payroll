@@ -88,19 +88,19 @@
                                     </div>
                                     <div class="col input-group-fname">
 
-                                        <Field v-slot="{ field, handleChange }" type="date" name="dob" class="input"
+                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                id="dob-Value" placeholder="Date of Birth*" type="text"
+                                                id="dob-Value" placeholder="Date of Birth*" type="date"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label ">Date of Birth</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
-                                        <span class="dateIcon1 input-group-append">
+                                        <!-- <span class="dateIcon1 input-group-append">
                                             <span style=" position: relative; bottom: 31px; left: 300px;"><i
                                                     class="fas fa-calendar-alt"></i></span>
-                                        </span>
+                                        </span> -->
                                     </div>
                                 </div>
 
@@ -221,24 +221,24 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="start_date" placeholder="start date"
+                                    <Field type="date" name="start_date" placeholder="start date"
                                         :class="{ 'is-invalid': errors.start_date }" class="input" autocomplete="off" />
                                     <label class="user-label ">Start Date</label>
                                     <span class="dateIcon1 input-group-append">
-                                        <span style=" position: relative; bottom: 31px; left: 300px;"><i
-                                                class="fas fa-calendar-alt"></i></span>
+                                        <!-- <span style=" position: relative; bottom: 31px; left: 300px;"><i
+                                                class="fas fa-calendar-alt"></i></span> -->
                                     </span>
                                     <ErrorMessage name="start_date" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="prob_end_date" placeholder="Probation End Date"
+                                    <Field type="date" name="prob_end_date" placeholder="Probation End Date"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
                                     <label class="user-label ">Probation End Date</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                     <span class="dateIcon1 input-group-append">
-                                        <span style=" position: relative; bottom: 31px; left: 300px;"><i
-                                                class="fas fa-calendar-alt"></i></span>
+                                        <!-- <span style=" position: relative; bottom: 31px; left: 300px;"><i
+                                                class="fas fa-calendar-alt"></i></span> -->
                                     </span>
                                 </div>
                             </div>
@@ -517,14 +517,15 @@
                                 </div>
                                 <div class="d-flex flex-column justify-content-center align-items-center"
                                     style="gap: 2rem;">
-                                    <a id="myAnchor" href="/admin.dashboard" class="btn btn-primary removeTask">Finish and
+                                    <a id="myAnchor" href="/admin.dashboard" class="btn btn-primary removeTask">Finish
+                                        and
                                         visit
                                         employee's record</a>
                                     <a id="myAnchor" href="/admin/onBoard" class="btn btn-primary removeTask">Add
                                         another
                                         employee</a>
-                                    <a id="myAnchor" href="/admin/dashboard"
-                                        class="btn btn-primary removeTask">Finish and
+                                    <a id="myAnchor" href="/admin/dashboard" class="btn btn-primary removeTask">Finish
+                                        and
                                         exit</a>
                                 </div>
 
@@ -584,7 +585,7 @@
                         <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                         <button type="button" v-if="currentStep !== 0" @click="prevStep"
                             class="btn btn-next btn-primary savenext">Previous</button>
-                        <a id="myAnchor" href="dashboard.html" class="btn btn-outline-light cancle">Cancel</a>
+                        <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
                     </div>
                 </Form>
             </form>
@@ -606,11 +607,11 @@ import '@/assets/css/onBoard.css'
 // import { ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 
-const { storeUser, validationErrors, isLoading } = useUsers();
-
+const { storeUser, validationErrors, validationMessage, isLoading } = useUsers();
+const swal = inject('$swal')
 const currentStep = ref(0);
 
 // Each step should have its own validation schema
@@ -657,14 +658,19 @@ function submitForm(user) {
 }
 
 function nextStep(values) {
-  if (currentStep.value === 4) {
+  if (currentStep.value === 3) {
     submitForm(values);
-    return;
+    if(validationErrors) {
+        return
+    }
   }
 
   currentStep.value++;
 }
 
+function cancel() {
+    router.push({ name: 'admin.onBoard' })
+}
 function prevStep() {
   if (currentStep.value <= 0) {
     return;

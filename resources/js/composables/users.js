@@ -10,6 +10,7 @@ export default function useUsers() {
 
     const router = useRouter()
     const validationErrors = ref({})
+    const validationMessage = ref('')
     const isLoading = ref(false)
     const swal = inject('$swal')
 
@@ -21,7 +22,7 @@ export default function useUsers() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
-        apiClient.get('/users?page=' + page +
+        apiClient.get('/admin/users?page=' + page +
             '&search_id=' + search_id +
             '&search_title=' + search_title +
             '&search_global=' + search_global +
@@ -33,7 +34,7 @@ export default function useUsers() {
     }
 
     const getUser = async (id) => {
-        apiClient.get('/api/users/' + id)
+        apiClient.get('/admin/users/' + id)
             .then(response => {
                 user.value = response.data.data;
             })
@@ -52,7 +53,7 @@ export default function useUsers() {
             }
         }
 
-        apiClient.post('/users', serializedPost)
+        apiClient.post('/admin/users', serializedPost)
             .then(response => {
                 router.push({ name: 'users.index' })
                 swal({
@@ -63,6 +64,11 @@ export default function useUsers() {
             .catch(error => {
                 if (error.response?.data) {
                     validationErrors.value = error.response.data.errors
+                    validationMessage.value = error.response.data.message
+                    swal({
+                        icon: 'danger',
+                        title: error.response.data.message
+                    }) 
                 }
             })
             .finally(() => isLoading.value = false)
@@ -74,7 +80,7 @@ export default function useUsers() {
         isLoading.value = true
         validationErrors.value = {}
 
-        apiClient.put('/users/' + user.id, user)
+        apiClient.put('/admin/users/' + user.id, user)
             .then(response => {
                 router.push({ name: 'users.index' })
                 swal({
@@ -132,6 +138,7 @@ export default function useUsers() {
         updateUser,
         deleteUser,
         validationErrors,
+        validationMessage,
         isLoading
     }
 }

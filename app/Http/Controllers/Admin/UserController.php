@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\BaseController;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
@@ -37,6 +38,14 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
+        $rules = [
+            'email'    => 'unique:users|required',
+        ];
+        $validator = Validator::make($input, $rules);
+    
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), $validator->errors());
+        }
         $user = $this->userRepository->create($input);
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
     }
