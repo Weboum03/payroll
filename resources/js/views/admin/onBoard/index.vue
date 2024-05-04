@@ -517,10 +517,10 @@
                                 </div>
                                 <div class="d-flex flex-column justify-content-center align-items-center"
                                     style="gap: 2rem;">
-                                    <a id="myAnchor" href="dashboard.html" class="btn btn-primary removeTask">Finish and
+                                    <a id="myAnchor" href="admin.dashboard" class="btn btn-primary removeTask">Finish and
                                         visit
                                         employee's record</a>
-                                    <a id="myAnchor" href="../HTML/onBoard.html" class="btn btn-primary removeTask">Add
+                                    <a id="myAnchor" href="admin/onBoard.html" class="btn btn-primary removeTask">Add
                                         another
                                         employee</a>
                                     <a id="myAnchor" href="../HTML/dashboard.html"
