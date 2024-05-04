@@ -7,12 +7,6 @@ $(document).ready(function () {
   $('#accordion').click(function (e) {
     e.preventDefault();
   });
-  $("#headingFour").on("click", function () {
-    window.location.href = "../HTML/Home.html";
-  })
-  $("#headingOne").on("click", function () {
-    window.location.href = "../HTML/dashboard.html";
-  })
 
   var currentPageURL = window.location.href;
   $(".card-body a").each(function () {
