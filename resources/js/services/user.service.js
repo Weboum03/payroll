@@ -2,7 +2,8 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
-if(!baseURL) { baseURL = '/api/' }
+if(baseURL) { baseURL = baseURL + '/api/' }
+else { baseURL = '/api/' }
 
 const API_URL = baseURL + 'test/';
 

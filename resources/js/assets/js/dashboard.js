@@ -33,11 +33,6 @@ $(document).ready(function () {
     $(this).parent().find('.btn-link').removeClass('collapsed');
   });
 
-  $(".logoutBtn").on("click", function (e) {
-    e.preventDefault();
-    window.location.href = "../HTML/Login.html";
-  })
-
   $(".nav-icon").on("click", function (e) {
     e.preventDefault();
     e.stopPropagation();

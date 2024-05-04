@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
-if(!baseURL) { baseURL = '/api/' }
+if(baseURL) { baseURL = baseURL + '/api/' }
+else { baseURL = '/api/' }
 
 const API_URL = baseURL + 'admin/auth/';
 

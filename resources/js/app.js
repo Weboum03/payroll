@@ -19,6 +19,7 @@ const app = createApp({
     }
 });
 
+app.config.globalProperties.apiPath = import.meta.env.VITE_AXIOS_BASE_URL;
 app.use(router)
 app.use(store)
 app.use(VueSweetalert2)
