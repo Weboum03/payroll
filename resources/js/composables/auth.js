@@ -52,13 +52,17 @@ export default function useAuth() {
                 router.push({ name: 'admin.index' })
             },
             (error) => {
-              loading = false;
-              message =
+            //   loading = false;
+             let message =
                 (error.response &&
                   error.response.data &&
-                  error.response.data.message) ||
-                error.message ||
+                  error.response.data.error) ||
+                error.error ||
                 error.toString();
+                swal({
+                    icon: 'error',
+                    title: message
+                }) 
             }
           );
 
