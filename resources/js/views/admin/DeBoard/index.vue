@@ -313,9 +313,9 @@
                         <div class="d-flex flex-column justify-content-center align-items-center" style="gap: 1rem;">
                             <a id="myAnchor" href="#" class="btn btn-primary removeTask">Finish and visit employee's
                                 record</a>
-                            <a id="myAnchor" href="../HTML/onBoard.html" class="btn btn-primary removeTask">Add another
+                            <a id="myAnchor" href="/admin/onBoard" class="btn btn-primary removeTask">Add another
                                 employee</a>
-                            <a id="myAnchor" href="../HTML/dashboard.html" class="btn btn-primary removeTask">Finish and
+                            <a id="myAnchor" href="/admin/dashboard" class="btn btn-primary removeTask">Finish and
                                 exit</a>
                         </div>
 

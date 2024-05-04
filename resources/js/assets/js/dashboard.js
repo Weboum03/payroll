@@ -78,7 +78,7 @@ $(document).ready(function () {
 
   });
   $('#On-board-ancordien-item').click(function () {
-    window.location.href = "../HTML/onBoard.html";
+    window.location.href = "/admin/onBoard";
 
   });
 
@@ -114,7 +114,7 @@ $(document).ready(function () {
   $("#EmpTable_filter").append('<button id="button3" class="add" style="height: 36.83px;width: 121px;font-size: 12px;font-weight: 500;font-family: sans-serif;padding-left: 12px;border: none;border-radius: 5px;text-align: left;">Add on Board</button>');
   $('.add,.add1').on("click", function (e) {
     e.preventDefault();
-    window.location.href = "../HTML/onBoard.html";
+    window.location.href = "/admin/onBoard";
   })
   $.ajax({
     url: './employees.json',
