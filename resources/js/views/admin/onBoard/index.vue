@@ -14,13 +14,13 @@
                 </div>
                 <!-- Progress bar -->
                 <div class="progressbar container">
-                    <div class="progress" id="progress"></div>
+                    <div class="progress" :style="{ width: boxWidth + '%' }"></div>
 
                     <div class="progress-step progress-step-active" data-title="Personal Information"></div>
-                    <div class="progress-step" data-title="Job Information"></div>
-                    <div class="progress-step" data-title="Attendance & Leaves"></div>
-                    <div class="progress-step" data-title="Tasks"></div>
-                    <div class="progress-step" data-title="Done"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 1 }" data-title="Job Information"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }" data-title="Attendance & Leaves"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done"></div>
                 </div>
 
                 <Form @submit="nextStep" keep-values :validation-schema="currentSchema"
@@ -507,7 +507,8 @@
                                         style="gap: 1rem;">
                                         <div class="d-flex align-items-center" style="gap: 1rem;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
-                                            <div>Done! <span style="color: #2DB9F8;"> Austin Hodges</span> is
+                                            <div>Done! <span style="color: #2DB9F8;"> {{ user?.first_name }} {{
+                                                user?.last_name }}</span> is
                                                 successfully
                                                 entered into the system.
                                             </div>
@@ -534,58 +535,13 @@
 
                         </div>
                     </template>
-                    <!-- <template v-if="currentStep === 0">
-                    <label for="name">Name</label>
-                    <Field name="name" id="name" />
-                    <ErrorMessage name="name" />
-
-                    <label for="email">Email</label>
-                    <Field name="email" id="email" type="email" />
-                    <ErrorMessage name="email" />
-                </template>
-
-                <template v-if="currentStep === 1">
-                    <label for="password">Password</label>
-                    <Field name="password" type="password" id="password" />
-                    <ErrorMessage name="password" />
-
-                    <label for="confirmation">Confirm Password</label>
-                    <Field name="confirmPassword" type="password" id="confirmation" />
-                    <ErrorMessage name="confirmPassword" />
-                </template>
-
-                <template v-if="currentStep === 2">
-                    <label for="address">Address</label>
-                    <Field as="textarea" name="address" id="address" />
-                    <ErrorMessage name="address" />
-
-                    <label for="postalCode">Postal Code</label>
-                    <Field name="postalCode" id="postalCode" />
-                    <ErrorMessage name="postalCode" />
-                </template>
-
-                <template v-if="currentStep === 3">
-                    <label for="terms">Agree to terms and conditions</label>
-                    <Field name="terms" type="checkbox" id="terms" :value="true" />
-                    <ErrorMessage name="terms" />
-                </template>
-
-                <button v-if="currentStep !== 0" type="button" @click="prevStep">
-                    Previous
-                </button>
-
-                <button v-if="currentStep !== 3" type="submit">Next</button>
-
-                <button v-if="currentStep === 3" type="submit">Finish</button>
-
-                <pre>{{ values }}</pre> -->
-
 
                     <div class="btns-save-cancle">
                         <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                         <button type="button" v-if="currentStep !== 0" @click="prevStep"
                             class="btn btn-next btn-primary savenext">Previous</button>
-                        <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
+                        <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle"
+                            @click="cancel">Cancel</a>
                     </div>
                 </Form>
             </form>
@@ -610,10 +566,10 @@ import * as yup from 'yup';
 import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 
-const { storeUser, validationErrors, validationMessage, isLoading } = useUsers();
+const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
 const swal = inject('$swal')
 const currentStep = ref(0);
-
+const boxWidth = ref(0); // Initial width
 // Each step should have its own validation schema
 const schemas = [
   yup.object({
@@ -651,21 +607,18 @@ const schemas = [
 
 const currentSchema = computed(() => {
   return schemas[currentStep.value];
-});
+}); 
 
-function submitForm(user) {
-    storeUser(user)
+async function submitForm(user) {
+    await storeUser(user);
 }
 
-function nextStep(values) {
+async function nextStep(values, user) {
   if (currentStep.value === 3) {
-    submitForm(values);
-    if(validationErrors) {
-        return
-    }
+    return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
   }
-
   currentStep.value++;
+  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 
 function cancel() {
@@ -675,7 +628,7 @@ function prevStep() {
   if (currentStep.value <= 0) {
     return;
   }
-
   currentStep.value--;
+  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 </script>

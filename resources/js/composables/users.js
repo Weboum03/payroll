@@ -1,11 +1,13 @@
-import { ref, inject } from 'vue'
+import { ref, inject, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import apiClient from './api-client';
 
 export default function useUsers() {
     const users = ref([])
     const user = ref({
-        name: ''
+        name: '',
+        first_name: '',
+        last_name: ''
     })
 
     const router = useRouter()
@@ -53,9 +55,9 @@ export default function useUsers() {
             }
         }
 
-        apiClient.post('/admin/users', serializedPost)
+        return apiClient.post('/admin/users', serializedPost)
             .then(response => {
-                router.push({ name: 'users.index' })
+                user.value = response.data;
                 swal({
                     icon: 'success',
                     title: 'User saved successfully'
@@ -66,10 +68,11 @@ export default function useUsers() {
                     validationErrors.value = error.response.data.errors
                     validationMessage.value = error.response.data.message
                     swal({
-                        icon: 'danger',
+                        icon: 'error',
                         title: error.response.data.message
                     }) 
                 }
+                return Promise.reject(error);
             })
             .finally(() => isLoading.value = false)
     }
@@ -137,7 +140,7 @@ export default function useUsers() {
         storeUser,
         updateUser,
         deleteUser,
-        validationErrors,
+        validationErrors: computed(() => validationErrors.value),
         validationMessage,
         isLoading
     }
