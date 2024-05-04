@@ -15,12 +15,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Payroll</title>
 
-    <!-- CSS -->
-    <!-- <link rel="stylesheet" href="{{ asset('resources/css/dashboard.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ asset('resources/css/onBoard.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ asset('resources/css/Home.css') }}"> -->
-    <!-- <link rel="stylesheet" href="{{ asset('resources/css/ApprovalHistory.css') }}"> -->
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">

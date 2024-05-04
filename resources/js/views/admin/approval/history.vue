@@ -129,7 +129,7 @@
 <script setup>
 
 import { ref, onMounted } from 'vue';
-import '@/assets/css/ApprovalHistory.css'
+// import '@/assets/css/ApprovalHistory.css'
 
 
 onMounted(() => {
