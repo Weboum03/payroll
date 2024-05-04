@@ -27,7 +27,7 @@
                 <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" id="admin-image"
                     class="d-inline-block align-top" alt="">
                 <div class="admin-profile d-flex flex-column">
-                    <p class="admin-name">Devansh</p>
+                    <p class="admin-name">{{ user?.name }}</p>
                     <p class="admin-pro">Admin</p>
                 </div>
             </nav>
