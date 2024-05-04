@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/admin/auth/';
+let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
+if(!baseURL) { baseURL = '/api/' }
+
+const API_URL = baseURL + 'admin/auth/';
 
 class AuthService {
   login(user) {

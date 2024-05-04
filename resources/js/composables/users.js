@@ -3,8 +3,6 @@ import { useRouter } from 'vue-router'
 import authHeader from '../services/auth-header';
 import apiClient from './api-client';
 
-const API_URL = 'http://localhost:8080/api/test/';
-
 export default function useUsers() {
     const users = ref([])
     const user = ref({

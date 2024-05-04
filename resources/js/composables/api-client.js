@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useStore } from "vuex";
 import store from "../store";
-// const baseURL = import.meta.env.VITE_BASE_API;
-const baseURL = "http://localhost:8000/api/admin/";
+let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
+if(!baseURL) { baseURL = '/api/' }
 
 const apiClient = axios.create({
     baseURL,

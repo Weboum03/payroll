@@ -33,38 +33,42 @@
                                 <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="first_name"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.first_name }" placeholder="First Name*" type="text"  autocomplete="off" class="input" required>
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.first_name }" placeholder="First Name*"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
-                                        <label class="user-label" >First Name*</label>
+                                        <label class="user-label">First Name*</label>
                                         <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="last_name"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.last_name }" placeholder="Last Name*" type="text"  autocomplete="off" class="input" required>
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.last_name }" placeholder="Last Name*"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
-                                        <label class="user-label" >First Name*</label>
+                                        <label class="user-label">First Name*</label>
                                         <ErrorMessage name="last_name" class="text-danger mt-1" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="email"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="email" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text"
+                                                autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">Email</label>
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="phone"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.phone }" placeholder="Phone" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="phone" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.phone }" placeholder="Phone" type="text"
+                                                autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">Mobile</label>
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
@@ -84,10 +88,12 @@
                                     </div>
                                     <div class="col input-group-fname">
 
-                                        <Field v-slot="{ field, handleChange }" type="date" name="dob"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')" id="dob-Value" placeholder="Date of Birth*" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="date" name="dob" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
+                                                id="dob-Value" placeholder="Date of Birth*" type="text"
+                                                autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label ">Date of Birth</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
@@ -106,19 +112,21 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="address"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.address }" placeholder="address" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.address }" placeholder="address"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">Address Line 1</label>
                                         <ErrorMessage name="address" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.address_1 }" placeholder="address 1" type="text"  autocomplete="off" class="input" required>
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="address 1"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">Address Line 2</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
@@ -127,19 +135,21 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="city"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.city }" placeholder="city" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.city }" placeholder="city" type="text"
+                                                autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">City/Town</label>
                                         <ErrorMessage name="city" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="state"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.state }" placeholder="state" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.state }" placeholder="state" type="text"
+                                                autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">State</label>
                                         <ErrorMessage name="state" class="text-danger mt-1" />
@@ -148,10 +158,11 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="country"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.country }" placeholder="country" type="text"  autocomplete="off" class="input" required>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.country }" placeholder="country"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
 
                                         <label class="user-label">Country</label>
@@ -159,9 +170,10 @@
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="postcode"
-                                             class="input"
-                                            autocomplete="off" >
-                                            <input @change="handleChange" :value="field.value" :class="{ 'is-invalid': errors.postcode }" placeholder="postcode" type="text"  autocomplete="off" class="input" required>
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.postcode }" placeholder="postcode"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label class="user-label">Post Code</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
@@ -292,8 +304,8 @@
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field name="employment_type" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field name="employment_type" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Select</option>
                                         <option value="A">Employment Type A</option>
                                         <option value="B">Employment Type B</option>
@@ -570,7 +582,8 @@
 
                     <div class="btns-save-cancle">
                         <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                        <button type="button" v-if="currentStep !== 0"  @click="prevStep" class="btn btn-next btn-primary savenext">Previous</button>
+                        <button type="button" v-if="currentStep !== 0" @click="prevStep"
+                            class="btn btn-next btn-primary savenext">Previous</button>
                         <a id="myAnchor" href="dashboard.html" class="btn btn-outline-light cancle">Cancel</a>
                     </div>
                 </Form>
@@ -593,11 +606,11 @@ import '@/assets/css/onBoard.css'
 // import { ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, reactive, computed } from 'vue';
+import { getCurrentInstance, ref, reactive, computed } from 'vue';
 import useUsers from "@/composables/users";
 
-
-const { storeUser, validationErrors, isLoading } = useUsers();
+// const apiPath = this.$root.app.config.globalProperties.apiPath;
+// const { storeUser, validationErrors, isLoading } = useUsers();
 
 const currentStep = ref(0);
 
@@ -641,16 +654,11 @@ const currentSchema = computed(() => {
 });
 
 function submitForm(user) {
-    alert('df');
     storeUser(user)
 }
 
 function nextStep(values) {
-    // alert(currentStep.value);
   if (currentStep.value === 4) {
-    
-    const userData = JSON.stringify(values, null, 2);
-    console.log('Done: ', JSON.stringify(values, null, 2));
     submitForm(values);
     return;
   }

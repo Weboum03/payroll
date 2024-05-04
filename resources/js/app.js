@@ -19,7 +19,6 @@ const app = createApp({
     }
 });
 
-app.config.globalProperties.apiPath = "http://localhost:8000/";
 app.use(router)
 app.use(store)
 app.use(VueSweetalert2)
