@@ -1,6 +1,5 @@
 import { ref, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import authHeader from '../services/auth-header';
 import apiClient from './api-client';
 
 export default function useUsers() {
@@ -55,7 +54,7 @@ export default function useUsers() {
 
         apiClient.post('/users', serializedPost)
             .then(response => {
-                router.push({name: 'users.index'})
+                router.push({ name: 'users.index' })
                 swal({
                     icon: 'success',
                     title: 'User saved successfully'
@@ -77,7 +76,7 @@ export default function useUsers() {
 
         apiClient.put('/users/' + user.id, user)
             .then(response => {
-                router.push({name: 'users.index'})
+                router.push({ name: 'users.index' })
                 swal({
                     icon: 'success',
                     title: 'User updated successfully'
@@ -108,7 +107,7 @@ export default function useUsers() {
                     apiClient.delete('/api/users/' + id)
                         .then(response => {
                             getUsers()
-                            router.push({name: 'users.index'})
+                            router.push({ name: 'users.index' })
                             swal({
                                 icon: 'success',
                                 title: 'User deleted successfully'
