@@ -92,8 +92,8 @@
                 </div>
             </div>
             <div id="PayrollBatch-btn" class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                <button type="button" class="btn btn-primary PayrollBatchbtn" data-toggle="modal"
-                    data-target="#PayrollBatch-modal">Create Payroll Batch</button>
+                <button type="button" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
+                    Batch</button>
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
             </div>
@@ -122,47 +122,47 @@
                 </tbody>
             </table>
         </div>
-
-
-
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="PayrollBatch-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style="margin-bottom: 5px;">&times;</span>
-                        </button>
-                    </div>
-                    <div
-                        class="modal-body d-flex justify-content-center align-items-center Year-Payrool-Batch-modalLAbInp ">
-                        <label for="Year-Payrool-Batch">March2024</label>
-                        <Input type="text" id="Year-Payrool-Batch" placeholder="Batch Name*"></Input>
-                    </div>
-                    <div class="modal-footer">
-                        <a id="myAnchor" href="#" class="btn btn-next btn-primary save">Save</a>
-                        <a id="myAnchor" href="Home.html" class="btn btn-outline-light cancle">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
     </div>
+    <ModalComponent :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+        <template #header>
+            <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
+            <button type="button" class="close" @click="closeModal">
+                <span aria-hidden="true" style="margin-bottom: 5px;">&times;</span>
+            </button>
+        </template>
+        <template #content>
+            <div class="modal-body d-flex justify-content-center align-items-center Year-Payrool-Batch-modalLAbInp ">
+                <label for="Year-Payrool-Batch">March2024</label>
+                <Input type="text" id="Year-Payrool-Batch" placeholder="Batch Name*"></Input>
+            </div>
+        </template>
+        <template #footer>
+            <button class="btn btn-next btn-primary save">Save</button>
+            <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
+        </template>
+    </ModalComponent>
+
 </template>
 
 <script setup>
 
 import { ref, onMounted } from 'vue';
 import '@/assets/css/Payroll.css'
+import '@/assets/css/onBoard.css'
+import ModalComponent from '../../../components/ModalComponent.vue';
 
+const isModalOpened = ref(false);
+
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
+
+const submitHandler = () => {
+    //here you do whatever
+}
 
 onMounted(() => {
     const script = document.createElement('script');
