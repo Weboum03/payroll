@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -45,8 +46,28 @@ class UserRepository extends BaseRepository
 
     public function listing($request)
     {
-        $limit = $request->input('limit', 10);
-        return $this->model->paginate($limit);
+        $limit = $request->input('length', 20);
+        $start = $request->input('start', 20);
+        $orders = $request->order;
+        $columns = $request->columns;
+        $search = $request->search;
+        $page = floor($start/$limit) + 1;
+        $response =  $this->model->offset(20);
+        
+        if($orders) {
+            foreach($orders as $order) {
+                $response->orderBy($columns[$order['column']]['data'], $order['dir']);
+            }
+        }
+        if($search) {
+            $response->where(function ($query) use($search) {
+                $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
+                   ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
+                   ->orWhere('email', 'like', '%' . $search['value'] . '%')
+                   ->orWhere('phone', 'like', '%' . $search['value'] . '%');
+            });
+        }
+        return $response->latest()->paginate($limit, ['*'], 'page', $page);
     }
 
     public function updatePassword($data)

@@ -73,6 +73,27 @@ class BaseController extends Controller
     }
 
 
+        /**
+     * success response method.
+     *
+     * @param $result
+     * @param $message
+     * @return JsonResponse
+     */
+    public function sendResponseWithDatatable($result, $message): JsonResponse
+    {
+        $response = [
+            'success' => true,
+            'message' => $message,
+            'recordsTotal' => $result->total(),
+            'recordsFiltered' => $result->total(),
+            'data' => $result->items(),
+            'draw' => request()->draw
+        ];
+
+        return response()->json($response, 200);
+    }
+
     /**
      * return error response.
      *

@@ -29,7 +29,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $users = $this->userRepository->listing($request);
-        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponseWithDatatable($users,__('ApiMessage.retrievedMessage'));
     }
 
     /**

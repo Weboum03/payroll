@@ -113,10 +113,10 @@ export default function useUsers() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    apiClient.delete('/api/users/' + id)
+                    return apiClient.delete('/admin/users/' + id)
                         .then(response => {
-                            getUsers()
-                            router.push({ name: 'users.index' })
+                            // getUsers()
+                            //router.push({ name: 'admin/dashboard' })
                             swal({
                                 icon: 'success',
                                 title: 'User deleted successfully'

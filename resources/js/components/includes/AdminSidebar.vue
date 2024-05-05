@@ -90,10 +90,10 @@
                         <div class="card-body">
                             <ul>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.approvals' }" exact-active-class="active">Approvals</router-link>
+                                    <router-link :to="{ name: 'admin.approvals' }" exact-active-class="active">Approvals</router-link>
                                 </li>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.approvalHistory' }" exact-active-class="active">Approvals History</router-link>
+                                    <router-link :to="{ name: 'admin.approvalHistory' }" exact-active-class="active">Approvals History</router-link>
                                 </li>
                             </ul>
                         </div>
@@ -116,7 +116,7 @@
                         <div class="card-body">
                             <ul>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
+                                    <router-link  :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
                                 </li>
                             </ul>
                         </div>

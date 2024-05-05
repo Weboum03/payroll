@@ -93,51 +93,7 @@ $(document).ready(function () {
   //   $("#EmpTable_previous").html().empty();
   //  ============= datatable===================
 
-  let dataTable = new DataTable('#EmpTable', {
-    paginate: true, // Enable pagination
-    lengthChange: true,
-    lengthMenu: [
-      [10, 25, 50, 100],
-      [10, 25, 50, 100]
-    ],
-    language: {
-      paginate: {
-        next: '&#8594;', // Custom next symbol
-        previous: '&#8592;' // Custom previous symbol
-      }
-    }
-  })
-  $("#EmpTable_filter").addClass(".add")
 
-  $("#EmpTable_filter").css('display', 'flex').css('justify-content', 'space-between')
-
-  $("#EmpTable_filter").append('<button id="button3" class="add" style="height: 36.83px;width: 121px;font-size: 12px;font-weight: 500;font-family: sans-serif;padding-left: 12px;border: none;border-radius: 5px;text-align: left;">Add on Board</button>');
-  $('.add,.add1').on("click", function (e) {
-    e.preventDefault();
-    window.location.href = "/admin/onBoard";
-  })
-  $.ajax({
-    url: './employees.json',
-    method: 'GET',
-    dataType: 'json',
-    success: function (data) {
-
-      dataTable.clear().draw();
-
-      data.forEach(function (item) {
-        var rowData = [
-          item.Name,
-          item.employId,
-          item.Email,
-          item.Mobile,
-          item.Mobile,
-
-        ];
-        dataTable.row.add(rowData).draw();
-      });
-
-    },
-  })
 
 
 
