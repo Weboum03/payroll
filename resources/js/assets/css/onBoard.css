@@ -36,12 +36,12 @@
   
   /* Progressbar */
  .progressbar {
-    width: 563px !important;
   position: relative;
   display: flex;
   justify-content: space-between;
   counter-reset: step;
   margin: 24px 0 49px;
+  padding: 0 150px;
 }
 
 .progressbar::before,
@@ -51,7 +51,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: 4px;
-  width: 92%;
+  width: 70%;
   background-color: #dcdcdc;
   z-index: 1;
 }

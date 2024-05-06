@@ -3,24 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Repositories\UserRepository;
+use App\Repositories\BatchRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends BaseController
+class BatchController extends BaseController
 {
 
-    protected $userRepository;
+    protected $batchRepository;
 
     /**
      * The user repository instance.
      *
-     * @param  UserRepository  $users
+     * @param  BatchRepository  $users
      * @return void
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(BatchRepository $batchRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->batchRepository = $batchRepository;
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->listing($request);
+        $users = $this->batchRepository->listing($request);
         return $this->sendResponseWithDatatable($users,__('ApiMessage.retrievedMessage'));
     }
 
@@ -38,15 +38,15 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $rules = [
-            'email'    => 'unique:users|required',
-        ];
-        $validator = Validator::make($input, $rules);
+        // $rules = [
+        //     'name'    => 'required',
+        // ];
+        // $validator = Validator::make($input, $rules);
     
-        if ($validator->fails()) {
-            return $this->sendError($validator->errors()->first(), $validator->errors());
-        }
-        $user = $this->userRepository->create($input);
+        // if ($validator->fails()) {
+        //     return $this->sendError($validator->errors()->first(), $validator->errors());
+        // }
+        $user = $this->batchRepository->create($input);
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
     }
 
@@ -55,7 +55,7 @@ class UserController extends BaseController
      */
     public function show(string $id)
     {
-        $user = $this->userRepository->getById($id);
+        $user = $this->batchRepository->getById($id);
         return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
     }
 
@@ -65,7 +65,7 @@ class UserController extends BaseController
     public function update(Request $request, string $id)
     {
         $input = $request->all();
-        $user = $this->userRepository->updateById($id, $input);
+        $user = $this->batchRepository->updateById($id, $input);
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 
@@ -74,7 +74,7 @@ class UserController extends BaseController
      */
     public function destroy(string $id)
     {
-        $this->userRepository->deleteById($id);
+        $this->batchRepository->deleteById($id);
         return $this->sendSuccess(__('AdminMessage.customerDelete'));
     }
 }

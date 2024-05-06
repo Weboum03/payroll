@@ -24,10 +24,10 @@
         <!-- ------profile-------->
         <div id="profile">
             <nav class="navbar navbar-light ">
-                <img :src="apiPath + 'resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" id="admin-image"
+                <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" id="admin-image"
                     class="d-inline-block align-top" alt="">
                 <div class="admin-profile d-flex flex-column">
-                    <p class="admin-name">Devansh</p>
+                    <p class="admin-name">{{ user?.name }}</p>
                     <p class="admin-pro">Admin</p>
                 </div>
             </nav>
@@ -90,10 +90,10 @@
                         <div class="card-body">
                             <ul>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.approvals' }" exact-active-class="active">Approvals</router-link>
+                                    <router-link :to="{ name: 'admin.approvals' }" exact-active-class="active">Approvals</router-link>
                                 </li>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.approvalHistory' }" exact-active-class="active">Approvals History</router-link>
+                                    <router-link :to="{ name: 'admin.approvalHistory' }" exact-active-class="active">Approvals History</router-link>
                                 </li>
                             </ul>
                         </div>
@@ -116,7 +116,7 @@
                         <div class="card-body">
                             <ul>
                                 <li>
-                                    <router-link d="Allemp-ancordien-item" :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
+                                    <router-link  :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
                                 </li>
                             </ul>
                         </div>

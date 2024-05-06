@@ -92,8 +92,8 @@
                 </div>
             </div>
             <div id="PayrollBatch-btn" class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                <button type="button" class="btn btn-primary PayrollBatchbtn" data-toggle="modal"
-                    data-target="#PayrollBatch-modal">Create Payroll Batch</button>
+                <button type="button" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
+                    Batch</button>
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
             </div>
@@ -122,47 +122,88 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
 
 
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="PayrollBatch-modal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div v-if="isModalOpened" class="modal-mask">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <Form @submit="storeBatch" :validation-schema="schema" v-slot="{ handleSubmit, values, errors }">
+                <div class="modal-content" ref="target">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style="margin-bottom: 5px;">&times;</span>
-                        </button>
+                            <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
+                            <button type="button" class="close" @click="closeModal">
+                                <span aria-hidden="true" style="margin-bottom: 5px;">&times;</span>
+                            </button>
                     </div>
-                    <div
-                        class="modal-body d-flex justify-content-center align-items-center Year-Payrool-Batch-modalLAbInp ">
-                        <label for="Year-Payrool-Batch">March2024</label>
-                        <Input type="text" id="Year-Payrool-Batch" placeholder="Batch Name*"></Input>
-                    </div>
+                        <div
+                            class="modal-body d-flex justify-content-center align-items-center Year-Payrool-Batch-modalLAbInp ">
+                            <label for="Year-Payrool-Batch">{{ currentMonth }} {{ currentYear }}</label>
+                                <Field v-slot="{ field, handleChange }" type="text" name="name"
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.name }" placeholder="Batch Name"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <ErrorMessage name="name" class="text-danger mt-1" />
+                        </div>
                     <div class="modal-footer">
-                        <a id="myAnchor" href="#" class="btn btn-next btn-primary save">Save</a>
-                        <a id="myAnchor" href="Home.html" class="btn btn-outline-light cancle">Cancel</a>
+                            <button class="btn btn-next btn-primary save" :disabled="isLoading" type="submit">Save</button>
+                            <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
                     </div>
                 </div>
+            </Form>
             </div>
         </div>
-
-
-
-
-
-    </div>
 </template>
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
+import * as yup from 'yup';
 import '@/assets/css/Payroll.css'
+import '@/assets/css/onBoard.css'
+import useBatches from "@/composables/payrollBatch";
+const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
+import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 
+const isModalOpened = ref(false);
+
+const schema = yup.object({
+    name: yup.string().required('Required'),
+});
+
+let currentMonth = '';
+let currentYear = '';
+// Get the current date
+const currentDate = new Date();
+
+
+// Get the current month (returns a number from 0 to 11)
+const month = currentDate.getMonth();
+// Array of month names
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// Set the current month name
+currentMonth = monthNames[month];
+
+// Get the current year
+const year = currentDate.getFullYear();
+    // Set the current year
+currentYear = year;
+
+watch(success, (current, previous) => {
+    if(current == true) {
+        isModalOpened.value = false;
+        success.value = false;
+    }
+})
+
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
 
 onMounted(() => {
     const script = document.createElement('script');
@@ -171,3 +212,31 @@ onMounted(() => {
 });
 
 </script>
+
+<style scoped>
+.modal-mask {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  width: 100% !important;
+}
+</style>

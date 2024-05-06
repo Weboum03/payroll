@@ -3,20 +3,19 @@ import { useRouter } from 'vue-router'
 import apiClient from './api-client';
 
 export default function useUsers() {
-    const users = ref([])
-    const user = ref({
+    const batches = ref([])
+    const batche = ref({
         name: '',
-        first_name: '',
-        last_name: ''
     })
 
     const router = useRouter()
     const validationErrors = ref({})
     const validationMessage = ref('')
     const isLoading = ref(false)
+    const success = ref(false)
     const swal = inject('$swal')
 
-    const getUsers = async (
+    const getBatches = async (
         page = 1,
         search_id = '',
         search_title = '',
@@ -24,7 +23,7 @@ export default function useUsers() {
         order_column = 'created_at',
         order_direction = 'desc'
     ) => {
-        apiClient.get('/admin/users?page=' + page +
+        apiClient.get('/admin/payroll_batch?page=' + page +
             '&search_id=' + search_id +
             '&search_title=' + search_title +
             '&search_global=' + search_global +
@@ -35,14 +34,14 @@ export default function useUsers() {
             })
     }
 
-    const getUser = async (id) => {
-        apiClient.get('/admin/users/' + id)
+    const getBatch = async (id) => {
+        apiClient.get('/admin/payroll_batch/' + id)
             .then(response => {
                 user.value = response.data.data;
             })
     }
 
-    const storeUser = async (user) => {
+    const storeBatch = async (user) => {
         if (isLoading.value) return;
 
         isLoading.value = true
@@ -55,12 +54,13 @@ export default function useUsers() {
             }
         }
 
-        return apiClient.post('/admin/users', serializedPost)
+        return apiClient.post('/admin/payroll_batch', serializedPost)
             .then(response => {
                 user.value = response.data;
+                success.value = true
                 swal({
                     icon: 'success',
-                    title: 'User saved successfully'
+                    title: 'Batch saved successfully'
                 })
             })
             .catch(error => {
@@ -74,21 +74,25 @@ export default function useUsers() {
                 }
                 return Promise.reject(error);
             })
-            .finally(() => isLoading.value = false)
+            .finally(() => {
+                isLoading.value = false
+                success.value = false
+            })
     }
 
-    const updateUser = async (user) => {
+    const updateBatch = async (user) => {
         if (isLoading.value) return;
 
         isLoading.value = true
         validationErrors.value = {}
 
-        apiClient.put('/admin/users/' + user.id, user)
+        apiClient.put('/admin/payroll_batch/' + user.id, user)
             .then(response => {
+                success.value = true
                 router.push({ name: 'users.index' })
                 swal({
                     icon: 'success',
-                    title: 'User updated successfully'
+                    title: 'Batch updated successfully'
                 })
             })
             .catch(error => {
@@ -96,10 +100,13 @@ export default function useUsers() {
                     validationErrors.value = error.response.data.errors
                 }
             })
-            .finally(() => isLoading.value = false)
+            .finally(() => {
+                isLoading.value = false
+                success.value = false
+            })
     }
 
-    const deleteUser = async (id) => {
+    const deleteBatch = async (id) => {
         swal({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this action!',
@@ -113,13 +120,14 @@ export default function useUsers() {
         })
             .then(result => {
                 if (result.isConfirmed) {
-                    return apiClient.delete('/admin/users/' + id)
+                    return apiClient.delete('/admin/payroll_batch/' + id)
                         .then(response => {
+                            success.value = true
                             // getUsers()
                             //router.push({ name: 'admin/dashboard' })
                             swal({
                                 icon: 'success',
-                                title: 'User deleted successfully'
+                                title: 'Batch deleted successfully'
                             })
                         })
                         .catch(error => {
@@ -133,15 +141,16 @@ export default function useUsers() {
     }
 
     return {
-        users,
-        user,
-        getUsers,
-        getUser,
-        storeUser,
-        updateUser,
-        deleteUser,
+        batches,
+        batche,
+        getBatches,
+        getBatch,
+        storeBatch,
+        updateBatch,
+        deleteBatch,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
-        isLoading
+        isLoading,
+        success
     }
 }

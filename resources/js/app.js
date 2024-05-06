@@ -19,10 +19,10 @@ const app = createApp({
     }
 });
 
-app.config.globalProperties.apiPath = "http://localhost:8000/";
+app.config.globalProperties.apiPath = import.meta.env.VITE_AXIOS_BASE_URL;
 app.use(router)
 app.use(store)
 app.use(VueSweetalert2)
 app.use(i18n)
-// app.use(abilitiesPlugin, ability)
+app.use(abilitiesPlugin, ability)
 app.mount('#app')

@@ -123,7 +123,7 @@ $(document).ready(function () {
 
 
 
-  $('#Payroll-Batch-table').DataTable();
+  // $('#Payroll-Batch-table').DataTable();
 
 
 

@@ -29,19 +29,7 @@ $(document).ready(function () {
       $formSteps.removeClass("form-step-active");
       $formSteps.eq(formStepsNum).addClass("form-step-active");
     }
-    
-    function updateProgressbar() {
-      $progressSteps.each(function (idx) {
-        if (idx < formStepsNum + 1) {
-          $(this).addClass("progress-step-active");
-        } else {
-          $(this).removeClass("progress-step-active");
-        }
-      });
-      
-      const $progressActive = $(".progress-step-active");
-      $progress.width((($progressActive.length - 1) / ($progressSteps.length - 1)) *92  + "%");
-    }
+
 
 
 

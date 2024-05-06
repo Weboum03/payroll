@@ -128,6 +128,12 @@ export default [
                 component: () => import("../views/admin/payroll/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
+            {
+                name: "admin.users",
+                path: "users",
+                component: () => import("../views/admin/users/Index.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
         ],
     },
     {

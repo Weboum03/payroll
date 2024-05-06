@@ -8,10 +8,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +21,20 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'name',
+        'employee_id',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
+        'role_id',
+        'gender',
+        'dob',
+        'address',
+        'address_1',
+        'start_date',
+        'prob_end_date',
+        'company',
+        'location',
         'password',
     ];
 
@@ -63,4 +77,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public static function boot()
+{
+    parent::boot();
+    self::creating(function ($model) {
+        $model->password = 123456;
+    });
+}
 }

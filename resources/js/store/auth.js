@@ -48,7 +48,7 @@ export default {
                 //     commit('SET_AUTHENTICATED', false)
                 // }
             }).catch(({res}) => {
-                console.log('actions getUser error',);
+                console.log('actions getUser error');
                 commit('SET_USER', {})
                 commit('SET_AUTHENTICATED', false)
             })

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
+use App\Models\Batch;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 /**
  * Class UserRepository.
  */
-class UserRepository extends BaseRepository
+class BatchRepository extends BaseRepository
 {
     /**
      * @return string
@@ -19,7 +19,7 @@ class UserRepository extends BaseRepository
      */
     public function model()
     {
-        return User::class;
+        return Batch::class;
     }
 
     public function getByUserId(int $userId): Collection
