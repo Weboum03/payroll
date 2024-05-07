@@ -11,7 +11,7 @@
 
         </div>
 
-        <table id="leavesEmpTable">
+        <table id="leavesEmpTable" style="width:100%">
             <thead>
                 <tr>
 
