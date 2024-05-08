@@ -95,36 +95,37 @@
         <div v-if="isModalOpened" class="modal-mask">
             <div class="modal-dialog modal-dialog-centered">
                 <Form @submit="storeBatch" :validation-schema="schema" v-slot="{ handleSubmit, values, errors }">
-                <div class="modal-content" ref="target">
-                    <div class="modal-header">
+                    <div class="modal-content" ref="target">
+                        <div class="modal-header">
                             <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
                             <button type="button" class="close" @click="closeModal">
                                 <span aria-hidden="true" style="margin-bottom: 5px;">&times;</span>
                             </button>
-                    </div>
+                        </div>
                         <div
                             class="modal-body d-flex justify-content-center align-items-center Year-Payrool-Batch-modalLAbInp ">
                             <label for="Year-Payrool-Batch">{{ currentMonth }} {{ currentYear }}</label>
-                                <Field v-slot="{ field, handleChange }" type="text" name="name"
-                                            class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.name }" placeholder="Batch Name"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
-                                        <ErrorMessage name="name" class="text-danger mt-1" />
+                            <Field v-slot="{ field, handleChange }" type="text" name="name" class="input"
+                                autocomplete="off">
+                                <input @change="handleChange" :value="field.value"
+                                    :class="{ 'is-invalid': errors.name }" placeholder="Batch Name" type="text"
+                                    autocomplete="off" class="input" required>
+                            </Field>
+                            <ErrorMessage name="name" class="text-danger mt-1" />
                         </div>
-                    <div class="modal-footer">
-                            <button class="btn btn-next btn-primary save" :disabled="isLoading" type="submit">Save</button>
+                        <div class="modal-footer">
+                            <button class="btn btn-next btn-primary save" :disabled="isLoading"
+                                type="submit">Save</button>
                             <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
+                        </div>
                     </div>
-                </div>
-            </Form>
+                </Form>
             </div>
         </div>
 
 
-        <!-- Modal compare--> 
-        <div v-if="isModalCompare" class="modal-mask" id="Compare" >
+        <!-- Modal compare-->
+        <div v-if="isModalCompare" class="modal-mask" id="Compare">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -204,8 +205,10 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" id="Compare-Data-Financi-Year" class="btn btn-primary"
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
                                             style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        </router-link>
                                     </div>
 
                                 </div>
@@ -252,8 +255,10 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <button type="submit" id="Compare-Data-Years" class="btn btn-primary"
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
                                             style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        </router-link>
                                     </div>
                                 </div>
                                 <div id="Compare-Data-MonthInput" class="d-flex flex-column " style="gap: 1rem;">
@@ -324,8 +329,10 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" id="Compare-Data-Months-Year" class="btn btn-primary"
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
                                             style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +421,7 @@
     </thead>
 </DataTable> -->
 
-<!-- <DataTable :data="tableData" class="display" width="100%">
+    <!-- <DataTable :data="tableData" class="display" width="100%">
       <thead>
         <tr>
           <th>A</th>
@@ -427,13 +434,14 @@
 
 <script setup>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import useBatches from "@/composables/payrollBatch";
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
+import { useRouter } from "vue-router";
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Use the appropriate CSS file for your project
@@ -444,9 +452,11 @@ import DataTablesCore from 'datatables.net';
 
 // DataTable.use(DataTablesCore);
 
+const router = useRouter();
+
 const tableData = [
-  [1, 2],
-  [3, 4],
+    [1, 2],
+    [3, 4],
 ];
 
 const data = {
@@ -617,6 +627,10 @@ const closeModalTable = () => {
 const target = ref(null)
 onClickOutside(target, () => emit('modal-close'));
 
+watch(success, (current, previous) => {
+    router.push({ name: "admin.PayrollBatchform" });        
+});
+
 </script>
 
 <style scoped>
@@ -639,28 +653,28 @@ table.dataTable tbody tr td {
 }
 
 .modal-mask {
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-  position: relative;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  width: 100%;
-  pointer-events: auto;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: .3rem;
-  outline: 0;
-  width: 100% !important;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
 }
 </style>

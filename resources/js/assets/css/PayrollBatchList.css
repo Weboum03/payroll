@@ -1,0 +1,71 @@
+.close1 {
+    padding: 2rem 0rem !important;
+    width: 125px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500 !important;
+    border: none;
+    background-color: transparent;
+    gap: 7px;
+  }
+
+  .header h5{
+    margin-bottom: 0px !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+  }
+
+
+  #PayrollbatchList-Table_filter>label {
+    display: inline-flex !important;
+    align-items: center;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin-bottom: 0px;
+}
+
+#PayrollbatchList-Table_filter{
+    float: left;
+    background-color: #DAE1F3;
+    width: 100%;
+    padding: 12px;
+   align-items: center !important;
+}
+.Addemployee,.Adjustments,.SavePre{
+    background-color: #2DB9F8;
+    color: white;
+}
+
+.delete{
+    background-color: red;
+}
+
+#PayrollbatchList-Table tr td{
+ padding: 8px 0px !important;
+ width: 90px !important;
+}
+#PayrollbatchList-Table tr th{
+    font-size:11px;
+ padding: 8px 0px !important;
+ width: 57px !important;
+}
+
+#PayrollbatchList-Table{
+    font-size: 11px;
+    padding: 12px;
+    background-color: white;
+    justify-content: space-evenly !important;
+}
+.dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px;
+}
+
+.dataTables_wrapper .dataTables_info{
+    padding-left: .755em
+}
+
+.dataTables_wrapper{
+        background-color: white;
+    }

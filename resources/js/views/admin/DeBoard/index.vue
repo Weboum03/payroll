@@ -66,7 +66,7 @@
                                 <input placeholder="Start Date" required="" type="text" name="text" autocomplete="off"
                                     class="input form-control" id="startDate" onfocus="(this.type='date')">
                                 <label class="user-label ">Start Date</label>
-                                <span class="dateIcon" class="input-group-append">
+                                <span class="input-group-append dateIcon">
                                     <span style=" position: relative; bottom: 31px; left: 300px;"><i
                                             class="fas fa-calendar-alt"></i></span>
                                 </span>
@@ -87,7 +87,7 @@
                                     autocomplete="off" class="input form-control" id="finalEmploymentDate"
                                     onfocus="(this.type='date')">
                                 <label class="user-label ">Final Employment Date</label>
-                                <span class="dateIcon1" class="input-group-append">
+                                <span class="dateIcon1 input-group-append">
                                     <span style=" position: relative; bottom: 31px; left: 300px;"><i
                                             class="fas fa-calendar-alt"></i></span>
                                 </span>
@@ -97,7 +97,7 @@
                                     autocomplete="off" class="input form-control" id="finalWorkingDate"
                                     onfocus="(this.type='date')">
                                 <label class="user-label ">Final Working Date</label>
-                                <span class="dateIcon2" class="input-group-append">
+                                <span class="dateIcon2 input-group-append">
                                     <span style=" position: relative; bottom: 31px; left: 300px;"><i
                                             class="fas fa-calendar-alt"></i></span>
                                 </span>
@@ -328,3 +328,7 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+@import '@/assets/css/de-board.css';
+</style>

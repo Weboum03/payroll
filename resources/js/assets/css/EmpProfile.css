@@ -120,3 +120,44 @@
     font-size: 14px;
     font-weight: 500;
 }
+
+
+#Aadhar-view,#Pan-view{
+    color: #2DB9F8;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    padding: 0px;
+    width: 45px;
+    height: 25px;
+}
+
+#Aadhar-view:hover,#Pan-view:hover{
+    box-shadow: 0px 0px 3px rgb(199, 199, 199) !important;
+    width: 50px;
+    height: 35px;
+    border-radius: 5px;
+   }
+
+   #Aadhar-download-icon,#Pan-download-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 45px;
+    height: 25px;
+   }
+
+   #Aadhar-download-icon:hover,#Pan-download-icon:hover{
+    box-shadow: 0px 0px 3px rgb(199, 199, 199) !important;
+    width: 50px;
+    height: 35px;
+    border-radius: 5px;
+   }
+
+   .back-icon:hover{
+    cursor: pointer;
+   }
+   

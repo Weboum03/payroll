@@ -131,7 +131,7 @@ function datatable() {
             {
                 title: 'Action', render: function (data, type, row) {
                     // Concatenate first_name and last_name
-                    return '<i class="fa-solid fa-pen-to-square"></i> &nbsp <i class="fa-solid fa-trash" data-id= '+ row.id +'></i>';
+                    return '<a href="/admin/EmpProfile"><i class="fa-solid fa-eye" data-id= '+ row.id +'></i></a>  &nbsp  <i class="fa-solid fa-trash" data-id= '+ row.id +'></i>';
                 },
                 data: null // We set data to null to prevent DataTables from trying to use data property
             },
