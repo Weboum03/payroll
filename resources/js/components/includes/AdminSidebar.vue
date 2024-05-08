@@ -24,8 +24,8 @@
         <!-- ------profile-------->
         <div id="profile">
             <nav class="navbar navbar-light ">
-                <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" id="admin-image"
-                    class="d-inline-block align-top" alt="">
+                <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                    id="admin-image" class="d-inline-block align-top" alt="">
                 <div class="admin-profile d-flex flex-column">
                     <p class="admin-name">{{ user?.name }}</p>
                     <p class="admin-pro">Admin</p>
@@ -37,30 +37,29 @@
         <!-- ------employee Accordian-------->
         <div class="container accordion-menu" style=" gap: 1rem; display: flex; flex-direction: column ">
             <div id="accordion">
-                <div class="card">
-                    <div class="card-header-emp" id="headingFour">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse"
-                                data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                <router-link :to="{ name: 'admin.home' }">Dashboard</router-link>
+                <div class="card-header-emp" id="headingFour">
+                    <h5 class="mb-0">
+                        <router-link :to="{ name: 'admin.home' }" custom v-slot="{ navigate }">
+                            <button class="btn btn-link " @click="navigate" role="link">
+                                Dashboard
                             </button>
-                        </h5>
-                    </div>
+                        </router-link>
+                    </h5>
                 </div>
             </div>
 
             <div id="accordion">
-                <div class="card">
-                    <div class="card-header-emp" id="headingOne">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="false" aria-controls="collapseOne">
-                                Employees
+                <div class="card-header-emp" id="headingOne">
+                    <h5 class="mb-0">
+                        <router-link :to="{ name: 'admin.dashboard' }" custom v-slot="{ navigate }">
+                            <button class="btn btn-link " @click="navigate" role="link">
+                                All Employees
                             </button>
-                        </h5>
-                    </div>
+                        </router-link>
+                    </h5>
+                </div>
 
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <!-- <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                         <div class="card-body">
                             <ul>
                                 <li>
@@ -71,55 +70,51 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                </div>
+                    </div> -->
             </div>
 
             <div id="accordion">
-                <div class="card">
-                    <div class="card-header-leave" id="headingTwo">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link " data-toggle="collapse" data-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
-                                Leaves
-                            </button>
-                        </h5>
-                    </div>
+                <div class="card-header-leave" id="headingTwo">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link " @click="toggleLeavesRef()" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">
+                            Leaves
+                        </button>
+                    </h5>
+                </div>
 
-                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                <li>
-                                    <router-link :to="{ name: 'admin.approvals' }" exact-active-class="active">Approvals</router-link>
-                                </li>
-                                <li>
-                                    <router-link :to="{ name: 'admin.approvalHistory' }" exact-active-class="active">Approvals History</router-link>
-                                </li>
-                            </ul>
-                        </div>
+                <div id="collapseTwo" class="collapse" :class="{ 'show': leaves }" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                <router-link :to="{ name: 'admin.approvals' }"
+                                    exact-active-class="active">Approvals</router-link>
+                            </li>
+                            <li>
+                                <router-link :to="{ name: 'admin.approvalHistory' }"
+                                    exact-active-class="active">Approvals History</router-link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div id="accordion">
-                <div class="card">
-                    <div class="card-header-payroll" id="headingThree">
-                        <h5 class="mb-0">
-                            <button class="btn btn-link " data-toggle="collapse" data-target="#collapseThree"
-                                aria-expanded="false" aria-controls="collapseThree">
-                                Payroll
-                            </button>
-                        </h5>
-                    </div>
+                <div class="card-header-payroll" id="headingThree">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link collapsed" @click="toggleRef()" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="false" aria-controls="collapseThree">
+                            Payroll
+                        </button>
+                    </h5>
+                </div>
 
-                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree"
-                        data-parent="#accordion">
-                        <div class="card-body">
-                            <ul>
-                                <li>
-                                    <router-link  :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
-                                </li>
-                            </ul>
-                        </div>
+                <div id="collapseThree" class="collapse" :class="{ 'show': payroll }" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                <router-link :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -141,7 +136,7 @@
                         </path>
                     </svg></div>
 
-                <div class="text"  @click="logout">Logout</div>
+                <div class="text" @click="logout">Logout</div>
             </button>
         </div>
 
@@ -152,13 +147,22 @@
 
 
 <script setup>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
 
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
+
+// const payroll = ref(false);
+const leaves = ref(false);
+const payroll = ref(false);
+
+
+const toggleRef = () => { payroll.value = !payroll.value; };
+const toggleLeavesRef = () => { leaves.value = !leaves.value; };
+
 </script>
 
 

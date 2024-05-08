@@ -1,6 +1,6 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container-fluid">
+    <div id="dashboard-table" class="container">
         <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Payroll > Payroll Data</span>
