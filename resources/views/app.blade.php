@@ -19,28 +19,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css"> -->
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <!-- DataTables Default CSS -->
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css"> -->
 
     <!-- JavaScript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
     <!-- <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> -->
     <!-- <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script> -->
     <!-- Font Awesome Kit -->
     <script src="https://kit.fontawesome.com/cd0ffee7a9.js" crossorigin="anonymous"></script>
     <!-- Chart.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script> -->
     <!-- Custom JavaScript -->
-    <script type="text/javascript" src="{{ asset('resources/js/dashboard.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('resources/js/dashboard.js') }}"></script> -->
     <!-- <script type="text/javascript" src="{{ asset('resources/js/Home.js') }}"></script> -->
-    <script type="text/javascript" src="{{ asset('resources/js/jquery-3.7.1.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('resources/js/jquery-3.7.1.js') }}"></script> -->
     <!-- jQuery UI -->
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <!-- <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script> -->
 
     <script>
         window.config = @json($config);

@@ -213,7 +213,6 @@ export default function useAuth() {
     };
 
     const getAbilities = async () => {
-        console.log("Rahul", store.state.auth.user.access_token);
         const loginUser = store.state.auth.user;
         await axios
             .get("/api/admin/abilities", {

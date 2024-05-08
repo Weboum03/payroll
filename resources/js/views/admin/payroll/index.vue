@@ -126,7 +126,7 @@
 
 
 
-        <div v-if="isModalOpened" class="modal-mask">
+        <div v-if="isModalOpened" class="modal-mask" ref="target" >
             <div class="modal-dialog modal-dialog-centered">
                 <Form @submit="storeBatch" :validation-schema="schema" v-slot="{ handleSubmit, values, errors }">
                 <div class="modal-content" ref="target">
@@ -166,6 +166,7 @@ import '@/assets/css/onBoard.css'
 import useBatches from "@/composables/payrollBatch";
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
+import { onClickOutside } from '@vueuse/core'
 
 const isModalOpened = ref(false);
 
@@ -211,6 +212,9 @@ onMounted(() => {
     document.head.appendChild(script);
 });
 
+const emit = defineEmits(["modal-close"]);
+const target = ref(null)
+onClickOutside(target, () => emit('modal-close'));
 </script>
 
 <style scoped>

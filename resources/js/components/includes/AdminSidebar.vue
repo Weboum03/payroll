@@ -42,7 +42,7 @@
                         <h5 class="mb-0">
                             <button class="btn btn-link" type="button" data-toggle="collapse"
                                 data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                <router-link :to="{ name: 'admin.index' }">Dashboard</router-link>
+                                <router-link :to="{ name: 'admin.home' }">Dashboard</router-link>
                             </button>
                         </h5>
                     </div>

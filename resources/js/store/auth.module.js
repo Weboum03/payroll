@@ -1,61 +1,89 @@
-import AuthService from '../services/auth.service';
+import AuthService from "../services/auth.service";
 
-const user = JSON.parse(localStorage.getItem('user'));
-const initialState = user
-  ? { authenticated: true, user }
-  : { authenticated: false, user: null };
+const initialState = {
+    authenticated: false,
+    user: {},
+};
 
 export const auth = {
-  namespaced: true,
-  state: initialState,
-  actions: {
-    login({ commit }, user) {
-      return AuthService.login(user).then(
-        user => {
-          commit('loginSuccess', user);
-          return Promise.resolve(user);
+    namespaced: true,
+    state: initialState,
+    getters: {
+        authenticated(state) {
+            return state.authenticated;
         },
-        error => {
-          commit('loginFailure');
-          return Promise.reject(error);
-        }
-      );
-    },
-    logout({ commit }) {
-      AuthService.logout();
-      commit('logout');
-    },
-    register({ commit }, user) {
-      return AuthService.register(user).then(
-        response => {
-          commit('registerSuccess');
-          return Promise.resolve(response.data);
+        user(state) {
+            return state.user;
         },
-        error => {
-          commit('registerFailure');
-          return Promise.reject(error);
-        }
-      );
-    }
-  },
-  mutations: {
-    loginSuccess(state, user) {
-      state.authenticated = true;
-      state.user = user;
     },
-    loginFailure(state) {
-      state.authenticated = false;
-      state.user = null;
+    mutations: {
+        loginSuccess(state, user) {
+            state.authenticated = true;
+            state.user = user;
+        },
+        loginFailure(state) {
+            state.authenticated = false;
+            state.user = null;
+        },
+        userSuccess(state, user) {
+            state.authenticated = true;
+            state.user = user;
+        },
+        userFailure(state) {
+            state.authenticated = false;
+            state.user = null;
+        },
+        logout(state) {
+            state.authenticated = false;
+            state.user = null;
+        },
+        registerSuccess(state) {
+            state.authenticated = false;
+        },
+        registerFailure(state) {
+            state.authenticated = false;
+        },
     },
-    logout(state) {
-      state.authenticated = false;
-      state.user = null;
+    actions: {
+        login({ commit }, user) {
+            return AuthService.login(user).then(
+                (user) => {
+                    commit("loginSuccess", user);
+                    return Promise.resolve(user);
+                },
+                (error) => {
+                    commit("loginFailure");
+                    return Promise.reject(error);
+                }
+            );
+        },
+        logout({ commit }) {
+            AuthService.logout();
+            commit("logout");
+        },
+        register({ commit }, user) {
+            return AuthService.register(user).then(
+                (response) => {
+                    commit("registerSuccess");
+                    return Promise.resolve(response.data);
+                },
+                (error) => {
+                    commit("registerFailure");
+                    return Promise.reject(error);
+                }
+            );
+        },
+        getUser({ commit }) {
+            return AuthService.getUser().then(
+                (response) => {
+                    // commit("userSuccess", response.data);
+                    return Promise.resolve(response);
+                },
+                (error) => {
+                    // commit("userFailure");
+                    return Promise.reject(error);
+                }
+            );
+        },
     },
-    registerSuccess(state) {
-      state.authenticated = false;
-    },
-    registerFailure(state) {
-      state.authenticated = false;
-    }
-  }
 };

@@ -132,7 +132,6 @@
 </script> -->
 
 <script setup>
-import 'feather-icons'
 import { ref, onMounted } from 'vue';
 import '@/assets/css/Home.css'
 

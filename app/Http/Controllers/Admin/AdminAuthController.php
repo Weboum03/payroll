@@ -104,8 +104,11 @@ class AdminAuthController extends BaseController
      */
     protected function respondWithToken($token)
     {
+        $user = Auth::guard('adminApi')->user();
         return response()->json([
-            'name'  => Auth::guard('adminApi')->user()->name,
+            'id'  => $user->id,
+            'name'  => $user->name,
+            'email'  => $user->email,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60

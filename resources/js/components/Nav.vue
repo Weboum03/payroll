@@ -13,6 +13,9 @@
                         <li class="nav-item">
                             <router-link to="/" class="nav-link" aria-current="page">{{ $t('home') }}</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link :to="{ name : 'public-posts.index'}" class="nav-link">Blog</router-link>
+                        </li>
                     <template v-if="!user?.name">
                         <li class="nav-item">
                             <router-link class="nav-link" to="/login"
@@ -21,13 +24,6 @@
                         </li>
                         <li class="nav-item">
                             <router-link class="nav-link" to="/register">{{ $t('register') }}</router-link>
-                        </li>
-                    </template>
-                    <template v-if="user?.name">
-                        <li class="nav-item">
-                            <router-link class="nav-link" to="/admin"
-                            >{{ $t('Dashboard') }}</router-link
-                            >
                         </li>
                     </template>
                     <li v-if="user?.name" class="nav-item dropdown">
@@ -48,14 +44,12 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
+import { useStore} from "vuex";
 import useAuth from "@/composables/auth";
-import { computed } from "vue";
+import {computed} from "vue";
 import LocaleSwitcher from "../components/LocaleSwitcher.vue";
-import store from "../store";
 
-// const store = useStore();
-// const user = computed(() => store.getters["auth/user"])
-const user = store.state.auth.user;
-const { processing, logout } = useAuth();
+    const store = useStore();
+    const user = computed(() => store.getters["auth/user"])
+    const { processing, logout } = useAuth();
 </script>

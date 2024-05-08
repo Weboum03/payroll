@@ -1,15 +1,11 @@
-import axios from 'axios';
+import apiClient from "../composables/api-client";
 
-let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
-if(baseURL) { baseURL = baseURL + '/api/' }
-else { baseURL = '/api/' }
-
-const API_URL = baseURL + 'admin/auth/';
+const API_PATH = 'admin/auth/';
 
 class AuthService {
   login(user) {
-    return axios
-      .post(API_URL + 'login', {
+    return apiClient
+      .post(API_PATH + 'login', {
         email: user.email,
         password: user.password
       })
@@ -27,11 +23,18 @@ class AuthService {
   }
 
   register(user) {
-    return axios.post(API_URL + 'register', {
+    return apiClient.post(API_PATH + 'register', {
       username: user.username,
       email: user.email,
       password: user.password
     });
+  }
+
+  getUser() {
+    return apiClient.get(API_PATH + 'user')
+    .then(response => {
+      return response.data;
+    });;
   }
 }
 
