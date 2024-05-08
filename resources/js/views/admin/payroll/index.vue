@@ -161,8 +161,7 @@
 
 import { ref, onMounted, defineProps, watch } from 'vue';
 import * as yup from 'yup';
-import '@/assets/css/Payroll.css'
-import '@/assets/css/onBoard.css'
+
 import useBatches from "@/composables/payrollBatch";
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
@@ -218,6 +217,9 @@ onClickOutside(target, () => emit('modal-close'));
 </script>
 
 <style scoped>
+@import '@/assets/css/Payroll.css';
+@import '@/assets/css/onBoard.css';
+
 .modal-mask {
   position: fixed;
   z-index: 1;

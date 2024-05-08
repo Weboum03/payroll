@@ -89,7 +89,7 @@ export default [
             {
                 name: "admin.index",
                 path: "",
-                component: () => import("../views/admin/index.vue"),
+                component: () => import("../views/admin/home/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {

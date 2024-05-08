@@ -657,7 +657,7 @@ color: #3b80f9;
 .dataTables_length{
   display: none;
 }
-#EmpTable_filter>label{
+#EmpTable_filter label{
 display: inline-flex !important;
 align-items: center;
 font-weight: 600;
@@ -742,6 +742,7 @@ font-size: small;
 font-family: sans-serif;
 width: 180px;
 background-color: #ffffff !important;
+margin-left: 3px;
 }
 .odd:hover,.even:hover{
  background-color: #f4f4f4;

@@ -46,7 +46,7 @@
 <script setup>
 
 import { ref, onMounted, watch } from 'vue';
-import '@/assets/css/dashboard.css'
+
 import useUsers from "../../../composables/users";
 import { useAbility } from '@casl/vue'
 import store from '../../../store';
@@ -175,6 +175,7 @@ function datatable() {
 </script>
 
 <style>
+@import '@/assets/css/onBoard.css';
 @import 'datatables.net-dt';
 
 table.dataTable thead th,

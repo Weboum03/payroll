@@ -15,9 +15,8 @@
   }
   
   input {
-    display: block;
     width: 332px;
-    padding: 0.75rem;
+    padding: 0.50rem;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
   }
