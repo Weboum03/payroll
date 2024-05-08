@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center my-5">
             <div class="col-md-6">
-                <div class="border-0 shadow-sm">
+                <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <Form @submit="submitLogin" :validation-schema="schema" v-slot="{ errors }">
                             <div class="">
@@ -61,7 +61,7 @@ import store from '../../store';
 import { useRouter } from "vue-router";
 
 let loading = false;
-const message = "";
+let message = "";
 const schema = yup.object().shape({
         email: yup.string().required("Email is required!"),
         password: yup.string().required("Password is required!"),
@@ -88,3 +88,9 @@ const schema = yup.object().shape({
     }
 
 </script>
+
+<style>
+.card {
+    background-color: var(--bs-card-bg);
+}
+</style>

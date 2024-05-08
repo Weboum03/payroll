@@ -89,13 +89,13 @@ export default [
             {
                 name: "admin.index",
                 path: "",
-                component: () => import("../views/admin/index.vue"),
+                component: () => import("../views/admin/home/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {
                 name: "admin.home",
-                path: "",
-                component: () => import("../views/admin/index.vue"),
+                path: "home",
+                component: () => import("../views/admin/home/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {
@@ -105,9 +105,63 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.MonthsCompareTable",
+                path: "MonthsCompareTable",
+                component: () => import("../views/admin/dashboard/MonthsCompareTable.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.FinancialYearCompareTable",
+                path: "FinancialYearCompareTable",
+                component: () => import("../views/admin/dashboard/FinancialYearCompareTable.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.PayrollBatchform",
+                path: "PayrollBatchform",
+                component: () => import("../views/admin/payroll/PayrollBatchform.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.PayrollBatchList",
+                path: "PayrollBatchList",
+                component: () => import("../views/admin/payroll/PayrollBatchList.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.PayrollprocessList",
+                path: "PayrollprocessList",
+                component: () => import("../views/admin/payroll/PayrollprocessList.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.EmpProfile",
+                path: "EmpProfile",
+                component: () => import("../views/admin/profile/EmpProfile.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.EditProfile",
+                path: "EditProfile",
+                component: () => import("../views/admin/profile/EditProfile.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.planner",
+                path: "planner",
+                component: () => import("../views/admin/profile/planner.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.onBoard",
                 path: "onBoard",
                 component: () => import("../views/admin/onBoard/index.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.deBoard",
+                path: "deBoard",
+                component: () => import("../views/admin/DeBoard/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {

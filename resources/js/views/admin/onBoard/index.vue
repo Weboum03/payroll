@@ -559,7 +559,7 @@
 
 <script setup>
 
-import '@/assets/css/onBoard.css'
+
 // import { ref, onMounted } from 'vue';
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -632,3 +632,7 @@ function prevStep() {
   boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 </script>
+
+<style scoped>
+@import '@/assets/css/onBoard.css';
+</style>

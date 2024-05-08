@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en" style="scrollbar-width: none;">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="../CSS/dashboard.css">
+    <link rel="stylesheet" href="../CSS/PayrollBatchform.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://kit.fontawesome.com/cd0ffee7a9.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../JS/dashboard.js"></script>
+    <script type="text/javascript" src="../JS/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            let testRsltTableModal = null;
+            if (!testRsltTableModal) {
+                testRsltTableModal = new DataTable('#testRslt-table', {
+                    paginate: true, // Enable pagination
+                    lengthChange: true,
+                    lengthMenu: [
+                        [10, 25, 50, 100],
+                        [10, 25, 50, 100]
+                    ],
+                    language: {
+                        paginate: {
+                            next: '&#8594;', // Custom next symbol
+                            previous: '&#8592;' // Custom previous symbol
+                        }
+                    }
+                });
+            }
+
+            // Get the filter element
+            var filterElement = $("#testRslt-table_filter");
+
+            // Create the first button element
+            let closeButton1 = $('<button type="button" class="close1" data-dismiss="modal" aria-label="Close" style="margin: 0px; padding: 0px; font-size: medium; color: black !important"><span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;" aria-hidden="true"></i></span><span style="cursor: pointer;">Back</span></button>');
+
+            // Create the second button element
+            let closeButton2 = $('<button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;"></i></span></button>');
+
+            // Append both buttons inside the filter element
+            filterElement.append(closeButton1);
+            filterElement.append(closeButton2);
+
+            $(".ok").on('click',function(){
+                window.location.href="../HTML/PayrollBatchList.html"
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <section id="section-navbar" class="container">
+
+
+        <!-- -----Main-sidebar------->
+        <div id="main-sidebar" class="container">
+
+            <div id="compy-Profile" class="d-flex flex-column">
+                <div id="compy-info" class="d-flex flex-column">
+                    <div id="comp-name">
+                        <img src="../IMAGE/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg" id="admin-image"
+                            class="d-inline-block align-top" alt="">
+                        <div class="admin-profile d-flex flex-column">
+                            <p class="compname-name">Uaven Techno</p>
+                            <p class="comp-name-no">RD84SF5352</p>
+                        </div>
+                    </div>
+                    <div id="comp-date" class="d-flex">
+                        <label id="Valid-up-to">Valid up to:</label>
+                        <label id="Valid-up-to-date">12-May-2024</label>
+                    </div>
+                </div>
+                <div id="compy-Link"><a href="#">Renew Licence</a></div>
+
+            </div>
+
+            <!-- ------profile-------->
+            <div id="profile">
+                <nav class="navbar navbar-light ">
+                    <img src="../IMAGE/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg" id="admin-image"
+                        class="d-inline-block align-top" alt="">
+                    <div class="admin-profile d-flex flex-column">
+                        <p class="admin-name">Devansh</p>
+                        <p class="admin-pro">Admin</p>
+                    </div>
+                </nav>
+            </div>
+            <!-- ------data-------->
+
+            <!-- ------employee Accordian-------->
+            <div class="container accordion-menu" style=" gap: 1rem; display: flex; flex-direction: column ">
+
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header-emp" id="headingFour">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                    Dashboard
+                                </button>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header-emp" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                    data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                   All Employees
+                                </button>
+                            </h5>
+                        </div>
+<!-- 
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <ul>
+                                    <li><a id="Allemp-ancordien-item" href="../HTML/dashboard.html">All Employees</a>
+                                    </li>
+                                    <li><a id="On-board-ancordien-item" href="../HTML/onBoard.html">On-board</a></li>
+                                </ul>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header-leave" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link " data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    Leaves
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <ul>
+                                    <li><a href="Approvals.html">Approvals</a></li>
+                                    <li><a href="ApprovalHistory.html">Approvals History</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header-payroll" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link " data-toggle="collapse" data-target="#collapseThree"
+                                    aria-expanded="false" aria-controls="collapseThree">
+                                    Payroll
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <ul>
+                                    <li><a href="Payroll.html">Payroll Data</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <!-- ------main-sidebar-footer-------->
+            <div id="main-sidebar-footer">
+
+
+                <button class="logoutBtn" type="submit">
+
+                    <div class="sign"><svg viewBox="0 0 512 512">
+                            <path
+                                d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z">
+                            </path>
+                        </svg></div>
+
+                    <div class="text">Logout</div>
+                </button>
+            </div>
+
+
+
+        </div>
+
+
+
+        <!-- -----Main-dashboard----- -->
+        <div id="main-dashboard">
+            <!-- -----nav-dashboard start----- -->
+            <div id="nav-dashboard">
+                <nav class="navbar navbar-dark bg-primary nav-icon d-flex justify-content-between">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon"></span>
+                    </button>
+
+
+                    <div class="notification">
+                        <div class="navbar_right">
+                            <div class="notifi">
+                                <div class="icon_wrap"><span><i class="fa-regular fa-bell fa-xs"
+                                            style="color: rgba(255, 255, 255)"></i></span></div>
+
+                                <div class="notification_dd">
+                                    <ul class="notification_ul">
+                                        <li class="starbucks success">
+
+                                            <div class="notify_data">
+                                                <div class="title">
+                                                    Lorem, ipsum dolor.
+                                                </div>
+                                                <div class="sub_title">
+                                                    Lorem ipsum dolor sit amet consectetur.
+                                                </div>
+                                            </div>
+                                            <div class="notify_status">
+                                                <p>Success</p>
+                                            </div>
+                                        </li>
+                                        <li class="baskin_robbins failed">
+
+                                            <div class="notify_data">
+                                                <div class="title">
+                                                    Lorem, ipsum dolor.
+                                                </div>
+                                                <div class="sub_title">
+                                                    Lorem ipsum dolor sit amet consectetur.
+                                                </div>
+                                            </div>
+                                            <div class="notify_status">
+                                                <p>Failed</p>
+                                            </div>
+                                        </li>
+                                        <li class="mcd success">
+
+                                            <div class="notify_data">
+                                                <div class="title">
+                                                    Lorem, ipsum dolor.
+                                                </div>
+                                                <div class="sub_title">
+                                                    Lorem ipsum dolor sit amet consectetur.
+                                                </div>
+                                            </div>
+                                            <div class="notify_status">
+                                                <p>Success</p>
+                                            </div>
+                                        </li>
+                                        <li class="pizzahut failed">
+
+                                            <div class="notify_data">
+                                                <div class="title">
+                                                    Lorem, ipsum dolor.
+                                                </div>
+                                                <div class="sub_title">
+                                                    Lorem ipsum dolor sit amet consectetur.
+                                                </div>
+                                            </div>
+                                            <div class="notify_status">
+                                                <p>Failed</p>
+                                            </div>
+                                        </li>
+                                        <li class="kfc success">
+
+                                            <div class="notify_data">
+                                                <div class="title">
+                                                    Lorem, ipsum dolor.
+                                                </div>
+                                                <div class="sub_title">
+                                                    Lorem ipsum dolor sit amet consectetur.
+                                                </div>
+                                            </div>
+                                            <div class="notify_status">
+                                                <p>Success</p>
+                                            </div>
+                                        </li>
+                                        <li class="show_all">
+                                            <p class="link">Show All Activities</p>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="profile">
+                                <div class="icon_wrap">
+                                    <img src="../IMAGE/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg"
+                                        alt="profile_pic">
+                                    <span class="name">John Alex</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="popup">
+                        <div class="shadow"></div>
+                        <div class="inner_popup">
+                            <div class="notification_dd">
+                                <ul class="notification_ul">
+                                    <li class="title">
+                                        <p>All Notifications</p>
+                                        <p class="close"><i class="fas fa-times" aria-hidden="true"></i></p>
+                                    </li>
+                                    <li class="starbucks success">
+
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Success</p>
+                                        </div>
+                                    </li>
+                                    <li class="baskin_robbins failed">
+
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Failed</p>
+                                        </div>
+                                    </li>
+                                    <li class="mcd success">
+
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Success</p>
+                                        </div>
+                                    </li>
+                                    <li class="baskin_robbins failed">
+
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Failed</p>
+                                        </div>
+                                    </li>
+                                    <li class="pizzahut failed">
+
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Failed</p>
+                                        </div>
+                                    </li>
+                                    <li class="kfc success">
+                                        <div class="notify_data">
+                                            <div class="title">
+                                                Lorem, ipsum dolor.
+                                            </div>
+                                            <div class="sub_title">
+                                                Lorem ipsum dolor sit amet consectetur.
+                                            </div>
+                                        </div>
+                                        <div class="notify_status">
+                                            <p>Success</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- -----nav-dashboard ended----- -->
+
+            <!-- -----nav-dashboard-table start----- -->
+            <div id="dashboard-table" class="container">
+                <div id="dashboard-table-info">
+                    <span>Payroll</span>
+                    <span>Payroll > Payroll batch</span>
+                </div>
+
+
+                <div class="container d-flex flex-column justify-content-center"
+                    style="background-color: white;padding: 10px; gap: 1rem;">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="Payroll-header">
+                            <p>Payroll Batch-March2024_Lipsum</p>
+                            <p>Select Employees to add to the batch</p>
+                        </div>
+                        <button type="button" id="testRslt" data-toggle="modal" data-target="#testRslt1">Test
+                            Rule</button>
+                    </div>
+
+                    <div style="font-size: 10px;color: red;font-weight: 500;">Note: Only those employees who are not
+                        already added to another batch and meet the below criteria will be added </div>
+
+                    <div class="container payForm d-flex flex-column" style="gap: 1rem;">
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Companies" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Companies</label>
+                            </div>
+                        </div>
+
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Location" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Location</label>
+                            </div>
+                        </div>
+
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Department" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Department</label>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Job-Role" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Job Role</label>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Grader" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Grader</label>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Emp-type" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>All</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Employment Type</label>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Specific-Emp" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>Select</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Specific Employee(s)</label>
+                            </div>
+                        </div>
+                        <div class="row d-flex">
+                            <div class="col input-group-fname">
+                                <select class="form-control input" id="Exclude-Emp" autocomplete="off"
+                                    style="color: #7e7e7e;">
+                                    <option value="" selected>Select</option>
+                                    <option value="Option1">Option1</option>
+                                    <option value="Option2">Option2</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <label class="user-label">Exclude Employee(s)</label>
+                            </div>
+                        </div>
+
+                        <div class="btns-save-cancle">
+                            <button type="button" class="btn btn-next btn-primary save savePayBatchForm"
+                                data-toggle="modal" data-target="#savePayBatchForm1">Save</button>
+                            <a href="Payroll.html" class="btn btn-outline-light cancle">Cancel</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+
+            <!-- Modal Notice period list2 -->
+            <div class="modal fade" id="testRslt1" data-backdrop="false" data-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content" style=" width: 800px !important; scrollbar-width: none; ">
+                        <div class="modal-header" style="align-items: center; gap: 3rem;">
+                            <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
+                                style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
+                                <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                        style="color: #000000;"></i></span>
+                                <span style="cursor: pointer;">Back</span>
+                            </button>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
+                                        style="color: #2DB9F8;opacity: 1;"></i></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="testRslt-table">
+                                <thead>
+                                    <tr>
+                                        <th id="EmpId">Employee ID</th>
+                                        <th id="EmpName">Employee Name</th>
+                                        <th id="DoResg">Company</th>
+                                        <th id="Loc">Location</th>
+                                        <th id="Dept">Department</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DFH51324</td>
+                                        <td>Austin Hodges</td>
+                                        <td>Lorem, ipsum dolor.</td>
+                                        <td>Kingmouth,Louisiana</td>
+                                        <td>Superisor</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SDG54635</td>
+                                        <td>Randy Johnson</td>
+                                        <td>Sanford-Leannon</td>
+                                        <td>UK</td>
+                                        <td>Manager</td>
+                                    </tr>
+                                    <tr>
+                                        <td>YTJ62463</td>
+                                        <td>MAtthew Luckett</td>
+                                        <td>LLC</td>
+                                        <td>Cananda</td>
+                                        <td>SR.Developer</td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="savePayBatchForm1" tabindex="-1" aria-labelledby="savePayBatchFormLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close " data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                        style="color: #2DB9F8;opacity: 1;"></i></span>
+                            </button>
+                        </div>
+                        <div class="container modal-body d-flex flex-column">
+                            <div>Added employee to batch</div>
+                            <div>258 Employees were added to the payroll batch successfully.</div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary ok">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- -----nav-dashboard-table end----- -->
+    </section>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

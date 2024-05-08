@@ -1,6 +1,6 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container-fluid">
+    <div id="dashboard-table" class="container">
         <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Payroll > Payroll Data</span>
@@ -126,7 +126,7 @@
 
 
 
-        <div v-if="isModalOpened" class="modal-mask">
+        <div v-if="isModalOpened" class="modal-mask" ref="target" >
             <div class="modal-dialog modal-dialog-centered">
                 <Form @submit="storeBatch" :validation-schema="schema" v-slot="{ handleSubmit, values, errors }">
                 <div class="modal-content" ref="target">
@@ -161,11 +161,11 @@
 
 import { ref, onMounted, defineProps, watch } from 'vue';
 import * as yup from 'yup';
-import '@/assets/css/Payroll.css'
-import '@/assets/css/onBoard.css'
+
 import useBatches from "@/composables/payrollBatch";
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
+import { onClickOutside } from '@vueuse/core'
 
 const isModalOpened = ref(false);
 
@@ -211,9 +211,15 @@ onMounted(() => {
     document.head.appendChild(script);
 });
 
+const emit = defineEmits(["modal-close"]);
+const target = ref(null)
+onClickOutside(target, () => emit('modal-close'));
 </script>
 
 <style scoped>
+@import '@/assets/css/Payroll.css';
+@import '@/assets/css/onBoard.css';
+
 .modal-mask {
   position: fixed;
   z-index: 1;

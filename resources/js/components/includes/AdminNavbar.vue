@@ -96,7 +96,7 @@
                             </div>
                             <div class="profile">
                                 <div class="icon_wrap">
-                                    <img :src="apiPath + 'resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">John Alex</span>
 

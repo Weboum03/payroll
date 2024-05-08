@@ -2,17 +2,31 @@ table.dataTable > tbody > tr {
     font-size: 14px !important;
 }
 
-.dataTables_wrapper .dataTables_filter label{
-    display: none;
+#Approvedleave-historyTable_filter>label {
+    display: inline-flex !important;
+    align-items: center;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin-bottom: 0px;
 }
-.dataTables_wrapper .dataTables_filter{
+ .dataTables_filter {
+    float: right;
+    text-align: right;
+}
+ .dataTables_filter{
     width: 836px;
     padding: 10px;
     background-color: #DAE1F3;
 }
 
+#Approvedleave-historyTable_filter{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
-font-size: 999px;
+font-size: 12px;
 }
 
 table.dataTable > tbody > tr > td , table.dataTable > thead > tr > th{
@@ -22,3 +36,4 @@ table.dataTable > tbody > tr > td , table.dataTable > thead > tr > th{
 .add{
     display: none !important;
 }
+
