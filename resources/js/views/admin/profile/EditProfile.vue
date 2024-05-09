@@ -1,189 +1,205 @@
 <template>
     <div id="dashboard-table" class="container">
-                <div id="dashboard-table-info">
-                    <span>Update</span>
-                    <span>Employees > Profile > Update</span>
-                </div>
+        <div id="dashboard-table-info">
+            <span>Update</span>
+            <span>Employees > Profile > Update</span>
+        </div>
 
-                <div id="form-info" class="container">
-                    <form action="#" class="form">
-                        <div class="d-flex" style="gap: 1rem;">
-                            <!-- <button type="button" class="close1 btn-prev" data-dismiss="modal" aria-label="Close"
+        <div id="form-info" class="container">
+            <form action="#" class="form">
+                <div class="d-flex" style="gap: 1rem;">
+                    <!-- <button type="button" class="close1 btn-prev" data-dismiss="modal" aria-label="Close"
                             style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
                             <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
                                     style="color: #000000;"></i></span>
                         </button> -->
-                            <div class=" d-flex flex-column">
-                                <div class="Add-emp-div">Update Employee</div>
-                                <div class="div-emp-rem"> Fill in the fields on each screen to create an employment record
-                                    for a new stater.</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Progress bar -->
-                        <div class="progressbar container">
-                            <div class="progress" id="progress"></div>
+                    <div class=" d-flex flex-column">
+                        <div class="Add-emp-div">Update Employee</div>
+                        <div class="div-emp-rem"> Fill in the fields on each screen to create an employment record
+                            for a new stater.</div>
+                    </div>
+                </div>
 
-                            <div class="progress-step progress-step-active" data-title="Personal Information"></div>
-                            <div class="progress-step" data-title="Job Information"></div>
-                            <div class="progress-step" data-title="Attendance & Leaves"></div>
-                            <div class="progress-step" data-title="Documents"></div>
-                            <div class="progress-step" data-title="Done!"></div>
-                        </div>
+                <!-- Progress bar -->
+                <div class="progressbar container">
+                    <div class="progress" :style="{ width: boxWidth + '%' }"></div>
 
+                    <div class="progress-step progress-step-active" data-title="Personal Information"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 1 }" data-title="Job Information"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }" data-title="Attendance & Leaves"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done"></div>
+                </div>
+
+                <Form @submit="nextStep" keep-values :validation-schema="currentSchema" :initial-values="formValues"
+                    v-slot="{ handleSubmit, values, errors }">
+
+                    <template v-if="currentStep === 0">
                         <!-- Steps -->
                         <div class="form-step form-step-active">
                             <div class="personal-infor">
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <input placeholder="First Name*" type="text" value=""  autocomplete="off" class="input" id="fname-Value" required>
-                                        <label class="user-label" >First Name*</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="first_name"
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.first_name }" placeholder="First Name*"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">First Name*</label>
+                                        <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <input placeholder="Last Name*" required type="text" value=""  autocomplete="off" class="input" id="lname-Value">
-                                        <label class="user-label">Last Name*</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Email*" required type="email" value=""  autocomplete="off" class="input" id="email-Value">
-                                        <label class="user-label">Email*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Secondary Email" type="email"  autocomplete="off" class="input1" id="email-Value">
-                                        <label class="user-label1">Secondary Email</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Mobile*" required type="tel" value=""  autocomplete="off" class="input" id="phone-Value">
-                                        <label class="user-label">Mobile*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Alternate Mobile" type="tel"  autocomplete="off" class="input1" id="phone-Value">
-                                        <label class="user-label1">Alternate Mobile</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="last_name"
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.last_name }" placeholder="Last Name*"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">First Name*</label>
+                                        <ErrorMessage name="last_name" class="text-danger mt-1" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <select class="form-control input" id="gender" autocomplete="off" style="color: #7e7e7e;" required>
-                                            <option value="" >Gender*</option>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="email" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">Email</label>
+                                        <ErrorMessage name="email" class="text-danger mt-1" />
+                                    </div>
+                                    <div class="col input-group-fname">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="phone" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.phone }" placeholder="Phone" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">Mobile</label>
+                                        <ErrorMessage name="phone" class="text-danger mt-1" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col input-group-fname">
+                                        <Field name="gender" as="select" class="form-control input" autocomplete="off"
+                                            style="color: #7e7e7e;">
+                                            <option value="" disabled selected>Select</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
                                             <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Gender*</label>
+                                        </Field>
+                                        <label class="user-label">Gender</label>
+                                        <ErrorMessage name="gender" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <input placeholder="Date of Birth*" type="text" value=""  autocomplete="off" class="input form-control" onfocus="(this.type='date')" onfocusin="showLabel()" id="dob-Value" required>
-                                        <label class="user-label ">Date of Birth*</label>
-                                            <span  class="dateIcon1" style=" position: relative; bottom: 31px; left: 300px;"><i class="fas fa-calendar-alt"></i></span>
+
+                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
+                                                id="dob-Value" placeholder="Date of Birth*" type="date"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label ">Date of Birth</label>
+                                        <ErrorMessage name="dob" class="text-danger mt-1" />
+                                        <!-- <span class="dateIcon1 input-group-append">
+                                            <span style=" position: relative; bottom: 31px; left: 300px;"><i
+                                                    class="fas fa-calendar-alt"></i></span>
+                                        </span> -->
                                     </div>
-                                    <!-- <div class="col input-group-fname">
-                                        <input placeholder="Date of Birth*" type="date" autocomplete="off" class="input form-control" id="dob-Value" required>
-                                        <label class="user-label ">Date of Birth*</label>
-                                    </div> -->
                                 </div>
 
 
-                                <div class="p1  d-flex justify-content-between align-items-center">
-                                    <p>Local Address</p>
-                                    <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">Permanent Address
-                                        <span class="d-flex" style="gap: 6px;"> <input type="checkbox" name="SameAsLocal" id="SameAsLocal">
-                                            <label for="SameAsLocal">Same As Local</label></span>
-                                   
-                                    </p>
-                                </div>
+                                <div class="p1">Adderss</div>
 
 
 
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <input placeholder="Address Line 1*" required type="text" value=""  autocomplete="off" class="input" id="Laddress1-Value">
-                                        <label class="user-label">Address Line 1*</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.address }" placeholder="address"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">Address Line 1</label>
+                                        <ErrorMessage name="address" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <input placeholder="Address Line 1*" required type="text"  autocomplete="off" class="input" id="Paddress1-Value">
-                                        <label class="user-label">Address Line 1*</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address_1"
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="address 1"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">Address Line 2</label>
+                                        <ErrorMessage name="address_1" class="text-danger mt-1" />
                                     </div>
                                 </div>
-
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <input placeholder="Address Line 2"  type="text" value=""  autocomplete="off" class="input1" id="Laddress2-Value">
-                                        <label class="user-label1">Address Line 2</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.city }" placeholder="city" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">City/Town</label>
+                                        <ErrorMessage name="city" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <input placeholder="Address Line 2" type="text"  autocomplete="off" class="input1" id="Paddress2-Value">
-                                        <label class="user-label1">Address Line 2</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.state }" placeholder="state" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">State</label>
+                                        <ErrorMessage name="state" class="text-danger mt-1" />
                                     </div>
                                 </div>
-
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <input placeholder="City/Town*" required type="text" value=""  autocomplete="off" class="input" id="Lcity-Value">
-                                        <label class="user-label">City/Town*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <input placeholder="City/Town*" required type="text" value=""  autocomplete="off" class="input" id="Pcity-Value">
-                                        <label class="user-label">City/Town*</label>
-                                    </div>
-                                </div>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.country }" placeholder="country"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
 
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Country*" required type="text" value=""  autocomplete="off" class="input" id="Lcountry-Value">
-                                        <label class="user-label">Country*</label>
+                                        <label class="user-label">Country</label>
+                                        <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <input placeholder="Country*" required type="text" value=""  autocomplete="off" class="input" id="Pcountry-Value">
-                                        <label class="user-label">Country*</label>
-                                    </div>
-                                  
-                                </div>
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <input placeholder="State*" required type="text" value=""  autocomplete="off" class="input" id="Lstate-Value">
-                                        <label class="user-label">State*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <input placeholder="State*" required type="text" value=""  autocomplete="off" class="input" id="Pstate-Value">
-                                        <label class="user-label">State*</label>
+                                        <Field v-slot="{ field, handleChange }" type="text" name="postcode"
+                                            class="input" autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.postcode }" placeholder="postcode"
+                                                type="text" autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label class="user-label">Post Code</label>
+                                        <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                 </div>
-                              
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Post Code*" required type="number" value="" autocomplete="off" class="input" id="Lpost-Value">
-                                        <label class="user-label">Post Code*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <input placeholder="Post Code*" required type="number" value="" autocomplete="off" class="input" id="Ppost-Value">
-                                        <label class="user-label">Post Code*</label>
-                                    </div>
-                                </div>
-                                
                                 <div class="p1">Uplode Image</div>
 
                                 <input type="file" name="Uplode Photo" id="uplodePhoto" placeholder=" Darg and Drop">
                             </div>
-
-                            <div class="btns-save-cancle">
-                                <button class="btn btn-next btn-primary savenext">Save & Next</button>
-                                <a href="../HTML/EmpProfile.html" class="btn btn-outline-light cancle">Cancel</a>
-                            </div>
-
-
                         </div>
+                    </template>
 
-                        <div class="form-step">
+
+                    <template v-if="currentStep === 1">
+                        <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img :src="apiPath + 'resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">John Alex</span>
                                 </div>
@@ -191,170 +207,147 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <select class="form-control input1" id="Copyexistingdetails" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="">Copy Existing details</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label1">Copy Existing details</label>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col input-group-fname">
-                                    <input placeholder="Employee ID" id="EmployeeID" value="8456132" required type="number"  autocomplete="off" class="input">
-                                    <label class="user-label">Employee ID</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col input-group-fname">
-                                    <input placeholder="Start Date*" required type="text" value=""  autocomplete="off" class="input form-control" onfocus="(this.type='date')" onfocusin="showLabel()" id="strdate">
-                                    <label class="user-label ">Date of Joining*</label>
-                                   
-                                        <span class="dateIcon1" style=" position: relative; bottom: 31px; left: 300px;"><i class="fas fa-calendar-alt"></i></span>
-                            
-                                </div>
-                                <div class="col input-group-fname">
-                                    <input placeholder="Probation End Date*" required type="text" value=""  autocomplete="off" class="input form-control" onfocus="(this.type='date')" onfocusin="showLabel()" id="prodate">
-                                    <label class="user-label">Probation End Date*</label>
-                                    <span class="dateIcon1" style="position: relative; bottom: 31px; left: 300px;"><i class="fas fa-calendar-alt"></i></span>
-                                </div>
-                                
-                            </div>
-
-                            <div class="row">
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="Company" autocomplete="off" style="color: #7e7e7e;" required>
-                                        <option value="">Company*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Company*</label>
-                                </div>
-                                <div class="col input-group-fname">
-                                    <select class="form-control input1"  id="Location" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="">Location</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label1">Location</label>
-                                </div>
-                            </div>
-
-                            <div class="row d-flex">
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="Qualification-Degree" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="" >Qualification-Degree*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Qualification-Degree*</label>
-                                </div>
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="WorkExp" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="" >Work Experience*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Work Experience*</label>
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="Immediate-Manager" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="">Immediate-Manager*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Immediate-Manager*</label>
-                                </div>
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="LeaveAppAutho" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="">Leave Approving Authority*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Leave Approving Authority*</label>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row">
-                                <div class="col input-group-fname">
-                                    <select class="form-control input1" id="Department" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" >Department</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label1">Department</label>
-                                </div>
-                                <div class="col input-group-fname">
-                                    <select class="form-control input1" id="Job-role" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="">Job Role</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label1">Job Role</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col input-group-fname">
-                                    <select class="form-control input" id="Grade" required autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="">Grade*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label">Grade*</label>
-                                </div>
-                                <div class="col input-group-fname">
-                                    <select class="form-control input1" id="Emp-Type" autocomplete="off"
+                                    <Field name="user" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
-                                        <option value="">Employment Type</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="" disabled selected>Copy Existing details</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                         <option value="other">Other</option>
-                                    </select>
-                                    <label class="user-label1">Employment Type</label>
+                                    </Field>
+                                    <label class="user-label">Copy Existing details</label>
+                                    <ErrorMessage name="user" class="text-danger mt-1" />
+                                </div>
+                            </div>
+                            <div class="row d-flex">
+                                <div class="col input-group-fname">
+                                    <Field type="text" name="employee_id" placeholder="Employee ID"
+                                        :class="{ 'is-invalid': errors.employee_id }" class="input"
+                                        autocomplete="off" />
+                                    <label class="user-label">Employee ID</label>
+                                    <ErrorMessage name="employee_id" class="text-danger mt-1" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group-fname">
+                                    <Field type="date" name="start_date" placeholder="start date"
+                                        :class="{ 'is-invalid': errors.start_date }" class="input" autocomplete="off" />
+                                    <label class="user-label ">Start Date</label>
+                                    <span class="dateIcon1 input-group-append">
+                                        <!-- <span style=" position: relative; bottom: 31px; left: 300px;"><i
+                                                class="fas fa-calendar-alt"></i></span> -->
+                                    </span>
+                                    <ErrorMessage name="start_date" class="text-danger mt-1" />
+                                </div>
+                                <div class="col input-group-fname">
+                                    <Field type="date" name="prob_end_date" placeholder="Probation End Date"
+                                        :class="{ 'is-invalid': errors.prob_end_date }" class="input"
+                                        autocomplete="off" />
+                                    <label class="user-label ">Probation End Date</label>
+                                    <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
+                                    <span class="dateIcon1 input-group-append">
+                                        <!-- <span style=" position: relative; bottom: 31px; left: 300px;"><i
+                                                class="fas fa-calendar-alt"></i></span> -->
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <input placeholder="Aadhar Number*" required type="number"  autocomplete="off" class="input" id="Aadhar-Num">
-                                    <label class="user-label">Aadhar Number*</label>
+                                    <Field name="company" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Copy Existing details</option>
+                                        <option value="company 1">Company 1</option>
+                                        <option value="company 2">Company 2</option>
+                                        <option value="company 3">Company 3</option>
+                                    </Field>
+                                    <label class="user-label">Company</label>
+                                    <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <input placeholder="PAN Number*" required type="text"  autocomplete="off" class="input" id="Pan-num">
-                                    <label class="user-label">PAN Number*</label>
+                                    <Field name="location" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Location</option>
+                                        <option value="location 1">Location 1</option>
+                                        <option value="location 2">Location 2</option>
+                                        <option value="location 3">Location 3</option>
+                                    </Field>
+                                    <label class="user-label">Location</label>
+                                    <ErrorMessage name="location" class="text-danger mt-1" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group-fname">
+                                    <Field name="department" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Location</option>
+                                        <option value="Department 1">Department 1</option>
+                                        <option value="Department 2">Department 2</option>
+                                        <option value="Department 3">Department 3</option>
+                                    </Field>
+                                    <label class="user-label">Department</label>
+                                    <ErrorMessage name="department" class="text-danger mt-1" />
+                                </div>
+                                <div class="col input-group-fname">
+                                    <Field name="job_role" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="HR">HR</option>
+                                        <option value="Developer">Developer</option>
+                                        <option value="Tester">Tester</option>
+                                    </Field>
+                                    <label class="user-label">Job Role</label>
+                                    <ErrorMessage name="job_role" class="text-danger mt-1" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group-fname">
+                                    <Field name="grade" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="A">Grade A</option>
+                                        <option value="B">Grade B</option>
+                                        <option value="C">Grade C</option>
+                                    </Field>
+                                    <label class="user-label">Grade</label>
+                                    <ErrorMessage name="grade" class="text-danger mt-1" />
+                                </div>
+                                <div class="col input-group-fname">
+                                    <Field name="employment_type" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Select</option>
+                                        <option value="A">Employment Type A</option>
+                                        <option value="B">Employment Type B</option>
+                                        <option value="C">Employment Type C</option>
+                                    </Field>
+                                    <label class="user-label">Employment Type</label>
+                                    <ErrorMessage name="employment_type" class="text-danger mt-1" />
                                 </div>
                             </div>
 
-                            <div class="btns-save-cancle">
-                                <button type="button" class="btn btn-next btn-primary savenext">Save & Next</button>
-                                <button type="button" class="btn btn-outline-light btn-prev cancle">Back</button>
+                            <div class="row">
+                                <div class="col input-group-fname">
+                                    <Field type="text" name="aadhar_number" placeholder="Aadhar number"
+                                        :class="{ 'is-invalid': errors.aadhar_number }" class="input"
+                                        autocomplete="off" />
+                                    <label class="user-label">Aadhar Number</label>
+                                    <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
+                                </div>
+                                <div class="col input-group-fname">
+                                    <Field type="text" name="pan_number" placeholder="Pan Number"
+                                        :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
+                                    <label class="user-label">PAN Number</label>
+                                    <ErrorMessage name="pan_number" class="text-danger mt-1" />
+                                </div>
                             </div>
                         </div>
+                    </template>
 
 
-
-                        <div class="form-step">
+                    <template v-if="currentStep === 2">
+                        <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img :src="apiPath + 'resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">John Alex</span>
                                 </div>
@@ -363,33 +356,33 @@
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <select class="form-control input" id="HolidayYear" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="" disabled selected>Holiday Year*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Holiday Year</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                         <option value="other">Other</option>
                                     </select>
-                                    <label class="user-label">Holiday Year*</label>
+                                    <label class="user-label">Holiday Year</label>
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <select class="form-control input" id="WorkPattern" autocomplete="off"
-                                        style="color: #7e7e7e;" required>
-                                        <option value="" disabled selected>Work Pattern*</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Work Pattern</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
                                         <option value="other">Other</option>
                                     </select>
-                                    <label class="user-label">Work Pattern*</label>
+                                    <label class="user-label">Work Pattern</label>
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <input placeholder="Annual Earned Leave Entitlement*"
-                                        id="AnnualEarnedLeaveEntitlement" required type="text" 
+                                    <input placeholder="Annual Earned Leave Entitlement"
+                                        id="AnnualEarnedLeaveEntitlement" required="" type="text" name="text"
                                         autocomplete="off" class="input">
-                                    <label class="user-label">Annual Earned Leave Entitlement*</label>
+                                    <label class="user-label">Annual Earned Leave Entitlement</label>
                                 </div>
                                 <div class="container p2">If during probation no leaves are avaliable for employees,
                                     then please set 0 as entitements below. You will able to set the entitlements later
@@ -398,36 +391,30 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <input placeholder="This Year*" required type="text" 
+                                    <input placeholder="This Year" required="" type="text" name="text"
                                         autocomplete="off" class="input">
-                                    <label class="user-label">This Year*</label>
+                                    <label class="user-label">This Year</label>
                                 </div>
                                 <div class="col input-group-fname">
-                                    <input placeholder="Next Year*" required type="text" 
+                                    <input placeholder="Next Year" required="" type="text" name="text"
                                         autocomplete="off" class="input">
-                                    <label class="user-label">Next Year*</label>
+                                    <label class="user-label">Next Year</label>
                                 </div>
                             </div>
-                            <div class="btns-save-cancle">
-                                <button type="button" class="btn btn-next btn-primary savenext">Save & Next</button>
-                                <button type="button" class="btn btn-outline-light btn-prev cancle">Back</button>
-                            </div>
                         </div>
+                    </template>
 
-
-
-
-
-                        <div class="form-step">
+                    <template v-if="currentStep === 3">
+                        <div class="form-step form-step-active">
                             <div class="profile1 d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img :src="apiPath + 'resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">John Alex</span>
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox"  id="">
+                                        <input type="checkbox" name="" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -439,19 +426,20 @@
                                 selecting any visible task suggestions. </div>
 
 
-                            <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
+                            <div class="container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <div class="col-sm-4" >
+                                    <div class="col-sm-4">
                                         <div class="card  card1">
                                             <div class="card-body">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
+                                                        <input type="checkbox" name="" id="">
                                                         <div class="p4">Aadhar Card Number</div>
                                                     </div>
 
-                                                    <button href="#" class="btn btn-primary updoc">Upload Document</button>
+                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
+                                                        Task</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -461,10 +449,11 @@
                                             <div class="card-body">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
-                                                        <div class="p4">PAN Card</div>
+                                                        <input type="checkbox" name="" id="">
+                                                        <div class="p4">Appointment letter</div>
                                                     </div>
-                                                    <button class="btn btn-primary updoc">Upload Document</button>
+                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
+                                                        Task</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -474,124 +463,223 @@
                                             <div class="card-body">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
+                                                        <input type="checkbox" name="" id="">
                                                         <div class="p4">PF & ESIC information</div>
                                                     </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center" style="gap: 24px;">
-                                                        <button  class="btn btn-primary updoc">Upload Document</button>
-                                                        <div class="removeTask"><i class="fa-solid fa-square-minus fa-lg " style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                   
+                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
+                                                        Task</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-sm-4" >
+                                <div class="row ">
+                                    <div class="col-sm-4">
                                         <div class="card  card1">
                                             <div class="card-body">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
+                                                        <input type="checkbox" name="" id="">
                                                         <div class="p4">Confirmation letter</div>
                                                     </div>
 
-                                                    <div class="d-flex justify-content-center align-items-center"  style="gap: 24px;">
-                                                        <button  class="btn btn-primary updoc">Upload Document</button>
-                                                        <div class="removeTask"><i class="fa-solid fa-square-minus fa-lg " style="color: #ffffff;"></i></div>
-                                                    </div>
+                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
+                                                        Task</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-4" >
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
-                                                        <div class="p4">Education Document</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"  style="gap: 24px;">
-                                                        <button  class="btn btn-primary updoc">Upload Document</button>
-                                                        <div class="removeTask"><i class="fa-solid fa-square-minus fa-lg " style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4" >
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox"  id="">
-                                                        <div class="p4">Experience Letter</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"  style="gap: 24px;">
-                                                        <button  class="btn btn-primary updoc">Upload Document</button>
-                                                        <div class="removeTask"><i class="fa-solid fa-square-minus fa-lg " style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="col-sm-4">
                                         <div class="card  card2">
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="showalltask-card d-flex flex-column">
-                                                    <button type="button" class="btn btn-primary updoc" data-toggle="modal" data-target="#AddDocModal">Add Document</button>
+                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask1">Add
+                                                        Task</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="btns-save-cancle">
-                                <button type="button" class="btn btn-next btn-primary savenext">Save & Next</button>
-                                <button type="button" class="btn btn-outline-light btn-prev cancle">Back</button>
-                            </div>
                         </div>
+                    </template>
 
-
-
-                        <div class="form-step">
+                    <template v-if="currentStep === 4">
+                        <div class="form-step form-step-active">
 
                             <div class="container d-flex flex-column" style="gap: 2rem;">
 
                                 <div class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                                    <div class="done-task d-flex flex-column justify-content-center align-items-center" style="gap: 8px;">
-                                        <div class="d-flex align-items-center" style="gap:9px;"><i class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
-                                            <div style="font-size: 13px;font-weight: 500">Done! <span style="color: #2DB9F8;"> Austin Hodges</span> is successfully entered into the system. </div>
+                                    <div class="done-task d-flex flex-column justify-content-center align-items-center"
+                                        style="gap: 1rem;">
+                                        <div class="d-flex align-items-center" style="gap: 1rem;"><i
+                                                class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
+                                            <div>Done! <span style="color: #2DB9F8;"> {{ user?.first_name }} {{
+                                                user?.last_name }}</span> is
+                                                successfully
+                                                entered into the system.
+                                            </div>
                                         </div>
-                                        <!-- <div style="font-size: 13px;font-weight: 500">Unique employee ID <span style="color: #2DB9F8;">8456135</span> is generated.</div> -->
-                                    <div class="div-emp-rem"> What would you like to do next?</div>
+                                        <div class="div-emp-rem"> What would you like to do next?</div>
+                                    </div>
                                 </div>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center align-items-center" style="gap: 1rem;">
-                                    <a  href="../HTML/dashboard.html" class="btn btn-primary btn1">Finish and visit employee's record</a>
-                                    <a  href="../HTML/EmpProfile.html" class="btn btn-primary btn1 ">Finish and visit employee's profile</a>
-                                    <!-- <a  href="../HTML/dashboard.html" class="btn btn-primary btn1">Finish and exit</a> -->
+                                <div class="d-flex flex-column justify-content-center align-items-center"
+                                    style="gap: 2rem;">
+                                    <a id="myAnchor" href="/admin.dashboard" class="btn btn-primary removeTask">Finish
+                                        and
+                                        visit
+                                        employee's record</a>
+                                    <a id="myAnchor" href="/admin/onBoard" class="btn btn-primary removeTask">Add
+                                        another
+                                        employee</a>
+                                    <a id="myAnchor" href="/admin/dashboard" class="btn btn-primary removeTask">Finish
+                                        and
+                                        exit</a>
                                 </div>
 
                             </div>
 
 
                         </div>
-                    </form>
+                    </template>
 
-                </div>
-            </div>
+                    <div class="btns-save-cancle">
+                        <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
+                        <button type="button" v-if="currentStep !== 0" @click="prevStep"
+                            class="btn btn-next btn-primary savenext">Previous</button>
+                        <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
+                            @click="cancel">Cancel</a>
+                    </div>
+                </Form>
+            </form>
+
+        </div>
+    </div>
 </template>
 
+
+<script setup>
+import * as yup from "yup";
+// import { useForm, useFieldValue } from "vee-validate";
+import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
+import { ref, reactive, onMounted, computed, inject, watch } from 'vue';
+import useUsers from "@/composables/users";
+import apiClient from "../../../composables/api-client";
+const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
+import { useRoute, useRouter } from "vue-router";
+import { param } from "jquery";
+const route = useRoute()
+const router = useRouter();
+const swal = inject('$swal')
+const currentStep = ref(0);
+const boxWidth = ref(0); // Initial width
+const user = ref({});
+
+onMounted(() => {
+    getUser(route.params.id)
+    apiClient.get('/admin/users/' + route.params.id)
+        .then(response => {
+            user.value = response.data.data;
+        })
+});
+
+const schemas = [
+    yup.object({
+        first_name: yup.string().required("Required!"),
+        last_name: yup.string().required("Required!"),
+        email: yup.string().required().email(),
+        phone: yup.string().required("Required!"),
+        gender: yup.string().required("Required!"),
+        dob: yup.string().required("Required!"),
+        address: yup.string().required("Required!"),
+        address_1: yup.string().required("Required!"),
+        city: yup.string().required("Required!"),
+        state: yup.string().required("Required!"),
+        country: yup.string().required("Required!"),
+        postcode: yup.string().required("Required!"),
+    }),
+    yup.object({
+        employee_id: yup.string().required("Required!"),
+        start_date: yup.string().required("Required!"),
+        prob_end_date: yup.string().required("Required!"),
+        aadhar_number: yup.string().required("Required!"),
+        pan_number: yup.string().required("Required!"),
+    }),
+    //   yup.object({
+    //     address: yup.string().required(),
+    //     postalCode: yup
+    //       .string()
+    //       .required()
+    //       .matches(/^[0-9]+$/, 'Must be numeric'),
+    //   }),
+    //   yup.object({
+    //     terms: yup.bool().required().equals([true]),
+    //   }),
+];
+
+const currentSchema = computed(() => {
+    return schemas[currentStep.value];
+});
+
+async function submitForm(user) {
+    await storeUser(user);
+}
+
+async function nextStep(values, user) {
+  if (currentStep.value === 3) {
+    return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
+  }
+  currentStep.value++;
+  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+}
+
+function prevStep() {
+  if (currentStep.value <= 0) {
+    return;
+  }
+  currentStep.value--;
+  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+}
+
+function cancel() {
+    router.push({ name: 'admin.EmpProfile', params :{id: route.params.id} })
+}
+
+const { setFieldValue, handleSubmit } = useForm({
+    validationSchema: currentSchema,
+    initialValues: {
+        first_name: "ssfs",
+    },
+});
+
+const formValues = ref({});
+watch(user, (current, previous) => {
+    console.log(user.value)
+    // Initial values
+    formValues.value = {
+        first_name: user?.first_name,
+        last_name: user?.last_name,
+        email: user?.email,
+        phone: user?.phone,
+        gender: user?.gender,
+        dob: user?.dob,
+        address: user?.address,
+        address_1: user?.address_1,
+        city: user?.city,
+        state: user?.state,
+        country: user?.country,
+        postcode: user?.postcode,
+
+        employee_id: user?.employee_id,
+        start_date: user?.start_date,
+        prob_end_date: user?.prob_end_date,
+        aadhar_number: user?.aadhar_number,
+        pan_number: user?.pan_number,
+    };
+});
+
+</script>
 <style scoped>
 @import '@/assets/css/onboard.css';
-
 </style>

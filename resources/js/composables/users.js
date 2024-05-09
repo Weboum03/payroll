@@ -4,11 +4,7 @@ import apiClient from './api-client';
 
 export default function useUsers() {
     const users = ref([])
-    const user = ref({
-        name: '',
-        first_name: '',
-        last_name: ''
-    })
+    const user = ref({})
 
     const router = useRouter()
     const validationErrors = ref({})

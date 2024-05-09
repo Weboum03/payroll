@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
+import { ref, onMounted, onUpdated, reactive, computed, watch } from 'vue';
 import useUsers from "../../../composables/users";
 const { users, getUsers, deleteUser } = useUsers()
 import { useRouter } from "vue-router";
@@ -48,9 +48,8 @@ import $ from 'jquery';
 
 const router = useRouter();
 const myTable = ref(null);
-const search_global = ref('');
+
 let dataTable = ref(null);
-const isDataTableInitialized = ref(false)
 // let table = ref(null)
 
 onMounted(() => {
@@ -58,25 +57,18 @@ onMounted(() => {
 });
 
 onUpdated(() => {
-    console.log('onUpdated');
+    // text content should be the same as current `count.value`
     const dataTableOptions = {
         "pagingType": "simple_numbers",
         "bLengthChange": false,
         // processing: true,
     }
-    if (!isDataTableInitialized.value) {
-        dataTable = $(myTable.value).DataTable(dataTableOptions);
-        isDataTableInitialized.value = true;
-    }
+    dataTable = $(myTable.value).DataTable(dataTableOptions);
 })
 
 const navigateToDetailPage = (itemId) => {
-    router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
+    router.push({ name: 'admin.EmpProfile' });
 };
-
-watch(search_global, (current, previous) => {
-    dataTable.search(search_global.value).draw();
-});
 
 </script>
 

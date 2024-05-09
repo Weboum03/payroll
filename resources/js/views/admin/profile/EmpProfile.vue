@@ -17,7 +17,7 @@
 
                 <div class="name-role d-flex flex-column justify-content-center align-items-center"
                     style="font-family: monospace;">
-                    <div>Austin Hodges</div>
+                    <div>{{ user?.first_name }}</div>
                     <div style="font-size: 13px;color: #A8A8A8;font-weight: 500;">Supervisor</div>
                 </div>
 
@@ -26,19 +26,19 @@
                     <div class="Phone d-flex justify-content-center align-items-center" style="gap: .5rem;">
                         <div class="Phone-icon"><i class="fa-solid fa-phone fa-sm" style="color: #2DB9F8;"></i>
                         </div>
-                        <div style=" font-size: 12px; font-weight: 600;">773-339-2153</div>
+                        <div style=" font-size: 12px; font-weight: 600;">{{ user?.phone }}</div>
                     </div>
 
                     <div class="Email d-flex justify-content-center align-items-center" style="gap: .5rem;">
                         <div class="Phone-icon"><i class="fa-solid fa-envelope fa-sm" style="color: #2DB9F8;"></i></div>
-                        <div style=" font-size: 11px; font-weight: 600;" id="email-Value">austinh@teleworm.us
+                        <div style=" font-size: 11px; font-weight: 600;" id="email-Value">{{ user?.email }}
                         </div>
                     </div>
 
                 </div>
 
 
-                <router-link :to="{ name: 'admin.EditProfile' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.EditProfile', params: { id: user?.id } }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" id="editButton" class="btn">Edit
                         Profile</button>
                 </router-link>
@@ -82,11 +82,11 @@
                     <div class="form-row d-flex justify-content-around" style="padding:10px;">
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="Name">Full Name</div>
-                            <div id="name-Value" class="Name-value">Austin Hodges</div>
+                            <div id="name-Value" class="Name-value">{{ user?.first_name }} {{ user?.last_name }}</div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="Gender">Gender</div>
-                            <div id="gender-Value" class="Gender-value ">Male</div>
+                            <div id="gender-Value" class="Gender-value ">{{ capitalize(user?.gender) }}</div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="DOB">Date of Birth</div>
@@ -96,19 +96,18 @@
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Email">Email</div>
-                            <div id="email-Value" class="Email-value">austinh@teleworms.us</div>
+                            <div id="email-Value" class="Email-value">{{ user?.email }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="Mobile">Mobile</div>
-                            <div id="mobile-Value" class="Mobile-value">773-339-2153</div>
+                            <div id="mobile-Value" class="Mobile-value">{{ user?.phone }}</div>
                         </div>
                     </div>
 
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-12 mb-3">
                             <div id="Address">Address</div>
-                            <div id="Address-value" class="address-Value">330 - Reichert, Ville Suit 139, Lake Gracle,
-                                Oregon - 97724</div>
+                            <div id="Address-value" class="address-Value">{{ user?.address }}</div>
                         </div>
                     </div>
 
@@ -121,35 +120,39 @@
                     <div class="form-row d-flex justify-content-around" style="padding:10px;">
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="EmpID">Employee ID</div>
-                            <div id="empid-Value" class="EmpID-value">7988478</div>
+                            <div id="empid-Value" class="EmpID-value">{{ user?.employee_id }}</div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="SD">Start Date</div>
-                            <div id="sd-Value" class="SD-value ">June 25,2023</div>
+                            <div id="sd-Value" class="SD-value ">{{ moment(user?.start_date).format('MMMM D, YYYY') }}
+                            </div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="ProbationDay">Probation End Date</div>
-                            <div id="probationday-Value" class="ProbationDay-value"> December 24,2023</div>
+                            <div id="probationday-Value" class="ProbationDay-value"> {{
+                                moment(user?.prob_end_date).format('MMMM D, YYYY') }}</div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Company">Company</div>
-                            <div id="company-Value" class="Company-value">Eyiam Euismod Technology</div>
+                            <div id="company-Value" class="Company-value">{{ user?.company }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="Location">Location</div>
-                            <div id="loctaion-Value" class="Location-value">Hyderbad,India</div>
+                            <div id="loctaion-Value" class="Location-value">{{ user?.location }}</div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">2541-6354-5x26-xx37</div>
+                            <div id="aadher-Value" class="Aadhar-value">{{ user.aadhar_number ? user.aadhar_number :
+                                '---'
+                                }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">DKUNM52X2X</div>
+                            <div id="pan-Value" class="PAN-value">{{ user.pan_number ? user.pan_number : '---' }}</div>
                         </div>
                     </div>
 
@@ -161,7 +164,9 @@
                         style="margin-left: 17px;padding: 13px;padding-bottom: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">2541-6354-5x26-xx37</div>
+                            <div id="aadher-Value" class="Aadhar-value">{{ user.aadhar_number ? user.aadhar_number :
+                                '---'
+                                }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <button id="Aadhar-view">View</button>
@@ -173,7 +178,7 @@
                         style="margin-left: 17px;padding: 13px;padding-top: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">DKUNM52X2X</div>
+                            <div id="pan-Value" class="PAN-value">{{ user.pan_number ? user.pan_number : '---' }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <button id="Pan-view">View</button>
@@ -193,6 +198,60 @@
 
     </div>
 </template>
+
+<script setup>
+import { ref, onMounted, onUpdated, reactive, watchEffect } from "vue";
+import useUsers from "@/composables/users";
+import moment from 'moment';
+import { useForm, useField, defineRule } from "vee-validate";
+import apiClient from "../../../composables/api-client";
+import { useRoute } from "vue-router";
+import { param } from "jquery";
+const route = useRoute()
+const user = ref({
+    'first_name': '',
+    'email': ''
+})
+const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
+
+// const user = reactive({
+//         name,
+//         email,
+//         password,
+//         role_id,
+//     })
+
+onMounted(() => {
+    console.log('onMounted')
+    getUser(route.params.id)
+    console.log(postData.value)
+
+    apiClient.get('/admin/users/' + route.params.id)
+        .then(response => {
+            user.value = response.data.data;
+        })
+
+});
+
+function capitalize(value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+}
+onUpdated(() => {
+    console.log('onUpdated')
+    getUser(route.params.id)
+});
+
+watchEffect(() => {
+    console.log('watchEffect')
+    // user.id = postData.value.id
+    // user.name = postData.value.name
+    // user.email = postData.value.email
+    // user.role_id = postData.value.role_id
+});
+
+</script>
 
 <style scoped>
 @import '@/assets/css/EmpProfile.css';
