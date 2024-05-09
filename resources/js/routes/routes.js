@@ -105,6 +105,18 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.dashboard1",
+                path: "dashboard1",
+                component: () => import("../views/admin/dashboard/index1.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.dashboard2",
+                path: "dashboard2",
+                component: () => import("../views/admin/dashboard/index2.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.MonthsCompareTable",
                 path: "MonthsCompareTable",
                 component: () => import("../views/admin/dashboard/MonthsCompareTable.vue"),
@@ -136,13 +148,13 @@ export default [
             },
             {
                 name: "admin.EmpProfile",
-                path: "EmpProfile",
+                path: "EmpProfile/:id",
                 component: () => import("../views/admin/profile/EmpProfile.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {
                 name: "admin.EditProfile",
-                path: "EditProfile",
+                path: "EditProfile/:id",
                 component: () => import("../views/admin/profile/EditProfile.vue"),
                 meta: { breadCrumb: "Admin" },
             },

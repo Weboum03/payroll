@@ -52,21 +52,21 @@ class UserRepository extends BaseRepository
         $columns = $request->columns;
         $search = $request->search;
         $page = floor($start/$limit) + 1;
-        $response =  $this->model->offset(20);
+        return $this->model->latest()->paginate($limit);
         
-        if($orders) {
-            foreach($orders as $order) {
-                $response->orderBy($columns[$order['column']]['data'], $order['dir']);
-            }
-        }
-        if($search) {
-            $response->where(function ($query) use($search) {
-                $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
-                   ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
-                   ->orWhere('email', 'like', '%' . $search['value'] . '%')
-                   ->orWhere('phone', 'like', '%' . $search['value'] . '%');
-            });
-        }
+        // if($orders) {
+        //     foreach($orders as $order) {
+        //         $response->orderBy($columns[$order['column']]['data'], $order['dir']);
+        //     }
+        // }
+        // if($search) {
+        //     $response->where(function ($query) use($search) {
+        //         $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
+        //            ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
+        //            ->orWhere('email', 'like', '%' . $search['value'] . '%')
+        //            ->orWhere('phone', 'like', '%' . $search['value'] . '%');
+        //     });
+        // }
         return $response->latest()->paginate($limit, ['*'], 'page', $page);
     }
 
