@@ -95,7 +95,7 @@ width: 108px;
 }
 
 .progress-step-active {
-background-color: var(--primary-color);
+background-color: rgb(11, 78, 179);
 color: #f3f3f3;
 z-index: 1;
 }

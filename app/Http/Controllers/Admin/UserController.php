@@ -40,6 +40,7 @@ class UserController extends BaseController
         $input = $request->all();
         $rules = [
             'email'    => 'unique:users|required',
+            'employee_id'    => 'unique:users|required',
         ];
         $validator = Validator::make($input, $rules);
     
@@ -47,6 +48,8 @@ class UserController extends BaseController
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
         $user = $this->userRepository->create($input);
+
+        $user->info()->create($input);
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
     }
 
@@ -66,6 +69,7 @@ class UserController extends BaseController
     {
         $input = $request->all();
         $user = $this->userRepository->updateById($id, $input);
+        $user->info()->updateOrCreate($input);
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 

@@ -26,15 +26,6 @@ class User extends Authenticatable implements JWTSubject
         'last_name',
         'email',
         'phone',
-        'role_id',
-        'gender',
-        'dob',
-        'address',
-        'address_1',
-        'start_date',
-        'prob_end_date',
-        'company',
-        'location',
         'password',
     ];
 
@@ -58,6 +49,11 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function info()
+    {
+        return $this->hasOne(UserDetail::class);
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -79,10 +75,15 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public static function boot()
-{
-    parent::boot();
-    self::creating(function ($model) {
-        $model->password = 123456;
-    });
-}
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->password = 123456;
+            $model->name = $model->first_name . ' ' . $model->last_name;
+        });
+
+        self::updating(function ($model) {
+            $model->name = $model->first_name . ' ' . $model->last_name;
+        });
+    }
 }
