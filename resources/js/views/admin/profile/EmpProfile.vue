@@ -86,7 +86,7 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="Gender">Gender</div>
-                            <div id="gender-Value" class="Gender-value ">{{ capitalize(user?.gender) }}</div>
+                            <div id="gender-Value" class="Gender-value ">{{ capitalize(user?.info?.gender) }}</div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="DOB">Date of Birth</div>
@@ -107,7 +107,7 @@
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-12 mb-3">
                             <div id="Address">Address</div>
-                            <div id="Address-value" class="address-Value">{{ user?.address }}</div>
+                            <div id="Address-value" class="address-Value">{{ user?.info?.address }}</div>
                         </div>
                     </div>
 
@@ -124,7 +124,7 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="SD">Start Date</div>
-                            <div id="sd-Value" class="SD-value ">{{ moment(user?.start_date).format('MMMM D, YYYY') }}
+                            <div id="sd-Value" class="SD-value ">{{ moment(user?.info?.doj).format('MMMM D, YYYY') }}
                             </div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
@@ -136,23 +136,23 @@
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Company">Company</div>
-                            <div id="company-Value" class="Company-value">{{ user?.company }}</div>
+                            <div id="company-Value" class="Company-value">{{ user?.info?.company }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="Location">Location</div>
-                            <div id="loctaion-Value" class="Location-value">{{ user?.location }}</div>
+                            <div id="loctaion-Value" class="Location-value">{{ user?.info?.location }}</div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">{{ user.aadhar_number ? user.aadhar_number :
+                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ? user.info.aadhar_number :
                                 '---'
                                 }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">{{ user.pan_number ? user.pan_number : '---' }}</div>
+                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number : '---' }}</div>
                         </div>
                     </div>
 
@@ -164,7 +164,7 @@
                         style="margin-left: 17px;padding: 13px;padding-bottom: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">{{ user.aadhar_number ? user.aadhar_number :
+                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ? user.info.aadhar_number :
                                 '---'
                                 }}</div>
                         </div>
@@ -178,7 +178,7 @@
                         style="margin-left: 17px;padding: 13px;padding-top: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">{{ user.pan_number ? user.pan_number : '---' }}</div>
+                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number : '---' }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <button id="Pan-view">View</button>

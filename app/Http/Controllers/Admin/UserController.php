@@ -59,6 +59,7 @@ class UserController extends BaseController
     public function show(string $id)
     {
         $user = $this->userRepository->getById($id);
+        $user->load('info');
         return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
     }
 

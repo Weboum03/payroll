@@ -322,7 +322,7 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field name="user" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="user" as="select" class="form-control input" autocomplete="off" :validateOnBlur="false" :validateOnChange="false" :validateOnInput="false"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Copy Existing details</option>
                                         <option value="Option1">Option1</option>
@@ -335,7 +335,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="employee_id" placeholder="Employee ID"
+                                    <Field required type="text" name="employee_id" placeholder="Employee ID"
                                         :class="{ 'is-invalid': errors.employee_id }" class="input"
                                         autocomplete="off" />
                                     <label for="Employee ID" class="user-label">Employee ID</label>
@@ -344,13 +344,13 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="doj" placeholder="Date of Joining*"
+                                    <Field required type="date" name="doj" placeholder="Date of Joining*"
                                         :class="{ 'is-invalid': errors.doj }" class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="prob_end_date" placeholder="Probation End Date*"
+                                    <Field required type="date" name="prob_end_date" placeholder="Probation End Date*"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -360,7 +360,7 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field name="company" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="company" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Company*</option>
                                         <option value="Option1">Option1</option>
@@ -370,8 +370,23 @@
                                     <label for="Company" class="user-label">Company*</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
                                 </div>
+
                                 <div class="col input-group-fname">
-                                    <Field name="qualification" as="select" class="form-control input"
+                                    <Field required name="location" as="select" class="form-control input" autocomplete="off"
+                                        style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Location*</option>
+                                        <option value="Option1">Option1</option>
+                                        <option value="Option2">Option2</option>
+                                        <option value="other">Other</option>
+                                    </Field>
+                                    <label for="location" class="user-label">Location*</label>
+                                    <ErrorMessage name="location" class="text-danger mt-1" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col input-group-fname">
+                                    <Field required name="qualification" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Qualification-Degree*</option>
                                         <option value="Option1">Option1</option>
@@ -382,9 +397,8 @@
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
-
                                 <div class="col input-group-fname">
-                                    <Field name="experience" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="experience" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience*</option>
                                         <option value="Option1">Option1</option>
@@ -394,9 +408,11 @@
                                     <label for="experience" class="user-label">Work Experience*</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
                                 </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field name="immediate_manager" as="select" class="form-control input"
+                                    <Field required name="immediate_manager" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Immediate-Manager*</option>
                                         <option value="Option1">Option1</option>
@@ -408,15 +424,17 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="immediate_manager_code" placeholder="Employee Code"
+                                    <Field required type="date" name="immediate_manager_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="immediate_manager_code" class="text-danger mt-1" />
                                 </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field name="leave_approving_auth" as="select" class="form-control input"
+                                    <Field required name="leave_approving_auth" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Leave Approving Authority*</option>
                                         <option value="Option1">Option1</option>
@@ -429,17 +447,16 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="leave_approving_code" placeholder="Employee Code"
+                                    <Field required type="date" name="leave_approving_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="leave_approving_code" class="text-danger mt-1" />
                                 </div>
-
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field name="department" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="department" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
                                         <option value="">Department</option>
@@ -451,7 +468,7 @@
                                     <ErrorMessage name="department" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field name="job_role" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="job_role" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Job Role</option>
                                         <option value="HR">HR</option>
@@ -464,7 +481,7 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field name="grade" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="grade" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade*</option>
                                         <option value="Option1">Option1</option>
@@ -475,7 +492,7 @@
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field name="employment_type" as="select" class="form-control input"
+                                    <Field required name="employment_type" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Employment Type</option>
                                         <option value="A">Employment Type A</option>
@@ -489,7 +506,7 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="aadhar_number" placeholder="Aadhar Number*"
+                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number*"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
                                         autocomplete="off" />
                                     <label for="Aadhar Number" class="user-label">Aadhar Number*</label>
@@ -520,7 +537,7 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field name="holiday_year" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="holiday_year" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Holiday Year*</option>
                                         <option value="Option1">Option1</option>
@@ -534,7 +551,7 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field name="work_pattern" as="select" class="form-control input" autocomplete="off"
+                                    <Field required name="work_pattern" as="select" class="form-control input" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Pattern*</option>
                                         <option value="Option1">Option1</option>
@@ -547,7 +564,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="earning_leave_entitlement"
+                                    <Field required type="text" name="earning_leave_entitlement"
                                         placeholder="Annual Earned Leave Entitlement*"
                                         :class="{ 'is-invalid': errors.earning_leave_entitlement }" class="input"
                                         autocomplete="off" />
@@ -561,14 +578,14 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="this_year" placeholder="This Year*"
+                                    <Field required type="text" name="this_year" placeholder="This Year*"
                                         :class="{ 'is-invalid': errors.this_year }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">This Year*</label>
                                     <ErrorMessage name="this_year" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="next_year" placeholder="Next Year*"
+                                    <Field required type="text" name="next_year" placeholder="Next Year*"
                                         :class="{ 'is-invalid': errors.next_year }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">Next Year*</label>
                                     <ErrorMessage name="next_year" class="text-danger mt-1" />
@@ -793,7 +810,7 @@ import useUsers from "@/composables/users";
 
 const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
 const swal = inject('$swal')
-const currentStep = ref(0);
+const currentStep = ref(1);
 const boxWidth = ref(0); // Initial width
 // Each step should have its own validation schema
 const schemas = [
