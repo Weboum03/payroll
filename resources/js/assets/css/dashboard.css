@@ -89,9 +89,22 @@ margin-bottom: 0rem !important;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: .5rem;
-  justify-content: space-around;
-  
+  gap: 1rem;
+  justify-content: center; 
+}
+#accordion .card-header-empRole button {
+  color: #A8A8A8;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center; 
 }
 #accordion .card-header-leave button {
   color: #A8A8A8;
@@ -104,8 +117,8 @@ margin-bottom: 0rem !important;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: .5rem;
-  justify-content: space-around;
+  gap: 2.2rem;
+  justify-content: center;
   
 }
 #accordion .card-header-payroll button {
@@ -119,12 +132,16 @@ margin-bottom: 0rem !important;
   width: 100%;
   display: flex;
   align-items: center;
-  gap: .5rem;
-  justify-content: space-around;
+  gap: 1.8rem;
+  justify-content: center;
   
 }
 
 #accordion .card-header-emp button:focus {
+  outline: none;
+  box-shadow: none;
+}
+#accordion .card-header-empRole button:focus {
   outline: none;
   box-shadow: none;
 }
@@ -171,12 +188,24 @@ margin-bottom: 0rem !important;
   float: left;
   font-size: 17px;
   transition: transform 0.2s ease-in-out;
+  margin-left: -6px;
 }
 #accordion .card-header-emp button::before {
-  content: "\f0c0";
-  font-family: "FontAwesome";
+  content: "\f2bb";
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 400;
   float: left;
   font-size: 17px;
+  transition: transform 0.2s ease-in-out;
+}
+#accordion .card-header-empRole button::before {
+  content: "\f007";
+  font-family: "Font Awesome 5 Free"; /* Specify the font family for regular icons */
+  font-weight: 400; /* Regular weight */
+  font-style: normal; /* Regular style */
+  float: left;
+  font-size: 15px;
   transition: transform 0.2s ease-in-out;
 }
 #accordion .card-header-leave button::before {
@@ -198,6 +227,10 @@ margin-bottom: 0rem !important;
 }
 
 #accordion .card-header-emp button[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+#accordion .card-header-empRole button[aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
 #accordion .card-header-leave button[aria-expanded="true"]::after {
@@ -255,7 +288,7 @@ margin-bottom: 0rem !important;
 }
 .card{
   border: none !important;
-  /* background-color: rgb(2 12 33 / 93%) !important; */
+  background-color: rgb(2 12 33 / 93%) !important;
 }
 .accordion-menu{
   border-bottom: 1px solid white;

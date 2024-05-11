@@ -2,24 +2,24 @@
     <!-- -----Main-sidebar------->
     <div id="main-sidebar">
 
-        <!-- <div id="compy-Profile" class="d-flex flex-column">
-    <div id="compy-info" class="d-flex flex-column">
-        <div id="comp-name">
-            <img src="../IMAGE/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg" id="admin-image"
-                class="d-inline-block align-top" alt="">
-            <div class="admin-profile d-flex flex-column">
-                <p class="compname-name">Uaven Techno</p>
-                <p class="comp-name-no">RD84SF5352</p>
+        <div id="compy-Profile" class="d-flex flex-column">
+            <div id="compy-info" class="d-flex flex-column">
+                <div id="comp-name">
+                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                        id="admin-image" class="d-inline-block align-top" alt="">
+                    <div class="admin-profile d-flex flex-column">
+                        <p class="compname-name">Uaven Techno</p>
+                        <p class="comp-name-no">RD84SF5352</p>
+                    </div>
+                </div>
+                <div id="comp-date" class="d-flex">
+                    <label id="Valid-up-to">Valid up to:</label>
+                    <label id="Valid-up-to-date">12-May-2024</label>
+                </div>
             </div>
-        </div>
-        <div id="comp-date" class="d-flex">
-            <label id="Valid-up-to">Valid up to:</label>
-            <label id="Valid-up-to-date">12-May-2024</label>
-        </div>
-    </div>
-    <div id="compy-Link"><a href="#">Renew Licence</a></div>
+            <div id="compy-Link"><a href="#">Renew Licence</a></div>
 
-</div> -->
+        </div>
 
         <!-- ------profile-------->
         <div id="profile">
@@ -76,14 +76,13 @@
             <div id="accordion">
                 <div class="card-header-leave" id="headingTwo">
                     <h5 class="mb-0">
-                        <button class="btn btn-link " @click="toggleLeavesRef()" data-toggle="collapse" data-target="#collapseTwo"
-                            aria-expanded="false" aria-controls="collapseTwo">
+                        <button class="btn btn-link " @click="toggleLeavesRef()">
                             Leaves
                         </button>
                     </h5>
                 </div>
 
-                <div id="collapseTwo" class="collapse" :class="{ 'show': leaves }" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div id="collapseTwo" class="collapse" :class="{ 'show': leaves }">
                     <div class="card-body">
                         <ul>
                             <li>
@@ -101,21 +100,34 @@
             <div id="accordion">
                 <div class="card-header-payroll" id="headingThree">
                     <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" @click="toggleRef()" data-toggle="collapse" data-target="#collapseThree"
-                            aria-expanded="false" aria-controls="collapseThree">
+                        <button class="btn btn-link" @click="toggleRef()">
                             Payroll
                         </button>
                     </h5>
                 </div>
 
-                <div id="collapseThree" class="collapse" :class="{ 'show': payroll }" aria-labelledby="headingThree" data-parent="#accordion">
+                <div id="collapseThree" class="collapse" :class="{ 'show': payroll }" aria-labelledby="headingThree"
+                    data-parent="#accordion">
                     <div class="card-body">
                         <ul>
                             <li>
-                                <router-link :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll Data</router-link>
+                                <router-link :to="{ name: 'admin.payroll' }" exact-active-class="active">Payroll
+                                    Data</router-link>
                             </li>
                         </ul>
                     </div>
+                </div>
+            </div>
+
+            <div id="accordion">
+                <div class="card-header-empRole" id="headingFive">
+                    <h5 class="mb-0">
+                        <router-link :to="{ name: 'admin.EmployeeRole' }" custom v-slot="{ navigate }">
+                            <button class="btn btn-link " @click="navigate" role="link">
+                                Employee Role
+                            </button>
+                        </router-link>
+                    </h5>
                 </div>
             </div>
 
