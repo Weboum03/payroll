@@ -200,6 +200,24 @@ export default [
                 component: () => import("../views/admin/users/Index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
+            {
+                name: "admin.EmployeeRole",
+                path: "EmployeeRole",
+                component: () => import("../views/admin/employee/Index.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.EmployeeRoleEdit",
+                path: "EmployeeRoleEdit",
+                component: () => import("../views/admin/employee/Edit.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.EmployeeRoleAdd",
+                path: "EmployeeRoleAdd",
+                component: () => import("../views/admin/employee/Create.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
         ],
     },
     {
