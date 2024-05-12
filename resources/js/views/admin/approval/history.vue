@@ -13,7 +13,7 @@
                         <i class="fa-solid fa-plus fa-sm" style="color: white;"></i></button>
                 </div>
                 <div id="Approvedleave-historyTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label><select id="dropdown1" class="lastActivities" style="height: 30.83px;  width: 225px;  font-size: 13px;  font-weight: bold;  font-family: sans-serif;  padding-left: 13px;  border: none; border-radius: 5px; float: left;"><option value="BulkAction">10 Last activities</option><option value="value2">Option 2</option></select></div>
-                <table id="Approvedleave-historyTable" style="width: 100%;">
+                <table id="Approvedleave-historyTable" ref="myTable" style="width: 100%;">
                     <thead>
                         <tr>
 
@@ -81,8 +81,15 @@
 </template>
 
 <script setup>
-
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated, watch } from 'vue';
+import '@/assets/css/Approvals.css'
+import 'datatables.net'; // Import DataTables.js library
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
+import $ from 'jquery';
+let dataTable = ref(null);
+const myTable = ref(null);
+const isDataTableInitialized = ref(false)
+const search_global = ref('');
 
 
 
@@ -93,10 +100,65 @@ onMounted(() => {
 
     // Append the script element to the document's head
     document.head.appendChild(script);
+    loadDataTable();
+});
+
+const loadDataTable = () => {
+    const dataTableOptions = {
+        "pagingType": "full_numbers",
+        "bLengthChange": false,
+        "columnDefs": [
+            { "className": "text-center", "targets": "_all" } // Center-align all columns
+        ],
+        processing: true,
+    }
+    if (!isDataTableInitialized.value) {
+        dataTable = $(myTable.value).DataTable(dataTableOptions);
+        console.log(dataTable)
+        isDataTableInitialized.value = true;
+    }
+}
+
+watch(search_global, (current, previous) => {
+    dataTable.search(search_global.value).draw();
 });
 
 </script>
 
 <style scoped>
-@import '@/assets/css/ApprovalHistory.css'
+
+</style>
+
+<style scoped>
+@import '@/assets/css/ApprovalHistory.css';
+@import '@/assets/css/onBoard.css';
+
+table.dataTable thead th,
+table.dataTable thead td,
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+    text-align: center;
+}
+.text-center {
+  text-align: center !important;
+}
+table.dataTable tbody tr td {
+    text-align: center;
+}
+.dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    margin-left: 3px;
+}
+</style>
+
+<style>
+@import 'datatables.net-dt';
+
+
+.dt-search {
+    display: none;
+}
 </style>

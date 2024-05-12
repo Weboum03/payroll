@@ -24,6 +24,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->dateTime('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
         });
     }
 

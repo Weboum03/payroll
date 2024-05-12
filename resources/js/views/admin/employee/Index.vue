@@ -12,9 +12,9 @@
             </a>
         </div>
         <div id="EmpRolesTable_filter" class="dataTables_filter .add2"
-            style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
+            style="display: flex; justify-content: space-between;"><label>Search:<input type="search" v-model="search_global" class=""
                     placeholder="" aria-controls="EmpRolesTable"></label></div>
-        <table id="EmpRolesTable">
+        <table id="EmpRolesTable" ref="myTable">
             <thead>
                 <tr>
 
@@ -62,6 +62,54 @@
     </div>
 </template>
 
+<script setup>
+import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
+import useUsers from "../../../composables/users";
+const { users, getUsers, deleteUser } = useUsers()
+import { useRouter } from "vue-router";
+import 'datatables.net'; // Import DataTables.js library
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
+import $ from 'jquery';
+
+const router = useRouter();
+const myTable = ref(null);
+const search_global = ref('');
+let dataTable = ref(null);
+const isDataTableInitialized = ref(false)
+
+onMounted(() => {
+    loadDataTable();
+});
+
+const loadDataTable = () => {
+    const dataTableOptions = {
+        "pagingType": "full_numbers",
+        "bLengthChange": false,
+        "columnDefs": [
+            { "className": "text-center", "targets": "_all" } // Center-align all columns
+        ],
+        processing: true,
+    }
+    if (!isDataTableInitialized.value) {
+        dataTable = $(myTable.value).DataTable(dataTableOptions);
+        console.log(dataTable)
+        isDataTableInitialized.value = true;
+    }
+}
+
+watch(search_global, (current, previous) => {
+    dataTable.search(search_global.value).draw();
+});
+</script>
+
 <style scoped>
 @import '@/assets/css/EmployeeRole.css';
+</style>
+
+<style>
+@import 'datatables.net-dt';
+
+.dt-search {
+    display: none;
+}
 </style>

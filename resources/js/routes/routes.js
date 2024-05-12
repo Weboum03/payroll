@@ -172,7 +172,7 @@ export default [
             },
             {
                 name: "admin.deBoard",
-                path: "deBoard",
+                path: "deBoard/:id",
                 component: () => import("../views/admin/DeBoard/index.vue"),
                 meta: { breadCrumb: "Admin" },
             },
