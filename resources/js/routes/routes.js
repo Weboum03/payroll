@@ -147,6 +147,18 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.PayrollAdjustment",
+                path: "PayrollAdjustment",
+                component: () => import("../views/admin/payroll/PayrollAdjustment.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.PayrollBatchProcess",
+                path: "PayrollBatchProcess",
+                component: () => import("../views/admin/payroll/PayrollBatchProcess.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.EmpProfile",
                 path: "EmpProfile/:id",
                 component: () => import("../views/admin/profile/EmpProfile.vue"),

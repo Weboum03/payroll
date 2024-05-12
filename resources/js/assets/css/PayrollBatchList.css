@@ -17,6 +17,10 @@
     font-weight: 400;
   }
 
+  .header{
+    padding: 0px !important;
+  }
+
 
   #PayrollbatchList-Table_filter>label {
     display: inline-flex !important;
@@ -69,3 +73,53 @@
 .dataTables_wrapper{
         background-color: white;
     }
+
+
+
+    #processModal .modal-header{
+        border-bottom: 0px !important;
+        justify-content: center;
+    }
+    #processModal .modal-content{
+        width: 75% !important;
+    }
+    #processModal .modal-body{
+        font-size: 12px;
+        font-weight: 500;
+        color: #8c8c8c;
+        padding-top: 7px;
+    }
+    #processModal .modal-footer{
+        border-top: 0px !important;
+        padding-top: 7px;
+        justify-content: center !important;
+    }
+
+    .process{
+        font-size: small !important;
+        width: 80px;
+        padding: 0.75rem;
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 0.25rem;
+        border: none !important;
+        cursor: pointer;
+        transition: 0.3s;
+        background-color: #2DB9F8 !important;
+      }
+      .process:hover{ 
+          box-shadow:0px 0px 3px  black !important;
+          background-color: #03A9F3 !important;
+      }
+
+      .cancle{
+        color: black !important;
+        width: 77px !important;
+        border: none !important;
+        font-size: small !important;
+      }
+      .cancle:hover{
+       box-shadow: 0px 0px 3px black !important;
+      }
+    
