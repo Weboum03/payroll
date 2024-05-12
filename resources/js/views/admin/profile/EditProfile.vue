@@ -111,7 +111,7 @@
 
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
+                                        <Field type="date" name="dob" class="input"
                                             v-model="userData.dob" autocomplete="off" placeholder="Date of Birth*"
                                             :class="{ 'is-invalid': errors.dob }" />
                                         <label for="html" class="user-label ">Date of Birth</label>
@@ -136,23 +136,14 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
-                                            v-model="userData.address" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.address"
-                                                :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.address" autocomplete="off" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="address" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
-                                            v-model="userData.p_address" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_address"
-                                                :class="{ 'is-invalid': errors.p_address }"
-                                                placeholder="Address Line 1*" type="text" autocomplete="off"
-                                                class="input" required>
-                                        </Field>
+                                            v-model="userData.p_address" class="input" autocomplete="off" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
                                     </div>
@@ -163,24 +154,14 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
-                                            v-model="userData.address_1" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.address_1"
-                                                :class="{ 'is-invalid': errors.address_1 }"
-                                                placeholder="Address Line 2*" type="text" autocomplete="off"
-                                                class="input" required>
-                                        </Field>
+                                            v-model="userData.address_1" class="input" autocomplete="off" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
-                                            v-model="userData.p_address_1" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_address_1"
-                                                :class="{ 'is-invalid': errors.p_address_1 }"
-                                                placeholder="Address Line 2*" type="text" autocomplete="off"
-                                                class="input" required>
-                                        </Field>
+                                            v-model="userData.p_address_1" class="input" autocomplete="off" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
                                     </div>
@@ -192,22 +173,14 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
-                                            v-model="userData.city" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.city"
-                                                :class="{ 'is-invalid': errors.city }" placeholder="City/Town*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.city" autocomplete="off" />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="city" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
-                                            v-model="userData.p_city" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_city"
-                                                :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.p_city" autocomplete="off" />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
                                     </div>
@@ -217,24 +190,14 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
-                                            v-model="userData.country" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.country"
-                                                :class="{ 'is-invalid': errors.country }" placeholder="Country*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
-
+                                            v-model="userData.country" autocomplete="off" />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="userData.p_country" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_country"
-                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
-
+                                            v-model="userData.p_country" class="input" autocomplete="off" />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
@@ -243,22 +206,14 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
-                                            v-model="userData.state" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.state"
-                                                :class="{ 'is-invalid': errors.state }" placeholder="State*" type="text"
-                                                autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.state" autocomplete="off" />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="state" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
-                                            v-model="userData.p_state" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_state"
-                                                :class="{ 'is-invalid': errors.p_state }" placeholder="State*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.p_state" autocomplete="off" />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
                                     </div>
@@ -268,21 +223,13 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="postcode"
-                                            v-model="userData.postcode" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.postcode"
-                                                :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.postcode" class="input" autocomplete="off" />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_postcode"
-                                            v-model="userData.p_postcode" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="postData.info?.p_postcode"
-                                                :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                            v-model="userData.p_postcode" class="input" autocomplete="off" />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
                                     </div>
