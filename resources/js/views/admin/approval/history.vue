@@ -126,10 +126,6 @@ watch(search_global, (current, previous) => {
 </script>
 
 <style scoped>
-
-</style>
-
-<style scoped>
 @import '@/assets/css/ApprovalHistory.css';
 @import '@/assets/css/onBoard.css';
 
