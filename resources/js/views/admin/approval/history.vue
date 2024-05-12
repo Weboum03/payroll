@@ -12,7 +12,7 @@
                     <button type="button" class="add">
                         <i class="fa-solid fa-plus fa-sm" style="color: white;"></i></button>
                 </div>
-                <div id="Approvedleave-historyTable_filter" class="dataTables_filter"><label>Search:<input type="search" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label><select id="dropdown1" class="lastActivities" style="height: 30.83px;  width: 225px;  font-size: 13px;  font-weight: bold;  font-family: sans-serif;  padding-left: 13px;  border: none; border-radius: 5px; float: left;"><option value="BulkAction">10 Last activities</option><option value="value2">Option 2</option></select></div>
+                <div id="Approvedleave-historyTable_filter" class="dataTables_filter"><label>Search:<input type="search" v-model="search_global" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label><select id="dropdown1" class="lastActivities" style="height: 30.83px;  width: 225px;  font-size: 13px;  font-weight: bold;  font-family: sans-serif;  padding-left: 13px;  border: none; border-radius: 5px; float: left;"><option value="BulkAction">10 Last activities</option><option value="value2">Option 2</option></select></div>
                 <table id="Approvedleave-historyTable" ref="myTable" style="width: 100%;">
                     <thead>
                         <tr>
@@ -153,7 +153,9 @@ table.dataTable tbody tr td {
 <style>
 @import 'datatables.net-dt';
 
-
+.dataTables_filter {
+    margin-bottom: -15px;
+}
 .dt-search {
     display: none;
 }

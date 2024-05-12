@@ -10,12 +10,15 @@
         <div class="container header d-flex flex-column">
 
             <div class="d-flex justify-content-start align-items-center" style="background-color: white; gap: 12rem;">
-                <button type="button" class="close1 " data-dismiss="modal" aria-label="Close"
-                    style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                    <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                            style="color: #000000;"></i></span>
-                    <span style="cursor: pointer;">Back to list</span>
-                </button>
+                <router-link :to="{ name: 'admin.home' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
+                        aria-label="Close"
+                        style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
+                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                style="color: #000000;"></i></span>
+                        <span style="cursor: pointer;">Back to list</span>
+                    </button>
+                </router-link>
                 <h5>March2024_Lipsum</h5>
             </div>
             <div id="PayrollbatchList-Table_filter" class="dataTables_filter"
