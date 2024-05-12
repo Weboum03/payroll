@@ -25,10 +25,14 @@
                     <div class="progress" :style="{ width: boxWidth + '%' }"></div>
 
                     <div class="progress-step progress-step-active" data-title="Personal Information"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 1 }" data-title="Job Information"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }" data-title="Attendance & Leaves"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 1 }"
+                        data-title="Job Information"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }"
+                        data-title="Attendance & Leaves"></div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks">
+                    </div>
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done">
+                    </div>
                 </div>
 
                 <Form v-if="postData" @submit="nextStep" keep-values :validation-schema="currentSchema"
@@ -41,28 +45,34 @@
                             <div class="personal-infor">
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="first_name" :class="{ 'is-invalid': errors.first_name }" placeholder="First Name" class="input" v-model="userData.first_name" autocomplete="off" />
+                                        <Field type="text" name="first_name"
+                                            :class="{ 'is-invalid': errors.first_name }" placeholder="First Name"
+                                            class="input" v-model="userData.first_name" autocomplete="off" />
                                         <label for="First Name" class="user-label">First Name</label>
                                         <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="last_name" :class="{ 'is-invalid': errors.last_name }" placeholder="First Name" class="input" v-model="userData.last_name" autocomplete="off" />
+                                        <Field type="text" name="last_name" :class="{ 'is-invalid': errors.last_name }"
+                                            placeholder="First Name" class="input" v-model="userData.last_name"
+                                            autocomplete="off" />
                                         <label for="Last Name" class="user-label">Last Name*</label>
                                         <ErrorMessage name="last_name" class="text-danger mt-1" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="email" class="input" :class="{ 'is-invalid': errors.email }" placeholder="Email" v-model="userData.email"
-                                            autocomplete="off" />
+                                        <Field type="text" name="email" class="input"
+                                            :class="{ 'is-invalid': errors.email }" placeholder="Email"
+                                            v-model="userData.email" autocomplete="off" />
                                         <label for="Email" class="user-label">Email</label>
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field type="text" name="secondary_email" v-model="userData.secondary_email"
-                                            class="input" autocomplete="off" :class="{ 'is-invalid': errors.secondary_email }"
-                                                placeholder="Secondary Email" />
+                                            class="input" autocomplete="off"
+                                            :class="{ 'is-invalid': errors.secondary_email }"
+                                            placeholder="Secondary Email" />
                                         <label for="Secondary Email" class="user-label">Secondary Email</label>
                                         <ErrorMessage name="secondary_email" class="text-danger mt-1" />
                                     </div>
@@ -70,23 +80,27 @@
 
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="phone" class="input" :class="{ 'is-invalid': errors.phone }" v-model="userData.phone"
+                                        <Field type="text" name="phone" class="input"
+                                            :class="{ 'is-invalid': errors.phone }" v-model="userData.phone"
                                             autocomplete="off" placeholder="Mobile" />
                                         <label for="Mobile" class="user-label">Mobile</label>
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field type="text"  name="alternate_phone" :class="{ 'is-invalid': errors.alternate_phone }" v-model="userData.alternate_phone"
-                                            class="input" autocomplete="off" placeholder="Alternate Mobile" />
+                                        <Field type="text" name="alternate_phone"
+                                            :class="{ 'is-invalid': errors.alternate_phone }"
+                                            v-model="userData.alternate_phone" class="input" autocomplete="off"
+                                            placeholder="Alternate Mobile" />
                                         <label for="Alternate Mobile" class="user-label">Alternate Mobile</label>
                                         <ErrorMessage name="alternate_phone" class="text-danger mt-1" />
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field name="gender" as="select" class="form-control input" :class="{ 'is-invalid': errors.gender }" v-model="userData.gender" autocomplete="off"
-                                            style="color: #7e7e7e;">
+                                        <Field name="gender" as="select" class="form-control input"
+                                            :class="{ 'is-invalid': errors.gender }" v-model="userData.gender"
+                                            autocomplete="off" style="color: #7e7e7e;">
                                             <option value="" disabled selected>Select</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
@@ -97,8 +111,9 @@
 
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" name="dob" class="input" v-model="userData.dob" 
-                                            autocomplete="off" placeholder="Date of Birth*" :class="{ 'is-invalid': errors.dob }" />
+                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
+                                            v-model="userData.dob" autocomplete="off" placeholder="Date of Birth*"
+                                            :class="{ 'is-invalid': errors.dob }" />
                                         <label for="html" class="user-label ">Date of Birth</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
                                     </div>
@@ -120,8 +135,8 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input" v-model="userData.address"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
+                                            v-model="userData.address" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.address"
                                                 :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -131,8 +146,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address" v-model="userData.p_address"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address"
+                                            v-model="userData.p_address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_address"
                                                 :class="{ 'is-invalid': errors.p_address }"
                                                 placeholder="Address Line 1*" type="text" autocomplete="off"
@@ -147,8 +162,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="address_1" v-model="userData.address_1"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address_1"
+                                            v-model="userData.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.address_1"
                                                 :class="{ 'is-invalid': errors.address_1 }"
                                                 placeholder="Address Line 2*" type="text" autocomplete="off"
@@ -159,8 +174,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address_1" v-model="userData.p_address_1"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
+                                            v-model="userData.p_address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_address_1"
                                                 :class="{ 'is-invalid': errors.p_address_1 }"
                                                 placeholder="Address Line 2*" type="text" autocomplete="off"
@@ -176,8 +191,8 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input" v-model="userData.city"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
+                                            v-model="userData.city" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.city"
                                                 :class="{ 'is-invalid': errors.city }" placeholder="City/Town*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -187,8 +202,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input" v-model="userData.p_city"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
+                                            v-model="userData.p_city" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_city"
                                                 :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -201,8 +216,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input" v-model="userData.country"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
+                                            v-model="userData.country" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.country"
                                                 :class="{ 'is-invalid': errors.country }" placeholder="Country*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -213,8 +228,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country" v-model="userData.p_country"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country"
+                                            v-model="userData.p_country" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_country"
                                                 :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -227,8 +242,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input" v-model="userData.state"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
+                                            v-model="userData.state" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.state"
                                                 :class="{ 'is-invalid': errors.state }" placeholder="State*" type="text"
                                                 autocomplete="off" class="input" required>
@@ -238,8 +253,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input" v-model="userData.p_state"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
+                                            v-model="userData.p_state" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_state"
                                                 :class="{ 'is-invalid': errors.p_state }" placeholder="State*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -252,8 +267,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="postcode" v-model="userData.postcode"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="postcode"
+                                            v-model="userData.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.postcode"
                                                 :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -262,8 +277,8 @@
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_postcode" v-model="userData.p_postcode"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_postcode"
+                                            v-model="userData.p_postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="postData.info?.p_postcode"
                                                 :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -292,8 +307,9 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required name="user" as="select" v-model="userData.first_name" class="form-control input" autocomplete="off" :validateOnBlur="false" :validateOnChange="false" :validateOnInput="false"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="user" as="select" v-model="userData.first_name"
+                                        class="form-control input" autocomplete="off" :validateOnBlur="false"
+                                        :validateOnChange="false" :validateOnInput="false" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Copy Existing details</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -305,24 +321,25 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="employee_id" placeholder="Employee ID" v-model="userData.employee_id"
-                                        :class="{ 'is-invalid': errors.employee_id }" class="input"
-                                        autocomplete="off" />
+                                    <Field required type="text" name="employee_id" placeholder="Employee ID"
+                                        v-model="userData.employee_id" :class="{ 'is-invalid': errors.employee_id }"
+                                        class="input" autocomplete="off" />
                                     <label for="Employee ID" class="user-label">Employee ID</label>
                                     <ErrorMessage name="employee_id" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="doj" placeholder="Date of Joining*" v-model="userData.doj"
-                                        :class="{ 'is-invalid': errors.doj }" class="input" autocomplete="off" />
+                                    <Field required type="date" name="doj" placeholder="Date of Joining*"
+                                        v-model="userData.doj" :class="{ 'is-invalid': errors.doj }" class="input"
+                                        autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="prob_end_date" placeholder="Probation End Date*" v-model="userData.prob_end_date"
-                                        :class="{ 'is-invalid': errors.prob_end_date }" class="input"
-                                        autocomplete="off" />
+                                    <Field required type="date" name="prob_end_date" placeholder="Probation End Date*"
+                                        v-model="userData.prob_end_date" :class="{ 'is-invalid': errors.prob_end_date }"
+                                        class="input" autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
@@ -330,8 +347,8 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="company" as="select" class="form-control input" autocomplete="off" v-model="userData.company"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="company" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.company" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Company*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -342,8 +359,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="location" as="select" class="form-control input" autocomplete="off" v-model="userData.location"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="location" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.location" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Location*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -356,8 +373,8 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="qualification" as="select" class="form-control input" v-model="userData.qualification"
-                                        autocomplete="off" style="color: #7e7e7e;">
+                                    <Field required name="qualification" as="select" class="form-control input"
+                                        v-model="userData.qualification" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Qualification-Degree*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -368,8 +385,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="experience" as="select" class="form-control input" autocomplete="off" v-model="userData.experience"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="experience" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.experience" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -382,8 +399,8 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="immediate_manager" as="select" class="form-control input" v-model="userData.immediate_manager"
-                                        autocomplete="off" style="color: #7e7e7e;">
+                                    <Field required name="immediate_manager" as="select" class="form-control input"
+                                        v-model="userData.immediate_manager" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Immediate-Manager*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -394,7 +411,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="immediate_manager_code" placeholder="Employee Code" v-model="userData.immediate_manager_code"
+                                    <Field required type="date" name="immediate_manager_code"
+                                        placeholder="Employee Code" v-model="userData.immediate_manager_code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -404,8 +422,9 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="leave_approving_auth" as="select" class="form-control input" v-model="userData.leave_approving_auth"
-                                        autocomplete="off" style="color: #7e7e7e;">
+                                    <Field required name="leave_approving_auth" as="select" class="form-control input"
+                                        v-model="userData.leave_approving_auth" autocomplete="off"
+                                        style="color: #7e7e7e;">
                                         <option value="" disabled selected>Leave Approving Authority*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -417,7 +436,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="leave_approving_code" placeholder="Employee Code" v-model="userData.leave_approving_code"
+                                    <Field required type="date" name="leave_approving_code" placeholder="Employee Code"
+                                        v-model="userData.leave_approving_code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -426,8 +446,8 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="department" as="select" class="form-control input" autocomplete="off" v-model="userData.department"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="department" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.department" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
                                         <option value="">Department</option>
                                         <option value="Option1">Option1</option>
@@ -438,8 +458,8 @@
                                     <ErrorMessage name="department" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required name="job_role" as="select" class="form-control input" autocomplete="off" v-model="userData.job_role"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="job_role" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.job_role" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Job Role</option>
                                         <option value="HR">HR</option>
                                         <option value="Developer">Developer</option>
@@ -451,8 +471,8 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="grade" as="select" class="form-control input" autocomplete="off" v-model="userData.grade"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="grade" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.grade" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -462,8 +482,8 @@
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required name="employment_type" as="select" class="form-control input" v-model="userData.employment_type"
-                                        autocomplete="off" style="color: #7e7e7e;">
+                                    <Field required name="employment_type" as="select" class="form-control input"
+                                        v-model="userData.employment_type" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Employment Type</option>
                                         <option value="A">Employment Type A</option>
                                         <option value="B">Employment Type B</option>
@@ -476,15 +496,16 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number*" v-model="userData.aadhar_number"
-                                        :class="{ 'is-invalid': errors.aadhar_number }" class="input"
-                                        autocomplete="off" />
+                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number*"
+                                        v-model="userData.aadhar_number" :class="{ 'is-invalid': errors.aadhar_number }"
+                                        class="input" autocomplete="off" />
                                     <label for="Aadhar Number" class="user-label">Aadhar Number*</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="pan_number" placeholder="PAN Number*" v-model="userData.pan_number"
-                                        :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
+                                    <Field type="text" name="pan_number" placeholder="PAN Number*"
+                                        v-model="userData.pan_number" :class="{ 'is-invalid': errors.pan_number }"
+                                        class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">PAN Number*</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
@@ -507,8 +528,8 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field required name="holiday_year" as="select" class="form-control input" autocomplete="off" v-model="userData.holiday_year"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="holiday_year" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.holiday_year" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Holiday Year*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -521,8 +542,8 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field required name="work_pattern" as="select" class="form-control input" autocomplete="off" v-model="userData.work_pattern"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="work_pattern" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.work_pattern" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Pattern*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -534,7 +555,8 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="earning_leave_entitlement" v-model="userData.earning_leave_entitlement"
+                                    <Field required type="text" name="earning_leave_entitlement"
+                                        v-model="userData.earning_leave_entitlement"
                                         placeholder="Annual Earned Leave Entitlement*"
                                         :class="{ 'is-invalid': errors.earning_leave_entitlement }" class="input"
                                         autocomplete="off" />
@@ -548,15 +570,17 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="this_year" placeholder="This Year*" v-model="userData.this_year"
-                                        :class="{ 'is-invalid': errors.this_year }" class="input" autocomplete="off" />
+                                    <Field required type="text" name="this_year" placeholder="This Year*"
+                                        v-model="userData.this_year" :class="{ 'is-invalid': errors.this_year }"
+                                        class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">This Year*</label>
                                     <ErrorMessage name="this_year" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="next_year" placeholder="Next Year*" v-model="userData.next_year"
-                                        :class="{ 'is-invalid': errors.next_year }" class="input" autocomplete="off" />
+                                    <Field required type="text" name="next_year" placeholder="Next Year*"
+                                        v-model="userData.next_year" :class="{ 'is-invalid': errors.next_year }"
+                                        class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">Next Year*</label>
                                     <ErrorMessage name="next_year" class="text-danger mt-1" />
                                 </div>
@@ -768,7 +792,7 @@
 
 <script setup>
 import * as yup from "yup";
-import { Form, Field, ErrorMessage, useForm, useField  } from 'vee-validate';
+import { Form, Field, ErrorMessage, useForm, useField } from 'vee-validate';
 import { ref, reactive, onMounted, computed, inject, watch, onUpdated, watchEffect } from 'vue';
 import useUsers from "@/composables/users";
 const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
@@ -781,58 +805,58 @@ const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const userData = ref({})
 
-onMounted( async () => {
+onMounted(async () => {
     getUser(route.params.id)
 });
 
 watchEffect(() => {
-        console.log('vipan', postData.value)
-        const user = postData.value;
-        userData.value = {
-            id: user?.id,
-            first_name: user?.first_name,
-            last_name: user?.last_name,
-            email: user?.email,
-            phone: user?.phone,
-            gender: user?.info?.gender,
-            dob: user?.info?.dob,
-            secondary_email: user?.info?.secondary_email,
-            alternate_phone: user?.info?.alternate_phone,
-            address: user?.info?.address,
-            address_1: user?.info?.address_1,
-            city: user?.info?.city,
-            state: user?.info?.state,
-            country: user?.info?.country,
-            postcode: user?.info?.postcode,
-            p_address: user?.info?.address,
-            p_address_1: user?.info?.address_1,
-            p_city: user?.info?.city,
-            p_state: user?.info?.state,
-            p_country: user?.info?.country,
-            p_postcode: user?.info?.postcode,
-            employee_id: user?.employee_id,
-            doj: user?.info?.doj,
-            prob_end_date: user?.info?.prob_end_date,
-            company: user?.info?.company,
-            location: user?.info?.location,
-            qualification: user?.info?.qualification,
-            experience: user?.info?.experience,
-            immediate_manager: user?.info?.immediate_manager,
-            immediate_manager_code: user?.info?.immediate_manager_code,
-            leave_approving_auth: user?.info?.leave_approving_auth,
-            leave_approving_code: user?.info?.leave_approving_code,
-            department: user?.info?.department,
-            job_role: user?.info?.job_role,
-            grade: user?.info?.grade,
-            employment_type: user?.info?.employment_type,
-            aadhar_number: user?.info?.aadhar_number,
-            pan_number: user?.info?.pan_number,
-            holiday_year: user?.info?.holiday_year,
-            work_pattern: user?.info?.work_pattern,
-            earning_leave_entitlement: user?.info?.earning_leave_entitlement,
-            this_year: user?.info?.this_year,
-            next_year: user?.info?.next_year,
-        };
+    console.log('vipan', postData.value)
+    const user = postData.value;
+    userData.value = {
+        id: user?.id,
+        first_name: user?.first_name,
+        last_name: user?.last_name,
+        email: user?.email,
+        phone: user?.phone,
+        gender: user?.info?.gender,
+        dob: user?.info?.dob,
+        secondary_email: user?.info?.secondary_email,
+        alternate_phone: user?.info?.alternate_phone,
+        address: user?.info?.address,
+        address_1: user?.info?.address_1,
+        city: user?.info?.city,
+        state: user?.info?.state,
+        country: user?.info?.country,
+        postcode: user?.info?.postcode,
+        p_address: user?.info?.address,
+        p_address_1: user?.info?.address_1,
+        p_city: user?.info?.city,
+        p_state: user?.info?.state,
+        p_country: user?.info?.country,
+        p_postcode: user?.info?.postcode,
+        employee_id: user?.employee_id,
+        doj: user?.info?.doj,
+        prob_end_date: user?.info?.prob_end_date,
+        company: user?.info?.company,
+        location: user?.info?.location,
+        qualification: user?.info?.qualification,
+        experience: user?.info?.experience,
+        immediate_manager: user?.info?.immediate_manager,
+        immediate_manager_code: user?.info?.immediate_manager_code,
+        leave_approving_auth: user?.info?.leave_approving_auth,
+        leave_approving_code: user?.info?.leave_approving_code,
+        department: user?.info?.department,
+        job_role: user?.info?.job_role,
+        grade: user?.info?.grade,
+        employment_type: user?.info?.employment_type,
+        aadhar_number: user?.info?.aadhar_number,
+        pan_number: user?.info?.pan_number,
+        holiday_year: user?.info?.holiday_year,
+        work_pattern: user?.info?.work_pattern,
+        earning_leave_entitlement: user?.info?.earning_leave_entitlement,
+        this_year: user?.info?.this_year,
+        next_year: user?.info?.next_year,
+    };
 })
 
 const schemas = [
@@ -878,23 +902,23 @@ async function submitForm(user) {
 }
 
 async function nextStep(values, user) {
-  if (currentStep.value === 3) {
-    return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
-  }
-  currentStep.value++;
-  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    if (currentStep.value === 3) {
+        return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
+    }
+    currentStep.value++;
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 
 function prevStep() {
-  if (currentStep.value <= 0) {
-    return;
-  }
-  currentStep.value--;
-  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    if (currentStep.value <= 0) {
+        return;
+    }
+    currentStep.value--;
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 
 function cancel() {
-    router.push({ name: 'admin.EmpProfile', params :{id: route.params.id} })
+    router.push({ name: 'admin.EmpProfile', params: { id: route.params.id } })
 }
 
 </script>
