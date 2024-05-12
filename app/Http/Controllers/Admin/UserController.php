@@ -71,7 +71,6 @@ class UserController extends BaseController
         $input = $request->all();
         $user = $this->userRepository->updateById($id, $input);
         $user->info()->updateOrCreate(['user_id' => $id], $input);
-        //->fill($input)->save();
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 
