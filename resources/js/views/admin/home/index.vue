@@ -692,4 +692,12 @@ table.dataTable tbody tr td {
     outline: 0;
     width: 100% !important;
 }
+
+input {
+    display: block;
+    width: 332px;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
 </style>
