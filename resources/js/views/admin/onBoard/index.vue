@@ -107,9 +107,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field name="gender" as="select" class="form-control input" autocomplete="off"
+                                        <Field required name="gender" as="select" class="form-control input" autocomplete="off"
                                             style="color: #7e7e7e;">
-                                            <option value="" disabled selected>Select</option>
+                                            <option value="" disabled selected>Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
@@ -770,11 +770,11 @@
                                 </div>
                                 <div class="d-flex flex-column justify-content-center align-items-center"
                                     style="gap: 1rem;">
-                                    <a href="dashboard.html" class="btn btn-primary btn1">Finish and visit employee's
+                                    <a href="/admin/dashboard" class="btn btn-primary btn1">Finish and visit employee's
                                         record</a>
-                                    <a href="../HTML/onBoard.html" class="btn btn-primary btn1 ">Add another
+                                    <a href="/admin/onBoard" class="btn btn-primary btn1 ">Add another
                                         employee</a>
-                                    <a href="../HTML/dashboard.html" class="btn btn-primary btn1">Finish and exit</a>
+                                    <a href="/admin/home" class="btn btn-primary btn1">Finish and exit</a>
                                 </div>
 
                             </div>
@@ -810,7 +810,7 @@ import useUsers from "@/composables/users";
 
 const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
 const swal = inject('$swal')
-const currentStep = ref(1);
+const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 // Each step should have its own validation schema
 const schemas = [
