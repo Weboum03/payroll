@@ -70,7 +70,7 @@ class UserController extends BaseController
     {
         $input = $request->all();
         $user = $this->userRepository->updateById($id, $input);
-        $user->info()->updateOrCreate($input);
+        $user->info()->first()->fill($input)->save();
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 

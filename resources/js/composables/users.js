@@ -58,6 +58,7 @@ export default function useUsers() {
                     icon: 'success',
                     title: 'User saved successfully'
                 })
+                return Promise.resolve(response);
             })
             .catch(error => {
                 if (error.response?.data) {
@@ -79,18 +80,24 @@ export default function useUsers() {
         isLoading.value = true
         validationErrors.value = {}
 
-        apiClient.put('/admin/users/' + user.id, user)
+        return apiClient.put('/admin/users/' + user.id, user)
             .then(response => {
-                router.push({ name: 'users.index' })
                 swal({
                     icon: 'success',
                     title: 'User updated successfully'
                 })
+                return Promise.resolve(response);
             })
             .catch(error => {
                 if (error.response?.data) {
                     validationErrors.value = error.response.data.errors
+                    validationMessage.value = error.response.data.message
+                    swal({
+                        icon: 'error',
+                        title: error.response.data.message
+                    }) 
                 }
+                return Promise.reject(error);
             })
             .finally(() => isLoading.value = false)
     }
