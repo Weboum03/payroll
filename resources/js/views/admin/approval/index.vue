@@ -10,8 +10,8 @@
 
 
                 </div>
-                <div id="leavesEmpTable_filter" class="dataTables_filter" style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class="" placeholder="" aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="BulkAction">Select Bulk Action</option><option value="value2">Option 2</option></select><select id="dropdown2" class="allActivity" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="AllActivity">All Activities</option><option value="value1">Option 1</option><option value="value2">Option 2</option></select><select id="dropdown1" class="empWise" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="Empwise">Employee wise</option><option value="value2">Option 2</option></select><button type="button" class="btn refresh"><i class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;" aria-hidden="true"></i></button></div>
-                <table id="leavesEmpTable" style="width: 100%;">
+                <div id="leavesEmpTable_filter" class="dataTables_filter" style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class="" placeholder="" v-model="search_global" aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="BulkAction">Select Bulk Action</option><option value="value2">Option 2</option></select><select id="dropdown2" class="allActivity" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="AllActivity">All Activities</option><option value="value1">Option 1</option><option value="value2">Option 2</option></select><select id="dropdown1" class="empWise" style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;"><option value="Empwise">Employee wise</option><option value="value2">Option 2</option></select><button type="button" class="btn refresh"><i class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;" aria-hidden="true"></i></button></div>
+                <table id="leavesEmpTable" class="table text-center" ref="myTable" style="width: 100%;">
                     <thead>
                         <tr>
 
@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                         <tr data-toggle="modal" data-target="#leaveModal">
-                            <td><img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" width="20px"
+                            <td><img alt="dp" :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" width="20px"
                                     height="20px" style="border-radius: 50%;">
                                 Devansh</td>
                             <td>Medical Leave</td>
@@ -196,14 +196,41 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated, watch } from 'vue';
 import '@/assets/css/Approvals.css'
+import 'datatables.net'; // Import DataTables.js library
+import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
+let dataTable = ref(null);
+const myTable = ref(null);
+const isDataTableInitialized = ref(false)
+const search_global = ref('');
 
 onMounted(() => {
     const script = document.createElement('script');
     script.src = '../../resources/js/Approvals.js';
     document.head.appendChild(script);
+    loadDataTable();
+});
+
+const loadDataTable = () => {
+    const dataTableOptions = {
+        "pagingType": "full_numbers",
+        "bLengthChange": false,
+        "columnDefs": [
+            { "className": "text-center", "targets": "_all" } // Center-align all columns
+        ],
+        processing: true,
+    }
+    if (!isDataTableInitialized.value) {
+        dataTable = $(myTable.value).DataTable(dataTableOptions);
+        console.log(dataTable)
+        isDataTableInitialized.value = true;
+    }
+}
+
+watch(search_global, (current, previous) => {
+    dataTable.search(search_global.value).draw();
 });
 
 </script>
