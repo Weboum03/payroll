@@ -56,7 +56,6 @@
                     </div>
                 </div>
             <button type="submit" :class="{ 'opacity-25': processing }" :disabled="processing" class="btn btn-primary savenext">Login</button>
-            <router-link class="btn btn-primary signup" style="font-size: small;margin-top: 15px; background-color: green;" :to="{name: 'auth.register'}">Sign Up</router-link>
             </Form>
         </div>
 
