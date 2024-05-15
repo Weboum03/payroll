@@ -1,6 +1,6 @@
 .image {
 
-  background-image: url("../images/login\ illustration.svg");
+  background-image: url("/resources/images/login\ illustration.svg");
   background-repeat: no-repeat;
   background-color: #DAE1F3;
   /* align-items: flex-start; */
