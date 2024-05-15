@@ -31,8 +31,25 @@
                     <div class="programming-stats4">
                         <div class="payrollData-container">
                             <div class="payrolldata-chart">
-                                <Doughnut :data="data" :options="options" />
+                                <Doughnut id="counter" :data="data" :options="options" />
                             </div>
+                        </div>
+
+                        <div class="details">
+                            <ul>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(4, 146, 245); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>Payroll Processed 253</div>
+                                </li>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>Pending count 5</div>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="details" ref="detail">
@@ -205,9 +222,11 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
-                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
-                                            style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom
+                                            v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year"
+                                                class="btn btn-primary"
+                                                style="background-color: #2DB9F8;border: none;">Compare</button>
                                         </router-link>
                                     </div>
 
@@ -255,9 +274,11 @@
                                     </div>
 
                                     <div class="modal-footer">
-                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
-                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
-                                            style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom
+                                            v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year"
+                                                class="btn btn-primary"
+                                                style="background-color: #2DB9F8;border: none;">Compare</button>
                                         </router-link>
                                     </div>
                                 </div>
@@ -329,9 +350,11 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom v-slot="{ navigate }">
-                                            <button @click="navigate" id="Compare-Data-Months-Year" class="btn btn-primary"
-                                            style="background-color: #2DB9F8;border: none;">Compare</button>
+                                        <router-link :to="{ name: 'admin.FinancialYearCompareTable' }" custom
+                                            v-slot="{ navigate }">
+                                            <button @click="navigate" id="Compare-Data-Months-Year"
+                                                class="btn btn-primary"
+                                                style="background-color: #2DB9F8;border: none;">Compare</button>
                                         </router-link>
                                     </div>
                                 </div>
@@ -464,7 +487,8 @@ const data = {
     datasets: [
         {
             backgroundColor: ['#0492F5', '#DAE1F3'],
-            data: [253, 5]
+            data: [253, 5],
+            cutout:'70%'
         }
     ],
     cutout: '70%',
@@ -505,26 +529,14 @@ const payrollchartData = {
     labels: [`Payroll Processed 253`, `Pending count 5`],
     data: [253, 5],
 };
+
 const options = {
-    type: "doughnut",
-    data: {
-        labels: payrollchartData.labels,
-        datasets: [
-            {
-                data: payrollchartData.data,
-                backgroundColor: [
-                    // Set background color for each label
-                    "#0492F5", // Background color for "5 days absence"
-                    "#DAE1F3", // Background color for "900 working days"
-                ],
-                cutout: "70%",
-            },
-        ],
-    },
-    options: {
-        borderRadius: 2,
-        hoverBorderWidth: 0,
-        plugins: {
+  borderRadius: 2,
+  hoverBorderWidth: 0,
+  responsive: true,
+  maintainAspectRatio: false,
+  rotation: 90,
+  plugins: {
             legend: {
                 display: false,
             },
@@ -536,46 +548,49 @@ const options = {
                 },
             },
         },
-        rotation: 90,
-    },
-    plugins: [counter4, counter3],
 }
+// const options = {
+//     type: "doughnut",
+//     data: {
+//         labels: payrollchartData.labels,
+//         datasets: [
+//             {
+//                 data: payrollchartData.data,
+//                 backgroundColor: [
+//                     // Set background color for each label
+//                     "#0492F5", // Background color for "5 days absence"
+//                     "#DAE1F3", // Background color for "900 working days"
+//                 ],
+//                 cutout: "70%",
+//             },
+//         ],
+//     },
+//     options: {
+//         borderRadius: 2,
+//         hoverBorderWidth: 0,
+//         plugins: {
+//             legend: {
+//                 display: false,
+//             },
+//             tooltip: {
+//                 callbacks: {
+//                     label: function (context) {
+//                         return context.label; // Display only the label, without associated data
+//                     },
+//                 },
+//             },
+//         },
+//         rotation: 90,
+//     },
+//     plugins: [counter4, counter3],
+// }
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 const detail = ref(null);
 
 onMounted(() => {
-    $(myTable.value).DataTable('df');
-    // DataTable.use(Select);
-    // console.log('Rahul', detail)
-    // console.log('Rahul', detail.value)
-    // populateUl();
+    $(myTable.value).DataTable();
 });
-
-const populateUl = () => {
-    const ul = detail;
-    payrollchartData.labels.forEach((l, i) => {
-        let div = document.createElement("div");
-        let div1 = document.createElement("div");
-        let li = document.createElement("li");
-        div.innerHTML = l;
-        div.innerHTML = l;
-        ul.appendChild(li);
-        li.appendChild(div1);
-        li.appendChild(div);
-
-        li.style.display = "flex";
-        div1.textContent = "";
-        div1.style.display = "flex";
-        div1.style.width = "21px";
-        div1.style.backgroundColor = "#6666b1";
-        div1.style.height = "21px";
-        div1.style.borderRadius = "28%";
-        div1.style.backgroundColor = i % 2 === 0 ? "#0492F5" : "#DAE1F3";
-    });
-};
-
-
 
 const isModalOpened = ref(false);
 const isModalCompare = ref(false);
@@ -628,7 +643,7 @@ const target = ref(null)
 onClickOutside(target, () => emit('modal-close'));
 
 watch(success, (current, previous) => {
-    router.push({ name: "admin.PayrollBatchform" });        
+    router.push({ name: "admin.PayrollBatchform" });
 });
 
 </script>
@@ -676,5 +691,13 @@ table.dataTable tbody tr td {
     border-radius: .3rem;
     outline: 0;
     width: 100% !important;
+}
+
+input {
+    display: block;
+    width: 332px;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
 }
 </style>

@@ -118,7 +118,7 @@
                     <router-link :to="{ name: 'admin.PayrollBatchList' }" custom v-slot="{ navigate }">
                         <button @click="navigate" role="link" class="btn btn-next btn-primary save savePayBatchForm">Save</button>
                     </router-link>
-                    <a href="admin/payroll" class="btn btn-outline-light cancle">Cancel</a>
+                    <a href="/admin/payroll" class="btn btn-outline-light cancle">Cancel</a>
                 </div>
 
             </div>
@@ -219,4 +219,9 @@
 
 <style scoped>
 @import '@/assets/css/PayrollBatchform.css';
+
+.save {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+}
 </style>

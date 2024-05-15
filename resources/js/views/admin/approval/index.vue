@@ -234,3 +234,40 @@ watch(search_global, (current, previous) => {
 });
 
 </script>
+
+<style scoped>
+@import '@/assets/css/ApprovalHistory.css';
+@import '@/assets/css/onBoard.css';
+
+table.dataTable thead th,
+table.dataTable thead td,
+table.dataTable tfoot th,
+table.dataTable tfoot td {
+    text-align: center;
+}
+.text-center {
+  text-align: center !important;
+}
+table.dataTable tbody tr td {
+    text-align: center;
+}
+.dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    margin-left: 3px;
+}
+#leavesEmpTable_filter {
+    margin-bottom: -15px;
+}
+</style>
+
+<style>
+@import 'datatables.net-dt';
+
+
+.dt-search {
+    display: none;
+}
+</style>
