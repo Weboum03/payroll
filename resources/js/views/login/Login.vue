@@ -51,10 +51,12 @@
                             <input type="checkbox" class="custom-control-input" id="remMe">
                             <label class="custom-control-label" for="remMe">Remember me</label>
                         </div>
+                        
                         <router-link style="font-size: small;" :to="{name: 'auth.login'}">{{ $t('forgot_password')}}</router-link>
                     </div>
                 </div>
             <button type="submit" :class="{ 'opacity-25': processing }" :disabled="processing" class="btn btn-primary savenext">Login</button>
+            <router-link class="btn btn-primary signup" style="font-size: small;margin-top: 15px; background-color: green;" :to="{name: 'auth.register'}">Sign Up</router-link>
             </Form>
         </div>
 
@@ -76,4 +78,19 @@ const schema = yup.object().shape({
 
 <style scoped>
 @import '@/assets/css/Login.css';
+
+.signup {
+    font-size: small !important;
+    width: 403px;
+    padding: 10px !important;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    outline: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border-color: rgb(193, 188, 188) !important;
+    background-color: #278d27e6 !important;
+}
 </style>

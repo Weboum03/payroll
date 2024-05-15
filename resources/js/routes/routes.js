@@ -20,7 +20,7 @@ function guest(to, from, next) {
     isLogin = !!store.state.auth.authenticated;
 
     if (isLogin) {
-        next("/");
+        next("/admin");
     } else {
         next();
     }
@@ -30,27 +30,28 @@ export default [
     {
         path: "/",
         // redirect: { name: 'login' },
+        beforeEnter: guest,
         component: GuestLayout,
         children: [
             {
                 path: "/",
                 name: "home",
-                component: () => import("../views/login/Login.vue"),
+                component: () => import("../views/home/index.vue"),
             },
             {
                 path: "posts",
                 name: "public-posts.index",
-                component: () => import("../views/login/Login.vue"),
+                component: () => import("../views/posts/index.vue"),
             },
             {
                 path: "posts/:id",
                 name: "public-posts.details",
-                component: () => import("../views/login/Login.vue"),
+                component: () => import("../views/posts/details.vue"),
             },
             {
                 path: "category/:id",
                 name: "category-posts.index",
-                component: () => import("../views/login/Login.vue"),
+                component: () => import("../views/category/posts.vue"),
             },
             {
                 path: "login",
