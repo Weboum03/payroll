@@ -35,22 +35,22 @@ export default [
             {
                 path: "/",
                 name: "home",
-                component: () => import("../views/home/index.vue"),
+                component: () => import("../views/login/Login.vue"),
             },
             {
                 path: "posts",
                 name: "public-posts.index",
-                component: () => import("../views/posts/index.vue"),
+                component: () => import("../views/login/Login.vue"),
             },
             {
                 path: "posts/:id",
                 name: "public-posts.details",
-                component: () => import("../views/posts/details.vue"),
+                component: () => import("../views/login/Login.vue"),
             },
             {
                 path: "category/:id",
                 name: "category-posts.index",
-                component: () => import("../views/category/posts.vue"),
+                component: () => import("../views/login/Login.vue"),
             },
             {
                 path: "login",
