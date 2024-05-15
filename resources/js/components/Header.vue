@@ -1,11 +1,11 @@
 <template>
-    <footer class="footer footer-dark bg-dark">
+    <!-- <footer class="footer footer-dark bg-dark">
         <div class="container text-center py-5">
             <p>
                 Payroll
             </p>
         </div>
-    </footer>
+    </footer> -->
 </template>
 
 <script>

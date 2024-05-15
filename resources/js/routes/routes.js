@@ -20,7 +20,7 @@ function guest(to, from, next) {
     isLogin = !!store.state.auth.authenticated;
 
     if (isLogin) {
-        next("/");
+        next("/admin");
     } else {
         next();
     }
@@ -30,6 +30,7 @@ export default [
     {
         path: "/",
         // redirect: { name: 'login' },
+        beforeEnter: guest,
         component: GuestLayout,
         children: [
             {
