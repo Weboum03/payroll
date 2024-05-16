@@ -11,9 +11,9 @@
                 <p>Update Employee Roles</p>
                 <p>Update employee role and it's permissions to access portal features.</p>
             </div>
+            <form @submit.prevent="submitForm">
+                <div class="container d-flex flex-column" style="gap: 2rem;">
 
-            <div class="container d-flex flex-column" style="gap: 2rem;">
-                <form @submit.prevent="submitForm">
                     <div class="row">
                         <div class="col input-group-fname">
                             <input placeholder="Role Name*" v-model="role.name" type="text" autocomplete="off"
@@ -51,7 +51,6 @@
                                         v-model="role.permissions" id="viewProf">
                                     <label class="custom-control-label" for="viewProf">View Profile</label>
                                 </div>
-
                             </div>
                         </div>
 
@@ -82,20 +81,15 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="btns-Update-cancle">
                         <button type="submit" :disabled="isLoading" class="btn btn-primary savenext">Update</button>
                         <a href="/admin/EmployeeRole" class="btn btn-outline-light cancle">Cancle</a>
                     </div>
-                </form>
-            </div>
-
-
+                </div>
+            </form>
         </div>
-
-
     </div>
 </template>
 
