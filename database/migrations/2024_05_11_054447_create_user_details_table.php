@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('gender', 10);
-            $table->date('dob');
+            $table->date('dob')->nullable();
             $table->string('secondary_email')->nullable();
             $table->string('alternate_phone', 20)->nullable();
             $table->string('address', 255)->nullable();

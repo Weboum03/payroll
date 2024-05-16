@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +31,13 @@ Route::group(['middleware' => 'admin','prefix' => 'auth'], function ($router) {
 });
 
 Route::group(['middleware' => 'admin'], function ($router) {
+
+    Route::apiResource('roles', RoleController::class);
+    Route::get('role-list', [RoleController::class, 'getList']);
+    Route::get('role-permissions/{id}', [PermissionController::class, 'getRolePermissions']);
+    Route::put('role-permissions', [PermissionController::class, 'updateRolePermissions']);
+    Route::apiResource('permissions', PermissionController::class);
+
     $router->apiResource('users', UserController::class);
     $router->apiResource('payroll_batch', BatchController::class);
     $router->get('abilities', function(Request $request) {

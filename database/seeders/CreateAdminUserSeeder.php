@@ -23,13 +23,13 @@ class CreateAdminUserSeeder extends Seeder
             'first_name' => 'Payroll',
             'last_name' => 'user',
             'employee_id' => 73587458,
-            'email' => 'admin@demo.com',
+            'email' => 'admin@payroll.com',
             'phone' => '1234567894',
             'password' => bcrypt('12345678')
         ]);
 
-        $role = Role::create(['name' => 'admin', 'guard_name' => 'adminApi']);
-        $role2 = Role::create(['name' => 'user', 'guard_name' => 'api']);
+        $role = Role::create(['name' => 'Admin', 'guard_name' => 'adminApi']);
+        $role2 = Role::create(['name' => 'User', 'guard_name' => 'api']);
         $permissions = [
             'post-list',
             'post-create',

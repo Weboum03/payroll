@@ -12,8 +12,8 @@
             </a>
         </div>
         <div id="EmpRolesTable_filter" class="dataTables_filter .add2"
-            style="display: flex; justify-content: space-between;"><label>Search:<input type="search" v-model="search_global" class=""
-                    placeholder="" aria-controls="EmpRolesTable"></label></div>
+            style="display: flex; justify-content: space-between;"><label>Search:<input type="search"
+                    v-model="search_global" class="" placeholder="" aria-controls="EmpRolesTable"></label></div>
         <table id="EmpRolesTable" ref="myTable">
             <thead>
                 <tr>
@@ -25,37 +25,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>CEO</td>
-                    <td>All</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>Team Leader</td>
-                    <td>Approve leaves, View employee profile</td>
+                <tr v-for="role in roles?.data" :key="role.id">
+                    <td>{{ role.name }}</td>
+                    <td>{{ commaSeparated(role.permissions) }}</td>
                     <td>
                         <div class="d-flex" style="gap: 1rem;">
-                            <a href="/admin/EmployeeRoleEdit"><i class="fa-solid fa-pencil fa-lg"
-                                    style="color:green"></i></a>
-                            <i class="fa-regular fa-trash-can fa-lg"
-                                style="color:red;line-height: 16px !important;"></i>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>HR</td>
-                    <td>On-Board,De-Board,View employee profile,Update employee profile,Leave Approval,Generate Payroll
-                    </td>
-                    <td>
-                        <div class="d-flex" style="gap: 1rem;">
-                            <a href="EmployeeRoleEdit.html"><i class="fa-solid fa-pencil fa-lg"
-                                    style="color:green;"></i></a>
-                            <i class="fa-regular fa-trash-can fa-lg"
-                                style="color:red;line-height: 16px !important;"></i>
-                        </div>
-                    </td>
-                </tr>
+                            <router-link :to="{ name: 'admin.EmployeeRoleEdit', params: { id: role.id } }">
+                                <i class="fa-solid fa-pencil fa-lg" style="color:green"></i>
+                            </router-link>
 
+                            <a href="#" @click.prevent="deleteRole(role.id)"><i class="fa-regular fa-trash-can fa-lg"
+                                    style="color:red;line-height: 16px !important;"></i></a>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
@@ -64,8 +47,8 @@
 
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
-import useUsers from "../../../composables/users";
-const { users, getUsers, deleteUser } = useUsers()
+import useRoles from "../../../composables/roles";
+const { roles, getRoles, deleteRole } = useRoles()
 import { useRouter } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -78,16 +61,21 @@ let dataTable = ref(null);
 const isDataTableInitialized = ref(false)
 
 onMounted(() => {
-    loadDataTable();
+    getRoles();
 });
+
+onUpdated(() => {
+    loadDataTable();
+})
 
 const loadDataTable = () => {
     const dataTableOptions = {
-        "pagingType": "full_numbers",
-        "bLengthChange": false,
-        "columnDefs": [
+        pagingType: "full_numbers",
+        bLengthChange: false,
+        columnDefs: [
             { "className": "text-center", "targets": "_all" } // Center-align all columns
         ],
+        order: [],
         processing: true,
     }
     if (!isDataTableInitialized.value) {
@@ -95,6 +83,13 @@ const loadDataTable = () => {
         console.log(dataTable)
         isDataTableInitialized.value = true;
     }
+}
+
+const commaSeparated = (jsonArray) => {
+      // Use array map function to extract names
+      const namesArray = jsonArray.map(obj => obj.name);
+      // Join the names with comma
+      return namesArray.join(', ');
 }
 
 watch(search_global, (current, previous) => {

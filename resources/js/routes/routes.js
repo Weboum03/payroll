@@ -223,7 +223,7 @@ export default [
             },
             {
                 name: "admin.EmployeeRoleEdit",
-                path: "EmployeeRoleEdit",
+                path: "EmployeeRoleEdit/:id",
                 component: () => import("../views/admin/employee/Edit.vue"),
                 meta: { breadCrumb: "Admin" },
             },
