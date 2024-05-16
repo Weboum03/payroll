@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <Form @submit="nextStep" keep-values :validation-schema="currentSchema"
+                <Form @submit="nextStep" keep-values :validation-schema="currentSchema" :initial-values="formValues"
                     v-slot="{ handleSubmit, values, errors }">
 
                     <template v-if="currentStep === 0">
@@ -36,12 +36,9 @@
                             <div class="personal-infor">
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="first_name"
-                                            class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.first_name }" placeholder="First Name*"
-                                                type="text" autocomplete="off" class="input" required>
-                                        </Field>
+                                        <Field v-slot="{ field, handleChange }" type="text" :value="values.first_name"
+                                            placeholder="First Name*" name="first_name" :valid="false" class="input"
+                                            autocomplete="off" required />
                                         <label for="First Name" class="user-label">First Name*</label>
                                         <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
@@ -107,8 +104,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field required name="gender" as="select" class="form-control input" autocomplete="off"
-                                            style="color: #7e7e7e;">
+                                        <Field required name="gender" as="select" class="form-control input"
+                                            autocomplete="off" style="color: #7e7e7e;">
                                             <option value="" disabled selected>Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
@@ -124,7 +121,7 @@
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                id="dob-Value" placeholder="Date of Birth*" type="date"
+                                                id="dob-Value" placeholder="Date of Birth*" type="text"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth</label>
@@ -322,8 +319,9 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required name="user" as="select" class="form-control input" autocomplete="off" :validateOnBlur="false" :validateOnChange="false" :validateOnInput="false"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="user" as="select" class="form-control input"
+                                        autocomplete="off" :validateOnBlur="false" :validateOnChange="false"
+                                        :validateOnInput="false" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Copy Existing details</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -344,13 +342,15 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="doj" placeholder="Date of Joining*"
-                                        :class="{ 'is-invalid': errors.doj }" class="input" autocomplete="off" />
+                                    <Field required type="text" onfocus="(this.type='date')" name="doj"
+                                        placeholder="Date of Joining*" :class="{ 'is-invalid': errors.doj }"
+                                        class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="prob_end_date" placeholder="Probation End Date*"
+                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date"
+                                        placeholder="Probation End Date*"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -360,8 +360,8 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="company" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="company" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Company*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -372,8 +372,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="location" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="location" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Location*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -398,8 +398,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="experience" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="experience" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -424,7 +424,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="immediate_manager_code" placeholder="Employee Code"
+                                    <Field required type="text" onfocus="(this.type='date')"
+                                        name="immediate_manager_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -447,7 +448,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="leave_approving_code" placeholder="Employee Code"
+                                    <Field required type="text" onfocus="(this.type='date')" name="leave_approving_code"
+                                        placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -456,8 +458,8 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="department" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="department" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
                                         <option value="">Department</option>
                                         <option value="Option1">Option1</option>
@@ -468,12 +470,12 @@
                                     <ErrorMessage name="department" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required name="job_role" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="job_role" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Job Role</option>
-                                        <option value="HR">HR</option>
-                                        <option value="Developer">Developer</option>
-                                        <option value="Tester">Tester</option>
+                                        <option v-for="role in roles?.data" :key="role.id" :value="role.id">
+                                            {{ role.name }}
+                                        </option>
                                     </Field>
                                     <label for="html" class="user-label">Job Role</label>
                                     <ErrorMessage name="Job Role" class="text-danger mt-1" />
@@ -481,8 +483,8 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="grade" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="grade" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -537,8 +539,8 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field required name="holiday_year" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="holiday_year" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Holiday Year*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -551,8 +553,8 @@
                             <div class="row d-flex">
 
                                 <div class="col input-group-fname">
-                                    <Field required name="work_pattern" as="select" class="form-control input" autocomplete="off"
-                                        style="color: #7e7e7e;">
+                                    <Field required name="work_pattern" as="select" class="form-control input"
+                                        autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Pattern*</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
@@ -803,12 +805,15 @@
 </script>
 
 <script setup>
+import { onMounted } from "vue";
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
+import useRoles from "@/composables/roles";
 import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 
 const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
+const { roles, getRoles } = useRoles();
 const swal = inject('$swal')
 const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
@@ -820,27 +825,27 @@ const schemas = [
     email: yup.string().required().email(),
     phone: yup.string().required("Required!"),
     gender: yup.string().required("Required!"),
-    dob: yup.string().required("Required!"),
-    address: yup.string().required("Required!"),
-    address_1: yup.string().required("Required!"),
-    city: yup.string().required("Required!"),
-    state: yup.string().required("Required!"),
-    country: yup.string().required("Required!"),
-    postcode: yup.string().required("Required!"),
+    // dob: yup.string().required("Required!"),
+    // address: yup.string().required("Required!"),
+    // address_1: yup.string().required("Required!"),
+    // city: yup.string().required("Required!"),
+    // state: yup.string().required("Required!"),
+    // country: yup.string().required("Required!"),
+    // postcode: yup.string().required("Required!"),
 
-    p_address: yup.string().required("Required!"),
-    p_address_1: yup.string().required("Required!"),
-    p_city: yup.string().required("Required!"),
-    p_state: yup.string().required("Required!"),
-    p_country: yup.string().required("Required!"),
-    p_postcode: yup.string().required("Required!"),
+    // p_address: yup.string().required("Required!"),
+    // p_address_1: yup.string().required("Required!"),
+    // p_city: yup.string().required("Required!"),
+    // p_state: yup.string().required("Required!"),
+    // p_country: yup.string().required("Required!"),
+    // p_postcode: yup.string().required("Required!"),
   }),
   yup.object({
     employee_id: yup.string().required("Required!"),
-    doj: yup.string().required("Required!"),
-    prob_end_date: yup.string().required("Required!"),
-    aadhar_number: yup.string().required("Required!"),
-    pan_number: yup.string().required("Required!"),
+    // doj: yup.string().required("Required!"),
+    // prob_end_date: yup.string().required("Required!"),
+    // aadhar_number: yup.string().required("Required!"),
+    // pan_number: yup.string().required("Required!"),
   }),
 //   yup.object({
 //     address: yup.string().required(),
@@ -853,6 +858,57 @@ const schemas = [
 //     terms: yup.bool().required().equals([true]),
 //   }),
 ];
+
+onMounted(() => {
+    getRoles()
+})
+
+// Initial values
+const formValues = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    secondary_email: '',
+    phone: '',
+    alternate_phone: '',
+    gender: '',
+    dob: '',
+    address: '',
+    p_address: '',
+    address_1: '',
+    p_address_1: '',
+    city: '',
+    p_city: '',
+    country: '',
+    p_country: '',
+    state: '',
+    p_state: '',
+    postcode: '',
+    p_postcode: '',
+    user: '',
+    employee_id: '',
+    doj: '',
+    prob_end_date: '',
+    company: '',
+    location: '',
+    qualification: '',
+    experience: '',
+    immediate_manager: '',
+    immediate_manager_code: '',
+    leave_approving_auth: '',
+    leave_approving_code: '',
+    department: '',
+    job_role: '',
+    grade: '',
+    employment_type: '',
+    aadhar_number: '',
+    pan_number: '',
+    holiday_year: '',
+    work_pattern: '',
+    earning_leave_entitlement: '',
+    this_year: '',
+    next_year: ''
+};
 
 const currentSchema = computed(() => {
   return schemas[currentStep.value];

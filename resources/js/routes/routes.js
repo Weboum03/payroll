@@ -22,7 +22,7 @@ function guest(to, from, next) {
     if (isLogin) {
         next("/admin");
     } else {
-        next();
+        next("/login");
     }
 }
 
@@ -30,40 +30,42 @@ export default [
     {
         path: "/",
         // redirect: { name: 'login' },
-        beforeEnter: guest,
+        // beforeEnter: guest,
         component: GuestLayout,
         children: [
             {
                 path: "/",
                 name: "home",
                 component: () => import("../views/home/index.vue"),
+                beforeEnter: guest,
             },
             {
                 path: "posts",
                 name: "public-posts.index",
                 component: () => import("../views/posts/index.vue"),
+                beforeEnter: guest,
             },
             {
                 path: "posts/:id",
                 name: "public-posts.details",
                 component: () => import("../views/posts/details.vue"),
+                beforeEnter: guest,
             },
             {
                 path: "category/:id",
                 name: "category-posts.index",
                 component: () => import("../views/category/posts.vue"),
+                beforeEnter: guest,
             },
             {
                 path: "login",
                 name: "auth.login",
                 component: () => import("../views/login/Login.vue"),
-                beforeEnter: guest,
             },
             {
                 path: "register",
                 name: "auth.register",
                 component: () => import("../views/register/index.vue"),
-                beforeEnter: guest,
             },
             {
                 path: "forgot-password",
@@ -221,7 +223,7 @@ export default [
             },
             {
                 name: "admin.EmployeeRoleEdit",
-                path: "EmployeeRoleEdit",
+                path: "EmployeeRoleEdit/:id",
                 component: () => import("../views/admin/employee/Edit.vue"),
                 meta: { breadCrumb: "Admin" },
             },
