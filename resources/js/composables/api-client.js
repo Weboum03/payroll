@@ -1,9 +1,12 @@
+import { inject } from "vue";
 import axios from "axios";
-import { useStore } from "vuex";
 import store from "../store";
 let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
-if(baseURL) { baseURL = baseURL + '/api/' }
-else { baseURL = '/api/' }
+if (baseURL) {
+    baseURL = baseURL + "/api/";
+} else {
+    baseURL = "/api/";
+}
 
 const apiClient = axios.create({
     baseURL,
@@ -24,6 +27,18 @@ apiClient.interceptors.request.use(
         return config;
     },
     (error) => {
+        return Promise.reject(error);
+    }
+);
+
+apiClient.interceptors.response.use(
+    (response) => {
+        return Promise.resolve(response);
+    },
+    (error) => {
+        if (error.response.status === 401) {
+            window.location.href = "/login";
+        }
         return Promise.reject(error);
     }
 );

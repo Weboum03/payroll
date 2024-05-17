@@ -9,6 +9,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
@@ -28,6 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'phone',
         'password',
+        'role_id'
     ];
 
     /**
@@ -53,6 +55,11 @@ class User extends Authenticatable implements JWTSubject
     public function info()
     {
         return $this->hasOne(UserDetail::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**
@@ -81,6 +88,10 @@ class User extends Authenticatable implements JWTSubject
         self::creating(function ($model) {
             $model->password = 123456;
             $model->name = $model->first_name . ' ' . $model->last_name;
+            $model->phone = 1234567894;
+            if(!$model->employee_id) {
+                $model->employee_id = time();
+            }
         });
 
         self::updating(function ($model) {

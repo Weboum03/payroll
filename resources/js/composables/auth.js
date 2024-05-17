@@ -28,14 +28,16 @@ export default function useAuth() {
     });
 
     const resetForm = reactive({
+        first_name: "",
+        last_name: "",
         email: "",
-        token: "",
         password: "",
         password_confirmation: "",
     });
 
     const registerForm = reactive({
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -57,7 +59,7 @@ export default function useAuth() {
                     (error.response &&
                         error.response.data &&
                         error.response.data.error) ||
-                    error.error ||
+                        error.response.data.message ||
                     error.toString();
                 swal({
                     icon: "error",
@@ -66,7 +68,7 @@ export default function useAuth() {
             }
         );
 
-        // await axios.post('/api/admin/auth/login', loginForm)
+        // await axios.post('/api/auth/login', loginForm)
         //     .then(async response => {
         //         await store.dispatch('auth/getUser')
         //         await loginUser()
@@ -89,14 +91,14 @@ export default function useAuth() {
         //     .finally(() => processing.value = false)
     };
 
-    const submitRegister = async () => {
+    const submitRegister =  () => {
         if (processing.value) return;
 
         processing.value = true;
         validationErrors.value = {};
 
-        await axios
-            .post("/api/admin/auth/register", registerForm)
+         axios
+            .post("/api/auth/register", registerForm)
             .then(async (response) => {
                 // await store.dispatch('auth/getUser')
                 // await loginUser()
@@ -111,6 +113,10 @@ export default function useAuth() {
             .catch((error) => {
                 if (error.response?.data) {
                     validationErrors.value = error.response.data.errors;
+                    swal({
+                        icon: "error",
+                        title: error.response.data.message
+                    });
                 }
             })
             .finally(() => (processing.value = false));
@@ -123,7 +129,7 @@ export default function useAuth() {
         validationErrors.value = {};
 
         await axios
-            .post("/api/admin/forget-password", forgotForm)
+            .post("/api/forget-password", forgotForm)
             .then(async (response) => {
                 swal({
                     icon: "success",
@@ -148,7 +154,7 @@ export default function useAuth() {
         validationErrors.value = {};
 
         await axios
-            .post("/admin/reset-password", resetForm)
+            .post("/reset-password", resetForm)
             .then(async (response) => {
                 swal({
                     icon: "success",
@@ -215,7 +221,7 @@ export default function useAuth() {
     const getAbilities = async () => {
         const loginUser = store.state.auth.user;
         await axios
-            .get("/api/admin/abilities", {
+            .get("/api/abilities", {
                 headers: { Authorization: `Bearer ${loginUser.access_token}` },
             })
             .then((response) => {

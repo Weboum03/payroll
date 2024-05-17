@@ -58,7 +58,7 @@ class RoleController extends BaseController
         // $this->authorize('role-create');
         $role = new Role();
         $role->name = $request->name;
-        $role->guard_name = 'adminApi';
+        $role->guard_name = 'api';
         $permissions = $request->permissions;
         $permissionsData = Permission::whereIn('slug', $permissions)->get();
 

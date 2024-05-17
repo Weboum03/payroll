@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends BaseController
 {
@@ -15,7 +16,7 @@ class AuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+
     }
 
     /**
@@ -28,7 +29,7 @@ class AuthController extends BaseController
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Email or password is incorrect'], 422);
         }
 
         return $this->respondWithToken($token);
@@ -43,19 +44,25 @@ class AuthController extends BaseController
     public function register(Request $request)
     {
         $rules = [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email'    => 'unique:users|required',
             'password' => 'required',
         ];
     
-        $input     = $request->only('name', 'email','password');
+        $input     = $request->only('first_name', 'last_name', 'email', 'password');
         $validator = Validator::make($input, $rules);
     
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
 
-        User::create($input);
+        $user = User::create($input);
+
+        $role = Role::where(['name' => 'Admin'])->first();
+        $user->assignRole([$role->id]);
+        $user->role_id = $role->id;
+        $user->save();
 
         return $this->sendSuccess(__('ApiMessage.register'));
     }

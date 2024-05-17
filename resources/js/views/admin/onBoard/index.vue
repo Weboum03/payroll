@@ -470,7 +470,7 @@
                                     <ErrorMessage name="department" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required name="job_role" as="select" class="form-control input"
+                                    <Field required name="role_id" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Job Role</option>
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
@@ -898,7 +898,7 @@ const formValues = {
     leave_approving_auth: '',
     leave_approving_code: '',
     department: '',
-    job_role: '',
+    role_id: '',
     grade: '',
     employment_type: '',
     aadhar_number: '',

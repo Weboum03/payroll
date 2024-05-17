@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends BaseController
 {
@@ -50,6 +51,14 @@ class UserController extends BaseController
         $user = $this->userRepository->create($input);
 
         $user->info()->create($input);
+
+        $role = Role::find($request->role_id);
+        if($role) {
+            $user->assignRole([$role->id]);
+            $user->role_id = $role->id;
+            $user->save();
+        }
+        
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
     }
 
@@ -71,6 +80,12 @@ class UserController extends BaseController
         $input = $request->all();
         $user = $this->userRepository->updateById($id, $input);
         $user->info()->updateOrCreate(['user_id' => $id], $input);
+        $role = Role::find($request->role_id);
+        if($role) {
+            $user->assignRole([$role->id]);
+            $user->role_id = $role->id;
+            $user->save();
+        }
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 

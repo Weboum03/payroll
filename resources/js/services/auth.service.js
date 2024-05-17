@@ -1,6 +1,6 @@
 import apiClient from "../composables/api-client";
 
-const API_PATH = 'admin/auth/';
+const API_PATH = 'auth/';
 
 class AuthService {
   login(user) {
@@ -10,10 +10,6 @@ class AuthService {
         password: user.password
       })
       .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem('user', JSON.stringify(response.data));
-        }
-
         return response.data;
       });
   }

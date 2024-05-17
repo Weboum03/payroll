@@ -19,7 +19,7 @@ class AdminAuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:adminApi', ['except' => ['login', 'register']]);
+        
     }
 
     /**
@@ -31,7 +31,7 @@ class AdminAuthController extends BaseController
     {
         $credentials = $request->only('email', 'password');
         if (! $token = Auth::guard('adminApi')->attempt($credentials)) {
-            return response()->json(['error' => 'Email or password is incorrect'], 401);
+            return response()->json(['error' => 'Email or password is incorrect'], 422);
         }
 
         return $this->respondWithToken($token);

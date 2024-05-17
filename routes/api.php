@@ -16,15 +16,15 @@ use App\Http\Controllers\NotificationController;
 |
 */
 
-Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
+Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('login', [AuthController::class, 'login']);
     $router->post('register', [AuthController::class, 'register']);
+});
+
+Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('logout', [AuthController::class, 'logout']);
     $router->post('refresh', [AuthController::class, 'refresh']);
     $router->get('user', [AuthController::class, 'me']);
-});
-
-Route::group(['middleware' => 'api'], function ($router) {
 
     //Notification
     $router->get('notifications/{notification_id}', [NotificationController::class, 'show']);

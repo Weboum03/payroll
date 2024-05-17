@@ -29,7 +29,7 @@
                     <td>{{ user.employee_id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.phone }}</td>
-                    <td>{{ user.role_id }}</td>
+                    <td>{{ user.role?.name }}</td>
                 </tr>
             </tbody>
         </table>
@@ -75,7 +75,12 @@ const loadDataTable = () => {
         isDataTableInitialized.value = true;
     }
 }
-
+const commaSeparated = (jsonArray) => {
+      // Use array map function to extract names
+      const namesArray = jsonArray.map(obj => obj.name);
+      // Join the names with comma
+      return namesArray.join(', ');
+}
 const navigateToDetailPage = (itemId) => {
     router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
 };

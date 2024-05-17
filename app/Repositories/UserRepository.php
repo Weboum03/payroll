@@ -52,7 +52,7 @@ class UserRepository extends BaseRepository
         $columns = $request->columns;
         $search = $request->search;
         $page = floor($start/$limit) + 1;
-        return $this->model->latest()->paginate($limit);
+        return $this->model->latest()->with('role')->paginate($limit);
         
         // if($orders) {
         //     foreach($orders as $order) {

@@ -23,15 +23,33 @@
 
                     <div class="row">
                         <div class="col input-group-fname">
-                            <Field v-model="registerForm.name" placeholder="Name*" type="text" autocomplete="off"
-                                name="name" class="input" id="Name" />
-                            <label class="user-label">Name</label>
+                            <Field v-model="registerForm.first_name" placeholder="First Name*" type="text" autocomplete="off"
+                                name="first_name" class="input" />
+                            <label class="user-label">First Name</label>
                             <!-- Validation Errors -->
                             <div class="text-danger mt-1">
-                                {{ errors.name }}
+                                {{ errors.first_name }}
                             </div>
                             <div class="text-danger mt-1">
-                                <div v-for="message in validationErrors?.name">
+                                <div v-for="message in validationErrors?.first_name">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col input-group-fname">
+                            <Field v-model="registerForm.last_name" placeholder="Last Name*" type="text" autocomplete="off"
+                                name="last_name" class="input" />
+                            <label class="user-label">Last Name</label>
+                            <!-- Validation Errors -->
+                            <div class="text-danger mt-1">
+                                {{ errors.last_name }}
+                            </div>
+                            <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.last_name">
                                     {{ message }}
                                 </div>
                             </div>
@@ -117,7 +135,8 @@ import * as yup from "yup";
 const { registerForm, validationErrors, processing, submitRegister } = useAuth();
 
 const schema = yup.object().shape({
-    name: yup.string().required("Name is required!"),
+    first_name: yup.string().required("First name is required!"),
+    last_name: yup.string().required("Last name is required!"),
     email: yup.string().required("Email is required!"),
     password: yup.string().required("Password is required!"),
     password_confirmation: yup.string().required("Password is required!"),
