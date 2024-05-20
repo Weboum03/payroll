@@ -405,8 +405,8 @@
                                     <ErrorMessage name="department" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required name="job_role" as="select" class="form-control input"
-                                        autocomplete="off" v-model="userData.job_role" style="color: #7e7e7e;">
+                                    <Field required name="role_id" as="select" class="form-control input"
+                                        autocomplete="off" v-model="userData.role_id" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Job Role</option>
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
@@ -796,7 +796,7 @@ watchEffect(() => {
         leave_approving_auth: user?.info?.leave_approving_auth,
         leave_approving_code: user?.info?.leave_approving_code,
         department: user?.info?.department,
-        job_role: user?.info?.job_role,
+        role_id: user?.info?.role_id,
         grade: user?.info?.grade,
         employment_type: user?.info?.employment_type,
         aadhar_number: user?.info?.aadhar_number,
@@ -878,7 +878,7 @@ const formValues = {
     leave_approving_auth: '',
     leave_approving_code: '',
     department: '',
-    job_role: '',
+    role_id: '',
     grade: '',
     employment_type: '',
     aadhar_number: '',
