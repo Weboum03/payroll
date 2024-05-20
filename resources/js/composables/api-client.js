@@ -1,6 +1,6 @@
-import { inject } from "vue";
 import axios from "axios";
 import store from "../store";
+import Swal from "sweetalert2";
 let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
 if (baseURL) {
     baseURL = baseURL + "/api/";
@@ -38,6 +38,19 @@ apiClient.interceptors.response.use(
     (error) => {
         if (error.response.status === 401) {
             window.location.href = "/login";
+        }
+        if (error.response.status === 500) {
+            let message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.error) ||
+                error.response.data.message ||
+                error.toString();
+            Swal.fire({
+                icon: "error",
+                title: "Something went wrong",
+                text: message,
+            });
         }
         return Promise.reject(error);
     }
