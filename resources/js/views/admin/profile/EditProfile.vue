@@ -796,7 +796,7 @@ watchEffect(() => {
         leave_approving_auth: user?.info?.leave_approving_auth,
         leave_approving_code: user?.info?.leave_approving_code,
         department: user?.info?.department,
-        role_id: user?.info?.role_id,
+        role_id: user?.role_id,
         grade: user?.info?.grade,
         employment_type: user?.info?.employment_type,
         aadhar_number: user?.info?.aadhar_number,
