@@ -85,7 +85,7 @@
 
                     <div class="btns-Update-cancle">
                         <button type="submit" :disabled="isLoading" class="btn btn-primary savenext">Update</button>
-                        <a href="/admin/EmployeeRole" class="btn btn-outline-light cancle">Cancle</a>
+                        <a href="/admin/EmployeeRole" class="btn btn-outline-light cancle">Cancel</a>
                     </div>
                 </div>
             </form>

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('state', 20)->nullable();
             $table->string('country', 20)->nullable();
             $table->string('postcode', 10)->nullable();
+            $table->string('as_local', 10)->nullable();
             $table->string('p_address', 255)->nullable();
             $table->string('p_address_1', 255)->nullable();
             $table->string('p_city', 20)->nullable();

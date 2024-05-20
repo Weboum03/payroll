@@ -14,6 +14,7 @@ class UserDetail extends Model
         'dob',
         'secondary_email',
         'alternate_phone',
+        'as_local',
         'address',
         'address_1',
         'city',
@@ -47,6 +48,10 @@ class UserDetail extends Model
         'earning_leave_entitlement',
         'this_year',
         'next_year',
+    ];
+
+    protected $casts = [
+        'as_local' => 'boolean'
     ];
 
     public function user() {

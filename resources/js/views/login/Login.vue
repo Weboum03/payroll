@@ -52,7 +52,7 @@
                             <label class="custom-control-label" for="remMe">Remember me</label>
                         </div>
                         
-                        <router-link style="font-size: small;" :to="{name: 'auth.login'}">{{ $t('forgot_password')}}</router-link>
+                        <router-link style="font-size: small;" :to="{name: 'auth.forgot-password'}">{{ $t('forgot_password')}}</router-link>
                     </div>
                 </div>
             <button type="submit" :class="{ 'opacity-25': processing }" :disabled="processing" class="btn btn-primary savenext">Login</button>

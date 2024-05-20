@@ -124,9 +124,8 @@
                                     <p>Local Address</p>
                                     <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
                                         Permanent Address
-                                        <span class="d-flex" style="gap: 6px;"> <input type="checkbox"
-                                                name="SameAsLocal" id="SameAsLocal">
-                                            <label for="SameAsLocal">Same As Local</label></span>
+                                        <span class="d-flex" style="gap: 6px;"> <Field name="as_local" v-model="sameAsLocal" :value="sameAsLocal" type="checkbox" />
+                                            <label for="SameAsLocal">Same As Local {{ sameAsLocal }}</label></span>
                                     </p>
                                 </div>
 
@@ -143,7 +142,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
-                                            v-model="userData.p_address" class="input" autocomplete="off" placeholder="Address Line 1*" required />
+                                            v-model="userData.p_address" class="input" autocomplete="off" placeholder="Address Line 1*" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
                                     </div>
@@ -161,7 +160,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
-                                            v-model="userData.p_address_1" class="input" autocomplete="off" placeholder="Address Line 2*" required />
+                                            v-model="userData.p_address_1" class="input" autocomplete="off" placeholder="Address Line 2*" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
                                     </div>
@@ -180,7 +179,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
-                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town*" required />
+                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town*" required :disabled="sameAsLocal" />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
                                     </div>
@@ -197,7 +196,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="userData.p_country" class="input" autocomplete="off" placeholder="Country*" required />
+                                            v-model="userData.p_country" class="input" autocomplete="off" placeholder="Country*" required :disabled="sameAsLocal" />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
@@ -213,7 +212,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
-                                            v-model="userData.p_state" autocomplete="off" placeholder="State*" required />
+                                            v-model="userData.p_state" autocomplete="off" placeholder="State*" required :disabled="sameAsLocal" />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
                                     </div>
@@ -222,20 +221,20 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="postcode"
+                                        <Field v-slot="{ field, handleChange }" type="number" name="postcode"
                                             v-model="userData.postcode" class="input" autocomplete="off" placeholder="Post Code*" required />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_postcode"
-                                            v-model="userData.p_postcode" class="input" autocomplete="off" placeholder="Post Code*" required />
+                                        <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
+                                            v-model="userData.p_postcode" class="input" autocomplete="off" placeholder="Post Code*" required :disabled="sameAsLocal" />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
                                     </div>
                                 </div>
 
-                                <div class="p1">Uplode Image</div>
+                                <div class="p1">Upload Image</div>
 
                                 <input type="file" name="Uplode Photo" id="uplodePhoto" placeholder=" Darg and Drop">
                             </div>
@@ -569,7 +568,7 @@
                                                         <div class="p4">Aadhar Card Number</div>
                                                     </div>
 
-                                                    <button href="#" class="btn btn-primary updoc">Upload
+                                                    <button type="button" class="btn btn-primary updoc">Upload
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -583,7 +582,7 @@
                                                         <input type="checkbox" id="">
                                                         <div class="p4">PAN Card</div>
                                                     </div>
-                                                    <button class="btn btn-primary updoc">Upload Document</button>
+                                                    <button type="button" class="btn btn-primary updoc">Upload Document</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -599,7 +598,7 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -621,7 +620,7 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -642,7 +641,7 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -663,7 +662,7 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -701,11 +700,11 @@
                                         <div class="d-flex align-items-center" style="gap:9px;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 13px;font-weight: 500">Done! <span
-                                                    style="color: #2DB9F8;"> Austin Hodges</span> is successfully
+                                                    style="color: #2DB9F8;"> {{ userData.first_name }} {{ userData.last_name }}</span> is successfully
                                                 entered into the system. </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
-                                                style="color: #2DB9F8;">8456135</span> is generated.</div>
+                                                style="color: #2DB9F8;">{{ userData.employee_id }}</span> is generated.</div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
@@ -753,6 +752,15 @@ const swal = inject('$swal')
 const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const userData = ref({})
+const sameAsLocal = ref(false);
+const perAddress = ref({});
+watch(sameAsLocal, (current, previous) => {
+    if(sameAsLocal === true) {
+        perAddress.value = userData.value;
+    } else {
+        perAddress.value = {};
+    }
+});
 
 onMounted(async () => {
     getUser(route.params.id)
@@ -760,8 +768,13 @@ onMounted(async () => {
 });
 
 watchEffect(() => {
-    console.log('vipan', postData.value)
     const user = postData.value;
+    // sameAsLocal.value = user?.info?.as_local;
+    if(user?.info?.as_local) {
+        sameAsLocal.value = true;
+    } else {
+        sameAsLocal.value = true;
+    }
     userData.value = {
         id: user?.id,
         first_name: user?.first_name,
@@ -778,6 +791,7 @@ watchEffect(() => {
         state: user?.info?.state,
         country: user?.info?.country,
         postcode: user?.info?.postcode,
+        as_local: user?.info?.as_local,
         p_address: user?.info?.address,
         p_address_1: user?.info?.address_1,
         p_city: user?.info?.city,
@@ -843,53 +857,6 @@ const schemas = [
     //   }),
 ];
 
-// Initial values
-const formValues = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    secondary_email: '',
-    phone: '',
-    alternate_phone: '',
-    gender: '',
-    dob: '',
-    address: '',
-    p_address: '',
-    address_1: '',
-    p_address_1: '',
-    city: '',
-    p_city: '',
-    country: '',
-    p_country: '',
-    state: '',
-    p_state: '',
-    postcode: '',
-    p_postcode: '',
-    user: '',
-    employee_id: '',
-    doj: '',
-    prob_end_date: '',
-    company: '',
-    location: '',
-    qualification: '',
-    experience: '',
-    immediate_manager: '',
-    immediate_manager_code: '',
-    leave_approving_auth: '',
-    leave_approving_code: '',
-    department: '',
-    role_id: '',
-    grade: '',
-    employment_type: '',
-    aadhar_number: '',
-    pan_number: '',
-    holiday_year: '',
-    work_pattern: '',
-    earning_leave_entitlement: '',
-    this_year: '',
-    next_year: ''
-};
-
 const currentSchema = computed(() => {
     return schemas[currentStep.value];
 });
@@ -900,6 +867,10 @@ async function submitForm(user) {
 
 async function nextStep(values, user) {
     if (currentStep.value === 3) {
+        console.log(values);
+        console.log('dahej', sameAsLocal.value)
+        if(sameAsLocal.value === undefined) { userData.value.as_local = false; } 
+        else { userData.value.as_local = true; }
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }
     currentStep.value++;
