@@ -111,8 +111,8 @@
 
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field type="date" name="dob" class="input"
-                                            v-model="userData.dob" autocomplete="off" placeholder="Date of Birth*"
+                                        <Field type="date" name="dob" class="input" v-model="userData.dob"
+                                            autocomplete="off" placeholder="Date of Birth*"
                                             :class="{ 'is-invalid': errors.dob }" required />
                                         <label for="html" class="user-label ">Date of Birth</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
@@ -124,8 +124,11 @@
                                     <p>Local Address</p>
                                     <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
                                         Permanent Address
-                                        <span class="d-flex" style="gap: 6px;"> <Field name="as_local" v-model="sameAsLocal" :value="sameAsLocal" type="checkbox" />
-                                            <label for="SameAsLocal">Same As Local {{ sameAsLocal }}</label></span>
+                                        <span class="d-flex" style="gap: 6px;">
+                                            <Field name="as_local" v-model="sameAsLocal" :value="sameAsLocal"
+                                                type="checkbox" />
+                                            <label for="SameAsLocal">Same As Local {{ sameAsLocal }}</label>
+                                        </span>
                                     </p>
                                 </div>
 
@@ -135,14 +138,16 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
-                                            v-model="userData.address" autocomplete="off" placeholder="Address Line 1*" required />
+                                            v-model="userData.address" autocomplete="off" placeholder="Address Line 1*"
+                                            required />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="address" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
-                                            v-model="userData.p_address" class="input" autocomplete="off" placeholder="Address Line 1*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_address" class="input" autocomplete="off"
+                                            placeholder="Address Line 1*" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
                                     </div>
@@ -153,14 +158,16 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
-                                            v-model="userData.address_1" class="input" autocomplete="off" placeholder="Address Line 2*" required />
+                                            v-model="userData.address_1" class="input" autocomplete="off"
+                                            placeholder="Address Line 2*" required />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
-                                            v-model="userData.p_address_1" class="input" autocomplete="off" placeholder="Address Line 2*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_address_1" class="input" autocomplete="off"
+                                            placeholder="Address Line 2*" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
                                     </div>
@@ -172,14 +179,16 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
-                                            v-model="userData.city" autocomplete="off" placeholder="City/Town*" required />
+                                            v-model="userData.city" autocomplete="off" placeholder="City/Town*"
+                                            required />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="city" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
-                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town*"
+                                            required :disabled="sameAsLocal" />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
                                     </div>
@@ -189,14 +198,16 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
-                                            v-model="userData.country" autocomplete="off" placeholder="Country*" required />
+                                            v-model="userData.country" autocomplete="off" placeholder="Country*"
+                                            required />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="userData.p_country" class="input" autocomplete="off" placeholder="Country*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_country" class="input" autocomplete="off"
+                                            placeholder="Country*" required :disabled="sameAsLocal" />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
@@ -212,7 +223,8 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
-                                            v-model="userData.p_state" autocomplete="off" placeholder="State*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_state" autocomplete="off" placeholder="State*" required
+                                            :disabled="sameAsLocal" />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
                                     </div>
@@ -222,13 +234,15 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="postcode"
-                                            v-model="userData.postcode" class="input" autocomplete="off" placeholder="Post Code*" required />
+                                            v-model="userData.postcode" class="input" autocomplete="off"
+                                            placeholder="Post Code*" required />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
-                                            v-model="userData.p_postcode" class="input" autocomplete="off" placeholder="Post Code*" required :disabled="sameAsLocal" />
+                                            v-model="userData.p_postcode" class="input" autocomplete="off"
+                                            placeholder="Post Code*" required :disabled="sameAsLocal" />
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
                                     </div>
@@ -269,7 +283,7 @@
                                 <div class="col input-group-fname">
                                     <Field required type="text" name="employee_id" placeholder="Employee ID"
                                         v-model="userData.employee_id" :class="{ 'is-invalid': errors.employee_id }"
-                                        class="input" autocomplete="off"  />
+                                        class="input" autocomplete="off" />
                                     <label for="Employee ID" class="user-label">Employee ID</label>
                                     <ErrorMessage name="employee_id" class="text-danger mt-1" />
                                 </div>
@@ -582,7 +596,8 @@
                                                         <input type="checkbox" id="">
                                                         <div class="p4">PAN Card</div>
                                                     </div>
-                                                    <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                    <button type="button" class="btn btn-primary updoc">Upload
+                                                        Document</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -598,7 +613,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -620,7 +636,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -641,7 +658,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -662,7 +680,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -700,11 +719,13 @@
                                         <div class="d-flex align-items-center" style="gap:9px;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 13px;font-weight: 500">Done! <span
-                                                    style="color: #2DB9F8;"> {{ userData.first_name }} {{ userData.last_name }}</span> is successfully
+                                                    style="color: #2DB9F8;"> {{ userData.first_name }} {{
+                                                    userData.last_name }}</span> is successfully
                                                 entered into the system. </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
-                                                style="color: #2DB9F8;">{{ userData.employee_id }}</span> is generated.</div>
+                                                style="color: #2DB9F8;">{{ userData.employee_id }}</span> is generated.
+                                        </div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
@@ -720,14 +741,16 @@
                             </div>
                         </div>
                     </template>
-
-                    <div v-if="currentStep < 4" class="btns-save-cancle">
-                        <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                        <button type="button" v-if="currentStep !== 0" @click="prevStep"
-                            class="btn btn-next btn-primary savenext">Previous</button>
-                        <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
-                            @click="cancel">Cancel</a>
+                    <div v-if="currentStep < 4" class="form-step form-step-active">
+                        <div class="btns-save-cancle">
+                            <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
+                            <button type="button" v-if="currentStep !== 0" @click="prevStep"
+                                class="btn btn-next btn-primary savenext">Previous</button>
+                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
+                                @click="cancel">Cancel</a>
+                        </div>
                     </div>
+
                 </Form>
             </form>
 
@@ -755,7 +778,7 @@ const userData = ref({})
 const sameAsLocal = ref(false);
 const perAddress = ref({});
 watch(sameAsLocal, (current, previous) => {
-    if(sameAsLocal === true) {
+    if (sameAsLocal === true) {
         perAddress.value = userData.value;
     } else {
         perAddress.value = {};
@@ -770,7 +793,7 @@ onMounted(async () => {
 watchEffect(() => {
     const user = postData.value;
     // sameAsLocal.value = user?.info?.as_local;
-    if(user?.info?.as_local) {
+    if (user?.info?.as_local) {
         sameAsLocal.value = true;
     } else {
         sameAsLocal.value = true;
@@ -869,7 +892,7 @@ async function nextStep(values, user) {
     if (currentStep.value === 3) {
         console.log(values);
         console.log('dahej', sameAsLocal.value)
-        if(sameAsLocal.value === undefined) { userData.value.as_local = false; } 
+        if (sameAsLocal.value === undefined) { userData.value.as_local = false; }
         else { userData.value.as_local = true; }
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }

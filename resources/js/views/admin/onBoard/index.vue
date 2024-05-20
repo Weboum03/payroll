@@ -58,7 +58,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="email" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text" 
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Email" class="user-label">Email</label>
@@ -83,8 +83,8 @@
                                         <Field v-slot="{ field, handleChange }" type="number" name="phone" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.phone }" placeholder="Mobile" type="number"
-                                                autocomplete="off" class="input" required>
+                                                :class="{ 'is-invalid': errors.phone }" placeholder="Mobile"
+                                                type="number" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Mobile" class="user-label">Mobile</label>
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
@@ -134,8 +134,11 @@
                                     <p>Local Address</p>
                                     <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
                                         Permanent Address
-                                        <span class="d-flex" style="gap: 6px;">  <Field name="as_local" v-model="sameAsLocal"type="checkbox" :value="true" />
-                                            <label for="SameAsLocal">Same As Local</label></span>
+                                        <span class="d-flex" style="gap: 6px;">
+                                            <Field name="as_local" v-model="sameAsLocal" type="checkbox"
+                                                :value="true" />
+                                            <label for="SameAsLocal">Same As Local</label>
+                                        </span>
                                     </p>
                                 </div>
 
@@ -144,8 +147,8 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input" v-model="localAddress.address"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
+                                            v-model="localAddress.address" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -155,12 +158,12 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address" v-model="perAddress.address"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address"
+                                            v-model="perAddress.address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_address }"
                                                 placeholder="Address Line 1*" type="text" autocomplete="off"
-                                                class="input" required :disabled="sameAsLocal" >
+                                                class="input" required :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
@@ -171,8 +174,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="address_1" v-model="localAddress.address_1"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="address_1"
+                                            v-model="localAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.address_1 }"
                                                 placeholder="Address Line 2*" type="text" autocomplete="off"
@@ -183,8 +186,8 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address_1" v-model="perAddress.address_1"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
+                                            v-model="perAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_address_1 }"
                                                 placeholder="Address Line 2*" type="text" autocomplete="off"
@@ -200,8 +203,8 @@
                                 <div class="row d-flex">
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input" v-model="localAddress.city"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
+                                            v-model="localAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.city }" placeholder="City/Town*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -211,11 +214,12 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input" v-model="perAddress.city"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
+                                            v-model="perAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town*"
-                                                type="text" autocomplete="off" class="input" required :disabled="sameAsLocal">
+                                                type="text" autocomplete="off" class="input" required
+                                                :disabled="sameAsLocal">
                                         </Field>
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
@@ -225,8 +229,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input" v-model="localAddress.country"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
+                                            v-model="localAddress.country" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.country }" placeholder="Country*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -237,11 +241,12 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country" v-model="perAddress.country"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country"
+                                            v-model="perAddress.country" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
-                                                type="text" autocomplete="off" class="input" required :disabled="sameAsLocal">
+                                                type="text" autocomplete="off" class="input" required
+                                                :disabled="sameAsLocal">
                                         </Field>
 
                                         <label for="Country" class="user-label">Country*</label>
@@ -251,8 +256,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input" v-model="localAddress.state"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
+                                            v-model="localAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.state }" placeholder="State*" type="text"
                                                 autocomplete="off" class="input" required>
@@ -262,11 +267,12 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input" v-model="perAddress.state"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
+                                            v-model="perAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_state }" placeholder="State*"
-                                                type="text" autocomplete="off" class="input" required :disabled="sameAsLocal">
+                                                type="text" autocomplete="off" class="input" required
+                                                :disabled="sameAsLocal">
                                         </Field>
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
@@ -276,8 +282,8 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="number" name="postcode" v-model="localAddress.postcode"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="number" name="postcode"
+                                            v-model="localAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code*"
                                                 type="text" autocomplete="off" class="input" required>
@@ -286,11 +292,12 @@
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="number" name="p_postcode" v-model="perAddress.postcode"
-                                            class="input" autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
+                                            v-model="perAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code*"
-                                                type="text" autocomplete="off" class="input" required :disabled="sameAsLocal">
+                                                type="text" autocomplete="off" class="input" required
+                                                :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
@@ -642,7 +649,8 @@
                                                         <input type="checkbox" id="">
                                                         <div class="p4">PAN Card</div>
                                                     </div>
-                                                    <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                    <button type="button" class="btn btn-primary updoc">Upload
+                                                        Document</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -658,7 +666,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -680,7 +689,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -701,7 +711,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -722,7 +733,8 @@
 
                                                     <div class="d-flex justify-content-center align-items-center"
                                                         style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload Document</button>
+                                                        <button type="button" class="btn btn-primary updoc">Upload
+                                                            Document</button>
                                                         <div class="removeTask"><i
                                                                 class="fa-solid fa-square-minus fa-lg "
                                                                 style="color: #ffffff;"></i></div>
@@ -760,11 +772,13 @@
                                         <div class="d-flex align-items-center" style="gap:9px;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 13px;font-weight: 500">Done! <span
-                                                    style="color: #2DB9F8;"> {{ userDetail.first_name }} {{ userDetail.last_name }}</span> is successfully
+                                                    style="color: #2DB9F8;"> {{ userDetail.first_name }} {{
+                                                    userDetail.last_name }}</span> is successfully
                                                 entered into the system. </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
-                                                style="color: #2DB9F8;">{{ userDetail.employee_id }}</span> is generated.</div>
+                                                style="color: #2DB9F8;">{{ userDetail.employee_id }}</span> is
+                                            generated.</div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
@@ -781,13 +795,16 @@
                         </div>
                     </template>
 
-                    <div v-if="currentStep < 4" class="btns-save-cancle">
-                        <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                        <button type="button" v-if="currentStep !== 0" @click="prevStep"
-                            class="btn btn-next btn-primary savenext">Previous</button>
-                        <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle"
-                            @click="cancel">Cancel</a>
+                    <div v-if="currentStep < 4" class="form-step form-step-active">
+                        <div class="btns-save-cancle">
+                            <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
+                            <button type="button" v-if="currentStep !== 0" @click="prevStep"
+                                class="btn btn-next btn-primary savenext">Previous</button>
+                            <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle"
+                                @click="cancel">Cancel</a>
+                        </div>
                     </div>
+
                 </Form>
             </form>
         </div>
