@@ -11,8 +11,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
-        "spatie/laravel-medialibrary": "^10.13",
         "php-open-source-saver/jwt-auth": "^2.2",
+        "spatie/laravel-medialibrary": "^10.15",
         "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {

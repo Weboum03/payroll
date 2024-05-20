@@ -11,10 +11,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -89,7 +93,7 @@ class User extends Authenticatable implements JWTSubject
             $model->password = 123456;
             $model->name = $model->first_name . ' ' . $model->last_name;
             $model->phone = 1234567894;
-            if(!$model->employee_id) {
+            if (!$model->employee_id) {
                 $model->employee_id = time();
             }
         });
@@ -98,4 +102,30 @@ class User extends Authenticatable implements JWTSubject
             $model->name = $model->first_name . ' ' . $model->last_name;
         });
     }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('my-collection');
+            //add options
+
+        // you can define as many collections as needed
+        $this->addMediaCollection('my-other-collection');
+            //add options
+    }
+
+    // public function registerMediaCollections() : void
+    // {
+    //     foreach (self::MEDIA_COLLECTIONS as $param => $collectionName) {
+    //         $this->addMediaCollection($collectionName)
+    //             ->useDisk('s3_user_media');
+    //     }
+    // }
 }

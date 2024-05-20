@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\NotificationController;
 
 /*
@@ -15,6 +16,10 @@ use App\Http\Controllers\NotificationController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('tempfile', [MediaController::class, 'store']);
+Route::get('tempfile', [MediaController::class, 'show']);
+Route::delete('tempfile', [MediaController::class, 'destroy']);
 
 Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('login', [AuthController::class, 'login']);
