@@ -28,14 +28,17 @@ class CreateAdminUserSeeder extends Seeder
             'password' => bcrypt('12345678')
         ]);
 
-        $role = Role::create(['name' => 'Admin', 'guard_name' => 'adminApi']);
+        $role = Role::create(['name' => 'Admin', 'guard_name' => 'api']);
         $role2 = Role::create(['name' => 'User', 'guard_name' => 'api']);
         $permissions = [
-            'post-list',
-            'post-create',
-            'post-edit',
-            'post-delete'
-            ];
+            ['On-Board'],
+            ['De-Board'],
+            ['Update Profile'],
+            ['View Profile'],
+            ['Leave Approval'],
+            ['View Leave History'],
+            ['Generate Payroll'],
+        ];
         $role2->syncPermissions($permissions);
 
         $permissions = Permission::pluck('id','id')->all();

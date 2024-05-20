@@ -16,13 +16,13 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            ['name' => 'On-Board', 'slug' => 'user-create'],
-            ['name' => 'De-Board', 'slug' => 'user-delete'],
-            ['name' => 'Update Profile', 'slug' => 'user-edit'],
-            ['name' => 'View Profile', 'slug' => 'user-view'],
-            ['name' => 'Leave Approval', 'slug' => 'leave-edit'],
-            ['name' => 'View Leave History', 'slug' => 'leave-list'],
-            ['name' => 'Generate Payroll', 'slug' => 'payroll-create'],
+            ['name' => 'On-Board', 'slug' => 'user-create', 'guard_name' => 'api'],
+            ['name' => 'De-Board', 'slug' => 'user-delete' , 'guard_name' => 'api'],
+            ['name' => 'Update Profile', 'slug' => 'user-edit' , 'guard_name' => 'api'],
+            ['name' => 'View Profile', 'slug' => 'user-view' , 'guard_name' => 'api'],
+            ['name' => 'Leave Approval', 'slug' => 'leave-edit' , 'guard_name' => 'api'],
+            ['name' => 'View Leave History', 'slug' => 'leave-list' , 'guard_name' => 'api'],
+            ['name' => 'Generate Payroll', 'slug' => 'payroll-create' , 'guard_name' => 'api'],
         ];
 
         foreach ($permissions as $permission) {
