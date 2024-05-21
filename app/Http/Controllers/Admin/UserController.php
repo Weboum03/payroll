@@ -31,7 +31,13 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $users = $this->userRepository->listing($request);
-        return $this->sendResponseWithDatatable($users,__('ApiMessage.retrievedMessage'));
+        $users->map(function ($user) {
+            $picture = $user->getFirstMedia('user_profile_picture');
+            $user->setAttribute('user_profile_picture', ($picture->preview_url)??null);
+            $user->makeHidden('media');
+            return $user;
+        });
+        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -60,10 +66,6 @@ class UserController extends BaseController
             $user->save();
         }
 
-        // if($request->has('user_profile_picture')) {
-        //     $user->uploadMedia('user_profile_picture', $request->user_profile_picture);
-        // }
-
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             if (!$request->has($collectionName)) { continue; }
             $user->uploadMedia($collectionName, $request->$collectionName);
@@ -79,6 +81,9 @@ class UserController extends BaseController
     {
         $user = $this->userRepository->getById($id);
         $user->load('info');
+        $picture = $user->getFirstMediaUrl('user_profile_picture');
+        $user->setAttribute('user_profile_picture', $picture);
+        $user->makeHidden('media');
         return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
     }
 
@@ -99,6 +104,7 @@ class UserController extends BaseController
         
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             if (!$request->has($collectionName)) { continue; }
+            if($collectionName == 'user_profile_picture') { $user->clearMediaCollection($collectionName); }
             $user->uploadMedia($collectionName, $request->$collectionName);
         }
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));

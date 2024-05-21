@@ -82,7 +82,6 @@ class User extends Authenticatable implements JWTSubject, HasMedia
 
         // Move the file to the user's media collection
         $response = $this->addMedia($temporaryFile)->toMediaCollection($collection);
-
         // Delete the temporary file
         Storage::delete($temporaryPath);
         return $response;

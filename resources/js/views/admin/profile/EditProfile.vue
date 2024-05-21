@@ -250,7 +250,12 @@
 
                                 <div class="p1">Upload Image</div>
 
-                                <input type="file" name="Uplode Photo" id="uplodePhoto" placeholder=" Darg and Drop">
+                                <input type="file" @change="uploadTempFile" name="Uplode Photo" id="uplodePhoto"
+                                    placeholder=" Darg and Drop">
+                                <div v-if="preview" class="preview">
+                                    <img :src="preview" alt="Preview" v-if="isImage(preview)">
+                                    <!-- <video :src="preview" controls v-if="isVideo(preview)"></video> -->
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -789,7 +794,7 @@ onMounted(async () => {
     getUser(route.params.id)
     getRoles()
 });
-
+const preview = ref();
 watchEffect(() => {
     const user = postData.value;
     // sameAsLocal.value = user?.info?.as_local;
@@ -798,6 +803,8 @@ watchEffect(() => {
     } else {
         sameAsLocal.value = true;
     }
+
+    preview.value = user?.user_profile_picture;
     userData.value = {
         id: user?.id,
         first_name: user?.first_name,
@@ -872,10 +879,10 @@ const schemas = [
     yup.object({
         employee_id: yup.string().required("Required!"),
         role_id: yup.string().required("Required!"),
-        doj: yup.string().required("Required!"),
-        prob_end_date: yup.string().required("Required!"),
-        aadhar_number: yup.string().required("Required!"),
-        pan_number: yup.string().required("Required!"),
+        // doj: yup.string().required("Required!"),
+        // prob_end_date: yup.string().required("Required!"),
+        // aadhar_number: yup.string().required("Required!"),
+        // pan_number: yup.string().required("Required!"),
     }),
     //   yup.object({
     //     address: yup.string().required(),
@@ -888,6 +895,40 @@ const schemas = [
     //     terms: yup.bool().required().equals([true]),
     //   }),
 ];
+
+
+const previewFile = (event) => {
+    this.file = event.target.files[0];
+    this.preview = URL.createObjectURL(this.file);
+}
+const isImage = (file) => {
+    return file;
+}
+// const isVideo = (file) => {
+//     return file && file.type.startsWith('data:video');
+// }
+
+const uploadTempFile = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    try {
+        const response = await axios.post('/api/tempfile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        const tempPath = response.data.temporary_path;
+        userData.value.user_profile_picture = tempPath;
+        preview.value = URL.createObjectURL(file);
+        alert('File uploaded temporarily');
+    } catch (error) {
+        console.error(error);
+        alert('Failed to upload file');
+    }
+}
+
 
 const currentSchema = computed(() => {
     return schemas[currentStep.value];
@@ -924,4 +965,13 @@ function cancel() {
 </script>
 <style scoped>
 @import '@/assets/css/onboard.css';
+</style>
+
+<style>
+.preview img,
+.preview video {
+    max-width: 300px;
+    max-height: 300px;
+    margin-top: 10px;
+}
 </style>

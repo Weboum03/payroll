@@ -319,7 +319,12 @@
 
                                 <div class="p1">Upload Image</div>
 
-                                <input type="file" name="Uplode Photo" id="uplodePhoto" placeholder=" Darg and Drop">
+                                <input type="file" @change="uploadTempFile" name="Uplode Photo" id="uplodePhoto"
+                                    placeholder=" Darg and Drop">
+                                <div v-if="preview" class="preview">
+                                    <img :src="preview" alt="Preview" v-if="isImage(preview)">
+                                    <!-- <video :src="preview" controls v-if="isVideo(preview)"></video> -->
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -849,6 +854,7 @@ const sameAsLocal = ref(false);
 const localAddress = ref({});
 const perAddress = ref({});
 const userDetail = ref({});
+const preview = ref();
 
 watch(sameAsLocal, (current, previous) => {
     if(sameAsLocal.value === true) {
@@ -886,10 +892,10 @@ const schemas = [
   yup.object({
     employee_id: yup.string().required("Required!"),
     role_id: yup.string().required("Required!"),
-    doj: yup.string().required("Required!"),
-    prob_end_date: yup.string().required("Required!"),
-    aadhar_number: yup.string().required("Required!"),
-    pan_number: yup.string().required("Required!"),
+    // doj: yup.string().required("Required!"),
+    // prob_end_date: yup.string().required("Required!"),
+    // aadhar_number: yup.string().required("Required!"),
+    // pan_number: yup.string().required("Required!"),
   }),
 //   yup.object({
 //     address: yup.string().required(),
@@ -954,6 +960,35 @@ const formValues = {
     next_year: ''
 };
 
+const isImage = (file) => {
+    return file;
+}
+// const isVideo = (file) => {
+//     return file && file.type.startsWith('data:video');
+// }
+
+const uploadTempFile = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    alert('File uploaded temporarily');
+    try {
+        const response = await axios.post('/api/tempfile', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        const tempPath = response.data.temporary_path;
+        // userData.value.user_profile_picture = tempPath;
+        preview.value = URL.createObjectURL(file);
+        alert('File uploaded temporarily');
+    } catch (error) {
+        console.error(error);
+        alert('Failed to upload file');
+    }
+}
+
 const currentSchema = computed(() => {
   return schemas[currentStep.value];
 }); 
@@ -965,6 +1000,7 @@ async function submitForm(user) {
 async function nextStep(values, user) {
   if (currentStep.value === 3) {
     userDetail.value = values;
+    values.user_profile_picture = preview.value;
     return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
   }
   currentStep.value++;
@@ -985,4 +1021,13 @@ function prevStep() {
 
 <style scoped>
 @import '@/assets/css/onBoard.css';
+</style>
+
+<style>
+.preview img,
+.preview video {
+    max-width: 300px;
+    max-height: 300px;
+    margin-top: 10px;
+}
 </style>

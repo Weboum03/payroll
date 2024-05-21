@@ -25,7 +25,7 @@
             </thead>
             <tbody>
                 <tr v-for="user in users?.data" :key="user.id" @click="navigateToDetailPage(user.id)">
-                    <td><img alt="dp" :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" width="20px" height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
+                    <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px" height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
                     <td>{{ user.employee_id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.phone }}</td>
