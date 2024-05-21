@@ -4,6 +4,7 @@
 /public/hot
 /public/storage
 /public/resources
+/public/media
 /storage/*.key
 composer.lock
 /vendor
