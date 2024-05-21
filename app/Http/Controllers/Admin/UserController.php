@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,6 +59,15 @@ class UserController extends BaseController
             $user->role_id = $role->id;
             $user->save();
         }
+
+        // if($request->has('user_profile_picture')) {
+        //     $user->uploadMedia('user_profile_picture', $request->user_profile_picture);
+        // }
+
+        foreach (User::MEDIA_COLLECTIONS as $collectionName) {
+            if (!$request->has($collectionName)) { continue; }
+            $user->uploadMedia($collectionName, $request->$collectionName);
+        }
         
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
     }
@@ -85,6 +95,11 @@ class UserController extends BaseController
             $user->assignRole([$role->id]);
             $user->role_id = $role->id;
             $user->save();
+        }
+        
+        foreach (User::MEDIA_COLLECTIONS as $collectionName) {
+            if (!$request->has($collectionName)) { continue; }
+            $user->uploadMedia($collectionName, $request->$collectionName);
         }
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }

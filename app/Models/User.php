@@ -15,10 +15,15 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements JWTSubject, HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
+
+    public const MEDIA_COLLECTION_PROFILE_PICTURE = 'user_profile_picture';
+
+    public const MEDIA_COLLECTIONS = [self::MEDIA_COLLECTION_PROFILE_PICTURE, 'user_cover_image'];
 
     /**
      * The attributes that are mass assignable.
@@ -66,6 +71,36 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->belongsTo(Role::class, 'role_id');
     }
 
+    protected function uploadMediaAction($collection, $temporaryPath)
+    {
+        
+        if (!Storage::exists($temporaryPath)) {
+            return false;
+        }
+        // Get the file from the temporary path
+        $temporaryFile = Storage::path($temporaryPath);
+
+        // Move the file to the user's media collection
+        $response = $this->addMedia($temporaryFile)->toMediaCollection($collection);
+
+        // Delete the temporary file
+        Storage::delete($temporaryPath);
+        return $response;
+    }
+
+    public function uploadMedia($collection, $temporaryPaths)
+    {
+        if (is_array($temporaryPaths)) {
+            foreach ($temporaryPaths as $path) {
+                $this->uploadMediaAction($collection, $path);
+            }
+        } else {
+            return $this->uploadMediaAction($collection, $temporaryPaths);
+        }
+
+        return true;
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -90,10 +125,10 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         parent::boot();
         self::creating(function ($model) {
-            if(!$model->password) {
+            if (!$model->password) {
                 $model->password = 123456;
             }
-            if(!$model->phone) {
+            if (!$model->phone) {
                 $model->phone = 1234567894;
             }
             if (!$model->employee_id) {
@@ -115,21 +150,21 @@ class User extends Authenticatable implements JWTSubject, HasMedia
             ->nonQueued();
     }
 
+    // public function registerMediaCollections(): void
+    // {
+    //     $this->addMediaCollection('my-collection');
+    //         //add options
+
+    //     // you can define as many collections as needed
+    //     $this->addMediaCollection('my-other-collection');
+    //         //add options
+    // }
+
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('my-collection');
-            //add options
-
-        // you can define as many collections as needed
-        $this->addMediaCollection('my-other-collection');
-            //add options
+        foreach (self::MEDIA_COLLECTIONS as $collectionName) {
+            $this->addMediaCollection($collectionName)
+                ->useDisk('media');
+        }
     }
-
-    // public function registerMediaCollections() : void
-    // {
-    //     foreach (self::MEDIA_COLLECTIONS as $param => $collectionName) {
-    //         $this->addMediaCollection($collectionName)
-    //             ->useDisk('s3_user_media');
-    //     }
-    // }
 }
