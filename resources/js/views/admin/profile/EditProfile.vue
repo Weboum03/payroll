@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="email" class="input"
+                                        <Field type="email" name="email" class="input"
                                             :class="{ 'is-invalid': errors.email }" placeholder="Email"
                                             v-model="userData.email" autocomplete="off" required />
                                         <label for="Email" class="user-label">Email</label>
@@ -69,7 +69,7 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="secondary_email" v-model="userData.secondary_email"
+                                        <Field type="email" name="secondary_email" v-model="userData.secondary_email"
                                             class="input" autocomplete="off"
                                             :class="{ 'is-invalid': errors.secondary_email }"
                                             placeholder="Secondary Email" required />
@@ -138,7 +138,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
-                                            v-model="userData.address" autocomplete="off" placeholder="Address Line 1*"
+                                            v-model="userData.address" autocomplete="off" placeholder="Address Line 1"
                                             required />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="address" class="text-danger mt-1" />
@@ -147,7 +147,7 @@
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
                                             v-model="userData.p_address" class="input" autocomplete="off"
-                                            placeholder="Address Line 1*" required :disabled="sameAsLocal" />
+                                            placeholder="Address Line 1" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
                                     </div>
@@ -159,7 +159,7 @@
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
                                             v-model="userData.address_1" class="input" autocomplete="off"
-                                            placeholder="Address Line 2*" required />
+                                            placeholder="Address Line 2" required />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
                                     </div>
@@ -167,7 +167,7 @@
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
                                             v-model="userData.p_address_1" class="input" autocomplete="off"
-                                            placeholder="Address Line 2*" required :disabled="sameAsLocal" />
+                                            placeholder="Address Line 2" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
                                     </div>
@@ -179,7 +179,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
-                                            v-model="userData.city" autocomplete="off" placeholder="City/Town*"
+                                            v-model="userData.city" autocomplete="off" placeholder="City/Town"
                                             required />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="city" class="text-danger mt-1" />
@@ -187,7 +187,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
-                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town*"
+                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town"
                                             required :disabled="sameAsLocal" />
                                         <label for="City" class="user-label">City/Town*</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
@@ -198,7 +198,7 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
-                                            v-model="userData.country" autocomplete="off" placeholder="Country*"
+                                            v-model="userData.country" autocomplete="off" placeholder="Country"
                                             required />
                                         <label for="Country" class="user-label">Country*</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
@@ -216,14 +216,14 @@
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
-                                            v-model="userData.state" autocomplete="off" placeholder="State*" required />
+                                            v-model="userData.state" autocomplete="off" placeholder="State" required />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="state" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
-                                            v-model="userData.p_state" autocomplete="off" placeholder="State*" required
+                                            v-model="userData.p_state" autocomplete="off" placeholder="State" required
                                             :disabled="sameAsLocal" />
                                         <label for="State" class="user-label">State*</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
@@ -235,15 +235,15 @@
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="postcode"
                                             v-model="userData.postcode" class="input" autocomplete="off"
-                                            placeholder="Post Code*" required />
-                                        <label for="Post Code" class="user-label">Post Code*</label>
+                                            placeholder="Post Code" required />
+                                        <label for="Post Code" class="user-label">Post Code</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
                                             v-model="userData.p_postcode" class="input" autocomplete="off"
-                                            placeholder="Post Code*" required :disabled="sameAsLocal" />
-                                        <label for="Post Code" class="user-label">Post Code*</label>
+                                            placeholder="Post Code" required :disabled="sameAsLocal" />
+                                        <label for="Post Code" class="user-label">Post Code</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
                                     </div>
                                 </div>
@@ -267,7 +267,7 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required name="user" as="select" v-model="userData.first_name"
+                                    <Field required name="user" as="select" v-model="userData.copy_from"
                                         class="form-control input" autocomplete="off" :validateOnBlur="false"
                                         :validateOnChange="false" :validateOnInput="false" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Copy Existing details</option>
@@ -290,10 +290,10 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="doj" placeholder="Date of Joining*"
+                                    <Field required type="date" name="doj" placeholder="Date of Joining"
                                         v-model="userData.doj" :class="{ 'is-invalid': errors.doj }" class="input"
                                         autocomplete="off" />
-                                    <label for="Start Date" class="user-label ">Date of Joining*</label>
+                                    <label for="Start Date" class="user-label ">Date of Joining</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
@@ -309,24 +309,24 @@
                                 <div class="col input-group-fname">
                                     <Field required name="company" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.company" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Company*</option>
+                                        <option value="" disabled selected>Company</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="Company" class="user-label">Company*</label>
+                                    <label for="Company" class="user-label">Company</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
                                     <Field required name="location" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.location" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Location*</option>
+                                        <option value="" disabled selected>Location</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="location" class="user-label">Location*</label>
+                                    <label for="location" class="user-label">Location</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -335,24 +335,24 @@
                                 <div class="col input-group-fname">
                                     <Field required name="qualification" as="select" class="form-control input"
                                         v-model="userData.qualification" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Qualification-Degree*</option>
+                                        <option value="" disabled selected>Qualification-Degree</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="qualification" class="user-label">Qualification-Degree*</label>
+                                    <label for="qualification" class="user-label">Qualification-Degree</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
                                     <Field required name="experience" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.experience" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Work Experience*</option>
+                                        <option value="" disabled selected>Work Experience</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="experience" class="user-label">Work Experience*</label>
+                                    <label for="experience" class="user-label">Work Experience</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -361,12 +361,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="immediate_manager" as="select" class="form-control input"
                                         v-model="userData.immediate_manager" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Immediate-Manager*</option>
+                                        <option value="" disabled selected>Immediate-Manager</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="immediate_manager" class="user-label">Immediate-Manager*</label>
+                                    <label for="immediate_manager" class="user-label">Immediate-Manager</label>
                                     <ErrorMessage name="immediate_manager" class="text-danger mt-1" />
                                 </div>
 
@@ -385,13 +385,13 @@
                                     <Field required name="leave_approving_auth" as="select" class="form-control input"
                                         v-model="userData.leave_approving_auth" autocomplete="off"
                                         style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Leave Approving Authority*</option>
+                                        <option value="" disabled selected>Leave Approving Authority</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
-                                        Authority*</label>
+                                        Authority</label>
                                     <ErrorMessage name="leave_approving_auth" class="text-danger mt-1" />
                                 </div>
 
@@ -720,7 +720,7 @@
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 13px;font-weight: 500">Done! <span
                                                     style="color: #2DB9F8;"> {{ userData.first_name }} {{
-                                                    userData.last_name }}</span> is successfully
+                                                        userData.last_name }}</span> is successfully
                                                 entered into the system. </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
@@ -848,25 +848,34 @@ watchEffect(() => {
 
 const schemas = [
     yup.object({
-        first_name: yup.string().required("Required!"),
-        last_name: yup.string().required("Required!"),
+        first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+        last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
         email: yup.string().required().email(),
-        phone: yup.string().required("Required!"),
+        secondary_email: yup.string().nullable().email('Must be valid email'),
+        phone: yup.number().required("Required!"),
         gender: yup.string().required("Required!"),
-        // dob: yup.string().required("Required!"),
+        dob: yup.string().required("Required!"),
         // address: yup.string().required("Required!"),
         // address_1: yup.string().required("Required!"),
         // city: yup.string().required("Required!"),
         // state: yup.string().required("Required!"),
         // country: yup.string().required("Required!"),
         // postcode: yup.string().required("Required!"),
+
+        // p_address: yup.string().required("Required!"),
+        // p_address_1: yup.string().required("Required!"),
+        // p_city: yup.string().required("Required!"),
+        // p_state: yup.string().required("Required!"),
+        // p_country: yup.string().required("Required!"),
+        // p_postcode: yup.string().required("Required!"),
     }),
     yup.object({
         employee_id: yup.string().required("Required!"),
-        // doj: yup.string().required("Required!"),
-        // prob_end_date: yup.string().required("Required!"),
-        // aadhar_number: yup.string().required("Required!"),
-        // pan_number: yup.string().required("Required!"),
+        role_id: yup.string().required("Required!"),
+        doj: yup.string().required("Required!"),
+        prob_end_date: yup.string().required("Required!"),
+        aadhar_number: yup.string().required("Required!"),
+        pan_number: yup.string().required("Required!"),
     }),
     //   yup.object({
     //     address: yup.string().required(),

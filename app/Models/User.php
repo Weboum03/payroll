@@ -90,12 +90,16 @@ class User extends Authenticatable implements JWTSubject, HasMedia
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->password = 123456;
-            $model->name = $model->first_name . ' ' . $model->last_name;
-            $model->phone = 1234567894;
+            if(!$model->password) {
+                $model->password = 123456;
+            }
+            if(!$model->phone) {
+                $model->phone = 1234567894;
+            }
             if (!$model->employee_id) {
                 $model->employee_id = time();
             }
+            $model->name = $model->first_name . ' ' . $model->last_name;
         });
 
         self::updating(function ($model) {

@@ -55,10 +55,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="email" class="input"
+                                        <Field v-slot="{ field, handleChange }" type="email" name="email" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="text"
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="email"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Email" class="user-label">Email</label>
@@ -66,11 +66,11 @@
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="secondary_email"
+                                        <Field v-slot="{ field, handleChange }" type="email" name="secondary_email"
                                             class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.secondary_email }"
-                                                placeholder="Secondary Email" type="text" autocomplete="off"
+                                                placeholder="Secondary Email" type="email" autocomplete="off"
                                                 class="input" required>
                                         </Field>
                                         <label for="Secondary Email" class="user-label">Secondary Email</label>
@@ -129,6 +129,19 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col input-group-fname">
+                                        <Field v-slot="{ field, handleChange }" name="password" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.password }"
+                                                id="dob-Value" placeholder="Password*" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label for="html" class="user-label ">Password</label>
+                                        <ErrorMessage name="password" class="text-danger mt-1" />
+                                    </div>
+                                </div>
 
                                 <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
                                     <p>Local Address</p>
@@ -150,7 +163,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
                                             v-model="localAddress.address" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1*"
+                                                :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 1</label>
@@ -162,7 +175,7 @@
                                             v-model="perAddress.address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_address }"
-                                                placeholder="Address Line 1*" type="text" autocomplete="off"
+                                                placeholder="Address Line 1" type="text" autocomplete="off"
                                                 class="input" required :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 1</label>
@@ -178,7 +191,7 @@
                                             v-model="localAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.address_1 }"
-                                                placeholder="Address Line 2*" type="text" autocomplete="off"
+                                                placeholder="Address Line 2" type="text" autocomplete="off"
                                                 class="input" required>
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 2</label>
@@ -190,7 +203,7 @@
                                             v-model="perAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_address_1 }"
-                                                placeholder="Address Line 2*" type="text" autocomplete="off"
+                                                placeholder="Address Line 2" type="text" autocomplete="off"
                                                 class="input" required :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 2</label>
@@ -206,7 +219,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
                                             v-model="localAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.city }" placeholder="City/Town*"
+                                                :class="{ 'is-invalid': errors.city }" placeholder="City/Town"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="City" class="user-label">City/Town*</label>
@@ -217,7 +230,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
                                             v-model="perAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town*"
+                                                :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -232,7 +245,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
                                             v-model="localAddress.country" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.country }" placeholder="Country*"
+                                                :class="{ 'is-invalid': errors.country }" placeholder="Country"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
 
@@ -244,7 +257,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
                                             v-model="perAddress.country" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
+                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -259,7 +272,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
                                             v-model="localAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.state }" placeholder="State*" type="text"
+                                                :class="{ 'is-invalid': errors.state }" placeholder="State" type="text"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="State" class="user-label">State*</label>
@@ -270,7 +283,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
                                             v-model="perAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_state }" placeholder="State*"
+                                                :class="{ 'is-invalid': errors.p_state }" placeholder="State"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -285,7 +298,7 @@
                                         <Field v-slot="{ field, handleChange }" type="number" name="postcode"
                                             v-model="localAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code*"
+                                                :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Post Code" class="user-label">Post Code*</label>
@@ -295,7 +308,7 @@
                                         <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
                                             v-model="perAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code*"
+                                                :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -348,14 +361,14 @@
                             <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required type="text" onfocus="(this.type='date')" name="doj"
-                                        placeholder="Date of Joining*" :class="{ 'is-invalid': errors.doj }"
+                                        placeholder="Date of Joining" :class="{ 'is-invalid': errors.doj }"
                                         class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
                                     <Field required type="text" onfocus="(this.type='date')" name="prob_end_date"
-                                        placeholder="Probation End Date*"
+                                        placeholder="Probation End Date"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -367,7 +380,7 @@
                                 <div class="col input-group-fname">
                                     <Field required name="company" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Company*</option>
+                                        <option value="" disabled selected>Company</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
@@ -379,12 +392,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="location" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Location*</option>
+                                        <option value="" disabled selected>Location</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="location" class="user-label">Location*</label>
+                                    <label for="location" class="user-label">Location</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -393,7 +406,7 @@
                                 <div class="col input-group-fname">
                                     <Field required name="qualification" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Qualification-Degree*</option>
+                                        <option value="" disabled selected>Qualification-Degree</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
@@ -405,12 +418,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="experience" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Work Experience*</option>
+                                        <option value="" disabled selected>Work Experience</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="experience" class="user-label">Work Experience*</label>
+                                    <label for="experience" class="user-label">Work Experience</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -419,12 +432,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="immediate_manager" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Immediate-Manager*</option>
+                                        <option value="" disabled selected>Immediate-Manager</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="immediate_manager" class="user-label">Immediate-Manager*</label>
+                                    <label for="immediate_manager" class="user-label">Immediate-Manager</label>
                                     <ErrorMessage name="immediate_manager" class="text-danger mt-1" />
                                 </div>
 
@@ -442,13 +455,13 @@
                                 <div class="col input-group-fname">
                                     <Field required name="leave_approving_auth" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Leave Approving Authority*</option>
+                                        <option value="" disabled selected>Leave Approving Authority</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
-                                        Authority*</label>
+                                        Authority</label>
                                     <ErrorMessage name="leave_approving_auth" class="text-danger mt-1" />
                                 </div>
 
@@ -483,19 +496,19 @@
                                         </option>
                                     </Field>
                                     <label for="html" class="user-label">Job Role</label>
-                                    <ErrorMessage name="Job Role" class="text-danger mt-1" />
+                                    <ErrorMessage name="role_id" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required name="grade" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Grade*</option>
+                                        <option value="" disabled selected>Grade</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="Grade" class="user-label">Grade*</label>
+                                    <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
@@ -516,13 +529,13 @@
                                     <Field required type="text" name="aadhar_number" placeholder="Aadhar Number*"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
                                         autocomplete="off" />
-                                    <label for="Aadhar Number" class="user-label">Aadhar Number*</label>
+                                    <label for="Aadhar Number" class="user-label">Aadhar Number</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
                                     <Field type="text" name="pan_number" placeholder="PAN Number*"
                                         :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">PAN Number*</label>
+                                    <label for="PAN Number" class="user-label">PAN Number</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -851,10 +864,11 @@ const schemas = [
     first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     email: yup.string().required().email(),
-    secondary_email: yup.string().email('Must be valid email'),
+    secondary_email: yup.string().nullable().email('Must be valid email'),
     phone: yup.number().required("Required!"),
     gender: yup.string().required("Required!"),
-    // dob: yup.string().required("Required!"),
+    password: yup.string().required("Required!"),
+    dob: yup.string().required("Required!"),
     // address: yup.string().required("Required!"),
     // address_1: yup.string().required("Required!"),
     // city: yup.string().required("Required!"),
@@ -871,10 +885,11 @@ const schemas = [
   }),
   yup.object({
     employee_id: yup.string().required("Required!"),
-    // doj: yup.string().required("Required!"),
-    // prob_end_date: yup.string().required("Required!"),
-    // aadhar_number: yup.string().required("Required!"),
-    // pan_number: yup.string().required("Required!"),
+    role_id: yup.string().required("Required!"),
+    doj: yup.string().required("Required!"),
+    prob_end_date: yup.string().required("Required!"),
+    aadhar_number: yup.string().required("Required!"),
+    pan_number: yup.string().required("Required!"),
   }),
 //   yup.object({
 //     address: yup.string().required(),

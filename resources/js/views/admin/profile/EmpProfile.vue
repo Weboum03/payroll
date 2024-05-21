@@ -90,7 +90,8 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="DOB">Date of Birth</div>
-                            <div id="dob-Value" class="DOB-value"> March 11,1995</div>
+                            <div id="dob-Value" class="DOB-value">{{ user?.info?.dob ? moment(user?.info?.dob).format('MMMM D, YYYY') :
+                                '---' }}</div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
@@ -124,13 +125,14 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="SD">Start Date</div>
-                            <div id="sd-Value" class="SD-value ">{{ moment(user?.info?.doj).format('MMMM D, YYYY') }}
+                            <div id="sd-Value" class="SD-value ">{{ user?.info?.doj ? moment(user?.info?.doj).format('MMMM D, YYYY') :
+                                '---' }}
                             </div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="ProbationDay">Probation End Date</div>
-                            <div id="probationday-Value" class="ProbationDay-value"> {{
-                                moment(user?.prob_end_date).format('MMMM D, YYYY') }}</div>
+                            <div id="probationday-Value" class="ProbationDay-value"> {{ user?.info?.prob_end_date ? moment(user?.info?.prob_end_date).format('MMMM D, YYYY') :
+                                '---' }}</div>
                         </div>
                     </div>
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
