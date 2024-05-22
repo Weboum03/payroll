@@ -431,7 +431,7 @@
                                         </option>
                                     </Field>
                                     <label for="html" class="user-label">Job Role</label>
-                                    <ErrorMessage name="Job Role" class="text-danger mt-1" />
+                                    <ErrorMessage name="role_id" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
@@ -578,7 +578,9 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <div class="col-sm-4">
+                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
+                                    <!-- <UploadDoc message="hello" /> -->
+                                    <!-- <div class="col-sm-4">
                                         <div class="card  card1">
                                             <div class="card-body">
                                                 <div class="showalltask-card d-flex flex-column">
@@ -694,14 +696,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-sm-4">
                                         <div class="card  card2">
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <button type="button" class="btn btn-primary updoc"
-                                                        data-toggle="modal" data-target="#AddDocModal">Add
+                                                        data-toggle="modal" data-target="#AddDocModal" @click="addComponent">Add
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -770,6 +772,7 @@ import { Form, Field, ErrorMessage, useForm, useField } from 'vee-validate';
 import { ref, reactive, onMounted, computed, inject, watch, onUpdated, watchEffect } from 'vue';
 import useUsers from "@/composables/users";
 import useRoles from "@/composables/roles";
+import UploadDoc from "../../../components/UploadDoc.vue";
 const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 import { useRoute, useRouter } from "vue-router";
@@ -852,6 +855,51 @@ watchEffect(() => {
         next_year: user?.info?.next_year,
     };
 })
+
+const uploadComponent = ref([
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Aadhar Card Number',
+        edit:false
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'PAN Card',
+        edit:false
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'PF & ESIC information',
+        edit:true
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Confirmation letter',
+        edit:true
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Education Document',
+        edit:true
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Experience Letter',
+        edit:true
+    }
+]);
+
+const addComponent = () => {
+      uploadComponent.value.push({
+        id: Math.random().toString(36).substring(7),
+        title: "Document",
+        edit:true
+      });
+    }
+
+const deleteInput = (id) => {
+    uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
+}
 
 const schemas = [
     yup.object({
@@ -963,7 +1011,7 @@ function cancel() {
 }
 
 </script>
-<style scoped>
+<style>
 @import '@/assets/css/onboard.css';
 </style>
 
