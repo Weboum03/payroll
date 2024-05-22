@@ -967,12 +967,12 @@ const isImage = (file) => {
 // const isVideo = (file) => {
 //     return file && file.type.startsWith('data:video');
 // }
-
+const profilePic = ref();
+const filesToUpload = ref({});
 const uploadTempFile = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
-    alert('File uploaded temporarily');
     try {
         const response = await axios.post('/api/tempfile', formData, {
             headers: {
@@ -981,7 +981,9 @@ const uploadTempFile = async (event) => {
         });
 
         const tempPath = response.data.temporary_path;
-        // userData.value.user_profile_picture = tempPath;
+        // filesToUpload.value.push(tempPath);
+        filesToUpload.value.user_profile_picture = tempPath;
+        console.log(filesToUpload.value);
         preview.value = URL.createObjectURL(file);
         alert('File uploaded temporarily');
     } catch (error) {
@@ -1001,7 +1003,8 @@ async function submitForm(user) {
 async function nextStep(values, user) {
   if (currentStep.value === 3) {
     userDetail.value = values;
-    values.user_profile_picture = preview.value;
+    // values.user_profile_picture = profilePic.value;
+    Object.assign(values, filesToUpload.value);
     return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
   }
   currentStep.value++;
@@ -1021,38 +1024,48 @@ function prevStep() {
 
 import UploadDoc from "../../../components/UploadDoc.vue";
 
+
+
 const updateDocRefValue = (newValue) => {
-    userData.value[newValue.name] = newValue.path;
+    filesToUpload.value[newValue.name] = newValue.path;
+    console.log('Rahul',newValue);
+    console.log(filesToUpload.value);
 }
 const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
         title:'Aadhar Card Number',
+        type:'aadhar_proof',
         edit:false
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'PAN Card',
+        type:'pan_proof',
         edit:false
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'PF & ESIC information',
+        type:'doc',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Confirmation letter',
+        type:'doc',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Education Document',
+        type:'doc',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Experience Letter',
+        type:'doc',
         edit:true
     }
 ]);
@@ -1067,10 +1080,10 @@ const addComponent = () => {
 
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
-}
+};
 </script>
 
-<style scoped>
+<style>
 @import '@/assets/css/onBoard.css';
 </style>
 

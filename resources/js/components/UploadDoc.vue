@@ -9,8 +9,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center" style="gap: 24px;">
-                        <button type="button" class="btn btn-primary updoc" @click="onClick">Upload
-                            Document</button>
+                        <button type="button" class="btn btn-primary updoc" @click="onClick">{{ text }}</button>
                         <input type="file" ref="fileInput" @change="choosFile" hidden />
                         <div v-if="props.is.edit" @click="deleteInput" class="removeTask"><i
                                 class="fa-solid fa-square-minus fa-lg " style="color: #ffffff;"></i>
@@ -33,6 +32,7 @@ const props = defineProps({
     is: Object,
 });
 
+const text = ref('Upload Document');
 const fileInput = ref();
 const onClick = () => {
     fileInput.value.click();
@@ -51,12 +51,13 @@ const choosFile = async (event) => {
         });
         const tempPath = response.data.temporary_path;
         emit('update-ref', {name: props.is.type, path:tempPath});
+        text.value = 'Re-Upload';
         // userData.value.user_profile_picture = tempPath;
         // preview.value = URL.createObjectURL(file);
-        alert('File uploaded temporarily');
+        // alert('File uploaded temporarily');
     } catch (error) {
         console.error(error);
-        alert('Failed to upload file');
+        // alert('Failed to upload file');
     }
 }
 
