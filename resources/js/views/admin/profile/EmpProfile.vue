@@ -200,16 +200,9 @@
                                     style="color: #2DB9F8;"></i></div>
                         </div>
                     </div>
-
-
                 </div>
-
-
-
             </div>
-
         </div>
-
     </div>
 </template>
 
