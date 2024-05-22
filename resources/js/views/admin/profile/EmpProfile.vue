@@ -12,7 +12,10 @@
 
             <div id="Emp-details" class="d-flex flex-column justify-content-center align-items-center"
                 style="gap: 1rem;height: 500px;">
-                <img class="emp-img"
+
+                <img v-if="user?.user_profile_picture" class="emp-img" :src="user?.user_profile_picture" />
+
+                <img v-else class="emp-img"
                     :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" />
 
                 <div class="name-role d-flex flex-column justify-content-center align-items-center"
@@ -90,7 +93,8 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="DOB">Date of Birth</div>
-                            <div id="dob-Value" class="DOB-value">{{ user?.info?.dob ? moment(user?.info?.dob).format('MMMM D, YYYY') :
+                            <div id="dob-Value" class="DOB-value">{{ user?.info?.dob ?
+                                moment(user?.info?.dob).format('MMMM D, YYYY') :
                                 '---' }}</div>
                         </div>
                     </div>
@@ -125,13 +129,15 @@
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="SD">Start Date</div>
-                            <div id="sd-Value" class="SD-value ">{{ user?.info?.doj ? moment(user?.info?.doj).format('MMMM D, YYYY') :
+                            <div id="sd-Value" class="SD-value ">{{ user?.info?.doj ?
+                                moment(user?.info?.doj).format('MMMM D, YYYY') :
                                 '---' }}
                             </div>
                         </div>
                         <div class="col-md-3 mb-3 d-flex flex-column" style="gap: .2rem;">
                             <div id="ProbationDay">Probation End Date</div>
-                            <div id="probationday-Value" class="ProbationDay-value"> {{ user?.info?.prob_end_date ? moment(user?.info?.prob_end_date).format('MMMM D, YYYY') :
+                            <div id="probationday-Value" class="ProbationDay-value"> {{ user?.info?.prob_end_date ?
+                                moment(user?.info?.prob_end_date).format('MMMM D, YYYY') :
                                 '---' }}</div>
                         </div>
                     </div>
@@ -148,13 +154,15 @@
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ? user.info.aadhar_number :
+                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ?
+                                user.info.aadhar_number :
                                 '---'
                                 }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number : '---' }}</div>
+                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number :
+                                '---' }}</div>
                         </div>
                     </div>
 
@@ -166,7 +174,8 @@
                         style="margin-left: 17px;padding: 13px;padding-bottom: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="Aadhar">Aadhar Number</div>
-                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ? user.info.aadhar_number :
+                            <div id="aadher-Value" class="Aadhar-value">{{ user?.info?.aadhar_number ?
+                                user.info.aadhar_number :
                                 '---'
                                 }}</div>
                         </div>
@@ -180,7 +189,8 @@
                         style="margin-left: 17px;padding: 13px;padding-top: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="PAN">PAN Number</div>
-                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number : '---' }}</div>
+                            <div id="pan-Value" class="PAN-value">{{ user?.info?.pan_number ? user.info.pan_number :
+                                '---' }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <button id="Pan-view">View</button>
