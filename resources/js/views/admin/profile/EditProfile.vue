@@ -578,7 +578,7 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
+                                    <UploadDoc v-for="component in uploadComponent" @update-ref="updateDocRefValue" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
                                     <!-- <UploadDoc message="hello" /> -->
                                     <!-- <div class="col-sm-4">
                                         <div class="card  card1">
@@ -856,15 +856,21 @@ watchEffect(() => {
     };
 })
 
+const updateDocRefValue = (newValue) => {
+    userData.value[newValue.name] = newValue.path;
+}
+
 const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
         title:'Aadhar Card Number',
+        type:'aadhar_proof',
         edit:false
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'PAN Card',
+        type:'pan_proof',
         edit:false
     },
     {

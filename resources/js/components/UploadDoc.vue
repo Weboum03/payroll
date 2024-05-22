@@ -25,7 +25,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, defineProps, defineEmits } from 'vue';
-const emit = defineEmits(['change', 'delete-input'])
+const emit = defineEmits(['change', 'delete-input', 'update-ref'])
 
 const props = defineProps({
     id: String,
@@ -50,6 +50,7 @@ const choosFile = async (event) => {
             }
         });
         const tempPath = response.data.temporary_path;
+        emit('update-ref', {name: props.is.type, path:tempPath});
         // userData.value.user_profile_picture = tempPath;
         // preview.value = URL.createObjectURL(file);
         alert('File uploaded temporarily');

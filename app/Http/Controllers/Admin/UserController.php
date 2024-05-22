@@ -81,8 +81,12 @@ class UserController extends BaseController
     {
         $user = $this->userRepository->getById($id);
         $user->load('info');
-        $picture = $user->getFirstMedia('user_profile_picture');
-        $user->setAttribute('user_profile_picture', ($picture->preview_url)??null);
+
+        foreach (User::MEDIA_COLLECTIONS as $collectionName) {
+            $picture = $user->getFirstMedia($collectionName);
+            $user->setAttribute($collectionName, ($picture->preview_url)??null);
+        }
+        
         $user->makeHidden('media');
         return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
     }

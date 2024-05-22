@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
 
     public const MEDIA_COLLECTION_PROFILE_PICTURE = 'user_profile_picture';
 
-    public const MEDIA_COLLECTIONS = [self::MEDIA_COLLECTION_PROFILE_PICTURE, 'user_cover_image'];
+    public const MEDIA_COLLECTIONS = [self::MEDIA_COLLECTION_PROFILE_PICTURE, 'aadhar_proof', 'pan_proof'];
 
     /**
      * The attributes that are mass assignable.

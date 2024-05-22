@@ -180,7 +180,8 @@
                                 }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
-                            <button id="Aadhar-view">View</button>
+                            <!-- <button id="Aadhar-view" :target="_blank" :href="url">View</button> -->
+                            <a v-if="user?.aadhar_proof" id="Aadhar-view" target="_blank" :href="user?.aadhar_proof">View</a>
                             <div id="Aadhar-download-icon"><i class="fa-sharp fa-solid fa-file-export fa-sm"
                                     style="color: #2DB9F8;"></i></div>
                         </div>
@@ -193,7 +194,8 @@
                                 '---' }}</div>
                         </div>
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
-                            <button id="Pan-view">View</button>
+                            <!-- <button id="Pan-view">View</button> -->
+                            <a v-if="user?.pan_proof" id="Aadhar-view" target="_blank" :href="user?.pan_proof">View</a>
                             <div id="Pan-download-icon"><i class="fa-sharp fa-solid fa-file-export fa-sm"
                                     style="color: #2DB9F8;"></i></div>
                         </div>

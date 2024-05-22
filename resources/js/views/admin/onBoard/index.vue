@@ -644,7 +644,7 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
+                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)" @update-ref="updateDocRefValue"></UploadDoc>
                                     <!-- <div class="col-sm-4">
                                         <div class="card  card1">
                                             <div class="card-body">
@@ -1021,6 +1021,9 @@ function prevStep() {
 
 import UploadDoc from "../../../components/UploadDoc.vue";
 
+const updateDocRefValue = (newValue) => {
+    userData.value[newValue.name] = newValue.path;
+}
 const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
