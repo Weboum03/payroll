@@ -33,7 +33,7 @@ class UserController extends BaseController
         $users = $this->userRepository->listing($request);
         $users->map(function ($user) {
             $picture = $user->getFirstMedia('user_profile_picture');
-            $user->setAttribute('user_profile_picture', ($picture->preview_url)??null);
+            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
             $user->makeHidden('media');
             return $user;
         });
@@ -80,11 +80,11 @@ class UserController extends BaseController
     public function show(string $id)
     {
         $user = $this->userRepository->getById($id);
-        $user->load('info');
+        $user->load('info','role');
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             $picture = $user->getFirstMedia($collectionName);
-            $user->setAttribute($collectionName, ($picture->preview_url)??null);
+            $user->setAttribute($collectionName, ($picture->original_url)??null);
         }
         
         $user->makeHidden('media');
@@ -108,7 +108,7 @@ class UserController extends BaseController
         
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             if (!$request->has($collectionName)) { continue; }
-            if($collectionName == 'user_profile_picture') { $user->clearMediaCollection($collectionName); }
+            $user->clearMediaCollection($collectionName);
             $user->uploadMedia($collectionName, $request->$collectionName);
         }
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));

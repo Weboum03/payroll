@@ -46,27 +46,42 @@
                                 <div class="row">
                                     <div class="col input-group-fname">
                                         <Field type="text" name="first_name"
-                                            :class="{ 'is-invalid': errors.first_name }" placeholder="First Name"
+                                            :class="{ 'is-invalid': errors.first_name }" placeholder="First Name*"
                                             class="input" v-model="userData.first_name" autocomplete="off" required />
-                                        <label for="First Name" class="user-label">First Name</label>
+                                        <label for="First Name" class="user-label">First Name*</label>
                                         <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
+                                        <Field type="text" name="middle_name"
+                                            :class="{ 'is-invalid': errors.middle_name }" placeholder="Middle Name"
+                                            class="input" v-model="userData.middle_name" autocomplete="off" required />
+                                        <label for="First Name" class="user-label">Middle Name</label>
+                                        <ErrorMessage name="middle_name" class="text-danger mt-1" />
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+
+                                    <div class="col input-group-fname">
                                         <Field type="text" name="last_name" :class="{ 'is-invalid': errors.last_name }"
-                                            placeholder="First Name" class="input" v-model="userData.last_name"
+                                            placeholder="First Name*" class="input" v-model="userData.last_name"
                                             autocomplete="off" required />
                                         <label for="Last Name" class="user-label">Last Name*</label>
                                         <ErrorMessage name="last_name" class="text-danger mt-1" />
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col input-group-fname">
                                         <Field type="email" name="email" class="input"
-                                            :class="{ 'is-invalid': errors.email }" placeholder="Email"
+                                            :class="{ 'is-invalid': errors.email }" placeholder="Email*"
                                             v-model="userData.email" autocomplete="off" required />
-                                        <label for="Email" class="user-label">Email</label>
+                                        <label for="Email" class="user-label">Email*</label>
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
+
+                                    
+                                </div>
+
+                                <div class="row">
 
                                     <div class="col input-group-fname">
                                         <Field type="email" name="secondary_email" v-model="userData.secondary_email"
@@ -76,27 +91,28 @@
                                         <label for="Secondary Email" class="user-label">Secondary Email</label>
                                         <ErrorMessage name="secondary_email" class="text-danger mt-1" />
                                     </div>
-                                </div>
-
-                                <div class="row">
+                                    
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="phone" class="input"
+                                        <Field type="number" name="phone" class="input"
                                             :class="{ 'is-invalid': errors.phone }" v-model="userData.phone"
-                                            autocomplete="off" placeholder="Mobile" required />
-                                        <label for="Mobile" class="user-label">Mobile</label>
+                                            autocomplete="off" placeholder="Mobile*" required />
+                                        <label for="Mobile" class="user-label">Mobile*</label>
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
                                     </div>
 
+                                    
+                                </div>
+                                <div class="row">
+
                                     <div class="col input-group-fname">
-                                        <Field type="text" name="alternate_phone"
+                                        <Field type="number" name="alternate_phone"
                                             :class="{ 'is-invalid': errors.alternate_phone }"
                                             v-model="userData.alternate_phone" class="input" autocomplete="off"
                                             placeholder="Alternate Mobile" required />
                                         <label for="Alternate Mobile" class="user-label">Alternate Mobile</label>
                                         <ErrorMessage name="alternate_phone" class="text-danger mt-1" />
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col input-group-fname">
                                         <Field name="gender" as="select" class="form-control input"
                                             :class="{ 'is-invalid': errors.gender }" v-model="userData.gender"
@@ -110,15 +126,18 @@
                                         <ErrorMessage name="gender" class="text-danger mt-1" />
 
                                     </div>
+                                    
+                                </div>
+
+                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field type="date" name="dob" class="input" v-model="userData.dob"
                                             autocomplete="off" placeholder="Date of Birth*"
                                             :class="{ 'is-invalid': errors.dob }" required />
-                                        <label for="html" class="user-label ">Date of Birth</label>
+                                        <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
                                     </div>
                                 </div>
-
 
                                 <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
                                     <p>Local Address</p>
@@ -181,7 +200,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
                                             v-model="userData.city" autocomplete="off" placeholder="City/Town"
                                             required />
-                                        <label for="City" class="user-label">City/Town*</label>
+                                        <label for="City" class="user-label">City/Town</label>
                                         <ErrorMessage name="city" class="text-danger mt-1" />
                                     </div>
 
@@ -189,7 +208,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
                                             v-model="userData.p_city" autocomplete="off" placeholder="City/Town"
                                             required :disabled="sameAsLocal" />
-                                        <label for="City" class="user-label">City/Town*</label>
+                                        <label for="City" class="user-label">City/Town</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
                                     </div>
 
@@ -200,15 +219,15 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
                                             v-model="userData.country" autocomplete="off" placeholder="Country"
                                             required />
-                                        <label for="Country" class="user-label">Country*</label>
+                                        <label for="Country" class="user-label">Country</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
                                             v-model="userData.p_country" class="input" autocomplete="off"
-                                            placeholder="Country*" required :disabled="sameAsLocal" />
-                                        <label for="Country" class="user-label">Country*</label>
+                                            placeholder="Country" required :disabled="sameAsLocal" />
+                                        <label for="Country" class="user-label">Country</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
                                 </div>
@@ -217,7 +236,7 @@
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
                                             v-model="userData.state" autocomplete="off" placeholder="State" required />
-                                        <label for="State" class="user-label">State*</label>
+                                        <label for="State" class="user-label">State</label>
                                         <ErrorMessage name="state" class="text-danger mt-1" />
                                     </div>
 
@@ -225,7 +244,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
                                             v-model="userData.p_state" autocomplete="off" placeholder="State" required
                                             :disabled="sameAsLocal" />
-                                        <label for="State" class="user-label">State*</label>
+                                        <label for="State" class="user-label">State</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
                                     </div>
 
@@ -818,6 +837,7 @@ watchEffect(() => {
     userData.value = {
         id: user?.id,
         first_name: user?.first_name,
+        middle_name: user?.middle_name,
         last_name: user?.last_name,
         email: user?.email,
         phone: user?.phone,
@@ -914,13 +934,17 @@ const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
 }
 
+const phoneRegExp = '/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/';
+
 const schemas = [
     yup.object({
         first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+        middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
         last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
-        email: yup.string().required().email(),
-        secondary_email: yup.string().nullable().email('Must be valid email'),
-        phone: yup.number().required("Required!"),
+        email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
+        secondary_email: yup.string().email('Invalid Email').nullable(),
+        phone: yup.string().min(10).max(10).required("Required!"),
+        alternate_phone: yup.string().nullable(),
         gender: yup.string().required("Required!"),
         dob: yup.string().required("Required!"),
         // address: yup.string().required("Required!"),

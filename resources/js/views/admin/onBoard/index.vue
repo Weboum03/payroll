@@ -42,6 +42,18 @@
                                         <label for="First Name" class="user-label">First Name*</label>
                                         <ErrorMessage name="first_name" class="text-danger mt-1" />
                                     </div>
+
+                                    <div class="col input-group-fname">
+                                        <Field v-slot="{ field, handleChange }" type="text" :value="values.middle_name"
+                                            placeholder="Middle Name" name="middle_name" :valid="false" class="input"
+                                            autocomplete="off" required />
+                                        <label for="Middle Name" class="user-label">Middle Name</label>
+                                        <ErrorMessage name="middle_name" class="text-danger mt-1" />
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="last_name"
                                             class="input" autocomplete="off">
@@ -52,19 +64,21 @@
                                         <label for="Last Name" class="user-label">Last Name*</label>
                                         <ErrorMessage name="last_name" class="text-danger mt-1" />
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="email" name="email" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.email }" placeholder="Email" type="email"
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email*" type="email"
                                                 autocomplete="off" class="input" required>
                                         </Field>
-                                        <label for="Email" class="user-label">Email</label>
+                                        <label for="Email" class="user-label">Email*</label>
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
 
+                                    
+                                </div>
+
+                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="email" name="secondary_email"
                                             class="input" autocomplete="off">
@@ -76,20 +90,20 @@
                                         <label for="Secondary Email" class="user-label">Secondary Email</label>
                                         <ErrorMessage name="secondary_email" class="text-danger mt-1" />
                                     </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="phone" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.phone }" placeholder="Mobile"
+                                                :class="{ 'is-invalid': errors.phone }" placeholder="Mobile*"
                                                 type="number" autocomplete="off" class="input" required>
                                         </Field>
-                                        <label for="Mobile" class="user-label">Mobile</label>
+                                        <label for="Mobile" class="user-label">Mobile*</label>
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
                                     </div>
 
+                                    
+                                </div>
+                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="alternate_phone"
                                             class="input" autocomplete="off">
@@ -101,8 +115,6 @@
                                         <label for="Alternate Mobile" class="user-label">Alternate Mobile</label>
                                         <ErrorMessage name="alternate_phone" class="text-danger mt-1" />
                                     </div>
-                                </div>
-                                <div class="row">
                                     <div class="col input-group-fname">
                                         <Field required name="gender" as="select" class="form-control input"
                                             autocomplete="off" style="color: #7e7e7e;">
@@ -115,18 +127,7 @@
                                         <ErrorMessage name="gender" class="text-danger mt-1" />
 
                                     </div>
-                                    <div class="col input-group-fname">
-
-                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
-                                            autocomplete="off">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                placeholder="Date of Birth*" type="text"
-                                                autocomplete="off" class="input" required>
-                                        </Field>
-                                        <label for="html" class="user-label ">Date of Birth</label>
-                                        <ErrorMessage name="dob" class="text-danger mt-1" />
-                                    </div>
+                                    
                                 </div>
 
                                 <div class="row">
@@ -141,6 +142,17 @@
                                         <label for="html" class="user-label ">Password</label>
                                         <ErrorMessage name="password" class="text-danger mt-1" />
                                     </div>
+                                    <div class="col input-group-fname">
+                                        <Field v-slot="{ field, handleChange }" name="dob" class="input"
+                                            autocomplete="off">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
+                                                placeholder="Date of Birth*" type="text"
+                                                autocomplete="off" class="input" required>
+                                        </Field>
+                                        <label for="html" class="user-label ">Date of Birth*</label>
+                                        <ErrorMessage name="dob" class="text-danger mt-1" />
+                                        </div>
                                 </div>
 
                                 <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
@@ -358,27 +370,27 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="employee_id" placeholder="Employee ID"
+                                    <Field required type="text" name="employee_id" placeholder="Employee ID*"
                                         :class="{ 'is-invalid': errors.employee_id }" class="input"
                                         autocomplete="off" />
-                                    <label for="Employee ID" class="user-label">Employee ID</label>
+                                    <label for="Employee ID" class="user-label">Employee ID*</label>
                                     <ErrorMessage name="employee_id" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="doj"
+                                    <Field required type="text" onfocus="(this.type='date')" name="doj*"
                                         placeholder="Date of Joining" :class="{ 'is-invalid': errors.doj }"
                                         class="input" autocomplete="off" />
-                                    <label for="Start Date" class="user-label ">Date of Joining</label>
+                                    <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date"
+                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date*"
                                         placeholder="Probation End Date"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
-                                    <label for="Probation End Date" class="user-label ">Probation End Date</label>
+                                    <label for="Probation End Date" class="user-label ">Probation End Date*</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -497,12 +509,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="role_id" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Job Role</option>
+                                        <option value="" disabled selected>Job Role*</option>
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
                                         </option>
                                     </Field>
-                                    <label for="html" class="user-label">Job Role</label>
+                                    <label for="html" class="user-label">Job Role*</label>
                                     <ErrorMessage name="role_id" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -875,10 +887,12 @@ watch(sameAsLocal, (current, previous) => {
 const schemas = [
   yup.object({
     first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+    middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
     last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
-    email: yup.string().required().email(),
-    secondary_email: yup.string().nullable().email('Must be valid email'),
-    phone: yup.number().required("Required!"),
+    email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
+    secondary_email: yup.string().email('Invalid Email').nullable(),
+    phone: yup.string().min(10).max(10).required("Required!"),
+    alternate_phone: yup.string().nullable(),
     gender: yup.string().required("Required!"),
     password: yup.string().required("Required!"),
     dob: yup.string().required("Required!"),
@@ -923,6 +937,7 @@ onMounted(() => {
 // Initial values
 const formValues = {
     first_name: '',
+    middle_name: '',
     last_name: '',
     email: '',
     secondary_email: '',

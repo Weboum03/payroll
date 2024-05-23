@@ -23,9 +23,9 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref, defineProps, defineEmits, inject } from 'vue';
 const emit = defineEmits(['change', 'delete-input', 'update-ref'])
-
+const swal = inject("$swal");
 const props = defineProps({
     id: String,
     title: String,
@@ -38,27 +38,47 @@ const onClick = () => {
     fileInput.value.click();
 }
 
-const choosFile = async (event) => {
-    // Handle the uploaded file here
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-        const response = await axios.post('/api/tempfile', formData, {
+const choosFile = (event) => {
+    text.value = 'Processing';
+    setTimeout(() => {
+        // Handle the uploaded file here
+        const file = event.target.files[0];
+        if (file.size > 1024 * 1024 * 10) {
+            text.value = 'Re-Upload';
+            swal({
+                icon: "error",
+                title: "File too big! Maximum file size is 10MB.",
+            });
+            return;
+        }
+        const formData = new FormData();
+        formData.append('image', file);
+        axios.post('/api/tempfile', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        });
-        const tempPath = response.data.temporary_path;
-        emit('update-ref', {name: props.is.type, path:tempPath});
-        text.value = 'Re-Upload';
-        // userData.value.user_profile_picture = tempPath;
-        // preview.value = URL.createObjectURL(file);
-        // alert('File uploaded temporarily');
-    } catch (error) {
-        console.error(error);
-        // alert('Failed to upload file');
-    }
+        }).then((response) => {
+            const tempPath = response.data.temporary_path;
+            emit('update-ref', { name: props.is.type, path: tempPath });
+            text.value = 'Re-Upload';
+            // userData.value.user_profile_picture = tempPath;
+            // preview.value = URL.createObjectURL(file);
+            swal({
+                icon: "success",
+                title: "File uploaded temporarily",
+            });
+        })
+            .catch((error) => {
+                console.error(error);
+                swal({
+                    icon: "error",
+                    title: "Failed to upload file",
+                });
+            })
+            .finally(() => (text.value = 'Re-Upload'));
+    }, 1000);
+
+
 }
 
 const deleteInput = () => {

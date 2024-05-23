@@ -34,6 +34,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         'name',
         'employee_id',
         'first_name',
+        'middle_name',
         'last_name',
         'email',
         'phone',

@@ -21,7 +21,7 @@
                 <div class="name-role d-flex flex-column justify-content-center align-items-center"
                     style="font-family: monospace;">
                     <div>{{ user?.first_name }}</div>
-                    <div style="font-size: 13px;color: #A8A8A8;font-weight: 500;">Supervisor</div>
+                    <div style="font-size: 13px;color: #A8A8A8;font-weight: 500;">{{ user?.role?.name }}</div>
                 </div>
 
                 <div class="email-phone d-flex flex-column justify-content-center align-items-center"
