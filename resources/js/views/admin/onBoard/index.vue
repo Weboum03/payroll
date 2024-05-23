@@ -121,7 +121,7 @@
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                id="dob-Value" placeholder="Date of Birth*" type="text"
+                                                placeholder="Date of Birth*" type="text"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth</label>
@@ -135,7 +135,7 @@
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.password }"
-                                                id="dob-Value" placeholder="Password*" type="text"
+                                                placeholder="Password*" type="password"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Password</label>
@@ -334,9 +334,11 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
                             </div>
 
@@ -368,7 +370,7 @@
                                     <Field required type="text" onfocus="(this.type='date')" name="doj"
                                         placeholder="Date of Joining" :class="{ 'is-invalid': errors.doj }"
                                         class="input" autocomplete="off" />
-                                    <label for="Start Date" class="user-label ">Date of Joining*</label>
+                                    <label for="Start Date" class="user-label ">Date of Joining</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
@@ -376,7 +378,7 @@
                                         placeholder="Probation End Date"
                                         :class="{ 'is-invalid': errors.prob_end_date }" class="input"
                                         autocomplete="off" />
-                                    <label for="Probation End Date" class="user-label ">Probation End Date*</label>
+                                    <label for="Probation End Date" class="user-label ">Probation End Date</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -390,7 +392,7 @@
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="Company" class="user-label">Company*</label>
+                                    <label for="Company" class="user-label">Company</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
                                 </div>
 
@@ -416,7 +418,7 @@
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="qualification" class="user-label">Qualification-Degree*</label>
+                                    <label for="qualification" class="user-label">Qualification-Degree</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
@@ -531,14 +533,14 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number*"
+                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
                                         autocomplete="off" />
                                     <label for="Aadhar Number" class="user-label">Aadhar Number</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="pan_number" placeholder="PAN Number*"
+                                    <Field type="text" name="pan_number" placeholder="PAN Number"
                                         :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">PAN Number</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
@@ -552,9 +554,11 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
                             </div>
 
@@ -564,12 +568,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="holiday_year" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Holiday Year*</option>
+                                        <option value="" disabled selected>Holiday Year</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="Holiday Year" class="user-label">Holiday Year*</label>
+                                    <label for="Holiday Year" class="user-label">Holiday Year</label>
                                     <ErrorMessage name="holiday_year" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -578,22 +582,22 @@
                                 <div class="col input-group-fname">
                                     <Field required name="work_pattern" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Work Pattern*</option>
+                                        <option value="" disabled selected>Work Pattern</option>
                                         <option value="Option1">Option1</option>
                                         <option value="Option2">Option2</option>
                                         <option value="other">Other</option>
                                     </Field>
-                                    <label for="Holiday Year" class="user-label">Work Pattern*</label>
+                                    <label for="Holiday Year" class="user-label">Work Pattern</label>
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required type="text" name="earning_leave_entitlement"
-                                        placeholder="Annual Earned Leave Entitlement*"
+                                        placeholder="Annual Earned Leave Entitlement"
                                         :class="{ 'is-invalid': errors.earning_leave_entitlement }" class="input"
                                         autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">Annual Earned Leave Entitlement*</label>
+                                    <label for="PAN Number" class="user-label">Annual Earned Leave Entitlement</label>
                                     <ErrorMessage name="earning_leave_entitlement" class="text-danger mt-1" />
                                 </div>
                                 <div class="container p2">If during probation no leaves are avaliable for employees,
@@ -603,16 +607,16 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="this_year" placeholder="This Year*"
+                                    <Field required type="text" name="this_year" placeholder="This Year"
                                         :class="{ 'is-invalid': errors.this_year }" class="input" autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">This Year*</label>
+                                    <label for="PAN Number" class="user-label">This Year</label>
                                     <ErrorMessage name="this_year" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="next_year" placeholder="Next Year*"
+                                    <Field required type="text" name="next_year" placeholder="Next Year"
                                         :class="{ 'is-invalid': errors.next_year }" class="input" autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">Next Year*</label>
+                                    <label for="PAN Number" class="user-label">Next Year</label>
                                     <ErrorMessage name="next_year" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -623,9 +627,11 @@
                         <div class="form-step form-step-active">
                             <div class="profile1 d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
@@ -983,6 +989,7 @@ const uploadTempFile = async (event) => {
         const tempPath = response.data.temporary_path;
         // filesToUpload.value.push(tempPath);
         filesToUpload.value.user_profile_picture = tempPath;
+        userDetail.value.user_profile_picture = tempPath;
         console.log(filesToUpload.value);
         preview.value = URL.createObjectURL(file);
         alert('File uploaded temporarily');
@@ -1007,6 +1014,8 @@ async function nextStep(values, user) {
     Object.assign(values, filesToUpload.value);
     return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
   }
+  userDetail.value = values;
+  console.log('vipan', userDetail);
   currentStep.value++;
   boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
