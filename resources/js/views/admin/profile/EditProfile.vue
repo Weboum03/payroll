@@ -144,9 +144,9 @@
                                     <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
                                         Permanent Address
                                         <span class="d-flex" style="gap: 6px;">
-                                            <Field name="as_local" v-model="sameAsLocal" :value="sameAsLocal"
+                                            <input name="as_local" v-model="sameAsLocal"
                                                 type="checkbox" />
-                                            <label for="SameAsLocal">Same As Local {{ sameAsLocal }}</label>
+                                            <label for="SameAsLocal">Same As Local</label>
                                         </span>
                                     </p>
                                 </div>
@@ -165,7 +165,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
-                                            v-model="userData.p_address" class="input" autocomplete="off"
+                                            v-model="perAddress.address" class="input" autocomplete="off"
                                             placeholder="Address Line 1" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
@@ -185,7 +185,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address_1"
-                                            v-model="userData.p_address_1" class="input" autocomplete="off"
+                                            v-model="perAddress.address_1" class="input" autocomplete="off"
                                             placeholder="Address Line 2" required :disabled="sameAsLocal" />
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
@@ -206,7 +206,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
-                                            v-model="userData.p_city" autocomplete="off" placeholder="City/Town"
+                                            v-model="perAddress.city" autocomplete="off" placeholder="City/Town"
                                             required :disabled="sameAsLocal" />
                                         <label for="City" class="user-label">City/Town</label>
                                         <ErrorMessage name="p_city" class="text-danger mt-1" />
@@ -225,7 +225,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="userData.p_country" class="input" autocomplete="off"
+                                            v-model="perAddress.country" class="input" autocomplete="off"
                                             placeholder="Country" required :disabled="sameAsLocal" />
                                         <label for="Country" class="user-label">Country</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
@@ -242,7 +242,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
-                                            v-model="userData.p_state" autocomplete="off" placeholder="State" required
+                                            v-model="perAddress.state" autocomplete="off" placeholder="State" required
                                             :disabled="sameAsLocal" />
                                         <label for="State" class="user-label">State</label>
                                         <ErrorMessage name="p_state" class="text-danger mt-1" />
@@ -260,7 +260,7 @@
                                     </div>
                                     <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
-                                            v-model="userData.p_postcode" class="input" autocomplete="off"
+                                            v-model="perAddress.postcode" class="input" autocomplete="off"
                                             placeholder="Post Code" required :disabled="sameAsLocal" />
                                         <label for="Post Code" class="user-label">Post Code</label>
                                         <ErrorMessage name="p_postcode" class="text-danger mt-1" />
@@ -604,125 +604,6 @@
 
                                 <div class="row ">
                                     <UploadDoc v-for="component in uploadComponent" @update-ref="updateDocRefValue" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
-                                    <!-- <UploadDoc message="hello" /> -->
-                                    <!-- <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Aadhar Card Number</div>
-                                                    </div>
-
-                                                    <button type="button" class="btn btn-primary updoc">Upload
-                                                        Document</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">PAN Card</div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-primary updoc">Upload
-                                                        Document</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">PF & ESIC information</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Confirmation letter</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Education Document</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Experience Letter</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
                                     <div class="col-sm-4">
                                         <div class="card  card2">
                                             <div class="card-body d-flex justify-content-center align-items-center">
@@ -782,7 +663,6 @@
                                 @click="cancel">Cancel</a>
                         </div>
                     </div>
-
                 </Form>
             </form>
 
@@ -811,27 +691,37 @@ const userData = ref({})
 const userDetail = ref({});
 const sameAsLocal = ref(false);
 const perAddress = ref({});
+const oldPerAddress = ref({});
+const preview = ref();
+
 watch(sameAsLocal, (current, previous) => {
-    if (sameAsLocal === true) {
+    console.log('vipan', sameAsLocal.value)
+    if (sameAsLocal.value === true) {
+        // userData.value.p_address = 'Rahul';
+        console.log('rshu')
         perAddress.value = userData.value;
     } else {
-        perAddress.value = {};
+        console.log('ddd')
+        perAddress.value = oldPerAddress.value;
     }
+    console.log('oldData', oldPerAddress.value)
 });
 
 onMounted(async () => {
     getUser(route.params.id)
     getRoles()
 });
-const preview = ref();
+
 watchEffect(() => {
     const user = postData.value;
     // sameAsLocal.value = user?.info?.as_local;
     if (user?.info?.as_local) {
-        sameAsLocal.value = true;
+        sameAsLocal.value = user?.info?.as_local;
     } else {
-        sameAsLocal.value = true;
+        sameAsLocal.value = false;
     }
+
+    
 
     preview.value = user?.user_profile_picture;
     userData.value = {
@@ -852,12 +742,12 @@ watchEffect(() => {
         country: user?.info?.country,
         postcode: user?.info?.postcode,
         as_local: user?.info?.as_local,
-        p_address: user?.info?.address,
-        p_address_1: user?.info?.address_1,
-        p_city: user?.info?.city,
-        p_state: user?.info?.state,
-        p_country: user?.info?.country,
-        p_postcode: user?.info?.postcode,
+        p_address: user?.info?.p_address,
+        p_address_1: user?.info?.p_address_1,
+        p_city: user?.info?.p_city,
+        p_state: user?.info?.p_state,
+        p_country: user?.info?.p_country,
+        p_postcode: user?.info?.p_postcode,
         employee_id: user?.employee_id,
         doj: user?.info?.doj,
         prob_end_date: user?.info?.prob_end_date,
@@ -881,6 +771,25 @@ watchEffect(() => {
         this_year: user?.info?.this_year,
         next_year: user?.info?.next_year,
     };
+
+    oldPerAddress.value = {
+        address: userData.value?.p_address,
+        address_1: userData.value?.p_address_1,
+        city: userData.value?.p_city,
+        state: userData.value?.p_state,
+        country: userData.value?.p_country,
+        postcode: userData.value?.p_postcode,
+    }
+
+    perAddress.value = {
+        address: userData.value?.p_address,
+        address_1: userData.value?.p_address_1,
+        city: userData.value?.p_city,
+        state: userData.value?.p_state,
+        country: userData.value?.p_country,
+        postcode: userData.value?.p_postcode,
+    }
+    // console.log('oldData2', userData.value)
 })
 
 const updateDocRefValue = (newValue) => {
@@ -1027,8 +936,16 @@ async function submitForm(user) {
 async function nextStep(values, user) {
     if (currentStep.value === 3) {
         userDetail.value = values;
-        if (sameAsLocal.value === undefined) { userData.value.as_local = false; }
-        else { userData.value.as_local = true; }
+        userData.value.as_local = sameAsLocal.value;
+        Object.assign(userData.value, {
+            p_address: perAddress.value?.address,
+            p_address_1: perAddress.value?.address_1,
+            p_city: perAddress.value?.city,
+            p_state: perAddress.value?.state,
+            p_country: perAddress.value?.country,
+            p_postcode: perAddress.value?.postcode,
+        });
+        // console.log('vipan', perAddressValue)
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }
     userDetail.value = values;
