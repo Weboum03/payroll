@@ -10,7 +10,7 @@
                 <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
                         aria-controls="EmpTable"></label>
 
-                <router-link :to="{ name: 'admin.onBoard' }"><button id="button3" class="add"><i
+                <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }"><button id="button3" class="add"><i
                             class="fa-solid fa-plus fa-xs" style="color: white;"></i></button></router-link>
         </div>
         <table class="table text-center" ref="myTable">
@@ -39,12 +39,14 @@
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
 import useUsers from "../../../composables/users";
+import {useAbility} from '@casl/vue';
 const { users, getUsers, deleteUser } = useUsers()
 import { useRouter } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 
+const {can} = useAbility()
 const router = useRouter();
 const myTable = ref(null);
 const search_global = ref('');
@@ -82,7 +84,9 @@ const commaSeparated = (jsonArray) => {
       return namesArray.join(', ');
 }
 const navigateToDetailPage = (itemId) => {
-    router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
+    if(can('View Profile')) {
+        router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
+    }
 };
 
 watch(search_global, (current, previous) => {

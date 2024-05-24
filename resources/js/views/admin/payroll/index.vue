@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div id="PayrollBatch-btn" class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                <button type="button" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
+                <button type="button" v-if="can('Generate Payroll')" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
                     Batch</button>
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
@@ -166,6 +166,8 @@ import useBatches from "@/composables/payrollBatch";
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import { onClickOutside } from '@vueuse/core'
+import {useAbility} from '@casl/vue';
+const {can} = useAbility()
 
 const isModalOpened = ref(false);
 

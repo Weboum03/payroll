@@ -221,7 +221,7 @@ export default function useAuth() {
     const getAbilities = async () => {
         const loginUser = store.state.auth.user;
         await axios
-            .get("/api/abilities", {
+            .get("/api/admin/abilities", {
                 headers: { Authorization: `Bearer ${loginUser.access_token}` },
             })
             .then((response) => {

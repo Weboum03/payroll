@@ -41,7 +41,7 @@
                 </div>
 
 
-                <router-link :to="{ name: 'admin.EditProfile', params: { id: user?.id } }" custom v-slot="{ navigate }">
+                <router-link v-if="can('Update Profile')" :to="{ name: 'admin.EditProfile', params: { id: user?.id } }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" id="editButton" class="btn">Edit
                         Profile</button>
                 </router-link>
@@ -50,7 +50,7 @@
                     <button @click="navigate" role="link" type="button" id="plannerButton" class="btn">Planner</button>
                 </router-link>
 
-                <router-link :to="{ name: 'admin.deBoard', params: { id: user?.id } }" custom v-slot="{ navigate }">
+                <router-link v-if="can('De-Board')" :to="{ name: 'admin.deBoard', params: { id: user?.id } }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" id="de-boardButton"
                         class="btn btn-danger">De-Board</button>
                 </router-link>
@@ -210,11 +210,13 @@
 import { ref, onMounted, onUpdated, reactive, watchEffect } from "vue";
 import useUsers from "@/composables/users";
 import moment from 'moment';
+import {useAbility} from '@casl/vue';
 import { useForm, useField, defineRule } from "vee-validate";
 import apiClient from "../../../composables/api-client";
 import { useRoute } from "vue-router";
 import { param } from "jquery";
 const route = useRoute()
+const {can} = useAbility()
 const user = ref({
     'first_name': '',
     'email': ''

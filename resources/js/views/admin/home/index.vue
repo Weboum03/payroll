@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div id="PayrollBatch-btn" class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                <button type="button" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
+                <button type="button" v-if="can('Generate Payroll')" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
                     Batch</button>
                 <button type="button" class="btn btn-primary JJAA"
                     style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
@@ -461,6 +461,7 @@ import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import useBatches from "@/composables/payrollBatch";
+
 const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
@@ -474,6 +475,8 @@ import DataTablesCore from 'datatables.net';
 // import Select from 'datatables.net-select';
 
 // DataTable.use(DataTablesCore);
+import {useAbility} from '@casl/vue';
+const {can} = useAbility()
 
 const router = useRouter();
 

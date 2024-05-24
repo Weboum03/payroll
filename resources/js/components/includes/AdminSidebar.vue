@@ -90,7 +90,7 @@
                                     exact-active-class="active">Approvals</router-link>
                             </li>
                             <li>
-                                <router-link :to="{ name: 'admin.approvalHistory' }"
+                                <router-link v-if="can('View Leave History')" :to="{ name: 'admin.approvalHistory' }"
                                     exact-active-class="active">Approvals History</router-link>
                             </li>
                         </ul>
@@ -162,7 +162,8 @@
 import { ref, computed } from "vue";
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
-
+import {useAbility} from '@casl/vue';
+const {can} = useAbility()
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
