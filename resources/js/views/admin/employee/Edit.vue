@@ -101,6 +101,8 @@ import { useRoute } from "vue-router";
 import * as yup from 'yup';
 const route = useRoute()
 const { role: postData, getRole, updateRole, validationErrors, storeRole, isLoading } = useRoles();
+import useAuth from "../../../composables/auth";
+
 
 // Define a validation schema
 const schema =
@@ -134,6 +136,7 @@ watchEffect(() => {
 
 const submitForm = () => {
     validate().then(form => { if (form.valid) updateRole(role) })
+    useAuth().getUser()
 };
 
 </script>
