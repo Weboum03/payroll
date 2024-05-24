@@ -123,7 +123,8 @@
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
                                     <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
@@ -178,7 +179,8 @@
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
                                     <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
@@ -212,7 +214,8 @@
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
                                     <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
@@ -234,73 +237,14 @@
                             <div class="container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" name="" id="">
-                                                        <div class="p4">Equipment</div>
-                                                    </div>
-
-                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
-                                                        Task</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" name="" id="">
-                                                        <div class="p4">Exit Interview</div>
-                                                    </div>
-                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
-                                                        Task</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" name="" id="">
-                                                        <div class="p4">Internal Update</div>
-                                                    </div>
-                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
-                                                        Task</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" name="" id="">
-                                                        <div class="p4">Relieving letter</div>
-                                                    </div>
-
-                                                    <a id="myAnchor" href="#" class="btn btn-primary removeTask">Remove
-                                                        Task</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <DeboardDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)" @update-ref="updateDocRefValue"></DeboardDoc>
                                     <div class="col-sm-4">
                                         <div class="card  card2">
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <a id="myAnchor" href="#" class="btn btn-primary removeTask1"
-                                                        data-toggle="modal" data-target="#AddDocModal">Add Task</a>
+                                                        data-toggle="modal" data-target="#AddDocModal"
+                                                        @click="openModal">Add Task</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -359,19 +303,89 @@
             </div>
         </div>
     </div>
+
+    <div v-if="isModalOpened" class="modal-mask" id="AddDocModal" tabindex="-1" aria-labelledby="AddDocModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddDocModalLabel">Add Document</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                style="color: #2DB9F8"></i></span>
+                    </button>
+                </div>
+                <Form @submit="submitDocForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col input-group-fname">
+                                <Field placeholder="Document name*" required type="text" name="docName" autocomplete="off"
+                                    class="input" id="Doc-name" style="width: 310px;" />
+                                <label class="user-label">Document name*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-primary save">Save</button>
+                        <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
+                    </div>
+                </Form>
+
+            </div>
+        </div>
+    </div>
 </template>
 <script setup>
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, onMounted , reactive, computed, inject } from 'vue';
+import { ref, onMounted, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 import { useRoute, useRouter } from "vue-router";
+import DeboardDoc from "../../../components/DeboardDoc.vue";
 const { user, getUser, storeUser, validationErrors, validationMessage, isLoading, deleteUser } = useUsers();
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
-const currentStep = ref(0);
+const currentStep = ref(3);
 const boxWidth = ref(0); // Initial width
+
+
+const uploadComponent = ref([
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Equipment',
+        type:'equipment',
+        edit:true
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Exit Interview',
+        type:'exit_interview',
+        edit:false
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Internal Update',
+        type:'internal_update',
+        edit:true
+    },
+    {
+        id : Math.random().toString(36).substring(7),
+        title:'Relieving letter',
+        type:'relieving_letter',
+        edit:true
+    }
+]);
+
+const updateDocRefValue = (newValue) => {
+    filesToUpload.value[newValue.name] = newValue.path;
+    console.log('Rahul',newValue);
+    console.log(filesToUpload.value);
+}
+
+const deleteInput = (id) => {
+    uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
+};
 
 const schemas = [
     yup.object({
@@ -401,6 +415,15 @@ const currentSchema = computed(() => {
     return schemas[currentStep.value];
 });
 
+const submitDocForm = (values) => {
+    uploadComponent.value.push({
+        id: Math.random().toString(36).substring(7),
+        title: values.docName,
+        edit:true
+    });
+    closeModal();
+}
+
 async function submitForm(user) {
     await deleteUser(route.params.id, user);
 }
@@ -423,9 +446,43 @@ function prevStep() {
     currentStep.value--;
     boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
+
+const isModalOpened = ref(false);
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
 </script>
 
 
 <style>
 @import '@/assets/css/de-board.css';
+
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
+}
 </style>
