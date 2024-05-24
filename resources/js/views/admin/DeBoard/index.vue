@@ -76,15 +76,12 @@
                                 <div class="row justify-content-start align-items-start">
                                     <div class="col input-group-fname">
 
-                                        <Field required type="text" name="start_date" class="input" onfocus="(this.type='date')"
-                                            autocomplete="off" placeholder="De-Boarding Date*"
+                                        <Field required type="text" name="start_date" class="input"
+                                            onfocus="(this.type='date')" autocomplete="off"
+                                            placeholder="De-Boarding Date*"
                                             :class="{ 'is-invalid': errors.start_date }" />
                                         <label for="html" class="user-label ">De-Boarding Date*</label>
                                         <ErrorMessage name="start_date" class="text-danger mt-1" />
-                                        <span class="input-group-append dateIcon">
-                                            <span style=" position: relative; bottom: 31px; left: 300px;"><i
-                                                    class="fas fa-calendar-alt"></i></span>
-                                        </span>
 
                                     </div>
 
@@ -99,27 +96,21 @@
 
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field required type="text" name="final_employment_date" class="input" onfocus="(this.type='date')"
-                                            autocomplete="off" placeholder="Final Employment Date*"
+                                        <Field required type="text" name="final_employment_date" class="input"
+                                            onfocus="(this.type='date')" autocomplete="off"
+                                            placeholder="Final Employment Date*"
                                             :class="{ 'is-invalid': errors.final_employment_date }" />
                                         <label for="html" class="user-label ">Final Employment Date*</label>
                                         <ErrorMessage name="final_employment_date" class="text-danger mt-1" />
-                                        <span class="input-group-append dateIcon">
-                                            <span style=" position: relative; bottom: 31px; left: 300px;"><i
-                                                    class="fas fa-calendar-alt"></i></span>
-                                        </span>
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field required type="text" name="final_working_date" class="input" onfocus="(this.type='date')"
-                                            autocomplete="off" placeholder="Final Working Date*"
+                                        <Field required type="text" name="final_working_date" class="input"
+                                            onfocus="(this.type='date')" autocomplete="off"
+                                            placeholder="Final Working Date*"
                                             :class="{ 'is-invalid': errors.final_working_date }" />
                                         <label for="html" class="user-label ">Final Working Date*</label>
                                         <ErrorMessage name="final_working_date" class="text-danger mt-1" />
-                                        <span class="input-group-append dateIcon">
-                                            <span style=" position: relative; bottom: 31px; left: 300px;"><i
-                                                    class="fas fa-calendar-alt"></i></span>
-                                        </span>
                                     </div>
                                 </div>
 
@@ -130,30 +121,33 @@
                         <div class="form-step form-step-active" style="padding: 20px; gap: 1.5rem;">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
                             </div>
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required name="report_to" as="select" class="form-control input"
-                                            autocomplete="off" style="color: #7e7e7e;">
-                                            <option value="" disabled selected>Re-Assign Direct Reports to*</option>
-                                            <option value="male">option1</option>
-                                            <option value="female">option2</option>
-                                            <option value="other">Other</option>
-                                        </Field>
-                                        <label for="report_to" class="user-label">Re-Assign Direct Reports to*</label>
-                                        <ErrorMessage name="report_to" class="text-danger mt-1" />
+                                        autocomplete="off" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Re-Assign Direct Reports to*</option>
+                                        <option value="male">option1</option>
+                                        <option value="female">option2</option>
+                                        <option value="other">Other</option>
+                                    </Field>
+                                    <label for="report_to" class="user-label">Re-Assign Direct Reports to*</label>
+                                    <ErrorMessage name="report_to" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field type="text" as="textarea" name="support_comment"
-                                        :class="{ 'is-invalid': errors.support_comment }" placeholder="Supporting Comments"
-                                        class="input1" id="supportingComments" autocomplete="off" />
+                                        :class="{ 'is-invalid': errors.support_comment }"
+                                        placeholder="Supporting Comments" class="input1" id="supportingComments"
+                                        autocomplete="off" />
                                     <label for="support_comment" class="user-label">Supporting Comments</label>
                                     <ErrorMessage name="support_comment" class="text-danger mt-1" />
                                 </div>
@@ -163,7 +157,7 @@
                             <div style=" font-size: x-small; font-weight: 500;">Re-employable*</div>
                             <div class="d-flex align-items-center" style="gap: 1rem;margin-top: -15px;">
                                 <div class="d-flex" style="gap: .5rem;">
-                                    <input type="radio" name="re_employable" id="radioYes" value="Yes" required
+                                    <input type="radio" checked name="re_employable" id="radioYes" value="Yes" required
                                         style="width: 13px;">
                                     <label for="radioYes"
                                         style="font-size: 14px;font-weight: 500;margin-top: 3px;margin-bottom: 0px;">Yes</label>
@@ -182,26 +176,30 @@
                         <div class="form-step form-step-active" style="gap: 2rem;padding: 15px;">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="remaining_pl_year" class="input"
-                                            autocomplete="off" placeholder="Remaining Earned Leaves This Year*"
-                                            :class="{ 'is-invalid': errors.remaining_pl_year }" />
+                                        autocomplete="off" placeholder="Remaining Earned Leaves This Year*"
+                                        :class="{ 'is-invalid': errors.remaining_pl_year }" />
                                     <label for="html" class="user-label ">Remaining Earned Leaves This Year*</label>
                                     <ErrorMessage name="remaining_pl_year" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="number" name="remaining_pl_leave" class="input" id="proRataLeavingDate"
-                                            autocomplete="off" placeholder="Remaining Earned Leaves (Pro-Rata based on leaving date)"
-                                            :class="{ 'is-invalid': errors.remaining_pl_leave }" />
-                                    <label for="html" class="user-label ">Remaining Earned Leaves (Pro-Rata based on leaving date)</label>
+                                    <Field required type="number" name="remaining_pl_leave" class="input"
+                                        id="proRataLeavingDate" autocomplete="off"
+                                        placeholder="Remaining Earned Leaves (Pro-Rata based on leaving date)"
+                                        :class="{ 'is-invalid': errors.remaining_pl_leave }" />
+                                    <label for="html" class="user-label ">Remaining Earned Leaves (Pro-Rata based on
+                                        leaving date)</label>
                                     <ErrorMessage name="remaining_pl_leave" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -212,9 +210,11 @@
                         <div class="form-step form-step-active" style="gap: 2rem;">
                             <div class="profile1 d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                        alt="profile_pic">
+                                    <span class="name">{{ user?.first_name }} {{ user?.last_name }}</span>
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
@@ -344,10 +344,17 @@
 
                         </div>
                     </template>
-                    <div v-if="currentStep < 4" class="btns-save-cancle" style="margin-top: -9px;">
-                        <button class="btn btn-next btn-primary savenext">Save & Next</button>
-                        <a href="javascript:;" v-if="currentStep !== 0" @click="prevStep" class="btn btn-outline-light cancle">Back</a>
+
+                    <div v-if="currentStep < 4" class="form-step form-step-active">
+                        <div class="personal-infor">
+                            <div class="btns-save-cancle" style="margin-top: -9px;">
+                                <button class="btn btn-next btn-primary savenext">Save & Next</button>
+                                <a href="javascript:;" v-if="currentStep !== 0" @click="prevStep"
+                                    class="btn btn-outline-light cancle">Back</a>
+                            </div>
+                        </div>
                     </div>
+
                 </Form>
             </div>
         </div>
@@ -356,10 +363,10 @@
 <script setup>
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, reactive, computed, inject } from 'vue';
+import { ref, onMounted , reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 import { useRoute, useRouter } from "vue-router";
-const { user, storeUser, validationErrors, validationMessage, isLoading, deleteUser } = useUsers();
+const { user, getUser, storeUser, validationErrors, validationMessage, isLoading, deleteUser } = useUsers();
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
@@ -377,7 +384,7 @@ const schemas = [
     }),
     yup.object({
         report_to: yup.string().required("Required!"),
-        support_comment: yup.string().required("Required!"),
+        // support_comment: yup.string().required("Required!"),
         // re_employable: yup.string().required("Required!"),
     }),
     yup.object({
@@ -385,6 +392,10 @@ const schemas = [
         remaining_pl_leave: yup.string().required("Required!"),
     }),
 ];
+
+onMounted(async () => {
+    getUser(route.params.id)
+});
 
 const currentSchema = computed(() => {
     return schemas[currentStep.value];

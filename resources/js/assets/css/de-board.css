@@ -313,7 +313,7 @@ left: 35px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 28px;
+  padding: 28px !important;
   padding-bottom: 0px;
  }
 
