@@ -17,7 +17,7 @@
                 </div>
                 <!-- Progress bar -->
                 <div class="progressbar container">
-                    <div class="progress" id="progress"></div>
+                    <div class="progress" :style="{ width: boxWidth + '%' }"></div>
 
                     <div class="progress-step progress-step-active" data-title="Personal Details"></div>
                     <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 1 }"
@@ -266,12 +266,11 @@
                                         <div class="d-flex align-items-center" style="gap: 1rem;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 14px;font-weight: 600;">Done! <span
-                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> Austin
-                                                    Hodges</span> is successfully entered into the system.
+                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> {{ user?.first_name }} {{ user?.last_name }}</span> is successfully entered into the system.
                                             </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
-                                                style="color: #2DB9F8;">8456135</span> is generated.</div>
+                                                style="color: #2DB9F8;">{{ user?.employee_id }}</span> is generated.</div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
@@ -391,7 +390,7 @@ const schemas = [
     yup.object({
         reason: yup.string().required("Required!"),
         notice_period: yup.string().required("Required!"),
-        comment: yup.string().required('Required!'),
+        // comment: yup.string().required('Required!'),
         start_date: yup.string().required("Required!"),
         final_employment_date: yup.string().required("Required!"),
         final_working_date: yup.string().required("Required!"),
