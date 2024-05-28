@@ -19,6 +19,7 @@
                             <input placeholder="Role Name*" v-model="role.name" type="text" autocomplete="off"
                                 class="input" id="RoleName-Value" required>
                             <label class="user-label">Role Name*</label>
+                            <ErrorMessage name="name" class="text-danger mt-1" />
                             <div class="text-danger mt-1">
                                 <div v-for="message in validationErrors?.name">
                                     {{ message }}
@@ -94,11 +95,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, watchEffect } from "vue";
+import { ref, onMounted, reactive, watchEffect, inject } from "vue";
 import useRoles from "@/composables/roles";
-import { useForm, useField, defineRule } from "vee-validate";
+import { useForm, useField, ErrorMessage } from "vee-validate";
 import { useRoute } from "vue-router";
 import * as yup from 'yup';
+const swal = inject("$swal");
 const route = useRoute()
 const { role: postData, getRole, updateRole, validationErrors, storeRole, isLoading } = useRoles();
 import useAuth from "../../../composables/auth";
@@ -107,7 +109,7 @@ import useAuth from "../../../composables/auth";
 // Define a validation schema
 const schema =
     yup.object({
-        name: yup.string().required("Required!"),
+        name: yup.string().required("Please enter the required field").matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
     });
 
 // Create a form context with the validation schema
@@ -135,8 +137,16 @@ watchEffect(() => {
 });
 
 const submitForm = () => {
-    validate().then(form => { if (form.valid) updateRole(role) })
-    useAuth().getUser()
+    if(Object.keys(role.permissions).length === 0) {
+        swal({
+            icon: 'error',
+            title: 'Please select atleast one permission'
+        });
+    } else {
+        validate().then(form => { if (form.valid) updateRole(role) })
+        useAuth().getUser()
+    }
+    
 };
 
 </script>
