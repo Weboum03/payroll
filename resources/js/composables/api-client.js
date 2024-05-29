@@ -39,6 +39,16 @@ apiClient.interceptors.response.use(
         if (error.response.status === 401) {
             window.location.href = "/login";
         }
+
+        if (error.response.status == 422) {
+            if (error.response?.data) {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data.message,
+                });
+            }
+        }
+
         if (error.response.status === 500) {
             let message =
                 (error.response &&

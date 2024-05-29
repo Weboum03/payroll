@@ -141,12 +141,6 @@ export default function useRoles() {
                                 title: 'Role deleted successfully'
                             })
                         })
-                        .catch(error => {
-                            swal({
-                                icon: 'error',
-                                title: 'Something went wrong'
-                            })
-                        })
                 }
             })
     }

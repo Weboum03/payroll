@@ -101,7 +101,7 @@ class UserController extends BaseController
         $user->info()->updateOrCreate(['user_id' => $id], $input);
         $role = Role::find($request->role_id);
         if($role) {
-            $user->assignRole([$role->id]);
+            $user->syncRoles($role);
             $user->role_id = $role->id;
             $user->save();
         }

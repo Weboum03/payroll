@@ -118,6 +118,10 @@ class RoleController extends BaseController
      */
     public function destroy(Role $role) {
         // $this->authorize('role-delete');
+        
+        if($role->users->isNotEmpty()) {
+            return $this->sendError('Please unassign role before delete');
+        }
         $role->delete();
 
         return response()->noContent();
