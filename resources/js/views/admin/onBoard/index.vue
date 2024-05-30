@@ -542,7 +542,7 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="aadhar_number" placeholder="Aadhar Number"
+                                    <Field required type="number" name="aadhar_number" placeholder="Aadhar Number"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
                                         autocomplete="off" />
                                     <label for="Aadhar Number" class="user-label">Aadhar Number</label>

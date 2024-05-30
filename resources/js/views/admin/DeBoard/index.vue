@@ -266,11 +266,11 @@
                                         <div class="d-flex align-items-center" style="gap: 1rem;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 14px;font-weight: 600;">Done! <span
-                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> {{ user?.first_name }} {{ user?.last_name }}</span> is successfully entered into the system.
+                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> {{ user?.first_name }} {{ user?.last_name }}</span> is successfully deboarded from the system.
                                             </div>
                                         </div>
-                                        <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
-                                                style="color: #2DB9F8;">{{ user?.employee_id }}</span> is generated.</div>
+                                        <div style="font-size: 13px;font-weight: 500">Unique employee ID was <span
+                                                style="color: #2DB9F8;">{{ user?.employee_id }}</span></div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
