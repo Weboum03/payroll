@@ -58,7 +58,7 @@
                                         <label for="First Name" class="user-label">Middle Name</label>
                                         <ErrorMessage name="middle_name" class="text-danger mt-1" />
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row">
 
@@ -78,7 +78,7 @@
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -91,7 +91,7 @@
                                         <label for="Secondary Email" class="user-label">Secondary Email</label>
                                         <ErrorMessage name="secondary_email" class="text-danger mt-1" />
                                     </div>
-                                    
+
                                     <div class="col input-group-fname">
                                         <Field type="number" name="phone" class="input"
                                             :class="{ 'is-invalid': errors.phone }" v-model="userData.phone"
@@ -100,7 +100,7 @@
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
 
@@ -126,7 +126,7 @@
                                         <ErrorMessage name="gender" class="text-danger mt-1" />
 
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -144,8 +144,7 @@
                                     <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
                                         Permanent Address
                                         <span class="d-flex" style="gap: 6px;">
-                                            <input name="as_local" v-model="sameAsLocal"
-                                                type="checkbox" />
+                                            <input name="as_local" v-model="sameAsLocal" type="checkbox" />
                                             <label for="SameAsLocal">Same As Local</label>
                                         </span>
                                     </p>
@@ -283,9 +282,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -504,9 +503,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -580,9 +579,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile1 d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -603,13 +602,16 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent" @update-ref="updateDocRefValue" :is="component" :key="component.id" @delete-input="deleteInput(component.id)"></UploadDoc>
+                                    <UploadDoc v-for="component in uploadComponent" @update-ref="updateDocRefValue"
+                                        :is="component" :key="component.id" @delete-input="deleteInput(component.id)">
+                                    </UploadDoc>
                                     <div class="col-sm-4">
                                         <div class="card  card2">
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <button type="button" class="btn btn-primary updoc"
-                                                        data-toggle="modal" data-target="#AddDocModal" @click="addComponent">Add
+                                                        data-toggle="modal" data-target="#AddDocModal"
+                                                        @click="addComponent">Add
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -721,7 +723,7 @@ watchEffect(() => {
         sameAsLocal.value = false;
     }
 
-    
+
 
     preview.value = user?.user_profile_picture;
     userData.value = {
@@ -798,46 +800,46 @@ const updateDocRefValue = (newValue) => {
 
 const uploadComponent = ref([
     {
-        id : Math.random().toString(36).substring(7),
-        title:'Aadhar Card Number',
-        type:'aadhar_proof',
-        edit:false
+        id: Math.random().toString(36).substring(7),
+        title: 'Aadhar Card Number',
+        type: 'aadhar_proof',
+        edit: false
     },
     {
-        id : Math.random().toString(36).substring(7),
-        title:'PAN Card',
-        type:'pan_proof',
-        edit:false
+        id: Math.random().toString(36).substring(7),
+        title: 'PAN Card',
+        type: 'pan_proof',
+        edit: false
     },
     {
-        id : Math.random().toString(36).substring(7),
-        title:'PF & ESIC information',
-        edit:true
+        id: Math.random().toString(36).substring(7),
+        title: 'PF & ESIC information',
+        edit: true
     },
     {
-        id : Math.random().toString(36).substring(7),
-        title:'Confirmation letter',
-        edit:true
+        id: Math.random().toString(36).substring(7),
+        title: 'Confirmation letter',
+        edit: true
     },
     {
-        id : Math.random().toString(36).substring(7),
-        title:'Education Document',
-        edit:true
+        id: Math.random().toString(36).substring(7),
+        title: 'Education Document',
+        edit: true
     },
     {
-        id : Math.random().toString(36).substring(7),
-        title:'Experience Letter',
-        edit:true
+        id: Math.random().toString(36).substring(7),
+        title: 'Experience Letter',
+        edit: true
     }
 ]);
 
 const addComponent = () => {
-      uploadComponent.value.push({
+    uploadComponent.value.push({
         id: Math.random().toString(36).substring(7),
         title: "Document",
-        edit:true
-      });
-    }
+        edit: true
+    });
+}
 
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
@@ -853,8 +855,8 @@ const schemas = [
         email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
         secondary_email: yup.string().email('Invalid Email').nullable(),
         phone: yup.string().min(10).max(10).required("Required!"),
-        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
-          value => value === null || value === '' || value.length === 10),
+        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null',
+            value => value === null || value === '' || value.length === 10),
         gender: yup.string().required("Required!"),
         dob: yup.string().required("Required!"),
         // address: yup.string().required("Required!"),
@@ -863,6 +865,8 @@ const schemas = [
         // state: yup.string().required("Required!"),
         // country: yup.string().required("Required!"),
         // postcode: yup.string().required("Required!"),
+        postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+            value => value === null || value === '' || value.length === 6),
 
         // p_address: yup.string().required("Required!"),
         // p_address_1: yup.string().required("Required!"),
@@ -870,6 +874,8 @@ const schemas = [
         // p_state: yup.string().required("Required!"),
         // p_country: yup.string().required("Required!"),
         // p_postcode: yup.string().required("Required!"),
+        p_postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+            value => value === null || value === '' || value.length === 6),
     }),
     yup.object({
         employee_id: yup.string().required("Required!"),
@@ -878,6 +884,10 @@ const schemas = [
         // prob_end_date: yup.string().required("Required!"),
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
+        aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
+            value => value === null || value === '' || value.length === 12),
+        pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
+            value => value === null || value === '' || value.length === 10),
     }),
     //   yup.object({
     //     address: yup.string().required(),
@@ -905,6 +915,21 @@ const isImage = (file) => {
 
 const uploadTempFile = async (event) => {
     const file = event.target.files[0];
+    if (file.size > 1024 * 1024 * 10) {
+        swal({
+            icon: "error",
+            title: "File too big! Maximum file size is 10MB.",
+        });
+        return;
+    }
+    if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+        file.value = null;
+        swal({
+            icon: "error",
+            title: "Invalid file type",
+        });
+        return;
+    }
     const formData = new FormData();
     formData.append('image', file);
     try {

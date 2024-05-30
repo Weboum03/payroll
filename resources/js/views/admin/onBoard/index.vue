@@ -377,14 +377,14 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="doj*"
+                                    <Field required type="text" onfocus="(this.type='date')" name="doj"
                                         placeholder="Date of Joining" :class="{ 'is-invalid': errors.doj }"
                                         class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date*"
+                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date"
                                         placeholder="Probation End Date" :class="{ 'is-invalid': errors.prob_end_date }"
                                         class="input" autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -903,6 +903,8 @@ const schemas = [
     // state: yup.string().required("Required!"),
     // country: yup.string().required("Required!"),
     // postcode: yup.string().required("Required!"),
+    postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+            value => value === null || value === '' || value.length === 6),
 
     // p_address: yup.string().required("Required!"),
     // p_address_1: yup.string().required("Required!"),
@@ -910,6 +912,8 @@ const schemas = [
     // p_state: yup.string().required("Required!"),
     // p_country: yup.string().required("Required!"),
     // p_postcode: yup.string().required("Required!"),
+    p_postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+            value => value === null || value === '' || value.length === 6),
   }),
   yup.object({
     employee_id: yup.string().required("Required!"),
@@ -918,6 +922,10 @@ const schemas = [
     // prob_end_date: yup.string().required("Required!"),
     // aadhar_number: yup.string().required("Required!"),
     // pan_number: yup.string().required("Required!"),
+    aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
+          value => value === null || value === '' || value.length === 12),
+    pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
+          value => value === null || value === '' || value.length === 10),
   }),
 //   yup.object({
 //     address: yup.string().required(),
