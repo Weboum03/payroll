@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('leave_application', function (Blueprint $table) {
             $table->id();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('reason');
             $table->string('information');
             $table->string('applier_user_id');
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('leave_type_id');
+            $table->string('status')->default('Pending');
             $table->dateTime('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

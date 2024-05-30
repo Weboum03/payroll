@@ -79,7 +79,8 @@ export default function useRoles() {
 
         apiClient.put('/admin/roles/' + role.id, role)
             .then(response => {
-                router.push({name: 'admin.EmployeeRole'})
+                // router.push({name: 'admin.EmployeeRole'})
+                window.location.href = '/admin/EmployeeRole'
                 swal({
                     icon: 'success',
                     title: 'Role updated successfully'

@@ -51,7 +51,7 @@
                                         <ErrorMessage name="middle_name" class="text-danger mt-1" />
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
@@ -68,14 +68,14 @@
                                         <Field v-slot="{ field, handleChange }" type="email" name="email" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.email }" placeholder="Email*" type="email"
-                                                autocomplete="off" class="input" required>
+                                                :class="{ 'is-invalid': errors.email }" placeholder="Email*"
+                                                type="email" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Email" class="user-label">Email*</label>
                                         <ErrorMessage name="email" class="text-danger mt-1" />
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -101,7 +101,7 @@
                                         <ErrorMessage name="phone" class="text-danger mt-1" />
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
@@ -127,7 +127,7 @@
                                         <ErrorMessage name="gender" class="text-danger mt-1" />
 
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -135,9 +135,8 @@
                                         <Field v-slot="{ field, handleChange }" name="password" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.password }"
-                                                placeholder="Password*" type="password"
-                                                autocomplete="off" class="input" required>
+                                                :class="{ 'is-invalid': errors.password }" placeholder="Password*"
+                                                type="password" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Password</label>
                                         <ErrorMessage name="password" class="text-danger mt-1" />
@@ -147,12 +146,12 @@
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                placeholder="Date of Birth*" type="text"
-                                                autocomplete="off" class="input" required>
+                                                placeholder="Date of Birth*" type="text" autocomplete="off"
+                                                class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
-                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
@@ -186,9 +185,9 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
                                             v-model="perAddress.address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_address }"
-                                                placeholder="Address Line 1" type="text" autocomplete="off"
-                                                class="input" required :disabled="sameAsLocal">
+                                                :class="{ 'is-invalid': errors.p_address }" placeholder="Address Line 1"
+                                                type="text" autocomplete="off" class="input" required
+                                                :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 1</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
@@ -202,9 +201,8 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
                                             v-model="localAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.address_1 }"
-                                                placeholder="Address Line 2" type="text" autocomplete="off"
-                                                class="input" required>
+                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="Address Line 2"
+                                                type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 2</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
@@ -346,9 +344,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -387,9 +385,8 @@
                                 </div>
                                 <div class="col input-group-fname">
                                     <Field required type="text" onfocus="(this.type='date')" name="prob_end_date*"
-                                        placeholder="Probation End Date"
-                                        :class="{ 'is-invalid': errors.prob_end_date }" class="input"
-                                        autocomplete="off" />
+                                        placeholder="Probation End Date" :class="{ 'is-invalid': errors.prob_end_date }"
+                                        class="input" autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
@@ -566,9 +563,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -639,9 +636,9 @@
                         <div class="form-step form-step-active">
                             <div class="profile1 d-flex">
                                 <div class="icon_wrap d-flex align-items-center" style="gap: .5rem;">
-                                    <img v-if="preview" :src="preview"
-                                        alt="profile_pic">
-                                    <img v-else :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
+                                    <img v-if="preview" :src="preview" alt="profile_pic">
+                                    <img v-else
+                                        :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
                                     <span class="name">{{ userDetail.first_name }} {{ userDetail.last_name }}</span>
                                 </div>
@@ -662,7 +659,9 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id" @delete-input="deleteInput(component.id)" @update-ref="updateDocRefValue"></UploadDoc>
+                                    <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id"
+                                        @delete-input="deleteInput(component.id)" @update-ref="updateDocRefValue">
+                                    </UploadDoc>
                                     <!-- <div class="col-sm-4">
                                         <div class="card  card1">
                                             <div class="card-body">
@@ -786,7 +785,8 @@
                                             <div class="card-body d-flex justify-content-center align-items-center">
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <button type="button" class="btn btn-primary updoc"
-                                                        data-toggle="modal" data-target="#AddDocModal" @click="addComponent">Add
+                                                        data-toggle="modal" data-target="#AddDocModal"
+                                                        @click="addComponent">Add
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -810,7 +810,7 @@
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 13px;font-weight: 500">Done! <span
                                                     style="color: #2DB9F8;"> {{ userDetail.first_name }} {{
-                                                    userDetail.last_name }}</span> is successfully
+                                                        userDetail.last_name }}</span> is successfully
                                                 entered into the system. </div>
                                         </div>
                                         <div style="font-size: 13px;font-weight: 500">Unique employee ID <span
@@ -892,7 +892,8 @@ const schemas = [
     email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
     secondary_email: yup.string().email('Invalid Email').nullable(),
     phone: yup.string().min(10).max(10).required("Required!"),
-    alternate_phone: yup.string().nullable(),
+    alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
+          value => value === null || value === '' || value.length === 10),
     gender: yup.string().required("Required!"),
     password: yup.string().required("Required!"),
     dob: yup.string().required("Required!"),
@@ -992,6 +993,21 @@ const profilePic = ref();
 const filesToUpload = ref({});
 const uploadTempFile = async (event) => {
     const file = event.target.files[0];
+    if (file.size > 1024 * 1024 * 10) {
+            swal({
+                icon: "error",
+                title: "File too big! Maximum file size is 10MB.",
+            });
+            return;
+        }
+        if(!['image/png','image/jpeg','image/jpg'].includes(file.type)){
+            file.value = null;
+            swal({
+                icon: "error",
+                title: "Invalid file type",
+            });
+            return;
+        }
     const formData = new FormData();
     formData.append('image', file);
     try {

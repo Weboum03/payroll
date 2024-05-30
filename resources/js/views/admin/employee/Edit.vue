@@ -104,7 +104,7 @@ const swal = inject("$swal");
 const route = useRoute()
 const { role: postData, getRole, updateRole, validationErrors, storeRole, isLoading } = useRoles();
 import useAuth from "../../../composables/auth";
-
+const { getUser } = useAuth() 
 
 // Define a validation schema
 const schema =
@@ -144,7 +144,7 @@ const submitForm = () => {
         });
     } else {
         validate().then(form => { if (form.valid) updateRole(role) })
-        useAuth().getUser()
+        getUser()
     }
     
 };

@@ -11,6 +11,18 @@ class LeaveApplication extends Model
 {
     use HasFactory;
 
+    protected $table = 'leave_applications';
+
+    protected $fillable = [
+        'user_id',
+        'reason',
+        'information',
+        'applier_user_id',
+        'start_date',
+        'end_date',
+        'leave_type_id'
+    ];
+
     protected $casts = [
         'start_date' => 'date',
     ];
@@ -18,6 +30,14 @@ class LeaveApplication extends Model
     public function applier()
     {
         return $this->hasOne(User::class, 'id', 'applier_user_id');
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function type() {
+        return $this->belongsTo(LeaveType::class, 'leave_type_id', 'id');
     }
 
     public function getStartDateAttribute($value)

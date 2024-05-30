@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\LeaveController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -39,6 +40,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('roles', RoleController::class);
     $router->apiResource('users', UserController::class);
     $router->apiResource('payroll_batch', BatchController::class);
+    $router->apiResource('leaves', LeaveController::class);
     $router->get('abilities', function(Request $request) {
         return Auth::user()->roles()->with('permissions')
             ->get()

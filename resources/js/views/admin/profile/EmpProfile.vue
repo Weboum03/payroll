@@ -182,7 +182,7 @@
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <!-- <button id="Aadhar-view" :target="_blank" :href="url">View</button> -->
                             <a v-if="user?.aadhar_proof" id="Aadhar-view" target="_blank" :href="user?.aadhar_proof">View</a>
-                            <div id="Aadhar-download-icon"><i class="fa-sharp fa-solid fa-file-export fa-sm"
+                            <div id="Aadhar-download-icon" @click="download('aadhar',user?.aadhar_proof)"><i class="fa-sharp fa-solid fa-file-export fa-sm"
                                     style="color: #2DB9F8;"></i></div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                         <div class="col-md-6 mb-3 d-flex justify-content-center align-items-center" style="gap: 3px;">
                             <!-- <button id="Pan-view">View</button> -->
                             <a v-if="user?.pan_proof" id="Aadhar-view" target="_blank" :href="user?.pan_proof">View</a>
-                            <div id="Pan-download-icon"><i class="fa-sharp fa-solid fa-file-export fa-sm"
+                            <div id="Pan-download-icon" @click="download('pan',user?.pan_proof)"><i class="fa-sharp fa-solid fa-file-export fa-sm"
                                     style="color: #2DB9F8;"></i></div>
                         </div>
                     </div>
@@ -260,6 +260,19 @@ watchEffect(() => {
     // user.role_id = postData.value.role_id
 });
 
+const download = (name, url) => {
+	// credit: https://www.bitdegree.org/learn/javascript-download
+	const imageUrl = url; // Replace with your image URL
+    const fileName = name + '.' + url.split('.').pop().split(/\#|\?/)[0]; // Replace with the desired file name
+
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 </script>
 
 <style scoped>

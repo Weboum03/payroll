@@ -6,6 +6,7 @@ import store from './store'
 import useAuth from './composables/auth';
 import VueSweetalert2 from 'vue-sweetalert2'
 import { abilitiesPlugin } from '@casl/vue';
+import { createPinia } from "pinia";
 import ability from './services/ability';
 import i18n from "./plugins/i18n";
 import 'sweetalert2/dist/sweetalert2.min.css'
@@ -25,4 +26,5 @@ app.use(store)
 app.use(VueSweetalert2)
 app.use(i18n)
 app.use(abilitiesPlugin, ability)
+app.use(createPinia())
 app.mount('#app')
