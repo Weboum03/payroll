@@ -16,16 +16,21 @@ class LeaveApplication extends Model
     protected $fillable = [
         'user_id',
         'reason',
-        'information',
+        'remarks',
         'applier_user_id',
-        'start_date',
-        'end_date',
-        'leave_type_id'
+        'from_type',
+        'from',
+        'to_type',
+        'to',
+        'leave_type_id',
+        'status'
     ];
 
     protected $casts = [
-        'start_date' => 'date',
+        'from' => 'date',
     ];
+
+    protected $appends = ['duration'];
 
     public function applier()
     {
@@ -40,11 +45,11 @@ class LeaveApplication extends Model
         return $this->belongsTo(LeaveType::class, 'leave_type_id', 'id');
     }
 
-    public function getStartDateAttribute($value)
+    public function getFromAttribute($value)
     {
         return (new Carbon($value))->toFormattedDateString();
     }
-    public function getEndDateAttribute($value)
+    public function getToAttribute($value)
     {
         return ($value) ? (new Carbon($value))->toFormattedDateString() : $value;
     }
@@ -56,7 +61,7 @@ class LeaveApplication extends Model
 
     public function getDurationAttribute()
     {
-        return (new Carbon($this->end_date))->diffInDays(new Carbon($this->start_date))+1;
+        return (new Carbon($this->to))->diffInDays(new Carbon($this->from))+1;
     }
 
     public function scopeMyApplications($query)

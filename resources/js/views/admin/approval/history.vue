@@ -31,10 +31,10 @@
                 <tr v-for="leave in leaves?.data" :key="leave.id">
                     <td>{{ leave.created_at }}</td>
                     <td>{{ leave.user.name }}</td>
-                    <td>{{ leave.start_date }}</td>
+                    <td>{{ leave.from }}</td>
                     <td>{{ leave.user.name }}</td>
                     <td>{{ leave.reason }}</td>
-                    <td>{{ leave.information }}</td>
+                    <td>{{ leave.remarks??'---' }}</td>
                     <td> <button type="button" class="btn" id="ApprovedBtn"
                             style="color: green; font-size: 14px;">Approved</button></td>
                     <td><i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i></td>

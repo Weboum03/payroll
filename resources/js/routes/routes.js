@@ -238,6 +238,12 @@ export default [
                 component: () => import("../views/admin/employee/Create.vue"),
                 meta: { breadCrumb: "Admin" },
             },
+            {
+                name: "admin.leaveRequest",
+                path: "leaveRequest",
+                component: () => import("../views/admin/approval/Create.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
         ],
     },
     {

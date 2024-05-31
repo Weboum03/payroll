@@ -93,6 +93,10 @@
                                 <router-link v-if="can('View Leave History')" :to="{ name: 'admin.approvalHistory' }"
                                     exact-active-class="active">Approvals History</router-link>
                             </li>
+                            <li>
+                                <router-link :to="{ name: 'admin.leaveRequest' }"
+                                    exact-active-class="active">Add New</router-link>
+                            </li>
                         </ul>
                     </div>
                 </div>
