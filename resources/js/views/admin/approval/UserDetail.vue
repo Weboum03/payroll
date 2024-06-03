@@ -52,8 +52,7 @@
                             </div>
                         </div>
 
-                        <button type="button" @click="viewHistory = true" id="View-employee-leave-history"
-                            data-toggle="modal" data-target="#modalLeave-list">
+                        <button type="button" @click="viewHistory" id="View-employee-leave-history">
                             View employee leave history
                         </button>
 
@@ -96,7 +95,7 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from 'yup';
 import useLeaves from "@/composables/leaves";
 const { updateLeave, validationErrors, isLoading } = useLeaves();
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close','showHistory']);
 const props = defineProps({
     user: Object,
 });
@@ -122,6 +121,9 @@ function submitForm(values, actions) {
     });
 }
 
+const viewHistory = () => {
+    emit('showHistory', true);
+}
 const closeModal = () => {
     emit('close');
 };

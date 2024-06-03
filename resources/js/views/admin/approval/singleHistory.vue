@@ -1,13 +1,12 @@
 <template>
 
     <!-- Modal -->
-    <div v-if="viewHistory" class="modal-mask" id="modalLeave-list" data-backdrop="false" data-keyboard="false"
+    <div class="modal-mask" id="modalLeave-list" data-backdrop="false" data-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" style=" width: 870px; height: 500px ">
                 <div class="modal-header" style="align-items: center; gap: 3rem;">
-                    <button @click="viewHistory = false" type="button" class="close" data-dismiss="modal"
-                        aria-label="Close"
+                    <button @click="hideHistory" type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
                         <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
                                 style="color: #000000;"></i></span>
@@ -20,8 +19,7 @@
                             <option value="value2">Option 2</option>
                         </select>
                     </div>
-                    <button type="button" @click="viewHistory = false" class="close" data-dismiss="modal"
-                        aria-label="Close">
+                    <button type="button" @click="hideHistory" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -39,34 +37,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Medical Leave</td>
-                                <td>Feb 20,2024</td>
-                                <td>Feb 22,2024</td>
-                                <td>2 Days</td>
-                                <td>Feb 19, 2024</td>
+                            <tr v-for="leave in leaves?.data" :key="leave.id">
+                                <td>{{ leave.type.type }}</td>
+                                <td>{{ leave.from }}</td>
+                                <td>{{ leave.to }}</td>
+                                <td>{{ leave.duration }} Days</td>
+                                <td>{{ leave.created_at }}</td>
                                 <td>
-                                    <button type="text" class="btn" id="pendingBtn"
-                                        style="color:#2DB9F8;">Pending</button>
-                                    <!-- <button type="button" class="btn btn-outline-success d-none" id="approvedBtn">Approved</button>
-                                            <button type="button" class="btn btn-outline-danger d-none" id="rejectedBtn">Rejected</button> -->
+                                    <button type="text" class="btn" id="pendingBtn" :style="{
+                                        color: getStatusColor(leave.status),
+                                    }">{{ leave.status }}</button>
                                 </td>
                             </tr>
-
-                            <tr data-toggle="modal" data-target="#leaveModal">
-                                <td>Medical Leavde adsfedag</td>
-                                <td>Feb 20,2024</td>
-                                <td>Feb 22,2024</td>
-                                <td>2 Days</td>
-                                <td>Feb 19, 2024</td>
-                                <td>
-                                    <button type="text" class="btn" id="pendingBtn"
-                                        style="color:#2DB9F8;">Pending</button>
-                                    <!-- <button type="button" class="btn btn-outline-success d-none" id="approvedBtn">Approved</button>
-                                            <button type="button" class="btn btn-outline-danger d-none" id="rejectedBtn">Rejected</button> -->
-                                </td>
-                            </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -76,20 +58,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, watch } from 'vue';
+import { ref, onMounted, defineProps, onUpdated, watch } from 'vue';
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 import useLeaves from "@/composables/leaves";
-const { leaves, getLeaves, deleteLeave } = useLeaves()
+const { leaves, getLeaves,getLeaveByUser, deleteLeave } = useLeaves()
+const emit = defineEmits(['showHistory']);
 let dataTable = ref(null);
 const myTable = ref(null);
 const viewHistory = ref(true);
 const isDataTableInitialized = ref(false)
 
+const props = defineProps({
+    user: Object,
+    active: Boolean
+});
+
 onMounted(() => {
-    loadDataTable();
+    getLeaveByUser(props.user.user_id)
 })
+
+onUpdated(() => {
+    loadDataTable()
+}) 
+const hideHistory = () => {
+    emit('showHistory', false);
+}
+
+const getStatusColor = (status) => {
+    if (status == 'Pending') { return 'blue'; }
+    if (status == 'Rejected') { return 'red'; }
+    return 'green';
+}
 
 const loadDataTable = () => {
     const dataTableOptions = {
@@ -108,6 +109,14 @@ const loadDataTable = () => {
 };
 </script>
 
-<style scoped>
-@import '@/assets/css/ApprovalHistory.css';
+<style>
+@import 'datatables.net-dt';
+
+.dataTables_filter {
+    margin-bottom: -15px;
+}
+
+.dt-search {
+    display: none;
+}
 </style>

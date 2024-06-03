@@ -24,7 +24,7 @@ class LeaveRepository extends BaseRepository
 
     public function getByUserId(int $userId): Collection
     {
-        return $this->model->where('id', $userId)->get();
+        return $this->model->where('user_id', $userId)->latest()->with('user','type')->get();
     }
 
     public function getByPhone(string $phone)

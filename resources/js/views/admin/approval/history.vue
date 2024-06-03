@@ -43,7 +43,8 @@
                 </tr>
             </tbody>
         </table>
-        <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"></user-detail>
+        <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
+        <singleHistory v-if="isActive" :user="selectedUser" :active="isActive" @showHistory="showHistory"></singleHistory>
     </div>
 </template>
 
@@ -55,6 +56,7 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.
 import $ from 'jquery';
 import useLeaves from "@/composables/leaves";
 import UserDetail from './UserDetail.vue'
+import singleHistory from './singleHistory.vue'
 const { leaves, getLeaves, deleteLeave } = useLeaves()
 
 let dataTable = ref(null);
@@ -63,7 +65,7 @@ const isDataTableInitialized = ref(false)
 const search_global = ref('')
 const selectedUser = ref({})
 const isModalOpened = ref(false)
-
+const isActive = ref(false)
 onMounted(() => {
     getLeaves();
 });
@@ -71,6 +73,10 @@ onMounted(() => {
 onUpdated(() => {
     loadDataTable();
 })
+
+const showHistory = (value) => {
+    isActive.value = value;
+}
 
 const getStatusColor = (status) => {
     if (status == 'Pending') { return 'blue'; }

@@ -70,6 +70,15 @@ class LeaveController extends BaseController
     }
 
     /**
+     * Display the specified resource by user
+     */
+    public function getByUser(int $userId)
+    {
+        $leave = $this->leaveRepository->getByUserId($userId);
+        return $this->sendResponse($leave, __('AdminMessage.retrievedMessage'));
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)

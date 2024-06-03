@@ -22,6 +22,12 @@ export default function useLeaves() {
         });
     };
 
+    const getLeaveByUser = async (id) => {
+        apiClient.get("/admin/leaves/user/" + id).then((response) => {
+            leaves.value = response.data;
+        });
+    };
+
     const storeLeave = async (leave) => {
         if (isLoading.value) return;
 
@@ -124,6 +130,7 @@ export default function useLeaves() {
         leave,
         getLeaves,
         getLeave,
+        getLeaveByUser,
         storeLeave,
         updateLeave,
         deleteLeave,

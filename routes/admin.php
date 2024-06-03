@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('users', UserController::class);
     $router->apiResource('payroll_batch', BatchController::class);
     $router->apiResource('leaves', LeaveController::class);
+    $router->get('leaves/user/{userId}', [LeaveController::class, 'getByUser']);
     $router->get('abilities', function(Request $request) {
         return Auth::user()->roles()->with('permissions')
             ->get()

@@ -60,93 +60,9 @@
                     </tbody>
                 </table>
 
-                <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"></user-detail>
-                <div v-if="isModalOpened4" class="modal-mask" id="leaveModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-                    aria-labelledby="leaveModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content" style="height: 500px;">
-                            <div class="modal-header">
-                                <div id="Leave-approve-profile">
-                                    <nav class="navbar navbar-light ">
-                                        <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
-                                            id="admin-image" class="d-inline-block align-top" alt="">
-                                        <div class="admin-Leave-approve-profile d-flex flex-column">
-                                            <p class="admin-Leave-approve-name">Devansh</p>
-                                            <p class="admin-Leave-approve-role">Supervisor</p>
-                                        </div>
-                                    </nav>
-                                </div>
-                                <button type="button" class="close" @click="closeModal">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form class="leavedetails-popupModal">
-                                    <div class="form-row">
-                                        <div class="col d-flex flex-column">
-                                            <label for="Leavename" class="Leave-Type">Leave type</label>
-                                            <span id="Leavename" class="leave-type">Medical Leave</span>
-                                        </div>
-                                        <div class="col d-flex flex-column">
-                                            <label for="LeaveAppliedon" class="Leave-Appliedon">Applied on</label>
-                                            <span id="LeaveAppliedon" class="leave-appliedon">Feb 19,2024</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col d-flex flex-column">
-                                            <label for="LeaveFrom" class="Leave-From">From</label>
-                                            <span id="LeaveFrom" class="leave-from">Feb 20,2024</span>
-                                        </div>
-                                        <div class="col d-flex flex-column">
-                                            <label for="Leave-To" class="Leave-To">To</label>
-                                            <span id="Leave-To" class="leave-to">Feb 22,2024</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col d-flex flex-column">
-                                            <label for="Leave-Days" class="Leave-Days">Leave Days</label>
-                                            <span id="Leave Days" class="leave-days">2 Days</span>
-                                        </div>
-                                        <div class="col d-flex flex-column">
-                                            <label for="Leave-Balance" class="Leave-Balance">Leave Balance</label>
-                                            <span id="Leave-Balance" class="leave-balance">5</span>
-                                        </div>
-                                    </div>
+                <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
 
-                                    <button type="button" @click="viewHistory=true" id="View-employee-leave-history"  data-toggle="modal" data-target="#modalLeave-list">
-                                        View employee leave history
-                                      </button>
-
-                                    <div class="row">
-                                        <div class="col input-group-leaveStatus">
-                                            <select class="form-control input" id="Leave-Status" autocomplete="off">
-                                                <!-- <option value="" selected disabled>Leave Status</option> -->
-                                                <option value="Pending">Pending</option>
-                                                <option value="Approved">Approved</option>
-                                                <option value="Rejected">Rejected</option>
-                                            </select>
-                                            <label class="user-leaveStatus">Leave Status</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col input-group-remarks">
-                                            <input placeholder="Remarks" required="" type="text" name="text"
-                                                autocomplete="off" class="input">
-                                            <label class="user-remarks">Remarks</label>
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                                    id="save">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- <singleHistory /> -->
+                <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
 
             </div>
             
@@ -171,6 +87,7 @@ const myTable = ref(null);
 const isDataTableInitialized = ref(false)
 const search_global = ref('');
 const selectedUser = ref({});
+const isActive = ref(false)
 
 onMounted(() => {
     getLeaves();
@@ -195,6 +112,10 @@ const loadDataTable = () => {
         console.log(dataTable)
         isDataTableInitialized.value = true;
     }
+}
+
+const showHistory = (value) => {
+    isActive.value = value;
 }
 
 watch(search_global, (current, previous) => {
