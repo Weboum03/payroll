@@ -643,7 +643,8 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox" name="" id="">
+                                        <Field name="check_all" type="checkbox"
+                                                :value="true" />
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -986,7 +987,8 @@ const formValues = {
     work_pattern: '',
     earning_leave_entitlement: '',
     this_year: '',
-    next_year: ''
+    next_year: '',
+    check_all:false
 };
 
 const isImage = (file) => {
@@ -1073,9 +1075,7 @@ import UploadDoc from "../../../components/UploadDoc.vue";
 
 
 const updateDocRefValue = (newValue) => {
-    filesToUpload.value[newValue.name] = newValue.path;
-    console.log('Rahul',newValue);
-    console.log(filesToUpload.value);
+    filesToUpload.value[newValue.type] = newValue.path;
 }
 const uploadComponent = ref([
     {

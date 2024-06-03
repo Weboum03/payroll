@@ -62,6 +62,11 @@ class UserController extends BaseController
         }
         $user = $this->userRepository->create($input);
 
+        $checkAll = $request->check_all;
+        if($checkAll == 'true') { $checkAll = true; } elseif($checkAll == 'false') { $checkAll = false; }
+        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
+        $input['check_all'] = $checkAll;
+
         $user->info()->create($input);
 
         $role = Role::find($request->role_id);
@@ -76,8 +81,7 @@ class UserController extends BaseController
             $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
 
-        $checkAll = $request->check_all;
-        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
+        
         $attachments = $request->attachments;
         if($attachments) {
             foreach ($attachments as $file) {
