@@ -68,7 +68,16 @@ class UserController extends BaseController
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             if (!$request->has($collectionName)) { continue; }
-            $user->uploadMedia($collectionName, $request->$collectionName);
+            $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
+        }
+
+        $attachments = $request->attachments;
+        if($attachments) {
+            foreach ($attachments as $file) {
+                $collectionName = $file['type'];
+                $user->clearMediaCollection($collectionName);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title']]);
+            }
         }
         
         return $this->sendResponse($user, __('AdminMessage.customerAdd'));
@@ -81,12 +90,13 @@ class UserController extends BaseController
     {
         $user = $this->userRepository->getById($id);
         $user->load('info','role');
-
+        $mediaItems = $user->getMedia("*");
+        $files = [];
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             $picture = $user->getFirstMedia($collectionName);
-            $user->setAttribute($collectionName, ($picture->original_url)??null);
+            if($picture) { $files[] = $picture; }
         }
-        
+        $user->setAttribute('files', $mediaItems);
         $user->makeHidden('media');
         return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
     }
@@ -109,8 +119,18 @@ class UserController extends BaseController
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             if (!$request->has($collectionName)) { continue; }
             $user->clearMediaCollection($collectionName);
-            $user->uploadMedia($collectionName, $request->$collectionName);
+            $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
+
+        $attachments = $request->attachments;
+        if($attachments) {
+            foreach ($attachments as $file) {
+                $collectionName = $file['type'];
+                $user->clearMediaCollection($collectionName);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title']]);
+            }
+        }
+
         return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
     }
 

@@ -611,7 +611,7 @@
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <button type="button" class="btn btn-primary updoc"
                                                         data-toggle="modal" data-target="#AddDocModal"
-                                                        @click="addComponent">Add
+                                                        @click="openModal">Add
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -668,6 +668,37 @@
                 </Form>
             </form>
 
+        </div>
+    </div>
+
+    <div v-if="isModalOpened" class="modal-mask" id="AddDocModal" tabindex="-1" aria-labelledby="AddDocModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddDocModalLabel">Add Document</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                style="color: #2DB9F8"></i></span>
+                    </button>
+                </div>
+                <Form @submit="submitDocForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col input-group-fname">
+                                <Field placeholder="Document name*" required type="text" name="docName" autocomplete="off"
+                                    class="input" id="Doc-name" style="width: 310px;" />
+                                <label class="user-label">Document name*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-primary save">Save</button>
+                        <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
+                    </div>
+                </Form>
+
+            </div>
         </div>
     </div>
 </template>
@@ -772,6 +803,7 @@ watchEffect(() => {
         earning_leave_entitlement: user?.info?.earning_leave_entitlement,
         this_year: user?.info?.this_year,
         next_year: user?.info?.next_year,
+        attachments: []
     };
 
     oldPerAddress.value = {
@@ -795,7 +827,8 @@ watchEffect(() => {
 })
 
 const updateDocRefValue = (newValue) => {
-    userData.value[newValue.name] = newValue.path;
+    // userData.value[newValue.type] = newValue.path;
+    userData.value.attachments.push(newValue);
 }
 
 const uploadComponent = ref([
@@ -814,32 +847,28 @@ const uploadComponent = ref([
     {
         id: Math.random().toString(36).substring(7),
         title: 'PF & ESIC information',
+        type: 'pf_info',
         edit: true
     },
     {
         id: Math.random().toString(36).substring(7),
         title: 'Confirmation letter',
+        type: 'confirmation_letter',
         edit: true
     },
     {
         id: Math.random().toString(36).substring(7),
         title: 'Education Document',
+        type: 'education_doc',
         edit: true
     },
     {
         id: Math.random().toString(36).substring(7),
         title: 'Experience Letter',
+        type: 'experience_letter',
         edit: true
     }
 ]);
-
-const addComponent = () => {
-    uploadComponent.value.push({
-        id: Math.random().toString(36).substring(7),
-        title: "Document",
-        edit: true
-    });
-}
 
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
@@ -989,6 +1018,24 @@ function cancel() {
     router.push({ name: 'admin.EmpProfile', params: { id: route.params.id } })
 }
 
+
+const isModalOpened = ref(false);
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
+
+const submitDocForm = (values) => {
+    uploadComponent.value.push({
+        id: Math.random().toString(36).substring(7),
+        title: values.docName,
+        type: values.docName.split(' ').join('_').toLowerCase(),
+        edit:true
+    });
+    closeModal();
+};
 </script>
 <style>
 @import '@/assets/css/onboard.css';
@@ -1000,5 +1047,31 @@ function cancel() {
     max-width: 300px;
     max-height: 300px;
     margin-top: 10px;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
 }
 </style>

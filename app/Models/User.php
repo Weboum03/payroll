@@ -72,9 +72,8 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-    protected function uploadMediaAction($collection, $temporaryPath)
+    protected function uploadMediaAction($collection, $temporaryPath, $customProperties= [])
     {
-        
         if (!Storage::exists($temporaryPath)) {
             return false;
         }
@@ -82,20 +81,20 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         $temporaryFile = Storage::path($temporaryPath);
 
         // Move the file to the user's media collection
-        $response = $this->addMedia($temporaryFile)->toMediaCollection($collection);
+        $response = $this->addMedia($temporaryFile)->withCustomProperties($customProperties)->toMediaCollection($collection);
         // Delete the temporary file
         Storage::delete($temporaryPath);
         return $response;
     }
 
-    public function uploadMedia($collection, $temporaryPaths)
+    public function uploadMedia($collection, $temporaryPaths, $customProperties = [])
     {
         if (is_array($temporaryPaths)) {
             foreach ($temporaryPaths as $path) {
-                $this->uploadMediaAction($collection, $path);
+                $this->uploadMediaAction($collection, $path, $customProperties);
             }
         } else {
-            return $this->uploadMediaAction($collection, $temporaryPaths);
+            return $this->uploadMediaAction($collection, $temporaryPaths, $customProperties);
         }
 
         return true;

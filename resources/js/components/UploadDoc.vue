@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div class="showalltask-card d-flex flex-column">
                     <div class="d-flex" style="gap: .5rem;">
-                        <input type="checkbox" id="">
+                        <input type="checkbox" id="" v-model="checked">
                         <div class="p4">{{ props.is.title }} <span></span></div>
                     </div>
 
@@ -34,6 +34,7 @@ const props = defineProps({
 
 const text = ref('Upload Document');
 const fileInput = ref();
+const checked = ref(false)
 const onClick = () => {
     fileInput.value.click();
 }
@@ -59,7 +60,7 @@ const choosFile = (event) => {
             }
         }).then((response) => {
             const tempPath = response.data.temporary_path;
-            emit('update-ref', { name: props.is.type, path: tempPath });
+            emit('update-ref', { title: props.is.title,type: props.is.type, path: tempPath, checked: checked });
             text.value = 'Re-Upload';
             // userData.value.user_profile_picture = tempPath;
             // preview.value = URL.createObjectURL(file);
