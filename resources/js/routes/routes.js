@@ -113,18 +113,6 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
-                name: "admin.dashboard1",
-                path: "dashboard1",
-                component: () => import("../views/admin/dashboard/index1.vue"),
-                meta: { breadCrumb: "Admin" },
-            },
-            {
-                name: "admin.dashboard2",
-                path: "dashboard2",
-                component: () => import("../views/admin/dashboard/index2.vue"),
-                meta: { breadCrumb: "Admin" },
-            },
-            {
                 name: "admin.MonthsCompareTable",
                 path: "MonthsCompareTable",
                 component: () => import("../views/admin/dashboard/MonthsCompareTable.vue"),

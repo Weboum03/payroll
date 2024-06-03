@@ -1,7 +1,6 @@
 // src/composables/useCrud.js
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
-import API_PATHS from '@/constants/apiPaths';
 
 export default function useCrud(resource) {
   const items = ref([]);
