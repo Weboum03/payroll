@@ -52,15 +52,8 @@ export default function useUsers() {
         isLoading.value = true;
         validationErrors.value = {};
 
-        let serializedPost = new FormData();
-        for (let item in user) {
-            if (user.hasOwnProperty(item)) {
-                serializedPost.append(item, user[item]);
-            }
-        }
-
         return apiClient
-            .post("/admin/users", serializedPost)
+            .post("/admin/users", user)
             .then((response) => {
                 user.value = response.data;
                 swal({

@@ -315,9 +315,8 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="doj" placeholder="Date of Joining"
-                                        v-model="userData.doj" :class="{ 'is-invalid': errors.doj }" class="input"
-                                        autocomplete="off" />
+                                    <Field type="date" name="doj" placeholder="Date of Joining" v-model="userData.doj"
+                                        :class="{ 'is-invalid': errors.doj }" class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
@@ -396,8 +395,8 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="immediate_manager_code"
-                                        placeholder="Employee Code" v-model="userData.immediate_manager_code"
+                                    <Field type="date" name="immediate_manager_code" placeholder="Employee Code"
+                                        v-model="userData.immediate_manager_code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -587,7 +586,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox" v-model="userData.check_all" name="" id="">
+                                        <input type="checkbox" v-model="checkAll" name="" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -602,8 +601,9 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent" @update-ref="updateDocRefValue"
-                                        :is="component" :key="component.id" @delete-input="deleteInput(component.id)">
+                                    <UploadDoc v-for="component in uploadComponent"
+                                        ref="childComponents" :is="component" :key="component.id"
+                                        @delete-input="deleteInput(component.id)">
                                     </UploadDoc>
                                     <div class="col-sm-4">
                                         <div class="card  card2">
@@ -686,8 +686,8 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col input-group-fname">
-                                <Field placeholder="Document name*" required type="text" name="docName" autocomplete="off"
-                                    class="input" id="Doc-name" style="width: 310px;" />
+                                <Field placeholder="Document name*" required type="text" name="docName"
+                                    autocomplete="off" class="input" id="Doc-name" style="width: 310px;" />
                                 <label class="user-label">Document name*</label>
                             </div>
                         </div>
@@ -727,6 +727,9 @@ const perAddress = ref({});
 const oldPerAddress = ref({});
 const preview = ref();
 const checkAll = ref();
+const childComponents = ref([]);
+
+
 
 watch(sameAsLocal, (current, previous) => {
     if (sameAsLocal.value === true) {
@@ -736,9 +739,29 @@ watch(sameAsLocal, (current, previous) => {
     }
 });
 
+watch(checkAll, (current, previous) => {
+    childComponents.value.forEach((childRef) => {
+        if (childRef) {
+            childRef.childMethod(current);
+        }
+    });
+});
+
+const getUploadDocData = () => {
+    let files = [];
+    childComponents.value.forEach((childRef) => {
+        if (childRef && Object.keys(childRef.fileData).length > 0) {
+            files.push(childRef.fileData);
+        }
+    });
+    return files;
+}
+
+
 onMounted(async () => {
     getUser(route.params.id)
     getRoles()
+
 });
 
 watchEffect(() => {
@@ -823,11 +846,6 @@ watchEffect(() => {
     // console.log('oldData2', userData.value)
 })
 
-const updateDocRefValue = (newValue) => {
-    // userData.value[newValue.type] = newValue.path;
-    userData.value.attachments.push(newValue);
-}
-
 const uploadComponent = ref([
     {
         id: Math.random().toString(36).substring(7),
@@ -871,8 +889,6 @@ const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
 }
 
-const phoneRegExp = '/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/';
-
 const schemas = [
     yup.object({
         first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
@@ -881,8 +897,8 @@ const schemas = [
         email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
         secondary_email: yup.string().email('Invalid Email').nullable(),
         phone: yup.string().min(10).max(10).required("Required!"),
-        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
-          value => value === null || value === '' || value.length === 10),
+        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null',
+            value => value === null || value === '' || value.length === 10),
         gender: yup.string().required("Required!"),
         dob: yup.string().required("Required!"),
         address: yup.string().required("Required!"),
@@ -890,16 +906,16 @@ const schemas = [
         city: yup.string().required("Required!"),
         state: yup.string().required("Required!"),
         country: yup.string().required("Required!"),
-        postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value => value === null || value === '' || value.length === 6  ),
+        postcode: yup.string().required("Required!").test('length', 'Invalid postcode',
+            value => value === null || value === '' || value.length === 6),
 
         p_address: yup.string().required("Required!"),
         p_address_1: yup.string().required("Required!"),
         p_city: yup.string().required("Required!"),
         p_state: yup.string().required("Required!"),
         p_country: yup.string().required("Required!"),
-        p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value =>  value === null || value === '' || value.length === 6  ),
+        p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode',
+            value => value === null || value === '' || value.length === 6),
     }),
     yup.object({
         employee_id: yup.string().required("Required!"),
@@ -908,10 +924,10 @@ const schemas = [
         prob_end_date: yup.string().required("Required!"),
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
-        aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
-            value => value === null || value === '' || value.length === 12  ),
-        pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
-            value =>  value === null || value === '' || value.length === 10  ),
+        aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number',
+            value => value === null || value === '' || value.length === 12),
+        pan_number: yup.string().nullable().test('length', 'Invalid PAN number',
+            value => value === null || value === '' || value.length === 10),
     }),
     //   yup.object({
     //     address: yup.string().required(),
@@ -995,6 +1011,7 @@ async function nextStep(values, user) {
             p_country: perAddress.value?.country,
             p_postcode: perAddress.value?.postcode,
         });
+        userData.value.attachments = getUploadDocData();
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }
     userDetail.value = values;
@@ -1028,7 +1045,7 @@ const submitDocForm = (values) => {
         id: Math.random().toString(36).substring(7),
         title: values.docName,
         type: values.docName.split(' ').join('_').toLowerCase(),
-        edit:true
+        edit: true
     });
     closeModal();
 };
@@ -1070,12 +1087,14 @@ const submitDocForm = (values) => {
     outline: 0;
     width: 100% !important;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-input[type=number]{
+
+input[type=number] {
     -moz-appearance: textfield;
 }
 </style>

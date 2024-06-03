@@ -144,9 +144,8 @@
                                         <Field v-slot="{ field, handleChange }" name="dob" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.dob }"
-                                                placeholder="Date of Birth*" type="date" autocomplete="off"
-                                                class="input">
+                                                :class="{ 'is-invalid': errors.dob }" placeholder="Date of Birth*"
+                                                type="date" autocomplete="off" class="input">
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
@@ -184,9 +183,9 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
                                             v-model="perAddress.address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_address }" placeholder="Address Line 1*"
-                                                type="text" autocomplete="off" class="input" required
-                                                :disabled="sameAsLocal">
+                                                :class="{ 'is-invalid': errors.p_address }"
+                                                placeholder="Address Line 1*" type="text" autocomplete="off"
+                                                class="input" required :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 1*</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
@@ -200,8 +199,9 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
                                             v-model="localAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="Address Line 2*"
-                                                type="text" autocomplete="off" class="input" required>
+                                                :class="{ 'is-invalid': errors.address_1 }"
+                                                placeholder="Address Line 2*" type="text" autocomplete="off"
+                                                class="input" required>
                                         </Field>
                                         <label for="Address" class="user-label">Address Line 2*</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
@@ -367,7 +367,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="employee_id" placeholder="Employee ID*" :value="employeeId"
+                                    <Field required type="text" name="employee_id" placeholder="Employee ID*"
                                         :class="{ 'is-invalid': errors.employee_id }" class="input"
                                         autocomplete="off" />
                                     <label for="Employee ID" class="user-label">Employee ID*</label>
@@ -376,16 +376,15 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field type="date"  name="doj"
-                                        placeholder="Date of Joining*" :class="{ 'is-invalid': errors.doj }"
-                                        class="input" autocomplete="off" />
+                                    <Field type="date" name="doj" placeholder="Date of Joining*"
+                                        :class="{ 'is-invalid': errors.doj }" class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="date"  name="prob_end_date"
-                                        placeholder="Probation End Date*" :class="{ 'is-invalid': errors.prob_end_date }"
-                                        class="input" autocomplete="off" />
+                                    <Field type="date" name="prob_end_date" placeholder="Probation End Date*"
+                                        :class="{ 'is-invalid': errors.prob_end_date }" class="input"
+                                        autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
@@ -457,8 +456,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" 
-                                        name="immediate_manager_code" placeholder="Employee Code"
+                                    <Field type="date" name="immediate_manager_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -481,8 +479,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date"  name="leave_approving_code"
-                                        placeholder="Employee Code"
+                                    <Field type="date" name="leave_approving_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -643,8 +640,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <Field name="check_all" type="checkbox"
-                                                :value="true" />
+                                        <input type="checkbox" name="check_all" v-model="checkAll" :value="checkAll" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -660,125 +656,8 @@
 
                                 <div class="row ">
                                     <UploadDoc v-for="component in uploadComponent" :is="component" :key="component.id"
-                                        @delete-input="deleteInput(component.id)" @update-ref="updateDocRefValue">
+                                        ref="childComponents" @delete-input="deleteInput(component.id)">
                                     </UploadDoc>
-                                    <!-- <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Aadhar Card Number</div>
-                                                    </div>
-
-                                                    <button type="button" class="btn btn-primary updoc">Upload
-                                                        Document</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">PAN Card</div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-primary updoc">Upload
-                                                        Document</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">PF & ESIC information</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Confirmation letter</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Education Document</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-4">
-                                        <div class="card  card1">
-                                            <div class="card-body">
-                                                <div class="showalltask-card d-flex flex-column">
-                                                    <div class="d-flex" style="gap: .5rem;">
-                                                        <input type="checkbox" id="">
-                                                        <div class="p4">Experience Letter</div>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-center align-items-center"
-                                                        style="gap: 24px;">
-                                                        <button type="button" class="btn btn-primary updoc">Upload
-                                                            Document</button>
-                                                        <div class="removeTask"><i
-                                                                class="fa-solid fa-square-minus fa-lg "
-                                                                style="color: #ffffff;"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
 
                                     <div class="col-sm-4">
                                         <div class="card  card2">
@@ -786,7 +665,7 @@
                                                 <div class="showalltask-card d-flex flex-column">
                                                     <button type="button" class="btn btn-primary updoc"
                                                         data-toggle="modal" data-target="#AddDocModal"
-                                                        @click="addComponent">Add
+                                                        @click="openModal">Add
                                                         Document</button>
                                                 </div>
                                             </div>
@@ -837,8 +716,7 @@
                             <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                             <button type="button" v-if="currentStep !== 0" @click="prevStep"
                                 class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" class="btn btn-outline-light cancle"
-                                @click="cancel">Cancel</a>
+                            <a id="myAnchor" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
                         </div>
                     </div>
 
@@ -847,14 +725,38 @@
         </div>
 
     </div>
+
+    <div v-if="isModalOpened" class="modal-mask" id="AddDocModal" tabindex="-1" aria-labelledby="AddDocModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddDocModalLabel">Add Document</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                style="color: #2DB9F8"></i></span>
+                    </button>
+                </div>
+                <Form @submit="submitDocForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col input-group-fname">
+                                <Field placeholder="Document name*" required type="text" name="docName"
+                                    autocomplete="off" class="input" id="Doc-name" style="width: 310px;" />
+                                <label class="user-label">Document name*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-primary save">Save</button>
+                        <a href="javascript:;" class="btn btn-outline-light cancle" @click="closeModal">Cancel</a>
+                    </div>
+                </Form>
+
+            </div>
+        </div>
+    </div>
 </template>
-
-
-<script setup>
-
-
-
-</script>
 
 <script setup>
 import { onMounted, watch } from "vue";
@@ -864,6 +766,9 @@ import * as yup from 'yup';
 import useRoles from "@/composables/roles";
 import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
+import UploadDoc from "@/components/UploadDoc.vue";
+
+
 const router = useRouter()
 const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
@@ -875,6 +780,8 @@ const localAddress = ref({});
 const perAddress = ref({});
 const userDetail = ref({});
 const preview = ref();
+const checkAll = ref(false);
+const childComponents = ref([]);
 
 watch(sameAsLocal, (current, previous) => {
     if(sameAsLocal.value === true) {
@@ -883,6 +790,24 @@ watch(sameAsLocal, (current, previous) => {
         perAddress.value = {};
     }
 });
+
+watch(checkAll, (current, previous) => {
+    childComponents.value.forEach((childRef) => {
+        if (childRef) {
+            childRef.childMethod(current);
+        }
+    });
+});
+
+const getUploadDocData = () => {
+    let files = [];
+    childComponents.value.forEach((childRef) => {
+        if (childRef && Object.keys(childRef.fileData).length > 0) {
+            files.push(childRef.fileData);
+        }
+    });
+    return files;
+}
 
 // Each step should have its own validation schema
 const schemas = [
@@ -1026,15 +951,17 @@ const uploadTempFile = async (event) => {
         });
 
         const tempPath = response.data.temporary_path;
-        // filesToUpload.value.push(tempPath);
-        filesToUpload.value.user_profile_picture = tempPath;
-        userDetail.value.user_profile_picture = tempPath;
-        console.log(filesToUpload.value);
+        profilePic.value = tempPath;
         preview.value = URL.createObjectURL(file);
-        alert('File uploaded temporarily');
+        swal({
+                icon: "success",
+                title: "File uploaded temporarily",
+            });
     } catch (error) {
-        console.error(error);
-        alert('Failed to upload file');
+        swal({
+                icon: "error",
+                title: "Failed to upload file",
+            });
     }
 }
 
@@ -1046,15 +973,15 @@ async function submitForm(user) {
     await storeUser(user);
 }
 
-async function nextStep(values, user) {
+async function nextStep(values) {
   if (currentStep.value === 3) {
     userDetail.value = values;
-    // values.user_profile_picture = profilePic.value;
-    Object.assign(values, filesToUpload.value);
-    return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
+    userDetail.value.check_all = checkAll.value;
+    userDetail.value.user_profile_picture = profilePic.value;
+    userDetail.value.attachments = getUploadDocData();
+    return submitForm(userDetail.value).then(response => { currentStep.value++; boxWidth.value = '72'; } ).catch(error => { return });
   }
   userDetail.value = values;
-  console.log('vipan', userDetail);
   currentStep.value++;
   boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
@@ -1070,13 +997,6 @@ function prevStep() {
   boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
 }
 
-import UploadDoc from "../../../components/UploadDoc.vue";
-
-
-
-const updateDocRefValue = (newValue) => {
-    filesToUpload.value[newValue.type] = newValue.path;
-}
 const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
@@ -1116,13 +1036,23 @@ const uploadComponent = ref([
     }
 ]);
 
-const addComponent = () => {
-      uploadComponent.value.push({
+const isModalOpened = ref(false);
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
+
+const submitDocForm = (values) => {
+    uploadComponent.value.push({
         id: Math.random().toString(36).substring(7),
-        title: "Document",
-        edit:true
-      });
-    }
+        title: values.docName,
+        type: values.docName.split(' ').join('_').toLowerCase(),
+        edit: true
+    });
+    closeModal();
+};
 
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
@@ -1141,12 +1071,40 @@ const deleteInput = (id) => {
     margin-top: 10px;
 }
 
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
+}
+
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-input[type=number]{
+
+input[type=number] {
     -moz-appearance: textfield;
 }
 </style>

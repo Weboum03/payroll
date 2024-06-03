@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-4">
-        <div class="card  card1">
+        <div class="card1">
             <div class="card-body">
                 <div class="showalltask-card d-flex flex-column">
                     <div class="d-flex" style="gap: .5rem;">
@@ -23,9 +23,11 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, defineProps, defineEmits, inject } from 'vue';
-const emit = defineEmits(['change', 'delete-input', 'update-ref'])
+import { ref, defineProps, defineEmits, defineExpose, inject } from 'vue';
+const emit = defineEmits(['change', 'delete-input'])
 const swal = inject("$swal");
+
+const fileData = ref({});
 const props = defineProps({
     id: String,
     title: String,
@@ -38,6 +40,10 @@ const checked = ref(false)
 const onClick = () => {
     fileInput.value.click();
 }
+
+const childMethod = (value) => {
+    checked.value = value;
+};
 
 const choosFile = (event) => {
     text.value = 'Processing';
@@ -60,10 +66,8 @@ const choosFile = (event) => {
             }
         }).then((response) => {
             const tempPath = response.data.temporary_path;
-            emit('update-ref', { title: props.is.title,type: props.is.type, path: tempPath });
+            fileData.value = { title: props.is.title, type: props.is.type, path: tempPath, check: checked };
             text.value = 'Re-Upload';
-            // userData.value.user_profile_picture = tempPath;
-            // preview.value = URL.createObjectURL(file);
             swal({
                 icon: "success",
                 title: "File uploaded temporarily",
@@ -81,6 +85,11 @@ const choosFile = (event) => {
 
 
 }
+
+defineExpose({
+    childMethod,
+    fileData
+});
 
 const deleteInput = () => {
     emit('delete-input')
