@@ -76,12 +76,14 @@ class UserController extends BaseController
             $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
 
+        $checkAll = $request->check_all;
+        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
         $attachments = $request->attachments;
         if($attachments) {
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
-                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title']]);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'],'check' => $checkAll]);
             }
         }
         
@@ -96,8 +98,10 @@ class UserController extends BaseController
         $user = $this->userRepository->getById($id);
         $user->load('info','role');
 
-        $picture = $user->getFirstMedia('user_profile_picture');
-        $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+        foreach (User::MEDIA_COLLECTIONS as $collectionName) {
+            $picture = $user->getFirstMedia($collectionName);
+            $user->setAttribute($collectionName, ($picture->original_url)??null);
+        }
 
         $mediaItems = $user->getMedia("*");
         $user->setAttribute('files', $mediaItems);
@@ -137,13 +141,14 @@ class UserController extends BaseController
             $user->clearMediaCollection($collectionName);
             $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
-
+        $checkAll = $request->check_all;
+        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
         $attachments = $request->attachments;
         if($attachments) {
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
-                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title']]);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $checkAll]);
             }
         }
 

@@ -60,7 +60,7 @@ const choosFile = (event) => {
             }
         }).then((response) => {
             const tempPath = response.data.temporary_path;
-            emit('update-ref', { title: props.is.title,type: props.is.type, path: tempPath, checked: checked });
+            emit('update-ref', { title: props.is.title,type: props.is.type, path: tempPath });
             text.value = 'Re-Upload';
             // userData.value.user_profile_picture = tempPath;
             // preview.value = URL.createObjectURL(file);

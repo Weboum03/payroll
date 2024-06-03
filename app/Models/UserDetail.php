@@ -48,10 +48,12 @@ class UserDetail extends Model
         'earning_leave_entitlement',
         'this_year',
         'next_year',
+        'check_all'
     ];
 
     protected $casts = [
-        'as_local' => 'boolean'
+        'as_local' => 'boolean',
+        'check_all' => 'boolean'
     ];
 
     public function user() {

@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="alternate_phone"
+                                        <Field v-slot="{ field, handleChange }" type="number" name="alternate_phone"
                                             class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.alternate_phone }"
@@ -144,9 +144,9 @@
                                         <Field v-slot="{ field, handleChange }" name="dob" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.dob }" onfocus="(this.type='date')"
-                                                placeholder="Date of Birth*" type="text" autocomplete="off"
-                                                class="input" required>
+                                                :class="{ 'is-invalid': errors.dob }"
+                                                placeholder="Date of Birth*" type="date" autocomplete="off"
+                                                class="input">
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
@@ -376,14 +376,14 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="doj"
+                                    <Field type="date"  name="doj"
                                         placeholder="Date of Joining*" :class="{ 'is-invalid': errors.doj }"
                                         class="input" autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date"
+                                    <Field type="date"  name="prob_end_date"
                                         placeholder="Probation End Date*" :class="{ 'is-invalid': errors.prob_end_date }"
                                         class="input" autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -457,7 +457,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')"
+                                    <Field type="date" 
                                         name="immediate_manager_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
@@ -481,7 +481,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="leave_approving_code"
+                                    <Field type="date"  name="leave_approving_code"
                                         placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
@@ -1139,5 +1139,14 @@ const deleteInput = (id) => {
     max-width: 300px;
     max-height: 300px;
     margin-top: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    -moz-appearance: textfield;
 }
 </style>

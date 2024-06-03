@@ -315,14 +315,14 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="doj" placeholder="Date of Joining"
+                                    <Field type="date" name="doj" placeholder="Date of Joining"
                                         v-model="userData.doj" :class="{ 'is-invalid': errors.doj }" class="input"
                                         autocomplete="off" />
                                     <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date" placeholder="Probation End Date"
+                                    <Field type="date" name="prob_end_date" placeholder="Probation End Date"
                                         v-model="userData.prob_end_date" :class="{ 'is-invalid': errors.prob_end_date }"
                                         class="input" autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Probation End Date*</label>
@@ -396,7 +396,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="immediate_manager_code"
+                                    <Field type="date" name="immediate_manager_code"
                                         placeholder="Employee Code" v-model="userData.immediate_manager_code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
@@ -421,7 +421,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="leave_approving_code" placeholder="Employee Code"
+                                    <Field type="date" name="leave_approving_code" placeholder="Employee Code"
                                         v-model="userData.leave_approving_code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
@@ -587,7 +587,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox" name="" id="">
+                                        <input type="checkbox" v-model="userData.check_all" name="" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -726,9 +726,9 @@ const sameAsLocal = ref(false);
 const perAddress = ref({});
 const oldPerAddress = ref({});
 const preview = ref();
+const checkAll = ref();
 
 watch(sameAsLocal, (current, previous) => {
-    console.log('vipan', sameAsLocal.value)
     if (sameAsLocal.value === true) {
         perAddress.value = userData.value;
     } else {
@@ -799,6 +799,7 @@ watchEffect(() => {
         earning_leave_entitlement: user?.info?.earning_leave_entitlement,
         this_year: user?.info?.this_year,
         next_year: user?.info?.next_year,
+        check_all: user?.info?.check_all,
         attachments: []
     };
 
@@ -880,8 +881,8 @@ const schemas = [
         email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
         secondary_email: yup.string().email('Invalid Email').nullable(),
         phone: yup.string().min(10).max(10).required("Required!"),
-        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null',
-            value => { value === null || value === '' || value.length === 10 } ),
+        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
+          value => value === null || value === '' || value.length === 10),
         gender: yup.string().required("Required!"),
         dob: yup.string().required("Required!"),
         address: yup.string().required("Required!"),
@@ -890,7 +891,7 @@ const schemas = [
         state: yup.string().required("Required!"),
         country: yup.string().required("Required!"),
         postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value => { value === null || value === '' || value.length === 6 } ),
+            value => value === null || value === '' || value.length === 6  ),
 
         p_address: yup.string().required("Required!"),
         p_address_1: yup.string().required("Required!"),
@@ -898,7 +899,7 @@ const schemas = [
         p_state: yup.string().required("Required!"),
         p_country: yup.string().required("Required!"),
         p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value => { value === null || value === '' || value.length === 6 } ),
+            value =>  value === null || value === '' || value.length === 6  ),
     }),
     yup.object({
         employee_id: yup.string().required("Required!"),
@@ -908,9 +909,9 @@ const schemas = [
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
         aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
-            value => { value === null || value === '' || value.length === 12 } ),
+            value => value === null || value === '' || value.length === 12  ),
         pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
-            value => { value === null || value === '' || value.length === 10 } ),
+            value =>  value === null || value === '' || value.length === 10  ),
     }),
     //   yup.object({
     //     address: yup.string().required(),
@@ -994,7 +995,6 @@ async function nextStep(values, user) {
             p_country: perAddress.value?.country,
             p_postcode: perAddress.value?.postcode,
         });
-        // console.log('vipan', perAddressValue)
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }
     userDetail.value = values;
@@ -1069,5 +1069,13 @@ const submitDocForm = (values) => {
     border-radius: .3rem;
     outline: 0;
     width: 100% !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    -moz-appearance: textfield;
 }
 </style>
