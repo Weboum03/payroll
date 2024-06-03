@@ -24,8 +24,10 @@
         <!-- ------profile-------->
         <div id="profile">
             <nav class="navbar navbar-light ">
-                <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
-                    id="admin-image" class="d-inline-block align-top" alt="">
+                <img v-if="user?.user_profile_picture" :src="user?.user_profile_picture" id="admin-image" class="d-inline-block align-top" />
+
+                <img v-else id="admin-image" class="d-inline-block align-top"
+                    :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'" />
                 <div class="admin-profile d-flex flex-column">
                     <p class="admin-name">{{ user?.name }}</p>
                     <p class="admin-pro">Admin</p>
@@ -94,8 +96,8 @@
                                     exact-active-class="active">Approvals History</router-link>
                             </li>
                             <li>
-                                <router-link :to="{ name: 'admin.leaveRequest' }"
-                                    exact-active-class="active">Add New</router-link>
+                                <router-link :to="{ name: 'admin.leaveRequest' }" exact-active-class="active">Add
+                                    New</router-link>
                             </li>
                         </ul>
                     </div>
@@ -166,8 +168,8 @@
 import { ref, computed } from "vue";
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
-import {useAbility} from '@casl/vue';
-const {can} = useAbility()
+import { useAbility } from '@casl/vue';
+const { can } = useAbility()
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();

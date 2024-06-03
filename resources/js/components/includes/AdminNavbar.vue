@@ -98,7 +98,7 @@
                                 <div class="icon_wrap">
                                     <img :src="apiPath + '/resources/images/WhatsApp Image 2024-01-25 at 04.41.25_b53bd3e5.jpg'"
                                         alt="profile_pic">
-                                    <span class="name">John Alex</span>
+                                    <span class="name">{{ user?.name }}</span>
 
                                 </div>
                             </div>

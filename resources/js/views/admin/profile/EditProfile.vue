@@ -730,14 +730,10 @@ const preview = ref();
 watch(sameAsLocal, (current, previous) => {
     console.log('vipan', sameAsLocal.value)
     if (sameAsLocal.value === true) {
-        // userData.value.p_address = 'Rahul';
-        console.log('rshu')
         perAddress.value = userData.value;
     } else {
-        console.log('ddd')
         perAddress.value = oldPerAddress.value;
     }
-    console.log('oldData', oldPerAddress.value)
 });
 
 onMounted(async () => {
@@ -885,7 +881,7 @@ const schemas = [
         secondary_email: yup.string().email('Invalid Email').nullable(),
         phone: yup.string().min(10).max(10).required("Required!"),
         alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null',
-            value => value === null || value === '' || value.length === 10),
+            value => { value === null || value === '' || value.length === 10 } ),
         gender: yup.string().required("Required!"),
         dob: yup.string().required("Required!"),
         address: yup.string().required("Required!"),
@@ -894,7 +890,7 @@ const schemas = [
         state: yup.string().required("Required!"),
         country: yup.string().required("Required!"),
         postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value => value === null || value === '' || value.length === 6),
+            value => { value === null || value === '' || value.length === 6 } ),
 
         p_address: yup.string().required("Required!"),
         p_address_1: yup.string().required("Required!"),
@@ -902,7 +898,7 @@ const schemas = [
         p_state: yup.string().required("Required!"),
         p_country: yup.string().required("Required!"),
         p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
-            value => value === null || value === '' || value.length === 6),
+            value => { value === null || value === '' || value.length === 6 } ),
     }),
     yup.object({
         employee_id: yup.string().required("Required!"),
@@ -912,9 +908,9 @@ const schemas = [
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
         aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
-            value => value === null || value === '' || value.length === 12),
+            value => { value === null || value === '' || value.length === 12 } ),
         pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
-            value => value === null || value === '' || value.length === 10),
+            value => { value === null || value === '' || value.length === 10 } ),
     }),
     //   yup.object({
     //     address: yup.string().required(),
