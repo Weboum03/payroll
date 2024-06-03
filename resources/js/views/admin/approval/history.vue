@@ -34,14 +34,16 @@
                     <td>{{ leave.from }}</td>
                     <td>{{ leave.user.name }}</td>
                     <td>{{ leave.reason }}</td>
-                    <td>{{ leave.remarks??'---' }}</td>
-                    <td> <button type="button" class="btn" id="ApprovedBtn"
-                            style="color: green; font-size: 14px;">Approved</button></td>
-                    <td><i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i></td>
+                    <td>{{ leave.remarks ?? '---' }}</td>
+                    <td> <button type="button" class="btn" id="ApprovedBtn" style="font-size: 14px;" :style="{
+                        color: getStatusColor(leave.status),
+                    }">{{ leave.status }}</button></td>
+                    <td @click="selectUser(leave)"><i class="fa-solid fa-ellipsis-vertical fa-sm"
+                            style="color: #000000;"></i></td>
                 </tr>
             </tbody>
         </table>
-
+        <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"></user-detail>
     </div>
 </template>
 
@@ -52,12 +54,15 @@ import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 import useLeaves from "@/composables/leaves";
+import UserDetail from './UserDetail.vue'
 const { leaves, getLeaves, deleteLeave } = useLeaves()
 
 let dataTable = ref(null);
 const myTable = ref(null);
 const isDataTableInitialized = ref(false)
-const search_global = ref('');
+const search_global = ref('')
+const selectedUser = ref({})
+const isModalOpened = ref(false)
 
 onMounted(() => {
     getLeaves();
@@ -67,6 +72,11 @@ onUpdated(() => {
     loadDataTable();
 })
 
+const getStatusColor = (status) => {
+    if (status == 'Pending') { return 'blue'; }
+    if (status == 'Rejected') { return 'red'; }
+    return 'green';
+}
 const loadDataTable = () => {
     const dataTableOptions = {
         "pagingType": "full_numbers",
@@ -82,6 +92,18 @@ const loadDataTable = () => {
         isDataTableInitialized.value = true;
     }
 }
+const selectUser = (user) => {
+    console.log('edfef');
+    selectedUser.value = user;
+    isModalOpened.value = true;
+};
+
+const openModal = () => {
+    isModalOpened.value = true;
+};
+const closeModal = () => {
+    isModalOpened.value = false;
+};
 
 watch(search_global, (current, previous) => {
     dataTable.search(search_global.value).draw();
@@ -114,6 +136,32 @@ table.dataTable tbody tr td {
     padding: 5px;
     background-color: transparent;
     margin-left: 3px;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
 }
 </style>
 

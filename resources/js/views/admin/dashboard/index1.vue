@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import apiClient from "../../../composables/api-client";
+import apiClient from "../../../composables/apiClient";
 import { ref, onMounted, reactive ,computed  } from 'vue';
     import Vue3Datatable from '@bhplugin/vue3-datatable';
     import '@bhplugin/vue3-datatable/dist/style.css';

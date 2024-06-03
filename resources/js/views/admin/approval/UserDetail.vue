@@ -44,7 +44,7 @@
                         <div class="form-row">
                             <div class="col d-flex flex-column">
                                 <label for="Leave-Days" class="Leave-Days">Leave Days</label>
-                                <span id="Leave Days" class="leave-days">2 Days</span>
+                                <span id="Leave Days" class="leave-days">{{ leave.duration }} Days</span>
                             </div>
                             <div class="col d-flex flex-column">
                                 <label for="Leave-Balance" class="Leave-Balance">Leave Balance</label>

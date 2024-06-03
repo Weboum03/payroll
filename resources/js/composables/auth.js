@@ -3,7 +3,7 @@ import { useRouter } from "vue-router";
 import { AbilityBuilder, createMongoAbility } from "@casl/ability";
 import { ABILITY_TOKEN } from "@casl/vue";
 import store from "../store";
-import apiClient from "./api-client";
+import apiClient from "./apiClient";
 
 let user = reactive({
     name: "",

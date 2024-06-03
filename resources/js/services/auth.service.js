@@ -1,4 +1,4 @@
-import apiClient from "../composables/api-client";
+import apiClient from "../composables/apiClient";
 
 const API_PATH = 'auth/';
 

@@ -91,7 +91,7 @@
                                         <ErrorMessage name="secondary_email" class="text-danger mt-1" />
                                     </div>
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="number" name="phone" class="input"
+                                        <Field v-slot="{ field, handleChange }" type="text" name="phone" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.phone }" placeholder="Mobile*"
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="number" name="alternate_phone"
+                                        <Field v-slot="{ field, handleChange }" type="text" name="alternate_phone"
                                             class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.alternate_phone }"
@@ -132,11 +132,10 @@
 
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" name="password" class="input"
-                                            autocomplete="off">
+                                        <Field v-slot="{ field, handleChange }" name="password" class="input">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.password }" placeholder="Password*"
-                                                type="password" autocomplete="off" class="input" required>
+                                                type="password" autocomplete="new-password" class="input" required>
                                         </Field>
                                         <label for="html" class="user-label ">Password</label>
                                         <ErrorMessage name="password" class="text-danger mt-1" />
@@ -174,10 +173,10 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="address" class="input"
                                             v-model="localAddress.address" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1"
+                                                :class="{ 'is-invalid': errors.address }" placeholder="Address Line 1*"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
-                                        <label for="Address" class="user-label">Address Line 1</label>
+                                        <label for="Address" class="user-label">Address Line 1*</label>
                                         <ErrorMessage name="address" class="text-danger mt-1" />
                                     </div>
 
@@ -185,11 +184,11 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_address"
                                             v-model="perAddress.address" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_address }" placeholder="Address Line 1"
+                                                :class="{ 'is-invalid': errors.p_address }" placeholder="Address Line 1*"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
-                                        <label for="Address" class="user-label">Address Line 1</label>
+                                        <label for="Address" class="user-label">Address Line 1*</label>
                                         <ErrorMessage name="p_address" class="text-danger mt-1" />
                                     </div>
 
@@ -201,10 +200,10 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="address_1"
                                             v-model="localAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="Address Line 2"
+                                                :class="{ 'is-invalid': errors.address_1 }" placeholder="Address Line 2*"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
-                                        <label for="Address" class="user-label">Address Line 2</label>
+                                        <label for="Address" class="user-label">Address Line 2*</label>
                                         <ErrorMessage name="address_1" class="text-danger mt-1" />
                                     </div>
 
@@ -213,10 +212,10 @@
                                             v-model="perAddress.address_1" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
                                                 :class="{ 'is-invalid': errors.p_address_1 }"
-                                                placeholder="Address Line 2" type="text" autocomplete="off"
+                                                placeholder="Address Line 2*" type="text" autocomplete="off"
                                                 class="input" required :disabled="sameAsLocal">
                                         </Field>
-                                        <label for="Address" class="user-label">Address Line 2</label>
+                                        <label for="Address" class="user-label">Address Line 2*</label>
                                         <ErrorMessage name="p_address_1" class="text-danger mt-1" />
                                     </div>
                                 </div>
@@ -229,7 +228,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="city" class="input"
                                             v-model="localAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.city }" placeholder="City/Town"
+                                                :class="{ 'is-invalid': errors.city }" placeholder="City/Town*"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="City" class="user-label">City/Town*</label>
@@ -240,7 +239,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_city" class="input"
                                             v-model="perAddress.city" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town"
+                                                :class="{ 'is-invalid': errors.p_city }" placeholder="City/Town*"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -255,7 +254,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
                                             v-model="localAddress.country" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.country }" placeholder="Country"
+                                                :class="{ 'is-invalid': errors.country }" placeholder="Country*"
                                                 type="text" autocomplete="off" class="input" required>
                                         </Field>
 
@@ -267,7 +266,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_country"
                                             v-model="perAddress.country" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country"
+                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -282,7 +281,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="state" class="input"
                                             v-model="localAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.state }" placeholder="State" type="text"
+                                                :class="{ 'is-invalid': errors.state }" placeholder="State*" type="text"
                                                 autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="State" class="user-label">State*</label>
@@ -293,7 +292,7 @@
                                         <Field v-slot="{ field, handleChange }" type="text" name="p_state" class="input"
                                             v-model="perAddress.state" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_state }" placeholder="State"
+                                                :class="{ 'is-invalid': errors.p_state }" placeholder="State*"
                                                 type="text" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
@@ -308,8 +307,8 @@
                                         <Field v-slot="{ field, handleChange }" type="number" name="postcode"
                                             v-model="localAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code"
-                                                type="text" autocomplete="off" class="input" required>
+                                                :class="{ 'is-invalid': errors.postcode }" placeholder="Post Code*"
+                                                type="number" autocomplete="off" class="input" required>
                                         </Field>
                                         <label for="Post Code" class="user-label">Post Code*</label>
                                         <ErrorMessage name="postcode" class="text-danger mt-1" />
@@ -318,8 +317,8 @@
                                         <Field v-slot="{ field, handleChange }" type="number" name="p_postcode"
                                             v-model="perAddress.postcode" class="input" autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code"
-                                                type="text" autocomplete="off" class="input" required
+                                                :class="{ 'is-invalid': errors.p_postcode }" placeholder="Post Code*"
+                                                type="number" autocomplete="off" class="input" required
                                                 :disabled="sameAsLocal">
                                         </Field>
                                         <label for="Post Code" class="user-label">Post Code*</label>
@@ -368,7 +367,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="employee_id" placeholder="Employee ID*"
+                                    <Field required type="text" name="employee_id" placeholder="Employee ID*" :value="employeeId"
                                         :class="{ 'is-invalid': errors.employee_id }" class="input"
                                         autocomplete="off" />
                                     <label for="Employee ID" class="user-label">Employee ID*</label>
@@ -837,7 +836,7 @@
                             <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                             <button type="button" v-if="currentStep !== 0" @click="prevStep"
                                 class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" href="/admin/onBoard" class="btn btn-outline-light cancle"
+                            <a id="myAnchor" class="btn btn-outline-light cancle"
                                 @click="cancel">Cancel</a>
                         </div>
                     </div>
@@ -858,12 +857,13 @@
 
 <script setup>
 import { onMounted, watch } from "vue";
+import {useRouter} from 'vue-router'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import useRoles from "@/composables/roles";
 import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
-
+const router = useRouter()
 const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 const swal = inject('$swal')
@@ -891,28 +891,26 @@ const schemas = [
     last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
     secondary_email: yup.string().email('Invalid Email').nullable(),
-    phone: yup.string().min(10).max(10).required("Required!"),
+    phone: yup.string().required("Required!").min(10).max(10),
     alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
           value => value === null || value === '' || value.length === 10),
     gender: yup.string().required("Required!"),
     password: yup.string().required("Required!"),
     dob: yup.string().required("Required!"),
-    // address: yup.string().required("Required!"),
-    // address_1: yup.string().required("Required!"),
-    // city: yup.string().required("Required!"),
-    // state: yup.string().required("Required!"),
-    // country: yup.string().required("Required!"),
-    // postcode: yup.string().required("Required!"),
-    postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+    address: yup.string().required("Required!"),
+    address_1: yup.string().required("Required!"),
+    city: yup.string().required("Required!"),
+    state: yup.string().required("Required!"),
+    country: yup.string().required("Required!"),
+    postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
 
-    // p_address: yup.string().required("Required!"),
-    // p_address_1: yup.string().required("Required!"),
-    // p_city: yup.string().required("Required!"),
-    // p_state: yup.string().required("Required!"),
-    // p_country: yup.string().required("Required!"),
-    // p_postcode: yup.string().required("Required!"),
-    p_postcode: yup.string().nullable().test('length', 'Invalid postcode', 
+    p_address: yup.string().required("Required!"),
+    p_address_1: yup.string().required("Required!"),
+    p_city: yup.string().required("Required!"),
+    p_state: yup.string().required("Required!"),
+    p_country: yup.string().required("Required!"),
+    p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
   }),
   yup.object({
@@ -967,7 +965,7 @@ const formValues = {
     postcode: '',
     p_postcode: '',
     user: '',
-    employee_id: '',
+    employee_id: Math.floor(Math.random() * 10000000),
     doj: '',
     prob_end_date: '',
     company: '',
@@ -1060,7 +1058,7 @@ async function nextStep(values, user) {
 }
 
 function cancel() {
-    router.push({ name: 'admin.onBoard' })
+    router.push({ name: 'admin.dashboard' })
 }
 function prevStep() {
   if (currentStep.value <= 0) {

@@ -16,8 +16,8 @@
 
                     <div class="row">
                         <div class="col input-group-fname">
-                            <input placeholder="Role Name*" v-model="role.name" name="name" type="text" value="" autocomplete="off"
-                                class="input" id="RoleName-Value" required>
+                            <input placeholder="Role Name*" v-model="role.name" name="name" type="text" value=""
+                                autocomplete="off" class="input" id="RoleName-Value" required>
                             <label class="user-label">Role Name*</label>
                             <ErrorMessage name="name" class="text-danger mt-1" />
                             <div class="text-danger mt-1">
@@ -89,7 +89,9 @@
 
                     <div class="btns-Update-cancle">
                         <button type="submit" :disabled="isLoading" class="btn btn-primary savenext">Save</button>
-                        <a href="/admin/EmployeeRole" class="btn btn-outline-light cancle">Cancel</a>
+                        <router-link :to="{ name: 'admin.EmployeeRole' }" class="btn btn-outline-light cancle">
+                            Cancel
+                        </router-link>
                     </div>
 
                 </div>
@@ -104,10 +106,12 @@
 
 <script setup>
 import { ref, reactive, inject } from "vue";
-import useRoles from "@/composables/roles";
+import useRole from "@/composables/useRole";
 import * as yup from 'yup';
+import { useRouter } from 'vue-router'
 import { useForm, useField, ErrorMessage } from "vee-validate";
 const swal = inject("$swal");
+const router = useRouter()
 
 // Define a validation schema
 const schema =
@@ -119,22 +123,27 @@ const { validate, errors } = useForm({ validationSchema: schema });
 // Define actual fields for validation
 const { value: name } = useField('name', null, { initialValue: '' });
 
-const { storeRole, validationErrors, isLoading } = useRoles();
+const { create: storeRole, validationErrors, loading: isLoading, error, success } = useRole();
 
 let permissions = ref([]);
 const role = reactive({
     name,
     permissions
 })
-function submitForm() {
-    if(Object.keys(permissions.value).length === 0) {
+async function submitForm() {
+    if (Object.keys(permissions.value).length === 0) {
         swal({
             icon: 'error',
             title: 'Please select atleast one permission'
         });
     } else {
-        validate().then(form => { if (form.valid) storeRole(role) })
-    }    
+        validate().then(async form => {
+            if (form.valid) {
+                await storeRole(role)
+                if (success.value) { router.push({ name: 'admin.EmployeeRole' }) }
+            }
+        })
+    }
 }
 </script>
 

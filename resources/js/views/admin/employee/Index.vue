@@ -7,9 +7,9 @@
         </div>
 
         <div id="datatable-Emp-info" class="container">
-            <a href="/admin/EmployeeRoleAdd" class="add2">
+            <router-link :to="{ name: 'admin.EmployeeRoleAdd' }" class="add2">
                 <i class="fa-solid fa-plus fa-xs" style="color: white;"></i>
-            </a>
+            </router-link>
         </div>
         <div id="EmpRolesTable_filter" class="dataTables_filter .add2"
             style="display: flex; justify-content: space-between;"><label>Search:<input type="search"
@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="role in roles?.data" :key="role.id">
+                <tr v-for="(role, index) in roles?.data" :key="role.id">
                     <td>{{ role.name }}</td>
                     <td>{{ commaSeparated(role.permissions) }}</td>
                     <td>
@@ -34,7 +34,8 @@
                                 <i class="fa-solid fa-pencil fa-lg" style="color:green"></i>
                             </router-link>
 
-                            <a href="#" @click.prevent="deleteRole(role.id)"><i class="fa-regular fa-trash-can fa-lg"
+                            <a href="#" @click.prevent="deleteRoleById(index, role.id)"><i
+                                    class="fa-regular fa-trash-can fa-lg"
                                     style="color:red;line-height: 16px !important;"></i></a>
                         </div>
                     </td>
@@ -46,15 +47,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
-import useRoles from "../../../composables/roles";
-const { roles, getRoles, deleteRole } = useRoles()
-import { useRouter } from "vue-router";
+import { ref, onMounted, onUpdated, watch } from 'vue';
+import useRole from "@/composables/useRole";
+const { items: roles, fetchAll: getRoles, remove: deleteRole, success } = useRole()
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 
-const router = useRouter();
 const myTable = ref(null);
 const search_global = ref('');
 let dataTable = ref(null);
@@ -68,6 +67,11 @@ onUpdated(() => {
     loadDataTable();
 })
 
+const deleteRoleById = async (index, roleId) => {
+    await deleteRole(roleId);
+    if (success.value) { dataTable.row(index).remove().draw() }
+}
+
 const loadDataTable = () => {
     const dataTableOptions = {
         pagingType: "full_numbers",
@@ -80,21 +84,21 @@ const loadDataTable = () => {
     }
     if (!isDataTableInitialized.value) {
         dataTable = $(myTable.value).DataTable(dataTableOptions);
-        console.log(dataTable)
         isDataTableInitialized.value = true;
     }
 }
 
 const commaSeparated = (jsonArray) => {
-      // Use array map function to extract names
-      const namesArray = jsonArray.map(obj => obj.name);
-      // Join the names with comma
-      return namesArray.join(', ');
+    // Use array map function to extract names
+    const namesArray = jsonArray.map(obj => obj.name);
+    // Join the names with comma
+    return namesArray.join(', ');
 }
 
 watch(search_global, (current, previous) => {
     dataTable.search(search_global.value).draw();
 });
+
 </script>
 
 <style scoped>

@@ -3,8 +3,13 @@
     <div id="dashboard-Profile" class="container  d-flex flex-column">
 
         <div id="dashboard-table-info">
-            <span class="d-flex justify-content-center align-items-center" style="gap: 9px;"><i
+            
+
+
+                    <router-link :to="{ name: 'admin.dashboard'}" custom v-slot="{ navigate }">
+                        <span @click="navigate" class="d-flex justify-content-center align-items-center" style="gap: 9px;"><i
                     class="fa-solid fa-arrow-left fa-xs back-icon" style="color: #000000;"></i>Profile</span>
+                    </router-link>
             <span>Employee > Profile</span>
         </div>
 
@@ -212,7 +217,7 @@ import useUsers from "@/composables/users";
 import moment from 'moment';
 import {useAbility} from '@casl/vue';
 import { useForm, useField, defineRule } from "vee-validate";
-import apiClient from "../../../composables/api-client";
+import apiClient from "../../../composables/apiClient";
 import { useRoute } from "vue-router";
 import { param } from "jquery";
 const route = useRoute()

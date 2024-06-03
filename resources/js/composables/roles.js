@@ -1,6 +1,6 @@
 import {ref, inject} from 'vue'
 import {useRouter} from 'vue-router'
-import apiClient from "./api-client";
+import apiClient from "./apiClient";
 
 export default function useRoles() {
     const roles = ref([])
@@ -13,6 +13,7 @@ export default function useRoles() {
     const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
+    const isSuccess = ref(false)
     const swal = inject('$swal')
 
     const getRoles = async (
@@ -119,7 +120,8 @@ export default function useRoles() {
     }
 
 
-    const deleteRole = async (id) => {
+    const deleteRole =  (id) => {
+        isSuccess.value = false;
         swal({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this action!',
@@ -135,8 +137,7 @@ export default function useRoles() {
                 if (result.isConfirmed) {
                     apiClient.delete('/admin/roles/' + id)
                         .then(response => {
-                            getRoles()
-                            router.push({name: 'admin.EmployeeRole'})
+                            isSuccess.value = true;
                             swal({
                                 icon: 'success',
                                 title: 'Role deleted successfully'
@@ -167,6 +168,7 @@ export default function useRoles() {
         updateRolePermissions,
         deleteRole,
         validationErrors,
-        isLoading
+        isLoading,
+        isSuccess
     }
 }

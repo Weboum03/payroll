@@ -1,6 +1,6 @@
 import { ref, inject, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import apiClient from './api-client';
+import apiClient from './apiClient';
 
 export default function useUsers() {
     const batches = ref([])

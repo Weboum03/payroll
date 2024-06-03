@@ -1,4 +1,4 @@
-import apiClient from "../composables/api-client"
+import apiClient from "../composables/apiClient"
 import axios from "axios"
 
 export default {

@@ -1,5 +1,5 @@
 import { ref, inject, computed } from "vue";
-import apiClient from "./api-client";
+import apiClient from "./apiClient";
 
 export default function useLeaves() {
     const leaves = ref([]);
