@@ -315,17 +315,17 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="doj" placeholder="Date of Joining"
+                                    <Field required type="text" onfocus="(this.type='date')" name="doj" placeholder="Date of Joining"
                                         v-model="userData.doj" :class="{ 'is-invalid': errors.doj }" class="input"
                                         autocomplete="off" />
-                                    <label for="Start Date" class="user-label ">Date of Joining</label>
+                                    <label for="Start Date" class="user-label ">Date of Joining*</label>
                                     <ErrorMessage name="doj" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field required type="date" name="prob_end_date" placeholder="Probation End Date"
+                                    <Field required type="text" onfocus="(this.type='date')" name="prob_end_date" placeholder="Probation End Date"
                                         v-model="userData.prob_end_date" :class="{ 'is-invalid': errors.prob_end_date }"
                                         class="input" autocomplete="off" />
-                                    <label for="Probation End Date" class="user-label ">Probation End Date</label>
+                                    <label for="Probation End Date" class="user-label ">Probation End Date*</label>
                                     <ErrorMessage name="prob_end_date" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -907,8 +907,8 @@ const schemas = [
     yup.object({
         employee_id: yup.string().required("Required!"),
         role_id: yup.string().required("Required!"),
-        // doj: yup.string().required("Required!"),
-        // prob_end_date: yup.string().required("Required!"),
+        doj: yup.string().required("Required!"),
+        prob_end_date: yup.string().required("Required!"),
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
         aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 

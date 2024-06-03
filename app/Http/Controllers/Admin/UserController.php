@@ -49,8 +49,13 @@ class UserController extends BaseController
         $rules = [
             'email'    => 'unique:users|required',
             'employee_id'    => 'unique:users|required',
+            'prob_end_date' => 'required|after:doj',
         ];
-        $validator = Validator::make($input, $rules);
+
+        $message = [
+            'prob_end_date.after' => 'Probation End Date should be greater than Joining date'
+        ];
+        $validator = Validator::make($input, $rules, $message);
     
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
@@ -107,6 +112,18 @@ class UserController extends BaseController
     public function update(Request $request, string $id)
     {
         $input = $request->all();
+        $rules = [
+            'prob_end_date' => 'required|after:doj',
+        ];
+
+        $message = [
+            'prob_end_date.after' => 'Probation End Date should be greater than Joining date'
+        ];
+        $validator = Validator::make($input, $rules, $message);
+    
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), $validator->errors());
+        }
         $user = $this->userRepository->updateById($id, $input);
         $user->info()->updateOrCreate(['user_id' => $id], $input);
         $role = Role::find($request->role_id);
@@ -137,8 +154,21 @@ class UserController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
+        $input = $request->all();
+        $rules = [
+            'final_working_date' => 'required|after:start_date',
+        ];
+
+        $message = [
+            'final_working_date.after' => 'Final Working date should be greater than De-Boarding date'
+        ];
+        $validator = Validator::make($input, $rules, $message);
+    
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first(), $validator->errors());
+        }
         $this->userRepository->deleteById($id);
         return $this->sendSuccess(__('AdminMessage.customerDelete'));
     }
