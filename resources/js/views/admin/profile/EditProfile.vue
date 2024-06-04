@@ -586,7 +586,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox" v-model="checkAll" name="" id="">
+                                        <input type="checkbox" v-model="userData.check_all" name="" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 

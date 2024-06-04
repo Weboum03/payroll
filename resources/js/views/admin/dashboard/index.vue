@@ -13,7 +13,7 @@
                 <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }"><button id="button3" class="add"><i
                             class="fa-solid fa-plus fa-xs" style="color: white;"></i></button></router-link>
         </div>
-        <table class="table text-center" ref="myTable">
+        <table v-if="users" class="table text-center" ref="myTable">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -54,15 +54,18 @@ let dataTable = ref(null);
 const isDataTableInitialized = ref(false)
 // let table = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
     getUsers();
 });
 
 onUpdated(() => {
-    loadDataTable();
+    setTimeout(() => {
+        loadDataTable();
+    }, 500);
 })
 
 const loadDataTable = () => {
+    console.log('load datatable')
     const dataTableOptions = {
         "pagingType": "full_numbers",
         "bLengthChange": false,
