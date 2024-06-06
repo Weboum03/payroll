@@ -334,8 +334,10 @@
                                     <Field required name="company" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.company" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Company</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
+                                        <option value="Accenture Inc">Accenture Inc</option>
+										<option value="North Corp Software">North Corp Software</option>
+										<option value="Cyber Security Ltd">Cyber Security Ltd</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="Company" class="user-label">Company</label>
@@ -346,8 +348,10 @@
                                     <Field required name="location" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.location" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Location</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Guru Gram"> Guru Gram</option>
+										<option value="Pune">Pune</option>
+										<option value="Bangluru">Bangluru</option>
+										<option value="California">California</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="location" class="user-label">Location</label>
@@ -360,8 +364,10 @@
                                     <Field required name="qualification" as="select" class="form-control input"
                                         v-model="userData.qualification" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Qualification-Degree</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Master Degree">Master Degree</option>
+                                        <option value="B.Tech or BE">B.Tech or BE</option>
+										<option value="Other Graduate">Other Graduate</option>
+										<option value="Under Graduate">Under Graduate</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="qualification" class="user-label">Qualification-Degree</label>
@@ -372,8 +378,11 @@
                                     <Field required name="experience" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.experience" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="0 - 1 year"> 0 - 1 year</option>
+										 <option value="1-3 years">1-3 years</option>
+										 <option value="4-6 years"> 4-6 years</option>
+										 <option value="7-9 years">7-9 years</option>
+										 <option value="10-15 years">10-15 years </option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="experience" class="user-label">Work Experience</label>
@@ -386,8 +395,10 @@
                                     <Field required name="immediate_manager" as="select" class="form-control input"
                                         v-model="userData.immediate_manager" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Immediate-Manager</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Hiring Manager">Hiring Manager</option>
+										<option value="Team Lead">Team Lead</option>
+                                        <option value="C.E.O">C.E.O</option>
+                                        <option value="Assist Project Manager">Assist Project Manager</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="immediate_manager" class="user-label">Immediate-Manager</label>
@@ -410,8 +421,9 @@
                                         v-model="userData.leave_approving_auth" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Leave Approving Authority</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Project Manager">Project Manager</option>
+                                        <option value="H. R. Manager">H. R. Manager</option>
+										<option value="Director">Director</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
@@ -434,8 +446,10 @@
                                         autocomplete="off" v-model="userData.department" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
                                         <option value="">Department</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Software Development">Software Development</option>
+                                        <option value="Quality Testing">Quality Testing</option>
+										<option value="Designing">Designing</option>
+										<option value="Management">Management</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="Department" class="user-label">Department</label>
@@ -458,8 +472,10 @@
                                     <Field required name="grade" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.grade" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Manager">Manager</option>
+										<option value="Lead">Lead</option>
+                                        <option value="Senior">Senior</option>
+                                        <option value="Junior">Junior</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="Grade" class="user-label">Grade</label>
@@ -469,9 +485,12 @@
                                     <Field required name="employment_type" as="select" class="form-control input"
                                         v-model="userData.employment_type" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Employment Type</option>
-                                        <option value="A">Employment Type A</option>
-                                        <option value="B">Employment Type B</option>
-                                        <option value="C">Employment Type C</option>
+                                        <option value="Regular">Regular</option>
+                                        <option value="Consultant">Contract</option>
+                                        <option value="Trainee">Trainee</option>
+										<option value="Apprenticeship">Apprenticeship</option>
+										<option value="Casual">Casual</option>
+										<option value="Temporary">Temporary </option>
                                     </Field>
                                     <label for="Employment Type" class="user-label">Employment Type</label>
                                     <ErrorMessage name="employment_type" class="text-danger mt-1" />
@@ -517,8 +536,9 @@
                                     <Field required name="holiday_year" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.holiday_year" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Holiday Year</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Option1">2022 - 2023</option>
+                                        <option value="Option2">2023 - 2024</option>
+										 <option value="Option3">2024 - 2025</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Holiday Year</label>
@@ -531,8 +551,9 @@
                                     <Field required name="work_pattern" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.work_pattern" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Pattern</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
+                                        <option value="Full Time">Full Time</option>
+										<option value="Part Time">Part Time</option>
+                                        <option value="Remote">Remote</option>
                                         <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Work Pattern</label>
@@ -541,7 +562,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="earning_leave_entitlement"
+                                    <Field required type="number" name="earning_leave_entitlement"
                                         v-model="userData.earning_leave_entitlement"
                                         placeholder="Annual Earned Leave Entitlement"
                                         :class="{ 'is-invalid': errors.earning_leave_entitlement }" class="input"

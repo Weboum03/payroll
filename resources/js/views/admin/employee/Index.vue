@@ -75,11 +75,11 @@ const deleteRoleById = async (index, roleId) => {
 const loadDataTable = () => {
     const dataTableOptions = {
         pagingType: "full_numbers",
+        order: [],
         bLengthChange: false,
         columnDefs: [
             { "className": "text-center", "targets": "_all" } // Center-align all columns
         ],
-        order: [],
         processing: true,
     }
     if (!isDataTableInitialized.value) {

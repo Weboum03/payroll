@@ -46,7 +46,7 @@ class LeaveRepository extends BaseRepository
 
     public function listing($request)
     {
-        return $this->model->latest()->with('user','type')->get();
+        return $this->model->latest()->with('user.info','type')->get();
     }
 
     public function updatePassword($data)

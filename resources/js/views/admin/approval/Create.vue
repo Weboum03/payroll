@@ -19,7 +19,7 @@
                             <Field required name="leave_type_id" as="select" class="form-control input" autocomplete="off"
                                 style="color: #7e7e7e;">
                                 <option value="" disabled selected>Leave Type</option>
-                                <option value="1">Casual Leave</option>
+                                <option value="1">Earned Leave</option>
                             </Field>
                             <label for="leave_type_id" class="user-label">Leave Type</label>
                             <ErrorMessage name="leave_type_id" class="text-danger mt-1" />
@@ -43,7 +43,7 @@
                     </div>
                     <div class="row">
                         <div class="col input-group-fname">
-                            <Field required type="text" name="from" class="input" onfocus="(this.type='date')"
+                            <Field type="text" name="from" class="input" onfocus="(this.type='date')"
                                 autocomplete="off" placeholder="From Date*"
                                 :class="{ 'is-invalid': errors.from }" />
                             <label for="html" class="user-label ">From Date*</label>
@@ -68,7 +68,7 @@
 
                     <div class="row">
                         <div class="col input-group-fname">
-                            <Field required type="text" name="to" class="input" onfocus="(this.type='date')"
+                            <Field type="text" name="to" class="input" onfocus="(this.type='date')"
                                 autocomplete="off" placeholder="To Date*"
                                 :class="{ 'is-invalid': errors.to }" />
                             <label for="html" class="user-label ">To Date*</label>
@@ -90,7 +90,7 @@
 
                     <div class="btns-Update-cancle">
                         <button type="submit" :disabled="isLoading"  @click="validate" class="btn btn-primary savenext">Save</button>
-                        <a href="/admin/EmployeeRole" class="btn btn-outline-light cancle">Cancel</a>
+                        <router-link :to="{name: 'admin.home'}" class="btn btn-outline-light cancle">Cancel</router-link>
                     </div>
 
                 </div>

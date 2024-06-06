@@ -44,12 +44,12 @@ return new class extends Migration
             $table->string('department', 50)->nullable();
             $table->string('job_role', 50)->nullable();
             $table->string('grade', 10)->nullable();
-            $table->string('employment_type', 10)->nullable();
+            $table->string('employment_type', 50)->nullable();
             $table->string('aadhar_number', 20)->nullable();
             $table->string('pan_number', 20)->nullable();
             $table->string('holiday_year', 20)->nullable();
             $table->string('work_pattern', 20)->nullable();
-            $table->string('earning_leave_entitlement', 20)->nullable();
+            $table->integer('earning_leave_entitlement')->default(0);
             $table->string('this_year', 20)->nullable();
             $table->string('next_year', 20)->nullable();
             $table->timestamps();

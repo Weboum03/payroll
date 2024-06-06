@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\LeaveApplication;
 use App\Repositories\LeaveRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,14 +49,28 @@ class LeaveController extends BaseController
         $rules = [
             'leave_type_id'    => 'required',
             'reason'    => 'required',
+            'to' => 'required|after:from',
         ];
-        $validator = Validator::make($input, $rules);
+
+        $message = [
+            'to.after' => '"To" date should be greater than "From" date'
+        ];
+        $validator = Validator::make($input, $rules, $message);
     
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
-        $input['user_id'] = Auth::id();
-        $leave = $this->leaveRepository->create($input);
+
+        $user = Auth::user();
+        $userInfo = $user->info;
+        $leave = new LeaveApplication();
+        $input['user_id'] = $user->id;
+        $leave->fill($input);
+        if($leave->duration > $userInfo->earning_leave_entitlement) {
+            return $this->sendError('You have insufficient Earned Leave');
+        }
+        $leave->save();
+        $userInfo->decrement('earning_leave_entitlement', $leave->duration);
         
         return $this->sendResponse($leave, __('AdminMessage.customerAdd'));
     }

@@ -1,8 +1,8 @@
 <template>
-    <div v-if="props.user" class="modal-mask" id="leaveModal" data-backdrop="static" data-keyboard="false"
+    <div v-if="props.user"  class="modal-mask" id="leaveModal" data-backdrop="static" data-keyboard="false"
         tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content" style="height: 500px;">
+            <div class="modal-content" style="height: 500px;" ref="target">
                 <div class="modal-header">
                     <div id="Leave-approve-profile">
                         <nav class="navbar navbar-light ">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col d-flex flex-column">
                                 <label for="Leave-Balance" class="Leave-Balance">Leave Balance</label>
-                                <span id="Leave-Balance" class="leave-balance">5</span>
+                                <span id="Leave-Balance" class="leave-balance">{{ leave.user?.info?.earning_leave_entitlement }}</span>
                             </div>
                         </div>
 
@@ -92,6 +92,7 @@
 <script setup>
 import { ref, defineProps, defineEmits, inject } from 'vue';
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { onClickOutside } from '@vueuse/core'
 import * as yup from 'yup';
 import useLeaves from "@/composables/leaves";
 const { updateLeave, validationErrors, isLoading } = useLeaves();
@@ -127,6 +128,8 @@ const viewHistory = () => {
 const closeModal = () => {
     emit('close');
 };
+const target = ref(null)
+onClickOutside(target, () => emit('close'));
 </script>
 
 <style scoped>

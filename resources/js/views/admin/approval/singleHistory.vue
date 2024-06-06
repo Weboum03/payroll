@@ -4,7 +4,7 @@
     <div class="modal-mask" id="modalLeave-list" data-backdrop="false" data-keyboard="false"
         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content" style=" width: 870px; height: 500px ">
+            <div class="modal-content" style=" width: 870px; height: 500px " ref="target">
                 <div class="modal-header" style="align-items: center; gap: 3rem;">
                     <button @click="hideHistory" type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
@@ -62,6 +62,7 @@ import { ref, onMounted, defineProps, onUpdated, watch } from 'vue';
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
+import { onClickOutside } from '@vueuse/core'
 import useLeaves from "@/composables/leaves";
 const { leaves, getLeaves,getLeaveByUser, deleteLeave } = useLeaves()
 const emit = defineEmits(['showHistory']);
@@ -91,6 +92,9 @@ const getStatusColor = (status) => {
     if (status == 'Rejected') { return 'red'; }
     return 'green';
 }
+
+const target = ref(null)
+onClickOutside(target, () => {emit('close'); emit('showHistory', false) } );
 
 const loadDataTable = () => {
     const dataTableOptions = {

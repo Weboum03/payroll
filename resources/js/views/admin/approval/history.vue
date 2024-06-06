@@ -24,11 +24,11 @@
                     <th id="Description">Description</th>
                     <th id="Remark">Remarks</th>
                     <th id="Status">Status</th>
-                    <th id="Action">Action</th>
+                    <th v-if="can('Leave Approval')" id="Action">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="leave in leaves?.data" :key="leave.id">
+                <tr v-for="leave in leaves?.data" :key="leave.id" @click="selectUser(leave)">
                     <td>{{ leave.created_at }}</td>
                     <td>{{ leave.user.name }}</td>
                     <td>{{ leave.from }}</td>
@@ -38,7 +38,7 @@
                     <td> <button type="button" class="btn" id="ApprovedBtn" style="font-size: 14px;" :style="{
                         color: getStatusColor(leave.status),
                     }">{{ leave.status }}</button></td>
-                    <td @click="selectUser(leave)"><i class="fa-solid fa-ellipsis-vertical fa-sm"
+                    <td v-if="can('Leave Approval')" @click="selectUser(leave)"><i class="fa-solid fa-ellipsis-vertical fa-sm"
                             style="color: #000000;"></i></td>
                 </tr>
             </tbody>
@@ -54,11 +54,13 @@ import '@/assets/css/Approvals.css'
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
+import {useAbility} from '@casl/vue';
 import useLeaves from "@/composables/leaves";
 import UserDetail from './UserDetail.vue'
 import singleHistory from './singleHistory.vue'
 const { leaves, getLeaves, deleteLeave } = useLeaves()
 
+const {can} = useAbility()
 let dataTable = ref(null);
 const myTable = ref(null);
 const isDataTableInitialized = ref(false)
@@ -99,9 +101,10 @@ const loadDataTable = () => {
     }
 }
 const selectUser = (user) => {
-    console.log('edfef');
-    selectedUser.value = user;
-    isModalOpened.value = true;
+    if(can('Leave Approval')) {
+        selectedUser.value = user;
+        isModalOpened.value = true;
+    }
 };
 
 const openModal = () => {
@@ -120,6 +123,7 @@ watch(search_global, (current, previous) => {
 <style scoped>
 @import '@/assets/css/ApprovalHistory.css';
 @import '@/assets/css/onBoard.css';
+@import 'datatables.net-dt';
 
 table.dataTable thead th,
 table.dataTable thead td,
@@ -169,10 +173,6 @@ table.dataTable tbody tr td {
     outline: 0;
     width: 100% !important;
 }
-</style>
-
-<style>
-@import 'datatables.net-dt';
 
 .dataTables_filter {
     margin-bottom: -15px;

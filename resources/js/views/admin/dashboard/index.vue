@@ -68,6 +68,7 @@ const loadDataTable = () => {
     console.log('load datatable')
     const dataTableOptions = {
         "pagingType": "full_numbers",
+        "order": [],
         "bLengthChange": false,
         "columnDefs": [
             { "className": "text-center", "targets": "_all" } // Center-align all columns
@@ -76,7 +77,6 @@ const loadDataTable = () => {
     }
     if (!isDataTableInitialized.value) {
         dataTable = $(myTable.value).DataTable(dataTableOptions);
-        console.log(dataTable)
         isDataTableInitialized.value = true;
     }
 }
