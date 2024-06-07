@@ -393,7 +393,18 @@ const schemas = [
         // comment: yup.string().required('Required!'),
         start_date: yup.string().required("Required!"),
         final_employment_date: yup.string().required("Required!"),
-        final_working_date: yup.string().required("Required!"),
+        // final_working_date: yup.string().required("Required!"),
+        final_working_date: yup.date().required('End date is required')
+        .test('is-greater', 'Final Working date should be greater than De-Boarding date', function(value) {
+        const { start_date } = this.parent;
+        const date = new Date(value);
+        // Get year, month, and day part from the date
+        var year = date.toLocaleString("default", { year: "numeric" });
+        var month = date.toLocaleString("default", { month: "2-digit" });
+        var day = date.toLocaleString("default", { day: "2-digit" });
+        var formattedDate = year + "-" + month + "-" + day;
+        return !start_date || !value || formattedDate > start_date;
+        }),
     }),
     yup.object({
         report_to: yup.string().required("Required!"),

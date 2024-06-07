@@ -865,7 +865,18 @@ const schemas = [
     employee_id: yup.string().required("Required!"),
     role_id: yup.string().required("Required!"),
     doj: yup.string().required("Required!"),
-    prob_end_date: yup.string().required("Required!"),
+    // prob_end_date: yup.string().required("Required!"),
+    prob_end_date: yup.date().required('End date is required')
+        .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
+        const { doj } = this.parent;
+        const date = new Date(value);
+        // Get year, month, and day part from the date
+        var year = date.toLocaleString("default", { year: "numeric" });
+        var month = date.toLocaleString("default", { month: "2-digit" });
+        var day = date.toLocaleString("default", { day: "2-digit" });
+        var formattedDate = year + "-" + month + "-" + day;
+        return !doj || !value || formattedDate > doj;
+        }),
     // aadhar_number: yup.string().required("Required!"),
     // pan_number: yup.string().required("Required!"),
     aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 

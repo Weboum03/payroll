@@ -106,10 +106,11 @@
 <script setup>
 import { inject } from "vue";
 import useLeaves from "@/composables/leaves";
+import { useRouter } from "vue-router";
 import * as yup from 'yup';
 import { Form, Field, ErrorMessage } from "vee-validate";
 const swal = inject("$swal");
-
+const router = useRouter();
 // Define a validation schema
 const schema =
     yup.object({
@@ -117,7 +118,17 @@ const schema =
         from_type: yup.string().required("Please enter the required field"),
         from: yup.string().required("Please enter the required field"),
         to_type: yup.string().required("Please enter the required field"),
-        to: yup.string().required("Please enter the required field"),
+        to: yup.date().required('End date is required')
+        .test('is-greater', '"To" date should be greater or equal than "From" date', function(value) {
+        const { from } = this.parent;
+        const date = new Date(value);
+        // Get year, month, and day part from the date
+        var year = date.toLocaleString("default", { year: "numeric" });
+        var month = date.toLocaleString("default", { month: "2-digit" });
+        var day = date.toLocaleString("default", { day: "2-digit" });
+        var formattedDate = year + "-" + month + "-" + day;
+        return !from || !value || formattedDate >= from;
+        }),
         reason: yup.string().required("Please enter the required field")
     });
 
@@ -125,7 +136,7 @@ const { storeLeave, validationErrors, isLoading } = useLeaves();
 
 function submitForm(values, action) {
     return storeLeave(values).then( (response) => {
-        action.resetForm();
+        router.push({ name: 'admin.approvals'})
     });
 }
 </script>

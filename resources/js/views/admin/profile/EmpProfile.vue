@@ -78,7 +78,7 @@
                     </div>
                     <div id="Remaining-Leaves" class="d-flex flex-column justify-content-flex-start align-items-center">
                         <p>Remaining Leaves</p>
-                        <p>6.5 Days</p>
+                        <p>{{ user?.info?.earning_leave_entitlement }} Days</p>
                     </div>
                 </div>
 

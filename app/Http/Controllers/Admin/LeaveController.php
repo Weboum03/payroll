@@ -99,7 +99,18 @@ class LeaveController extends BaseController
     public function update(Request $request, string $id)
     {
         $input = $request->all();
-        $leave = $this->leaveRepository->updateById($id, $input);
+        $leave = $this->leaveRepository->getById($id);
+        $oldStatus = $leave->status;
+        $leave->fill($input);
+        if($leave->isDirty('status')) {
+            if($oldStatus == 'Rejected') {
+                return $this->sendError('Request rejected already cannot change status now');
+            }
+            if($leave->status == 'Rejected') {
+                $leave->user->info()->increment('earning_leave_entitlement', $leave->duration);
+            }
+        }
+        $leave->save();
         return $this->sendResponse($leave, __('AdminMessage.customerUpdate'));
     }
 
