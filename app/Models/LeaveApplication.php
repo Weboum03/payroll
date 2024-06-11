@@ -56,7 +56,7 @@ class LeaveApplication extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return (new Carbon($value))->toFormattedDateString();
+        return (new Carbon($value))->toDayDateTimeString();
     }
 
     public function getDurationAttribute()

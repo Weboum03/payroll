@@ -13,10 +13,12 @@
         <div id="leavesEmpTable_filter" class="dataTables_filter"
             style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
                     v-model="searchQuery" @input="filterRows" placeholder=""
-                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction"
+                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" v-model="filterStatus"
                 style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
-                <option value="BulkAction">Select Bulk Action</option>
-                <option value="value2">Option 2</option>
+                <option value="" disabled>Select Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
             </select>
             <select id="dropdown2" class="allActivity" v-model="pagelength"
                 style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
@@ -102,6 +104,8 @@ function refreshData() {
     tableKey.value++;
     getLeaves();
     filterUser.value = '';
+    filterStatus.value = '';
+    searchQuery.value = '';
     pagelength.value = 10;
 }
 
@@ -147,6 +151,15 @@ const filterUser = ref('');
 watch(filterUser, (current, previous) => {
     table.value.filterData.filter.push({
         key: "user_id",
+        value: current,
+    })
+    table.value.filterPayload();
+});
+
+const filterStatus = ref('');
+watch(filterStatus, (current, previous) => {
+    table.value.filterData.filter.push({
+        key: "status",
         value: current,
     })
     table.value.filterPayload();
