@@ -33,8 +33,8 @@
                     class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
                     aria-hidden="true"></i></button>
         </div>
-        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" @rowclick="selectUser"
-            ref="table">
+        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData"
+            @rowclick="selectUser" ref="table">
             <template v-slot:cell-name="{ row }">
                 <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
                     height="20px" style="border-radius: 50%;">
@@ -46,6 +46,15 @@
             <template v-slot:cell-duration="{ row }">
                 {{ row.duration }} Days
             </template>
+
+            <template v-slot:cell-status="{ row }">
+                <button type="button" class="btn"
+                    :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
+                    id="pendingBtn">{{ row.status }}</button>
+            </template>
+
+
+
             <template v-slot:cell-action="{ row }">
                 <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
             </template>
@@ -53,10 +62,9 @@
 
     </div>
 
-    <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"
-            @showHistory="showHistory"></user-detail>
+    <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
 
-        <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
+    <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
 </template>
 
 <script setup>
@@ -77,6 +85,7 @@ const tableKey = ref(0);
 const selectedUser = ref({})
 const isModalOpened = ref(false)
 const isActive = ref(false)
+const tableHeaders = ref([])
 
 const filterData = (filterValues) => {
     getLeaves(filterValues)
@@ -95,22 +104,23 @@ function refreshData() {
     filterUser.value = '';
     pagelength.value = 10;
 }
-const tableHeaders = [
-    { key: 'name', label: 'Employee' },
-    { key: 'type', label: 'Leave Type', sorting: true },
-    { key: 'from', label: 'From', sorting: true },
-    { key: 'to', label: 'To', sorting: true },
-    { key: 'duration', label: 'No of Days', sorting: true },
-    { key: 'status', label: 'Status', sorting: true },
-];
 
-if(can('Leave Approval')) {
-    tableHeaders.push({ key: 'action', label: 'Action' });
-}
 const showHistory = (value) => {
     isActive.value = value;
 }
 onMounted(() => {
+    tableHeaders.value = [
+        { key: 'name', label: 'Employee' },
+        { key: 'type', label: 'Leave Type', sorting: true },
+        { key: 'from', label: 'From', sorting: true },
+        { key: 'to', label: 'To', sorting: true },
+        { key: 'duration', label: 'No of Days', sorting: true },
+        { key: 'status', label: 'Status', sorting: true },
+    ];
+
+    //if (can('Leave Approval')) {
+        tableHeaders.value.push({ key: 'action', label: 'Action' });
+    //}
     getLeaves();
     getUsers();
 });
@@ -146,6 +156,10 @@ watch(pagelength, (current, previous) => {
     table.value.pageLength = current;
     table.value.page = 1;
     table.value.filterPayload();
+});
+
+watch(tableHeaders, (current, previous) => {
+    tableKey.value++;
 });
 </script>
 
