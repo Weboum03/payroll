@@ -191,6 +191,12 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.approvals_demo",
+                path: "approvals_demo",
+                component: () => import("../views/admin/approval/index1.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.approvalHistory",
                 path: "approval/history",
                 component: () => import("../views/admin/approval/history.vue"),

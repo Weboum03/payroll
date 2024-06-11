@@ -10,9 +10,11 @@ export default function useLeaves() {
     const isLoading = ref(false);
     const swal = inject("$swal");
 
-    const getLeaves = async () => {
-        apiClient.get("admin/leaves").then((response) => {
+    const getLeaves = async (filters= '') => {
+        isLoading.value = true;
+        apiClient.get('admin/leaves' + filters).then((response) => {
             leaves.value = response.data;
+            isLoading.value = false;
         });
     };
 

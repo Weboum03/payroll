@@ -30,14 +30,14 @@ class LeaveController extends BaseController
     public function index(Request $request)
     {
         $leaves = $this->leaveRepository->listing($request);
-        $leaves->map(function ($leave) {
+        $leaves->through(function ($leave) {
             $user = $leave->user;
             $picture = $user->getFirstMedia('user_profile_picture');
             $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
             $user->makeHidden('media');
             return $leave;
         });
-        return $this->sendResponse($leaves,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponseWithPagination($leaves,__('ApiMessage.retrievedMessage'));
     }
 
     /**

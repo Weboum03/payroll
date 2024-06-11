@@ -251,27 +251,24 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
-                                            v-model="localAddress.country" autocomplete="off">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.country }" placeholder="Country*"
-                                                type="text" autocomplete="off" class="input" required>
+                                        <Field required name="country" as="select" class="form-control input" v-model="localAddress.country"
+                                        autocomplete="off" :validateOnBlur="false" :validateOnChange="false"
+                                        :validateOnInput="false" style="color: #7e7e7e;">
+                                            <option value="" disabled selected>Country*</option>
+                                            <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
                                         </Field>
-
-                                        <label for="Country" class="user-label">Country*</label>
+                                        <label for="country" class="user-label">Country*</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="perAddress.country" class="input" autocomplete="off">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.p_country }" placeholder="Country*"
-                                                type="text" autocomplete="off" class="input" required
-                                                :disabled="sameAsLocal">
+                                        <Field required name="p_country" as="select" class="form-control input" v-model="perAddress.country"
+                                        autocomplete="off" :validateOnBlur="false" :validateOnChange="false"
+                                        :validateOnInput="false" style="color: #7e7e7e;">
+                                            <option value="" disabled selected>Country*</option>
+                                            <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
                                         </Field>
-
-                                        <label for="Country" class="user-label">Country*</label>
+                                        <label for="country" class="user-label">Country*</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
                                 </div>
@@ -467,7 +464,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="immediate_manager_code" placeholder="Employee Code"
+                                    <Field type="text" name="immediate_manager_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -491,7 +488,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="leave_approving_code" placeholder="Employee Code"
+                                    <Field type="text" name="leave_approving_code" placeholder="Employee Code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
                                     <label for="Probation End Date" class="user-label ">Employee Code</label>
@@ -789,6 +786,7 @@ import useRoles from "@/composables/roles";
 import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 import UploadDoc from "@/components/UploadDoc.vue";
+import { countries } from "@/constants/countries";
 
 
 const router = useRouter()
@@ -804,6 +802,9 @@ const userDetail = ref({});
 const preview = ref();
 const checkAll = ref(false);
 const childComponents = ref([]);
+
+localAddress.value.country = 'IN';
+perAddress.value.country = 'IN';
 
 watch(sameAsLocal, (current, previous) => {
     if(sameAsLocal.value === true) {

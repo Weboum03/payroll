@@ -215,18 +215,24 @@
 
                                 <div class="row d-flex">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="country" class="input"
-                                            v-model="userData.country" autocomplete="off" placeholder="Country*"
-                                            required />
-                                        <label for="Country" class="user-label">Country*</label>
+                                        <Field name="country" as="select" class="form-control input"
+                                            :class="{ 'is-invalid': errors.country }" v-model="userData.country"
+                                            autocomplete="off" style="color: #7e7e7e;" required>
+                                            <option value="" disabled selected>Select</option>
+                                            <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
+                                        </Field>
+                                        <label for="country" class="user-label">Country*</label>
                                         <ErrorMessage name="country" class="text-danger mt-1" />
                                     </div>
 
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" type="text" name="p_country"
-                                            v-model="perAddress.country" class="input" autocomplete="off"
-                                            placeholder="Country*" required :disabled="sameAsLocal" />
-                                        <label for="Country" class="user-label">Country*</label>
+                                        <Field name="p_country" as="select" class="form-control input"
+                                            :class="{ 'is-invalid': errors.country }" v-model="perAddress.country" :disabled="sameAsLocal"
+                                            autocomplete="off" style="color: #7e7e7e;" required>
+                                            <option value="" disabled selected>Select</option>
+                                            <option v-for="country in countries" :key="country.code" :value="country.code">{{ country.name }}</option>
+                                        </Field>
+                                        <label for="country" class="user-label">Country*</label>
                                         <ErrorMessage name="p_country" class="text-danger mt-1" />
                                     </div>
                                 </div>
@@ -406,11 +412,11 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="immediate_manager_code" placeholder="Employee Code"
+                                    <Field type="text" name="immediate_manager_code" placeholder="Employee Code"
                                         v-model="userData.immediate_manager_code"
                                         :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
                                         autocomplete="off" />
-                                    <label for="Probation End Date" class="user-label ">Employee Code</label>
+                                    <label for="employee_code" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="immediate_manager_code" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -432,11 +438,11 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="date" name="leave_approving_code" placeholder="Employee Code"
+                                    <Field type="text" name="leave_approving_code" placeholder="Employee Code"
                                         v-model="userData.leave_approving_code"
                                         :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
                                         autocomplete="off" />
-                                    <label for="Probation End Date" class="user-label ">Employee Code</label>
+                                    <label for="employee_code" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="leave_approving_code" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -731,7 +737,8 @@ import { Form, Field, ErrorMessage, useForm, useField } from 'vee-validate';
 import { ref, reactive, onMounted, computed, inject, watch, onUpdated, watchEffect } from 'vue';
 import useUsers from "@/composables/users";
 import useRoles from "@/composables/roles";
-import UploadDoc from "../../../components/UploadDoc.vue";
+import UploadDoc from "@/components/UploadDoc.vue";
+import { countries } from "@/constants/countries";
 const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 import { useRoute, useRouter } from "vue-router";

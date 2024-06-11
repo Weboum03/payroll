@@ -10,8 +10,7 @@
                 <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
                         aria-controls="EmpTable"></label>
 
-                <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }"><button id="button3" class="add"><i
-                            class="fa-solid fa-plus fa-xs" style="color: white;"></i></button></router-link>
+                <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }"><button id="button3" class="add" style="height: 36.83px;width: 132px;font-size: 12px;font-weight: 500;font-family: sans-serif;padding: 0px 20px;border: none;border-radius: 5px;text-align: start;">Add Onboard</button></router-link>
         </div>
         <table v-if="users" class="table text-center" ref="myTable">
             <thead>
