@@ -51,7 +51,7 @@
         <div class="dt-layout-row">
             <div class="dt-layout-cell dt-start">
                 <div class="dt-info" aria-live="polite" id="leavesEmpTable_info" role="status">
-                    Showing {{ (currentPage - 1) * pageLength + 1 }} to {{ (currentPage - 1) * pageLength + 10 }} of
+                    Showing {{ (currentPage - 1) * pageLength + 1 }} to {{ ((currentPage*pageLength) > totalRecords.value)?totalRecords:(currentPage) * pageLength }} of
                     {{ totalRecords }} entry
                 </div>
             </div>
