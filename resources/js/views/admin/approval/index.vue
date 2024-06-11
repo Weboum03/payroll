@@ -12,15 +12,14 @@
         </div>
         <div id="leavesEmpTable_filter" class="dataTables_filter"
             style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
-                    placeholder="" v-model="search_global" aria-controls="leavesEmpTable"></label><select id="dropdown1"
-                class="bulkAction"
+                    v-model="searchQuery" @input="filterRows" placeholder=""
+                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction"
                 style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
                 <option value="BulkAction">Select Bulk Action</option>
                 <option value="value2">Option 2</option>
             </select>
             <select id="dropdown2" class="allActivity" v-model="pagelength"
                 style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
-                <option value="AllActivity">All Activities</option>
                 <option value="10">10 Activity</option>
                 <option value="25">25 Activity</option>
                 <option value="50">50 Activity</option>
@@ -28,129 +27,100 @@
             <select id="dropdown1" class="empWise" v-model="filterUser"
                 style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
                 <option disabled value="">Employee wise</option>
-                <option  v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
-            </select><button type="button" @click="refreshTable" class="btn refresh"><i
+                <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
+            </select>
+            <button type="button" @click="refreshData" class="btn refresh"><i
                     class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
-                    aria-hidden="true"></i></button></div>
-        <table id="leavesEmpTable" class="table text-center" ref="myTable" style="width: 100%;">
-            <thead>
-                <tr>
-                    <th id="Name">Employee</th>
-                    <th id="EmpId">Leave Type</th>
-                    <th id="Email">From</th>
-                    <th id="Mob">To</th>
-                    <th id="Role">No of Days</th>
-                    <th id="Role">Status</th>
-                    <th v-if="can('Leave Approval')" id="Role">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-if="isLoading">
-                    <td colspan="7">Loading</td>
-                </tr>
-                <tr v-else-if="leaves?.data?.length == 0">
-                    <td colspan="7">No record Found</td>
-                </tr>
-                <tr v-else v-for="leave in leaves?.data" :key="leave.id" @click="selectUser(leave)">
-                    <td><img alt="dp" v-if="leave.user?.user_profile_picture" :src="leave.user?.user_profile_picture"
-                            width="20px" height="20px" style="border-radius: 50%;">
-                        {{ leave.user.name }}</td>
-                    <td>{{ leave.type.type }}</td>
-                    <td>{{ leave.from }}</td>
-                    <td>{{ leave.to }}</td>
-                    <td>{{ leave.duration }} Days</td>
-                    <td>
-                        <button type="button" class="btn"
-                            :class="{'btn-outline-primary': leave.status == 'Pending','btn-outline-danger': leave.status == 'Rejected','btn-outline-success': leave.status == 'Approved' }"
-                            id="pendingBtn">{{ leave.status }}</button>
-                    </td>
-                    <td v-if="can('Leave Approval')"><i class="fa-solid fa-ellipsis-vertical fa-sm"
-                            style="color: #000000;"></i></td>
-                </tr>
-            </tbody>
-        </table>
+                    aria-hidden="true"></i></button>
+        </div>
+        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" @rowclick="selectUser"
+            ref="table">
+            <template v-slot:cell-name="{ row }">
+                <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
+                    height="20px" style="border-radius: 50%;">
+                {{ row.user.name }}
+            </template>
+            <template v-slot:cell-type="{ row }">
+                {{ row.type.type }}
+            </template>
+            <template v-slot:cell-duration="{ row }">
+                {{ row.duration }} Days
+            </template>
+            <template v-slot:cell-action="{ row }">
+                <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
+            </template>
+        </DataTable>
 
-        <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"
+    </div>
+
+    <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal"
             @showHistory="showHistory"></user-detail>
 
         <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
-
-    </div>
 </template>
 
 <script setup>
-
-import { ref, onMounted, onUpdated, watch } from 'vue';
-import '@/assets/css/Approvals.css'
-import 'datatables.net'; // Import DataTables.js library
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
-import $ from 'jquery';
-import { useAbility } from '@casl/vue';
+import { ref, onMounted, watch } from 'vue';
+import DataTable from '@/components/DataTable.vue';
 import useLeaves from "@/composables/leaves";
 import useUsers from "@/composables/users";
-const { leaves, getLeaves, isLoading } = useLeaves()
-const { users, getUsers } = useUsers()
 import singleHistory from './singleHistory.vue';
 import UserDetail from './UserDetail.vue'
-
+const { users, getUsers } = useUsers()
+const { leaves, getLeaves, isLoading } = useLeaves()
+import { useAbility } from '@casl/vue';
 const { can } = useAbility()
-const isModalOpened = ref(false);
-const viewHistory = ref(false);
-let dataTable = ref(null);
-const myTable = ref(null);
-const isDataTableInitialized = ref(false)
-const search_global = ref('');
-const filterUser = ref('');
+const table = ref(null)
 const pagelength = ref(10);
-const selectedUser = ref({});
+const searchQuery = ref("");
+const tableKey = ref(0);
+const selectedUser = ref({})
+const isModalOpened = ref(false)
 const isActive = ref(false)
 
+const filterData = (filterValues) => {
+    getLeaves(filterValues)
+}
+
+const filterRows = () => {
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+};
+function refreshData() {
+    tableKey.value++;
+    getLeaves();
+    filterUser.value = '';
+    pagelength.value = 10;
+}
+const tableHeaders = [
+    { key: 'name', label: 'Employee' },
+    { key: 'type', label: 'Leave Type', sorting: true },
+    { key: 'from', label: 'From', sorting: true },
+    { key: 'to', label: 'To', sorting: true },
+    { key: 'duration', label: 'No of Days', sorting: true },
+    { key: 'status', label: 'Status', sorting: true },
+];
+
+if(can('Leave Approval')) {
+    tableHeaders.push({ key: 'action', label: 'Action' });
+}
+const showHistory = (value) => {
+    isActive.value = value;
+}
 onMounted(() => {
     getLeaves();
     getUsers();
 });
 
-onUpdated(() => {
-    setTimeout(() => {
-        loadDataTable();
-    }, 1000);
-})
-
-
-const loadDataTable = () => {
-    const dataTableOptions = {
-        pagingType: "full_numbers",
-        bLengthChange: false,
-        processing: true,
-        pageLength: 10, // Set the default page length
-        lengthMenu: [10, 25, 50, 100], // Set available page lengths
-        columnDefs: [
-            { "className": "text-center", "targets": "_all", "defaultContent": "-" } // Center-align all columns
-        ],
-        processing: true,
+const selectUser = (user) => {
+    if (can('Leave Approval')) {
+        selectedUser.value = user;
+        isModalOpened.value = true;
     }
-    if (!isDataTableInitialized.value) {
-        dataTable = $(myTable.value).DataTable(dataTableOptions);
-        isDataTableInitialized.value = true;
-    }
-}
-
-const showHistory = (value) => {
-    isActive.value = value;
-}
-
-watch(search_global, (current, previous) => {
-    dataTable.search(search_global.value).draw();
-});
-
-// watch(pagelength, (current, previous) => {
-//     const newLength = parseInt(event.target.value);
-//     dataTable.page.len(newLength).draw();
-// });
-
-// watch(search_global, (current, previous) => {
-//     dataTable.search(search_global.value).draw();
-// });
+};
 
 const openModalHistory = () => {
     viewHistory.value = true;
@@ -163,29 +133,24 @@ const closeModal = () => {
     isModalOpened.value = false;
 };
 
-const selectUser = (user) => {
-    if (can('Leave Approval')) {
-        selectedUser.value = user;
-        isModalOpened.value = true;
-    }
-};
-
+const filterUser = ref('');
 watch(filterUser, (current, previous) => {
-    setTimeout(() => {
-        getLeaves(
-        search_global.value,
-        current,
-    )
-    }, 1000);
-    
+    table.value.filterData.filter.push({
+        key: "user_id",
+        value: current,
+    })
+    table.value.filterPayload();
 });
-const refreshTable = () => {
-    getLeaves();
-};
+
+watch(pagelength, (current, previous) => {
+    table.value.pageLength = current;
+    table.value.page = 1;
+    table.value.filterPayload();
+});
 </script>
 
-<style scoped>
-@import '@/assets/css/ApprovalHistory.css';
+<style>
+@import '@/assets/css/Approvals.css';
 @import '@/assets/css/onBoard.css';
 @import 'datatables.net-dt';
 
