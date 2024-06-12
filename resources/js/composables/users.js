@@ -12,29 +12,12 @@ export default function useUsers() {
     const isLoading = ref(false);
     const swal = inject("$swal");
 
-    const getUsers = async (
-        page = 1,
-        search_id = "",
-        search_title = "",
-        search_global = "",
-        order_column = "created_at",
-        order_direction = "desc"
-    ) => {
+    const getUsers = async (filters=[]) => {
+        let queryString = new URLSearchParams(filters).toString();
+        if(queryString) { queryString = '?'+ queryString }
         apiClient
             .get(
-                "/admin/users?page=" +
-                    page +
-                    "&search_id=" +
-                    search_id +
-                    "&search_title=" +
-                    search_title +
-                    "&search_global=" +
-                    search_global +
-                    "&order_column=" +
-                    order_column +
-                    "&order_direction=" +
-                    order_direction
-            )
+                "/admin/users"+queryString)
             .then((response) => {
                 users.value = response.data;
             });

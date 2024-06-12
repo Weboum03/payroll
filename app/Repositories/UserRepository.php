@@ -46,28 +46,28 @@ class UserRepository extends BaseRepository
 
     public function listing($request)
     {
-        $limit = $request->input('length', 20);
-        $start = $request->input('start', 20);
-        $orders = $request->order;
-        $columns = $request->columns;
-        $search = $request->search;
-        $page = floor($start/$limit) + 1;
-        return $this->model->latest()->with('role')->get();
-        
-        // if($orders) {
-        //     foreach($orders as $order) {
-        //         $response->orderBy($columns[$order['column']]['data'], $order['dir']);
-        //     }
-        // }
-        // if($search) {
-        //     $response->where(function ($query) use($search) {
-        //         $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
-        //            ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
-        //            ->orWhere('email', 'like', '%' . $search['value'] . '%')
-        //            ->orWhere('phone', 'like', '%' . $search['value'] . '%');
-        //     });
-        // }
-        return $response->latest()->paginate($limit, ['*'], 'page', $page);
+        return $this->model->latest()->with('role')
+        ->whereHas('info', function ($query) use($request) {
+            $query->when($request->company, function ($q) use($request) {
+                return $q->where('company', $request->company);
+            })
+            ->when($request->location, function ($q) use($request) {
+                return $q->where('location', $request->location);
+            })
+            ->when($request->department, function ($q) use($request) {
+                return $q->where('department', $request->department);
+            })
+            // ->when($request->job_role, function ($q) use($request) {
+            //     return $q->where('job_role', $request->job_role);
+            // })
+            ->when($request->gender, function ($q) use($request) {
+                return $q->where('gender', $request->gender);
+            });
+            // ->when($request->employment_type, function ($q) use($request) {
+            //     return $q->where('employment_type', $request->employment_type);
+            // });
+        })
+        ->get();
     }
 
     public function updatePassword($data)

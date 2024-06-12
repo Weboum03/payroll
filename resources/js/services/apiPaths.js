@@ -17,13 +17,15 @@ const getApiPath = {
 
     getBadges() { return apiService.get(`admin/batches`); },
 
-    getBadgeUsers(id) { return apiService.get(`admin/batches/${id}/users`); },
+    getBadgeUsers(id,params = '') { return apiService.get(`admin/batches/${id}/users${params}`); },
 
-    deleteBatchUser(id) { return apiService.delete(`admin/batches/users/${id}`); },
+    deleteBatchUser(id, userId) { return apiService.delete(`admin/batches/${id}/users/${userId}`); },
 
     getBadgeById(id) { return apiService.get(`admin/batches/${id}`); },
 
     createBadge(params) { return apiService.post(`admin/batches`, params); },
+    
+    storeBadgeEmployee(id, params) { return apiService.update(`admin/batches/${id}/users`, params); },
 
     updateBadgeById(id, params) { return apiService.update(`admin/batches/${id}`, params); },
 

@@ -19,72 +19,72 @@
 
             <div style="font-size: 10px;color: red;font-weight: 500;">Note: Only those employees who are not
                 already added to another batch and meet the below criteria will be added </div>
-
+            <Form @submit="submitForm">
             <div class="container payForm d-flex flex-column" style="gap: 1rem;">
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Companies" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.company" id="Companies" name="company" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
                             <option value="Accenture Inc">Accenture Inc</option>
                             <option value="North Corp Software">North Corp Software</option>
                             <option value="Cyber Security Ltd">Cyber Security Ltd</option>
                             <option value="other">Other</option>
-                        </select>
+                        </Field>
                         <label class="user-label">Companies</label>
                     </div>
                 </div>
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Location" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.location" id="Location" name="location" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Guru Gram"> Guru Gram</option>
                             <option value="Pune">Pune</option>
                             <option value="Bangluru">Bangluru</option>
                             <option value="California">California</option>
-                        </select>
+                        </Field>
                         <label class="user-label">Location</label>
                     </div>
                 </div>
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Department" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.department" id="Department" name="department" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Software Development">Software Development</option>
                             <option value="Quality Testing">Quality Testing</option>
                             <option value="Designing">Designing</option>
                             <option value="Management">Management</option>
                             <option value="other">Other</option>
-                        </select>
+                        </Field>
                         <label class="user-label">Department</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Job-Role" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.job_role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="1">Admin</option>
                             <option value="2">User</option>
-                        </select>
+                        </Field>
                         <label class="user-label">Job Role</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Grader" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.gender" id="Grader" name="gender" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other">Other</option>
-                        </select>
+                        </Field>
                         <label class="user-label">Gender</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Emp-type" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.employment_type" id="Emp-type" name="employment_type" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Regular">Regular</option>
                             <option value="Consultant">Contract</option>
@@ -92,38 +92,38 @@
                             <option value="Apprenticeship">Apprenticeship</option>
                             <option value="Casual">Casual</option>
                             <option value="Temporary">Temporary </option>
-                        </select>
+                        </Field>
                         <label class="user-label">Employment Type</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Specific-Emp" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>Select</option>
-                            <option value="1">User 1</option>
-                            <option value="2">User 2</option>
-                        </select>
+                        <Field as="select" class="form-control input" id="Specific-Emp" name="selected_user" autocomplete="off" style="color: #7e7e7e;">
+                            <option value="" :selected="!users?.data">Select</option>
+                            <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
+                        </Field>
                         <label class="user-label">Specific Employee(s)</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <select class="form-control input" id="Exclude-Emp" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" id="Exclude-Emp" name="excluded_user" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>Select</option>
-                            <option value="1">User 1</option>
-                            <option value="2">User 2</option>
-                        </select>
+                            <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
+                        </Field>
                         <label class="user-label">Exclude Employee(s)</label>
                     </div>
                 </div>
 
                 <div class="btns-save-cancle">
+                    <button type="submit" role="link" class="btn btn-next btn-primary save savePayBatchForm">Save</button>
                     <router-link :to="{ name: 'admin.PayrollBatchList', params: { id: route.params.id } }" custom v-slot="{ navigate }">
-                        <button @click="navigate" role="link" class="btn btn-next btn-primary save savePayBatchForm">Save</button>
+                        <a @click="navigate" href="javascipt:;" class="btn btn-outline-light cancle">Cancel</a>
                     </router-link>
-                    <a href="/admin/payroll" class="btn btn-outline-light cancle">Cancel</a>
+                    
                 </div>
             </div>
+            </Form>
         </div>
     </div>
 
@@ -213,9 +213,44 @@
 
 <script setup>
 import { useRouter,useRoute } from "vue-router";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import useUsers from "@/composables/users";
+import useBatch from "@/composables/useBatch";
+import { onMounted, reactive, watch } from "vue";
+const { users, getUsers, is } = useUsers()
+const { addEmployee, loading, success } = useBatch()
 const route = useRoute()
 const router = useRouter();
+const filteredValue = reactive([]);
+const filterVlaues = reactive({
+    company:'',
+    location:'',
+    department:'',
+    job_role:'',
+    gender:'',
+    employment_type:'',
+    filtered_users:[]
+});
 
+watch(filterVlaues, async (current, previous) => {
+    await getUsers(filterVlaues)
+    // console.log(filterVlaues.filtered_users)
+    // filterVlaues.filtered_users = users.value.data.map(e => e.id)
+    filteredValue.value = users.value.data.map(e => e.id)
+});
+
+
+
+onMounted(() => {
+    getUsers(filterVlaues)
+})
+
+
+
+const submitForm = async (values) => {
+    console.log('rahul', values);
+    await addEmployee(route.params.id, values);
+};
 </script>
 
 <style scoped>

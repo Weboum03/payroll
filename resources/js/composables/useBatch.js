@@ -21,10 +21,13 @@ export default function useBatch() {
         }
     };
 
-    const getBatchUsers = async (id) => {
+    const getBatchUsers = async (id, filters=[]) => {
         loading.value = true;
         try {
-            items.value = await getApiPath.getBadgeUsers(id);
+            let queryString = new URLSearchParams(filters).toString();
+            if(queryString) { queryString = '?'+ queryString }
+            console.log('vipan',queryString)
+            items.value = await getApiPath.getBadgeUsers(id, queryString);
         } catch (err) {
             error.value = err;
         } finally {
@@ -72,7 +75,7 @@ export default function useBatch() {
             await fetchAll(); // Refresh the list
             swal({
                 icon: "success",
-                title: "Role updated successfully",
+                title: "Updated successfully",
             });
         } catch (err) {
             error.value = err;
@@ -84,7 +87,25 @@ export default function useBatch() {
         }
     };
 
-    const deleteBatchUser = async (id) => {
+    const addEmployee = async (id, data) => {
+        loading.value = true;
+        try {
+            await getApiPath.storeBadgeEmployee(id, data);
+            swal({
+                icon: "success",
+                title: "Updated successfully",
+            });
+        } catch (err) {
+            error.value = err;
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const deleteBatchUser = async (id, userId) => {
         await swal({
             title: "Are you sure?",
             text: "You won't be able to revert this action!",
@@ -99,7 +120,7 @@ export default function useBatch() {
             if (result.isConfirmed) {
                 loading.value = true;
                 try {
-                    await getApiPath.deleteBatchUser(id);
+                    await getApiPath.deleteBatchUser(id, userId);
                     // await fetchAll(); // Refresh the list
                     success.value = true;
                 } catch (err) {
@@ -155,6 +176,7 @@ export default function useBatch() {
         deleteBatchUser,
         fetchOne,
         create,
+        addEmployee,
         update,
         remove,
         success,

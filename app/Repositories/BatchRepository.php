@@ -71,18 +71,40 @@ class BatchRepository extends BaseRepository
         return Batch::latest()->withCount('employee')->paginate(5);
     }
 
-    public function getUsersByBatch($id)
+    public function getUsersByBatch($id, $request)
     {
         $batch = Batch::find($id);
         if($batch) {
-            return $batch->users()->with('role','info')->paginate(10);
+            return $batch->users()->with('role','info')
+            ->whereHas('info', function ($query) use($request) {
+                $query->when($request->company, function ($q) use($request) {
+                    return $q->where('company', $request->company);
+                })
+                ->when($request->location, function ($q) use($request) {
+                    return $q->where('location', $request->location);
+                })
+                ->when($request->department, function ($q) use($request) {
+                    return $q->where('department', $request->department);
+                })
+                // ->when($request->job_role, function ($q) use($request) {
+                //     return $q->where('job_role', $request->job_role);
+                // })
+                ->when($request->gender, function ($q) use($request) {
+                    return $q->where('gender', $request->gender);
+                });
+                // ->when($request->employment_type, function ($q) use($request) {
+                //     return $q->where('employment_type', $request->employment_type);
+                // });
+                
+            })
+            ->paginate(10);
         }
         return [];
     }
 
 
-    public function deleteUserByBatch($id) {
-        return Payroll::where('id', $id)->delete();
+    public function deleteUserByBatch($id, $userId) {
+        return Payroll::where('batch_id', $id)->where('user_id', $userId)->delete();
     }
 
     public function updatePassword($data)

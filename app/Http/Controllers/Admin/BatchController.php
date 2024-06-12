@@ -34,8 +34,33 @@ class BatchController extends BaseController
 
     public function getUsersByBatch($id, Request $request)
     {
-        $users = $this->batchRepository->getUsersByBatch($id);
+        $users = $this->batchRepository->getUsersByBatch($id, $request);
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
+
+    public function getUsersByFilter($id, Request $request)
+    {
+        $users = $this->batchRepository->getUsersByBatch($id, $request);
+        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
+
+    public function storeUsersByBatch($id, Request $request)
+    {
+        $batch = $this->batchRepository->getById($id);
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+        $selectedUser = $request->selected_user;
+        if($selectedUser) {
+            $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
+            if(!$exits) {
+                $batch->employee()->create(['user_id' => $selectedUser]);
+            }
+        } else {
+
+        }
+        
+        return $this->sendSuccess('Success');
     }
 
     /**
@@ -84,9 +109,9 @@ class BatchController extends BaseController
         return $this->sendSuccess(__('AdminMessage.customerDelete'));
     }
 
-    public function deleteUserByBatch(string $id)
+    public function deleteUserByBatch(string $id, int $userId)
     {
-        $this->batchRepository->deleteUserByBatch($id);
+        $this->batchRepository->deleteUserByBatch($id, $userId);
         return $this->sendSuccess(__('AdminMessage.customerDelete'));
     }
 }

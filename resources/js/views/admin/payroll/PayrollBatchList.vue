@@ -177,11 +177,12 @@ const isDataTableInitialized = ref(false)
 const swal = inject("$swal");
 
 const filterData = (filterValues) => {
-    getBatchUsers(filterValues)
+    getBatchUsers(route.params.id, filterValues)
 }
-const deleteUser = async (id) => {
-    await deleteBatchUser(id);
+const deleteUser = async (userId) => {
+    await deleteBatchUser(route.params.id, userId);
     if (success) {
+        getBatchUsers(route.params.id)
         swal({
             icon: 'success',
             title: 'Deleted successfully'
