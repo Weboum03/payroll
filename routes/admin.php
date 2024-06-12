@@ -39,7 +39,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('permissions', PermissionController::class);
     $router->apiResource('roles', RoleController::class);
     $router->apiResource('users', UserController::class);
-    $router->apiResource('payroll_batch', BatchController::class);
+    $router->apiResource('batches', BatchController::class);
+    $router->get('batches/{id}/users', [BatchController::class, 'getUsersByBatch']);
+    $router->delete('batches/users/{id}', [BatchController::class, 'deleteUserByBatch']);
     $router->apiResource('leaves', LeaveController::class);
     $router->get('leaves/user/{userId}', [LeaveController::class, 'getByUser']);
     $router->get('abilities', function(Request $request) {

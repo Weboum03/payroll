@@ -6,10 +6,8 @@
             <span>Payroll > Payroll batch</span>
         </div>
 
-
         <div class="container d-flex flex-column justify-content-center"
             style="background-color: white;padding: 10px; gap: 1rem;">
-
             <div class="d-flex justify-content-between align-items-center">
                 <div class="Payroll-header">
                     <p>Payroll Batch-March2024_Lipsum</p>
@@ -27,8 +25,10 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Companies" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
+                            <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
+                            <option value="Accenture Inc">Accenture Inc</option>
+                            <option value="North Corp Software">North Corp Software</option>
+                            <option value="Cyber Security Ltd">Cyber Security Ltd</option>
                             <option value="other">Other</option>
                         </select>
                         <label class="user-label">Companies</label>
@@ -39,9 +39,10 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Location" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="Guru Gram"> Guru Gram</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Bangluru">Bangluru</option>
+                            <option value="California">California</option>
                         </select>
                         <label class="user-label">Location</label>
                     </div>
@@ -51,8 +52,10 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Department" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
+                            <option value="Software Development">Software Development</option>
+                            <option value="Quality Testing">Quality Testing</option>
+                            <option value="Designing">Designing</option>
+                            <option value="Management">Management</option>
                             <option value="other">Other</option>
                         </select>
                         <label class="user-label">Department</label>
@@ -62,9 +65,8 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Job-Role" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="1">Admin</option>
+                            <option value="2">User</option>
                         </select>
                         <label class="user-label">Job Role</label>
                     </div>
@@ -73,20 +75,23 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Grader" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </select>
-                        <label class="user-label">Grader</label>
+                        <label class="user-label">Gender</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Emp-type" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Consultant">Contract</option>
+                            <option value="Trainee">Trainee</option>
+                            <option value="Apprenticeship">Apprenticeship</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Temporary">Temporary </option>
                         </select>
                         <label class="user-label">Employment Type</label>
                     </div>
@@ -95,9 +100,8 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Specific-Emp" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>Select</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="1">User 1</option>
+                            <option value="2">User 2</option>
                         </select>
                         <label class="user-label">Specific Employee(s)</label>
                     </div>
@@ -106,32 +110,22 @@
                     <div class="col input-group-fname">
                         <select class="form-control input" id="Exclude-Emp" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>Select</option>
-                            <option value="Option1">Option1</option>
-                            <option value="Option2">Option2</option>
-                            <option value="other">Other</option>
+                            <option value="1">User 1</option>
+                            <option value="2">User 2</option>
                         </select>
                         <label class="user-label">Exclude Employee(s)</label>
                     </div>
                 </div>
 
                 <div class="btns-save-cancle">
-                    <router-link :to="{ name: 'admin.PayrollBatchList' }" custom v-slot="{ navigate }">
+                    <router-link :to="{ name: 'admin.PayrollBatchList', params: { id: route.params.id } }" custom v-slot="{ navigate }">
                         <button @click="navigate" role="link" class="btn btn-next btn-primary save savePayBatchForm">Save</button>
                     </router-link>
                     <a href="/admin/payroll" class="btn btn-outline-light cancle">Cancel</a>
                 </div>
-
             </div>
         </div>
-
-
-
-
     </div>
-
-
-
-
 
     <!-- Modal Notice period list2 -->
     <div class="modal fade" id="testRslt1" data-backdrop="false" data-keyboard="false" tabindex="-1"
@@ -216,6 +210,13 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { useRouter,useRoute } from "vue-router";
+const route = useRoute()
+const router = useRouter();
+
+</script>
 
 <style scoped>
 @import '@/assets/css/PayrollBatchform.css';

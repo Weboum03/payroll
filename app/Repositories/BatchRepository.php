@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Batch;
+use App\Models\Payroll;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -54,11 +55,11 @@ class BatchRepository extends BaseRepository
         $page = floor($start/$limit) + 1;
         $response =  $this->model->offset(20);
         
-        if($orders) {
-            foreach($orders as $order) {
-                $response->orderBy($columns[$order['column']]['data'], $order['dir']);
-            }
-        }
+        // if($orders) {
+        //     foreach($orders as $order) {
+        //         $response->orderBy($columns[$order['column']]['data'], $order['dir']);
+        //     }
+        // }
         if($search) {
             $response->where(function ($query) use($search) {
                 $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
@@ -67,7 +68,21 @@ class BatchRepository extends BaseRepository
                    ->orWhere('phone', 'like', '%' . $search['value'] . '%');
             });
         }
-        return $response->latest()->paginate($limit, ['*'], 'page', $page);
+        return Batch::latest()->withCount('employee')->paginate(5);
+    }
+
+    public function getUsersByBatch($id)
+    {
+        $batch = Batch::find($id);
+        if($batch) {
+            return $batch->users()->with('role','info')->paginate(10);
+        }
+        return [];
+    }
+
+
+    public function deleteUserByBatch($id) {
+        return Payroll::where('id', $id)->delete();
     }
 
     public function updatePassword($data)

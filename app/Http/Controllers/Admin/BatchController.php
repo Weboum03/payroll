@@ -29,7 +29,13 @@ class BatchController extends BaseController
     public function index(Request $request)
     {
         $users = $this->batchRepository->listing($request);
-        return $this->sendResponseWithDatatable($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
+
+    public function getUsersByBatch($id, Request $request)
+    {
+        $users = $this->batchRepository->getUsersByBatch($id);
+        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -75,6 +81,12 @@ class BatchController extends BaseController
     public function destroy(string $id)
     {
         $this->batchRepository->deleteById($id);
+        return $this->sendSuccess(__('AdminMessage.customerDelete'));
+    }
+
+    public function deleteUserByBatch(string $id)
+    {
+        $this->batchRepository->deleteUserByBatch($id);
         return $this->sendSuccess(__('AdminMessage.customerDelete'));
     }
 }

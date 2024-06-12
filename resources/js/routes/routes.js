@@ -126,13 +126,13 @@ export default [
             },
             {
                 name: "admin.PayrollBatchform",
-                path: "PayrollBatchform",
+                path: "PayrollBatchform/:id",
                 component: () => import("../views/admin/payroll/PayrollBatchform.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {
                 name: "admin.PayrollBatchList",
-                path: "PayrollBatchList",
+                path: "PayrollBatchList/:id",
                 component: () => import("../views/admin/payroll/PayrollBatchList.vue"),
                 meta: { breadCrumb: "Admin" },
             },
