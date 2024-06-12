@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserDetail extends Model
 {
     use HasFactory;
+
+    protected $appends = ['employment_duration'];
 
     protected $fillable = [
         'gender',
@@ -48,7 +51,8 @@ class UserDetail extends Model
         'earning_leave_entitlement',
         'this_year',
         'next_year',
-        'check_all'
+        'check_all',
+        'salary'
     ];
 
     protected $casts = [
@@ -58,5 +62,20 @@ class UserDetail extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function getEmploymentDurationAttribute()
+    {
+        $date1 = new Carbon(now());
+
+        $date2 = new Carbon($this->doj);
+
+        $diff = $date1->diff($date2);
+
+        // Extract months and days from the difference
+        $months = $diff->m + ($diff->y * 12);
+        $days = $diff->d;
+
+        return ['months' => $months, 'days' => $days];
     }
 }

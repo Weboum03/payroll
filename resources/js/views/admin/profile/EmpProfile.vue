@@ -69,8 +69,8 @@
                     style="gap: 1rem;padding: 0px;">
                     <div id="lengthOfEmp" class="d-flex flex-column justify-content-center align-items-center">
                         <p>Length Of Employment</p>
-                        <p>10 Months</p>
-                        <p>15 Days</p>
+                        <p>{{ user?.info?.employment_duration?.months }} Months</p>
+                        <p>{{ user?.info?.employment_duration?.days }} Days</p>
                     </div>
                     <div id="Absences" class="d-flex flex-column justify-content-flex-start align-items-center">
                         <p>Absences</p>

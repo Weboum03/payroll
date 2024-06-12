@@ -10,7 +10,7 @@
         <div class="container-fluid header d-flex flex-column">
 
             <div class="d-flex justify-content-start align-items-center" style="background-color: white; gap: 12rem;">
-                <router-link :to="{ name: 'admin.home' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.payroll' }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
                         aria-label="Close"
                         style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
@@ -24,39 +24,36 @@
             <div id="PayrollbatchList-Table_filter" class="dataTables_filter"
                 style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
                         v-model="search_global" placeholder="" aria-controls="PayrollbatchList-Table"></label>
-                <div class="container1" style="display: flex; gap: 1rem;">
+                <div class="container1" v-show="!isPreview" style="display: flex; gap: 1rem;">
 
                     <router-link :to="{ name: 'admin.PayrollBatchform', params: { id: route.params.id } }" custom
                         v-slot="{ navigate }">
                         <button @click="navigate" id="button1" class="Addemployee" style="">Add Employee</button>
                     </router-link>
 
-
-
-
                     <router-link :to="{ name: 'admin.PayrollAdjustment' }" custom v-slot="{ navigate }">
-                        <button @click="navigate" role="link" id="button2" class="Adjustments"
-                            style="">Adjustments</button><button id="button3" class="SavePre" style="">Save &amp;
-                            Preview</button><button type="buttonDelt" class="btn delete"
-                            style=" background-color: red;"><i class="fa-regular fa-trash-can fa-sm"
-                                style="color: white;" aria-hidden="true"></i>
-                        </button>
+                        <button @click="navigate" role="link" id="button2" class="Adjustments" style="">Adjustments</button>
                     </router-link>
 
+                    <button @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
 
-
+                    <button type="buttonDelt" class="btn delete" style=" background-color: red;">
+                        <i class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
+                    </button>
                 </div>
-                <div class="container2" style="display: none; gap: 1rem;"><button id="button4" data-toggle="modal"
+                <div v-show="isPreview" class="container2" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    
+                    <button @click="processData" id="button4" data-toggle="modal"
                         data-target="#ProcessModal" class="Process"
-                        style="background-color: #03A9F3;color: white;">Process</button><button id="button5"
-                        class="Download" style="background-color: #03A9F3;color: white;">Download</button><button
-                        type="buttonDelt" class="btn delete" style=" background-color: red;"><i
-                            class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i></button>
+                        style="background-color: #03A9F3;color: white;">Process</button>
+                    <button id="button5"
+                        class="Download" style="background-color: #03A9F3;color: white;">Download</button>
+                    <button type="buttonDelt" class="btn delete" style=" background-color: red;"><i
+                            class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
-
-            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
-                @rowclick="selectUser" ref="table">
+            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData" ref="table">
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
@@ -74,87 +71,7 @@
                         aria-hidden="true"></i>
                 </template>
             </DataTable>
-
-            <!-- <table id="PayrollbatchList-Table" ref="myTable">
-                <thead>
-                    <tr>
-                        <th> Delete</th>
-                        <th> Sr.No.</th>
-                        <th> EMP ID</th>
-                        <th> Name</th>
-                        <th> Designation</th>
-                        <th> PF</th>
-                        <th> ESIC</th>
-                        <th>DOJ</th>
-                        <th>Last Day</th>
-                        <th> Payment Frequency</th>
-                        <th> Over Time</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="Delete"><i class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"></i></td>
-                        <td id="srNo">1</td>
-                        <td id="EmpId">7608951</td>
-                        <td id="Emp-name">Austin Hodges</td>
-                        <td id="Desig">Supervisor</td>
-                        <td id="pf">Yes</td>
-                        <td id="esic">Yes</td>
-                        <td id="doj">Jul 21,2015</td>
-                        <td id="Lday">-</td>
-                        <td id="payFre"> Monthly</td>
-                        <td id="OT">0</td>
-                    </tr>
-                    <tr>
-                        <td class="Delete"><i class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"></i></td>
-                        <td id="srNo">2</td>
-                        <td id="EmpId">9331728</td>
-                        <td id="Emp-name">Ben Hunter</td>
-                        <td id="Desig">Supervisor</td>
-                        <td id="pf">Yes</td>
-                        <td id="esic">Yes</td>
-                        <td id="doj">Mar 10,2016</td>
-                        <td id="Lday">-</td>
-                        <td id="payFre"> Monthly</td>
-                        <td id="OT">2hr</td>
-                    </tr>
-                    <tr>
-                        <td class="Delete"><i class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"></i></td>
-                        <td id="srNo">3</td>
-                        <td id="EmpId">7437663</td>
-                        <td id="Emp-name">Chloe Edum</td>
-                        <td id="Desig">Supervisor</td>
-                        <td id="pf">Yes</td>
-                        <td id="esic">Yes</td>
-                        <td id="doj">Apr 24,2017</td>
-                        <td id="Lday">-</td>
-                        <td id="payFre"> Monthly</td>
-                        <td id="OT">0</td>
-                    </tr>
-                    <tr>
-                        <td class="Delete"><i class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"></i></td>
-                        <td id="srNo">4</td>
-                        <td id="EmpId">7758597</td>
-                        <td id="Emp-name">Irene Skinner</td>
-                        <td id="Desig">Supervisor</td>
-                        <td id="pf">Yes</td>
-                        <td id="esic">Yes</td>
-                        <td id="doj">Sep 2,2019</td>
-                        <td id="Lday">-</td>
-                        <td id="payFre"> Monthly</td>
-                        <td id="OT">0</td>
-                    </tr>
-
-                </tbody>
-
-
-            </table> -->
-
         </div>
-
-
-
     </div>
 </template>
 
@@ -163,7 +80,7 @@ import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, inject, wat
 import DataTable from '@/components/DataTable.vue';
 import useUsers from "../../../composables/users";
 import useBatch from "@/composables/useBatch";
-const { items: batches, item: batch, fetchOne: getBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -173,11 +90,24 @@ const router = useRouter();
 const myTable = ref(null);
 const search_global = ref('');
 let dataTable = ref(null);
+const isPreview = ref(false)
 const isDataTableInitialized = ref(false)
 const swal = inject("$swal");
 
 const filterData = (filterValues) => {
     getBatchUsers(route.params.id, filterValues)
+}
+
+const processData = async () => {
+    await processBatch(route.params.id)
+    if (success) {
+        swal({
+            icon: 'success',
+            title: 'Processed successfully'
+        });
+        router.push({name: 'admin.payroll'})
+    }
+
 }
 const deleteUser = async (userId) => {
     await deleteBatchUser(route.params.id, userId);
@@ -236,7 +166,9 @@ const tableHeaders = [
 
 .Addemployee,
 .Adjustments,
-.SavePre {
+.SavePre,
+.Process,
+.Download {
     height: 36.83px;
     width: 120px;
     font-size: 12px;

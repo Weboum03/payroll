@@ -67,6 +67,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia
         return $this->hasOne(UserDetail::class);
     }
 
+    public function payroll()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id');

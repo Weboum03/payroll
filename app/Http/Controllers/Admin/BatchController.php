@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\UserDetail;
 use App\Repositories\BatchRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -50,16 +51,36 @@ class BatchController extends BaseController
         if(!$batch) {
             return $this->sendError('Not found');
         }
+
         $selectedUser = $request->selected_user;
+        $excludedUser = $request->excluded_user;
         if($selectedUser) {
             $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
             if(!$exits) {
-                $batch->employee()->create(['user_id' => $selectedUser]);
+                $user = UserDetail::where('user_id', $selectedUser)->first();
+                $batch->employee()->create(['user_id' => $selectedUser, 'gross_wages' => $user->salary]);
             }
         } else {
-
+            $users = $this->batchRepository->getAllUsersByBatch($id, $request);
+            $users->each(function ($user) use($batch, $excludedUser) {
+                $exits = $batch->employee()->where('user_id', $user->id)->exists();
+                if(!$exits && $excludedUser != $user->id) {
+                    $batch->employee()->create(['user_id' => $user->id, 'gross_wages' => $user->info->salary]);
+                }
+            });
         }
         
+        return $this->sendSuccess('Success');
+    }
+
+    public function processBatch($id, Request $request)
+    {
+        $batch = $this->batchRepository->getById($id);
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+        $batch->status = 'Processed';
+        $batch->save();
         return $this->sendSuccess('Success');
     }
 

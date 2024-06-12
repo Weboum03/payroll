@@ -566,6 +566,19 @@
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
                                 </div>
                             </div>
+
+                            <div class="row d-flex">
+                                <div class="col input-group-fname">
+                                    <Field required type="number" name="salary"
+                                        v-model="userData.salary"
+                                        placeholder="Salary"
+                                        :class="{ 'is-invalid': errors.salary }" class="input"
+                                        autocomplete="off" />
+                                    <label for="PAN Number" class="user-label">Salary</label>
+                                    <ErrorMessage name="salary" class="text-danger mt-1" />
+                                </div>
+                            </div>
+
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="earning_leave_entitlement"
@@ -848,6 +861,7 @@ watchEffect(() => {
         holiday_year: user?.info?.holiday_year,
         work_pattern: user?.info?.work_pattern,
         earning_leave_entitlement: user?.info?.earning_leave_entitlement,
+        salary: user?.info?.salary,
         this_year: user?.info?.this_year,
         next_year: user?.info?.next_year,
         check_all: user?.info?.check_all,

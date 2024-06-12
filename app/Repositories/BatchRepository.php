@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Batch;
 use App\Models\Payroll;
+use App\Models\User;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -52,58 +53,86 @@ class BatchRepository extends BaseRepository
         $orders = $request->order;
         $columns = $request->columns;
         $search = $request->search;
-        $page = floor($start/$limit) + 1;
+        $page = floor($start / $limit) + 1;
         $response =  $this->model->offset(20);
-        
+
         // if($orders) {
         //     foreach($orders as $order) {
         //         $response->orderBy($columns[$order['column']]['data'], $order['dir']);
         //     }
         // }
-        if($search) {
-            $response->where(function ($query) use($search) {
+        if ($search) {
+            $response->where(function ($query) use ($search) {
                 $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
-                   ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
-                   ->orWhere('email', 'like', '%' . $search['value'] . '%')
-                   ->orWhere('phone', 'like', '%' . $search['value'] . '%');
+                    ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
+                    ->orWhere('email', 'like', '%' . $search['value'] . '%')
+                    ->orWhere('phone', 'like', '%' . $search['value'] . '%');
             });
         }
-        return Batch::latest()->withCount('employee')->paginate(5);
+        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'gross_wages')->withSum('employee as deduction', 'deduction')->paginate(5);
     }
 
     public function getUsersByBatch($id, $request)
     {
         $batch = Batch::find($id);
-        if($batch) {
-            return $batch->users()->with('role','info')
-            ->whereHas('info', function ($query) use($request) {
-                $query->when($request->company, function ($q) use($request) {
-                    return $q->where('company', $request->company);
+        if ($batch) {
+            return $batch->users()->with('role', 'info')
+                ->whereHas('info', function ($query) use ($request) {
+                    $query->when($request->company, function ($q) use ($request) {
+                        return $q->where('company', $request->company);
+                    })
+                        ->when($request->location, function ($q) use ($request) {
+                            return $q->where('location', $request->location);
+                        })
+                        ->when($request->department, function ($q) use ($request) {
+                            return $q->where('department', $request->department);
+                        })
+                        // ->when($request->job_role, function ($q) use($request) {
+                        //     return $q->where('job_role', $request->job_role);
+                        // })
+                        ->when($request->gender, function ($q) use ($request) {
+                            return $q->where('gender', $request->gender);
+                        });
+                    // ->when($request->employment_type, function ($q) use($request) {
+                    //     return $q->where('employment_type', $request->employment_type);
+                    // });
+
                 })
-                ->when($request->location, function ($q) use($request) {
+                ->paginate(10);
+        }
+        return [];
+    }
+
+    public function getAllUsersByBatch($id, $request)
+    {
+        return User::doesntHave('payroll', 'or', function ($q) use($id) {
+            $q->where('batch_id', $id);
+        })->with('info')->whereHas('info', function ($query) use ($request) {
+            $query->when($request->company, function ($q) use ($request) {
+                return $q->where('company', $request->company);
+            })
+                ->when($request->location, function ($q) use ($request) {
                     return $q->where('location', $request->location);
                 })
-                ->when($request->department, function ($q) use($request) {
+                ->when($request->department, function ($q) use ($request) {
                     return $q->where('department', $request->department);
                 })
                 // ->when($request->job_role, function ($q) use($request) {
                 //     return $q->where('job_role', $request->job_role);
                 // })
-                ->when($request->gender, function ($q) use($request) {
+                ->when($request->gender, function ($q) use ($request) {
                     return $q->where('gender', $request->gender);
                 });
-                // ->when($request->employment_type, function ($q) use($request) {
-                //     return $q->where('employment_type', $request->employment_type);
-                // });
-                
-            })
-            ->paginate(10);
-        }
-        return [];
+            // ->when($request->employment_type, function ($q) use($request) {
+            //     return $q->where('employment_type', $request->employment_type);
+            // });
+
+        })->get();
     }
 
 
-    public function deleteUserByBatch($id, $userId) {
+    public function deleteUserByBatch($id, $userId)
+    {
         return Payroll::where('batch_id', $id)->where('user_id', $userId)->delete();
     }
 

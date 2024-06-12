@@ -106,12 +106,6 @@
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
-                <template v-slot:cell-wages="{ row }">
-                    0
-                </template>
-                <template v-slot:cell-deduction="{ row }">
-                    0
-                </template>
                 <template v-slot:cell-payout="{ row }">
                     0
                 </template>

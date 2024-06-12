@@ -13,6 +13,8 @@ class Payroll extends Model
 
     protected $fillable = [
         'batch_id',
-        'user_id'
+        'user_id',
+        'gross_wages',
+        'deduction'
     ];
 }

@@ -99,7 +99,7 @@
                 <div class="row d-flex">
                     <div class="col input-group-fname">
                         <Field as="select" class="form-control input" id="Specific-Emp" name="selected_user" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" :selected="!users?.data">Select</option>
+                            <option value="" :selected="!users?.data">All</option>
                             <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
                         </Field>
                         <label class="user-label">Specific Employee(s)</label>
@@ -108,7 +108,7 @@
                 <div class="row d-flex">
                     <div class="col input-group-fname">
                         <Field as="select" class="form-control input" id="Exclude-Emp" name="excluded_user" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>Select</option>
+                            <option value="" selected>All</option>
                             <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
                         </Field>
                         <label class="user-label">Exclude Employee(s)</label>
@@ -248,7 +248,6 @@ onMounted(() => {
 
 
 const submitForm = async (values) => {
-    console.log('rahul', values);
     await addEmployee(route.params.id, values);
 };
 </script>

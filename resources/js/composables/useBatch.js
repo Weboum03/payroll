@@ -26,7 +26,6 @@ export default function useBatch() {
         try {
             let queryString = new URLSearchParams(filters).toString();
             if(queryString) { queryString = '?'+ queryString }
-            console.log('vipan',queryString)
             items.value = await getApiPath.getBadgeUsers(id, queryString);
         } catch (err) {
             error.value = err;
@@ -105,6 +104,35 @@ export default function useBatch() {
         }
     };
 
+    const processBatch = async (id) => {
+        await swal({
+            title: "Are you sure to process payroll batch?",
+            text: "After processing payroll batchit can not be deleted.If you have checked all data press Process or press Cancle to verity data.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Process",
+            confirmButtonColor: "#ef4444",
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true,
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                loading.value = true;
+                try {
+                    await getApiPath.processBatch(id);
+                    success.value = true;
+                } catch (err) {
+                    if (error.response?.data) {
+                        validationErrors.value = error.response.data.errors;
+                    }
+                    error.value = err;
+                } finally {
+                    loading.value = false;
+                }
+            }
+        });
+    };
+
     const deleteBatchUser = async (id, userId) => {
         await swal({
             title: "Are you sure?",
@@ -174,6 +202,7 @@ export default function useBatch() {
         fetchAll,
         getBatchUsers,
         deleteBatchUser,
+        processBatch,
         fetchOne,
         create,
         addEmployee,

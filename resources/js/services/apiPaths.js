@@ -27,6 +27,8 @@ const getApiPath = {
     
     storeBadgeEmployee(id, params) { return apiService.update(`admin/batches/${id}/users`, params); },
 
+    processBatch(id) { return apiService.update(`admin/batches/${id}/process`); },
+
     updateBadgeById(id, params) { return apiService.update(`admin/batches/${id}`, params); },
 
     deleteBadgeById(id) { return apiService.delete(`admin/batches/${id}`); },
