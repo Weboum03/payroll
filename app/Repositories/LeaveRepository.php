@@ -54,6 +54,9 @@ class LeaveRepository extends BaseRepository
         ->when($request->status, function ($query) use($request) {
             return $query->where('status', $request->status);
         })
+        ->when($request->date, function ($query) use($request) {
+            return $query->whereDate('from', $request->date);
+        })
         ->when($request->search, function ($query) use($request) {
             return $query->whereHas('user', function ($q) use($request) {
                 return $q->where('name', 'LIKE', "%$request->search%");

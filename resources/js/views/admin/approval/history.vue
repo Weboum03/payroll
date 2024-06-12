@@ -6,43 +6,45 @@
             <span>Leaves > Approval History</span>
         </div>
 
-        <div id="Approvedleave-historyTable_filter" class="dataTables_filter"><label>Search:<input type="search"
-                    v-model="search_global" class="" placeholder=""
-                    aria-controls="Approvedleave-historyTable"></label><select id="dropdown1" class="lastActivities"
-                style="height: 30.83px;  width: 225px;  font-size: 13px;  font-weight: bold;  font-family: sans-serif;  padding-left: 13px;  border: none; border-radius: 5px; float: left;">
-                <option value="BulkAction">10 Last activities</option>
-                <option value="value2">Option 2</option>
-            </select></div>
-        <table class="table text-center" ref="myTable">
-            <thead>
-                <tr>
+        <div id="Approvedleave-historyTable_filter" class="dataTables_filter">
+            <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
+            <div class="container1" style="display: flex; gap: 1rem;">
+                <select name="SelectBydate" id="SelectBydate" v-model="dateFilter" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;">
+                    <option value="" selected>All</option>
+                    <option value="date">By Date</option>
+                </select>
+                <input v-show="showDate" type="date" v-model="dateValue" name="" id="Date" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;width: 117px;background-color: white;">
+                <button @click="refreshData" type="button" id="reset" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;background-color: #2DB9F8;color: white;width: 80px;">Reset</button>
+            </div>
+        </div>
 
-                    <th id="LogTime">Log Time</th>
-                    <th id="Reference">Reference</th>
-                    <th id="Date">Date</th>
-                    <th id="Name">Employee</th>
-                    <th id="Description">Description</th>
-                    <th id="Remark">Remarks</th>
-                    <th id="Status">Status</th>
-                    <th v-if="can('Leave Approval')" id="Action">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="leave in leaves?.data" :key="leave.id" @click="selectUser(leave)">
-                    <td>{{ leave.created_at }}</td>
-                    <td>{{ leave.user.name }}</td>
-                    <td>{{ leave.from }}</td>
-                    <td>{{ leave.user.name }}</td>
-                    <td>{{ leave.reason }}</td>
-                    <td>{{ leave.remarks ?? '---' }}</td>
-                    <td> <button type="button" class="btn" id="ApprovedBtn" style="font-size: 14px;" :style="{
-                        color: getStatusColor(leave.status),
-                    }">{{ leave.status }}</button></td>
-                    <td v-if="can('Leave Approval')" @click="selectUser(leave)"><i class="fa-solid fa-ellipsis-vertical fa-sm"
-                            style="color: #000000;"></i></td>
-                </tr>
-            </tbody>
-        </table>
+
+        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData"
+            @rowclick="selectUser" ref="table">
+            <template v-slot:cell-name="{ row }">
+                <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
+                    height="20px" style="border-radius: 50%;">
+                {{ row.user.name }}
+            </template>
+            <template v-slot:cell-type="{ row }">
+                {{ row.type.type }}
+            </template>
+            <template v-slot:cell-duration="{ row }">
+                {{ row.duration }} Days
+            </template>
+
+            <template v-slot:cell-status="{ row }">
+                <button type="button" class="btn"
+                    :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
+                    id="pendingBtn">{{ row.status }}</button>
+            </template>
+
+
+
+            <template v-slot:cell-action="{ row }">
+                <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
+            </template>
+        </DataTable>
         <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
         <singleHistory v-if="isActive" :user="selectedUser" :active="isActive" @showHistory="showHistory"></singleHistory>
     </div>
@@ -50,6 +52,7 @@
 
 <script setup>
 import { ref, onMounted, onUpdated, watch } from 'vue';
+import DataTable from '@/components/DataTable.vue';
 import '@/assets/css/Approvals.css'
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -61,13 +64,25 @@ import singleHistory from './singleHistory.vue'
 const { leaves, getLeaves, deleteLeave } = useLeaves()
 
 const {can} = useAbility()
+const pagelength = ref(10);
 let dataTable = ref(null);
+const table = ref(null)
+const showDate = ref(false)
+const searchQuery = ref("");
 const myTable = ref(null);
 const isDataTableInitialized = ref(false)
 const search_global = ref('')
 const selectedUser = ref({})
 const isModalOpened = ref(false)
 const isActive = ref(false)
+const tableKey = ref(0)
+const dateFilter = ref('')
+const dateValue = ref('')
+
+const filterData = (filterValues) => {
+    getLeaves(filterValues)
+}
+
 onMounted(() => {
     getLeaves();
 });
@@ -76,9 +91,56 @@ onUpdated(() => {
     loadDataTable();
 })
 
+const filterRows = () => {
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+};
+
 const showHistory = (value) => {
     isActive.value = value;
 }
+
+const tableHeaders = [
+        { key: 'created_at', label: 'Log Time', sorting: true },
+        { key: 'name', label: 'Reference' },
+        { key: 'from', label: 'From', sorting: true },
+        { key: 'name', label: 'Employee' },
+        { key: 'reason', label: 'Description', sorting: true },
+        { key: 'remarks', label: 'Remarks', sorting: true },
+        { key: 'status', label: 'Status', sorting: true },
+        { key: 'action', label: 'Action'},
+];
+
+watch(dateFilter, (current, previous) => {
+    dateValue.value = '';
+    showDate.value = !showDate.value;
+});
+
+watch(dateValue, (current, previous) => {
+    table.value.filterData.filter.push({
+        key: "date",
+        value: current,
+    })
+    table.value.filterPayload();
+})
+
+function refreshData() {
+    tableKey.value++;
+    getLeaves();
+    filterUser.value = '';
+    filterStatus.value = '';
+    searchQuery.value = '';
+    pagelength.value = 10;
+}
+
+watch(pagelength, (current, previous) => {
+    table.value.pageLength = current;
+    table.value.page = 1;
+    table.value.filterPayload();
+});
 
 const getStatusColor = (status) => {
     if (status == 'Pending') { return 'blue'; }
