@@ -130,8 +130,7 @@ watch(dateValue, (current, previous) => {
 function refreshData() {
     tableKey.value++;
     getLeaves();
-    filterUser.value = '';
-    filterStatus.value = '';
+    dateFilter.value = '';
     searchQuery.value = '';
     pagelength.value = 10;
 }

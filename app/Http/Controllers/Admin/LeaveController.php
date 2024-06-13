@@ -49,13 +49,9 @@ class LeaveController extends BaseController
         $rules = [
             'leave_type_id'    => 'required',
             'reason'    => 'required',
-            'to' => 'required|after:from',
         ];
 
-        $message = [
-            'to.after' => '"To" date should be greater than "From" date'
-        ];
-        $validator = Validator::make($input, $rules, $message);
+        $validator = Validator::make($input, $rules);
     
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());

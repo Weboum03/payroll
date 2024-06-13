@@ -74,7 +74,7 @@
                     </div>
                     <div id="Absences" class="d-flex flex-column justify-content-flex-start align-items-center">
                         <p>Absences</p>
-                        <p>2 Days</p>
+                        <p>0 Days</p>
                     </div>
                     <div id="Remaining-Leaves" class="d-flex flex-column justify-content-flex-start align-items-center">
                         <p>Remaining Leaves</p>
@@ -206,7 +206,7 @@
                         </div>
                     </div>
                     <template v-if="user?.info?.check_all" v-for="file in user?.files" :key="file.uuid">
-                        <div v-if="file?.custom_properties?.collection_name != 'pan_proof' && file?.custom_properties?.collection_name != 'aadhar_proof'"  class="form-row d-flex justify-content-around"
+                        <div v-if="file?.custom_properties?.collection_name != 'pan_proof' && file?.custom_properties?.collection_name != 'aadhar_proof' && file?.custom_properties?.collection_name != 'user_profile_picture'"  class="form-row d-flex justify-content-around"
                         style="margin-left: 17px;padding: 13px;padding-top: 0px;">
                         <div class="col-md-6 mb-3">
                             <div id="PAN">{{ file?.custom_properties?.title }}</div>

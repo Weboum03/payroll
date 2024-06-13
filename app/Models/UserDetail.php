@@ -66,7 +66,7 @@ class UserDetail extends Model
 
     public function getEmploymentDurationAttribute()
     {
-        $date1 = new Carbon(now());
+        $date1 = new Carbon($this->prob_end_date);
 
         $date2 = new Carbon($this->doj);
 

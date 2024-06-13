@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BatchExport;
 use App\Http\Controllers\BaseController;
+use App\Imports\UsersImport;
 use App\Models\UserDetail;
 use App\Repositories\BatchRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BatchController extends BaseController
 {
@@ -43,6 +46,64 @@ class BatchController extends BaseController
     {
         $users = $this->batchRepository->getUsersByBatch($id, $request);
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
+
+    public function importBatch($id, Request $request) {
+
+        $input = $request->only('attachment');
+        $rule = ['attachment' => 'required'];
+        $validator = Validator::make($input,$rule);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first());
+        }
+
+        $batch = $this->batchRepository->getById($id);
+
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+
+        $file = $request->file("attachment");
+        $filepath = $file->getPathname();
+
+        $array = (new UsersImport)->toCollection($filepath);
+
+        if($array && $array[0]) {
+            $array[0]->each(function ($user) use($batch) {
+                $batch->employee()->where('user_id', $user['unique_id'])->update(['gross_wages' => $user['gross_wages'], 'deduction' => $user['deduction']]);
+            });
+        }
+
+        return $this->sendResponse($array[0], 'Success');
+    }
+
+    public function exportBatch($id, Request $request) {
+
+        $batch = $this->batchRepository->getById($id);
+
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+
+        $users = $batch->users()->with('role', 'info')->get();
+
+        $excel =  $users->map(function ($data) {
+            return [
+                'unique_id' => $data['id'],
+                'employee_id' => $data['employee_id'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'company' => $data['info']['company'],
+                'location' => $data['info']['location'],
+                'over_time' => '0',
+                'wages' => '0',
+                'deduction' => '0'
+            ];
+        });
+
+        Excel::store(new BatchExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }
 
     public function storeUsersByBatch($id, Request $request)

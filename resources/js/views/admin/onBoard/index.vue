@@ -27,8 +27,8 @@
                     </div>
                 </div>
 
-                <Form @submit="nextStep" keep-values :validation-schema="currentSchema" :initial-values="formValues"
-                    v-slot="{ handleSubmit, values, errors }">
+                <Form @submit="nextStep" keep-values :validation-schema="currentSchema" :initial-values="formValues" @invalid-submit="onInvalidSubmit"
+                    v-slot="{ handleSubmit, values, errors, validate  }">
 
                     <template v-if="currentStep === 0">
                         <!-- Steps -->
@@ -152,9 +152,13 @@
                                     </div>
                                 </div>
 
-                                <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
-                                    <p>Local Address</p>
-                                    <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
+                                <div class="row">
+                                    <div class="col p1">
+                                        <p>Local Address</p>
+                                    </div>
+
+                                    <div class="col p1">
+                                        <p class="d-flex justify-content-start align-items-center" style="gap: 8rem;">
                                         Permanent Address
                                         <span class="d-flex" style="gap: 6px;">
                                             <Field name="as_local" v-model="sameAsLocal" type="checkbox"
@@ -162,9 +166,8 @@
                                             <label for="SameAsLocal">Same As Local</label>
                                         </span>
                                     </p>
+                                    </div>
                                 </div>
-
-
 
                                 <div class="row d-flex">
 
@@ -732,13 +735,12 @@
 
                     <div v-if="currentStep < 4" class="form-step form-step-active">
                         <div class="btns-save-cancle">
-                            <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                            <button type="button" v-if="currentStep !== 0" @click="prevStep"
+                            <button @click="validate" type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
+                            <button type="button" :disabled="isLoading" v-if="currentStep !== 0" @click="prevStep"
                                 class="btn btn-next btn-primary savenext">Previous</button>
                             <a id="myAnchor" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
                         </div>
                     </div>
-
                 </Form>
             </form>
         </div>
@@ -788,9 +790,17 @@ import useUsers from "@/composables/users";
 import UploadDoc from "@/components/UploadDoc.vue";
 import { countries } from "@/constants/countries";
 
+function onInvalidSubmit({ values, errors, results }) {
+    if (Object.keys(errors).length > 0) {
+        swal({
+            icon: "error",
+            title: Object.values(errors)[0],
+        });
+    }
+}
 
 const router = useRouter()
-const { user, storeUser, validationErrors, validationMessage, isLoading } = useUsers();
+const { storeUser, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 const swal = inject('$swal')
 const currentStep = ref(0);
@@ -835,39 +845,39 @@ const getUploadDocData = () => {
 // Each step should have its own validation schema
 const schemas = [
   yup.object({
-    first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+    first_name: yup.string().required('First name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
-    last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+    last_name: yup.string().required('Last name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
     secondary_email: yup.string().email('Invalid Email').nullable(),
-    phone: yup.string().required("Required!").min(10).max(10),
+    phone: yup.string().required().min(10).max(10),
     alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
           value => value === null || value === '' || value.length === 10),
-    gender: yup.string().required("Required!"),
-    password: yup.string().required("Required!"),
-    dob: yup.string().required("Required!"),
-    address: yup.string().required("Required!"),
-    address_1: yup.string().required("Required!"),
-    city: yup.string().required("Required!"),
-    state: yup.string().required("Required!"),
-    country: yup.string().required("Required!"),
-    postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
+    gender: yup.string().required(),
+    password: yup.string().required(),
+    dob: yup.string().required(),
+    address: yup.string().required(),
+    address_1: yup.string().required('address 2 is required'),
+    city: yup.string().required(),
+    state: yup.string().required(),
+    country: yup.string().required(),
+    postcode: yup.string().required().test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
 
-    p_address: yup.string().required("Required!"),
-    p_address_1: yup.string().required("Required!"),
-    p_city: yup.string().required("Required!"),
-    p_state: yup.string().required("Required!"),
-    p_country: yup.string().required("Required!"),
-    p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode', 
+    p_address: yup.string().required('Permanent address is required'),
+    p_address_1: yup.string().required('Permanent address 2 is required'),
+    p_city: yup.string().required('Permanent city is required'),
+    p_state: yup.string().required('Permanent state is required'),
+    p_country: yup.string().required('Permanent country is required'),
+    p_postcode: yup.string().required().test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
   }),
   yup.object({
-    employee_id: yup.string().required("Required!"),
-    role_id: yup.string().required("Required!"),
-    doj: yup.string().required("Required!"),
+    employee_id: yup.string().required(),
+    role_id: yup.string().required('Role is required'),
+    doj: yup.string().required(),
     // prob_end_date: yup.string().required("Required!"),
-    prob_end_date: yup.date().required('End date is required')
+    prob_end_date: yup.string().required('End date is required')
         .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
         const { doj } = this.parent;
         const date = new Date(value);
@@ -953,11 +963,7 @@ const formValues = {
 const isImage = (file) => {
     return file;
 }
-// const isVideo = (file) => {
-//     return file && file.type.startsWith('data:video');
-// }
 const profilePic = ref();
-const filesToUpload = ref({});
 const uploadTempFile = async (event) => {
     const file = event.target.files[0];
     if (file.size > 1024 * 1024 * 10) {

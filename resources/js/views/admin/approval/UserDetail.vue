@@ -82,6 +82,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save">Save</button>
+                    <a @click="closeModal" href="javascript:;" class="btn btn-outline-light cancle">Cancel</a>
                 </div>
             </Form>
             </div>

@@ -88,7 +88,7 @@
                     </div>
 
                     <div class="btns-Update-cancle">
-                        <button type="submit" :disabled="isLoading" class="btn btn-primary savenext">Save</button>
+                        <button type="submit" :disabled="isLoading" class="btn btn-primary savenext">Add Role</button>
                         <router-link :to="{ name: 'admin.EmployeeRole' }" class="btn btn-outline-light cancle">
                             Cancel
                         </router-link>

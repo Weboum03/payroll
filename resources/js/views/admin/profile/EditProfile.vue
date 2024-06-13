@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <Form v-if="postData" @submit="nextStep" keep-values :validation-schema="currentSchema"
+                <Form v-if="postData" @submit="nextStep" keep-values :validation-schema="currentSchema" @invalid-submit="onInvalidSubmit"
                     v-slot="{ errors, meta, isSubmitting }">
 
 
@@ -139,15 +139,21 @@
                                     </div>
                                 </div>
 
-                                <div class="p1  d-flex justify-content-start align-items-center" style="gap: 22rem;">
-                                    <p>Local Address</p>
-                                    <p class="d-flex justify-content-between align-items-center" style="gap: 8rem;">
+                                <div class="row">
+                                    <div class="col p1">
+                                        <p>Local Address</p>
+                                    </div>
+
+                                    <div class="col p1">
+                                        <p class="d-flex justify-content-start align-items-center" style="gap: 8rem;">
                                         Permanent Address
                                         <span class="d-flex" style="gap: 6px;">
-                                            <input name="as_local" v-model="sameAsLocal" type="checkbox" />
+                                            <Field name="as_local" v-model="sameAsLocal" type="checkbox"
+                                                :value="true" />
                                             <label for="SameAsLocal">Same As Local</label>
                                         </span>
                                     </p>
+                                    </div>
                                 </div>
 
 
@@ -788,6 +794,14 @@ watch(checkAll, (current, previous) => {
     });
 });
 
+function onInvalidSubmit({ values, errors, results }) {
+    if (Object.keys(errors).length > 0) {
+        swal({
+            icon: "error",
+            title: Object.values(errors)[0],
+        });
+    }
+}
 const getUploadDocData = () => {
     let files = [];
     childComponents.value.forEach((childRef) => {
@@ -933,30 +947,30 @@ const deleteInput = (id) => {
 
 const schemas = [
     yup.object({
-        first_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+        first_name: yup.string().required('First name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
         middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
-        last_name: yup.string().required("Required!").min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
+        last_name: yup.string().required('Last name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
         email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
         secondary_email: yup.string().email('Invalid Email').nullable(),
-        phone: yup.string().min(10).max(10).required("Required!"),
-        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null',
+        phone: yup.string().required().min(10).max(10),
+        alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
             value => value === null || value === '' || value.length === 10),
-        gender: yup.string().required("Required!"),
-        dob: yup.string().required("Required!"),
-        address: yup.string().required("Required!"),
-        address_1: yup.string().required("Required!"),
-        city: yup.string().required("Required!"),
-        state: yup.string().required("Required!"),
-        country: yup.string().required("Required!"),
-        postcode: yup.string().required("Required!").test('length', 'Invalid postcode',
-            value => value === null || value === '' || value.length === 6),
+        gender: yup.string().required(),
+        dob: yup.string().required(),
+        address: yup.string().required(),
+        address_1: yup.string().required('address 2 is required'),
+        city: yup.string().required(),
+        state: yup.string().required(),
+        country: yup.string().required(),
+        postcode: yup.string().required().test('length', 'Invalid postcode', 
+                value => value === null || value === '' || value.length === 6),
 
-        p_address: yup.string().required("Required!"),
-        p_address_1: yup.string().required("Required!"),
-        p_city: yup.string().required("Required!"),
-        p_state: yup.string().required("Required!"),
-        p_country: yup.string().required("Required!"),
-        p_postcode: yup.string().required("Required!").test('length', 'Invalid postcode',
+        p_address: yup.string().required('Permanent address is required'),
+        p_address_1: yup.string().required('Permanent address 2 is required'),
+        p_city: yup.string().required('Permanent city is required'),
+        p_state: yup.string().required('Permanent state is required'),
+        p_country: yup.string().required('Permanent country is required'),
+        p_postcode: yup.string().required().test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
     }),
     yup.object({
