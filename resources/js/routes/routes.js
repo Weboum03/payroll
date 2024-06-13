@@ -144,7 +144,7 @@ export default [
             },
             {
                 name: "admin.PayrollAdjustment",
-                path: "PayrollAdjustment",
+                path: "PayrollAdjustment/:id",
                 component: () => import("../views/admin/payroll/PayrollAdjustment.vue"),
                 meta: { breadCrumb: "Admin" },
             },

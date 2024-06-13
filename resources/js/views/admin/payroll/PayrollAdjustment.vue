@@ -7,7 +7,7 @@
         </div>
 
         <div class="container d-flex flex-column" style="gap: 2rem; background-color: white;padding: 20px;">
-            <div class="header">March2024_Lipsum - Make a new payroll adjustment</div>
+            <div class="header">{{ batch?.data?.name }} - Make a new payroll adjustment</div>
             <div class="section d-flex flex-column" style="gap: 1rem;">
                 <div class="updateMode d-flex justify-content-start align-items-baseline" style="gap: 1rem;">
                     <span>1</span>
@@ -60,7 +60,23 @@
                 </div>
             </div>
 
-            <table id="PayrollAdjustment-Table" ref="myTable">
+            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData" ref="table">
+                <template v-slot:cell-company="{ row }">
+                    {{ row.info?.company }}
+                </template>
+                <template v-slot:cell-location="{ row }">
+                    {{ row.info?.location }}
+                </template>
+                <template v-slot:cell-overtime="{ row }">
+                    0
+                </template>
+                <template v-slot:cell-action="{ row }">
+                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
+                        aria-hidden="true"></i>
+                </template>
+            </DataTable>
+
+            <!-- <table id="PayrollAdjustment-Table" ref="myTable">
                 <thead>
                     <tr>
                         <th> Sr.No.</th>
@@ -147,7 +163,7 @@
                         <td id="OTime">0</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
         </div>
     </div>
 </template>
@@ -155,14 +171,16 @@
 
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
-import useUsers from "../../../composables/users";
-const { users, getUsers, deleteUser } = useUsers()
-import { useRouter } from "vue-router";
+import DataTable from '@/components/DataTable.vue';
+import useBatch from "@/composables/useBatch";
+import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 
+const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
 const router = useRouter();
+const route = useRoute();
 const myTable = ref(null);
 const search_global = ref('');
 let dataTable = ref(null);
@@ -170,7 +188,19 @@ const isDataTableInitialized = ref(false)
 
 onMounted(() => {
     loadDataTable();
+    getBatchUsers(route.params.id)
+    getBatch(route.params.id)
 });
+
+const tableHeaders = [
+    { key: 'id', label: 'Sr No.', sorting: true },
+    { key: 'employee_id', label: 'EMP ID', sorting: true },
+    { key: 'first_name', label: 'First Name', sorting: true },
+    { key: 'last_name', label: 'Last Name', sorting: true },
+    { key: 'company', label: 'Company' },
+    { key: 'location', label: 'Location' },
+    { key: 'overtime', label: 'Over Time', sorting: true }
+];
 
 const loadDataTable = () => {
     const dataTableOptions = {

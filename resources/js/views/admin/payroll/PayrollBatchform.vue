@@ -249,6 +249,7 @@ onMounted(() => {
 
 const submitForm = async (values) => {
     await addEmployee(route.params.id, values);
+    router.push({ name: 'admin.PayrollBatchList', params: { id: route.params.id } });
 };
 </script>
 

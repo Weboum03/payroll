@@ -31,7 +31,7 @@
                         <button @click="navigate" id="button1" class="Addemployee" style="">Add Employee</button>
                     </router-link>
 
-                    <router-link :to="{ name: 'admin.PayrollAdjustment' }" custom v-slot="{ navigate }">
+                    <router-link :to="{ name: 'admin.PayrollAdjustment', params: { id: route.params.id } }" custom v-slot="{ navigate }">
                         <button @click="navigate" role="link" id="button2" class="Adjustments" style="">Adjustments</button>
                     </router-link>
 
@@ -78,13 +78,13 @@
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, inject, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
-import useUsers from "../../../composables/users";
 import useBatch from "@/composables/useBatch";
 const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
+import { param } from 'jquery';
 const route = useRoute()
 const router = useRouter();
 const myTable = ref(null);
