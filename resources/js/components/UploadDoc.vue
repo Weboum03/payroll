@@ -32,11 +32,13 @@ const props = defineProps({
     id: String,
     title: String,
     is: Object,
+    checked: Boolean,
 });
 
 const text = ref('Upload Document');
 const fileInput = ref();
-const checked = ref(false)
+const checked = ref(props.checked)
+
 const onClick = () => {
     fileInput.value.click();
 }

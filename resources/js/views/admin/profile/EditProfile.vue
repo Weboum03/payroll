@@ -632,7 +632,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="showalltask-div">
-                                        <input type="checkbox" v-model="userData.check_all" name="" id="">
+                                        <input type="checkbox" v-model="checkAll" name="" id="">
                                         <div class="p1">Show all tasks</div>
                                     </div>
 
@@ -647,7 +647,7 @@
                             <div class="container doc-container d-flex flex-column" style="gap: 1.1rem;">
 
                                 <div class="row ">
-                                    <UploadDoc v-for="component in uploadComponent"
+                                    <UploadDoc v-for="component in uploadComponent" :checked="checkAll"
                                         ref="childComponents" :is="component" :key="component.id"
                                         @delete-input="deleteInput(component.id)">
                                     </UploadDoc>
@@ -831,6 +831,7 @@ watchEffect(() => {
 
 
     preview.value = user?.user_profile_picture;
+    checkAll.value = user?.info?.check_all;
     userData.value = {
         id: user?.id,
         first_name: user?.first_name,
@@ -1077,6 +1078,7 @@ async function nextStep(values, user) {
             p_state: perAddress.value?.state,
             p_country: perAddress.value?.country,
             p_postcode: perAddress.value?.postcode,
+            check_all: checkAll.value
         });
         userData.value.attachments = getUploadDocData();
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
