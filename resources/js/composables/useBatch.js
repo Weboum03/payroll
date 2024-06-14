@@ -89,7 +89,7 @@ export default function useBatch() {
     const exportBatch = async (id, data) => {
         loading.value = true;
         try {
-            return await getApiPath.exportBatch(id);
+            return await getApiPath.exportBatch(id, data);
         } catch (err) {
             error.value = err;
             if (error.response?.data) {

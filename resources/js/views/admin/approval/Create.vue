@@ -19,7 +19,14 @@
                             <Field required name="leave_type_id" as="select" class="form-control input" autocomplete="off"
                                 style="color: #7e7e7e;">
                                 <option value="" disabled selected>Leave Type</option>
-                                <option value="1">Earned Leave</option>
+                                <option value="1">Casual Leave</option>
+                                <option value="2">Paid Leave</option>
+                                <option value="3">Earned Leave</option>
+                                <option value="4">Sick Leave</option>
+                                <option value="5">Maternity Leave</option>
+                                <option value="6">Paternity Leave</option>
+                                <option value="7">Bereavement Leave</option>
+                                <option value="8">Study Leave</option>
                             </Field>
                             <label for="leave_type_id" class="user-label">Leave Type</label>
                             <ErrorMessage name="leave_type_id" class="text-danger mt-1" />

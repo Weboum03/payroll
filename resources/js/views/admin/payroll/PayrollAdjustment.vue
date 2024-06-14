@@ -14,19 +14,19 @@
 
                     <div class="row d-flex flex-column align-items-start justify-content-center">
                         <div class="col input-group-fname">
-                            <select class="form-control input" id="UpdateMode" required autocomplete="off"
+                            <select class="form-control input" v-model="mode" id="UpdateMode" required autocomplete="off"
                                 style="color: #131313;">
                                 <option value="" selected>Update Mode*</option>
-                                <option value="Update Salary">Update Salary</option>
-                                <option value="Overtime hours">Overtime hours</option>
-                                <option value="Bonus Adjustment">Bonus Adjustment</option>
-                                <option value="Commission Adjustment">Commission Adjustment</option>
-                                <option value="Deduction Adjustment">Deduction Adjustment</option>
-                                <option value="Reimbursement Adjustment">Reimbursement Adjustment</option>
-                                <option value="Salary Correction">Salary Correction</option>
-                                <option value="Leave Balance Adjustment">Leave Balance Adjustment</option>
-                                <option value="Shift Differential Adjustment">Shift Differential Adjustment</option>
-                                <option value="Retroactive Pay Adjustment">Retroactive Pay Adjustment</option>
+                                <option value="salary">Update Salary</option>
+                                <option value="overtime">Overtime hours</option>
+                                <option value="bonus">Bonus Adjustment</option>
+                                <option value="commission">Commission Adjustment</option>
+                                <option value="deduction">Deduction Adjustment</option>
+                                <option value="reimbursement">Reimbursement Adjustment</option>
+                                <option value="salary">Salary Correction</option>
+                                <option value="leave_bal">Leave Balance Adjustment</option>
+                                <option value="salary">Shift Differential Adjustment</option>
+                                <option value="salary">Retroactive Pay Adjustment</option>
                             </select>
                             <label class="user-label">Update Mode*</label>
                         </div>
@@ -58,14 +58,14 @@
                 </div>
                 <div class="d-flex justify-content-center align-items-center" style="gap: 1.4rem;margin-left: -280px;">
 
-                        <button @click="uploadFile" :disabled="!selectedFile" role="link" type="button" class="btn vldExcel ">Validate Excel</button>
+                        <button @click="uploadFile" :disabled="!selectedFile" role="link" type="button" class="btn vldExcel ">{{ text }}</button>
 
                     
                     <button type="button" class="btn btn-cancle cancle">Cancle</button>
                 </div>
             </div>
 
-            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData" ref="table">
+            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" ref="table">
                 <template v-slot:cell-company="{ row }">
                     {{ row.info?.company }}
                 </template>
@@ -96,21 +96,29 @@ import $ from 'jquery';
 const { items: batches, item: batch, fetchOne: getBatch, exportBatch,importBatch, getBatchUsers, loading: isLoading, success } = useBatch();
 const router = useRouter();
 const route = useRoute();
-const myTable = ref(null);
-const search_global = ref('');
-let dataTable = ref(null);
-const isDataTableInitialized = ref(false)
 const text = ref('Validate Excel')
 const swal = inject('$swal')
+const mode = ref('')
 
 onMounted(() => {
-    loadDataTable();
     getBatchUsers(route.params.id)
     getBatch(route.params.id)
 });
 
+watch(mode, (current, previous) => {
+    getBatchUsers(route.params.id, {mode:current})
+    tableHeaders.splice(tableHeaders.findIndex(component => component.key === current), 1);
+    tableHeaders.push({key:current, label: capitalize(current.split('_').join(' '))})
+    // tableHeaders = tableHeaders.
+})
+
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
 const downloadFileBatch = async () => {
-    let response = await exportBatch(route.params.id);
+    let response = await exportBatch(route.params.id, {mode:mode.value});
     downloadFile(response)
 }
 
@@ -145,8 +153,8 @@ const uploadFile = (event) => {
             alert("Please select a file first!");
             return;
         }
-        let response = await importBatch(route.params.id, {attachment : selectedFile.value});
-
+        let response = await importBatch(route.params.id, {attachment : selectedFile.value,mode:mode.value});
+        text.value = 'Validate Excel';
     }, 1000);
 }
 
@@ -157,28 +165,9 @@ const tableHeaders = [
     { key: 'last_name', label: 'Last Name', sorting: true },
     { key: 'company', label: 'Company' },
     { key: 'location', label: 'Location' },
-    { key: 'overtime', label: 'Over Time', sorting: true }
+    { key: 'salary', label: 'Salary', sorting: true }
 ];
 
-const loadDataTable = () => {
-    const dataTableOptions = {
-        "pagingType": "full_numbers",
-        "bLengthChange": false,
-        "columnDefs": [
-            { "className": "text-center", "targets": "_all" } // Center-align all columns
-        ],
-        processing: true,
-    }
-    if (!isDataTableInitialized.value) {
-        dataTable = $(myTable.value).DataTable(dataTableOptions);
-        console.log(dataTable)
-        isDataTableInitialized.value = true;
-    }
-}
-
-watch(search_global, (current, previous) => {
-    dataTable.search(search_global.value).draw();
-});
 </script>
 
 <style scoped>

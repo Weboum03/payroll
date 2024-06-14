@@ -39,6 +39,16 @@ class BatchController extends BaseController
     public function getUsersByBatch($id, Request $request)
     {
         $users = $this->batchRepository->getUsersByBatch($id, $request);
+        $users->through(function ($user) {
+            $user->salary = 0;
+            $user->overtime = 0;
+            $user->bonus = 0;
+            $user->commission = 0;
+            $user->deduction = 0;
+            $user->reimbursement = 0;
+            $user->leave_bal = 0;
+            return $user;
+        });
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
@@ -63,14 +73,16 @@ class BatchController extends BaseController
             return $this->sendError('Not found');
         }
 
+        $mode = 'salary';
+        if($request->mode) { $mode = $request->mode; }
         $file = $request->file("attachment");
         $filepath = $file->getPathname();
 
         $array = (new UsersImport)->toCollection($filepath);
 
         if($array && $array[0]) {
-            $array[0]->each(function ($user) use($batch) {
-                $batch->employee()->where('user_id', $user['unique_id'])->update(['gross_wages' => $user['gross_wages'], 'deduction' => $user['deduction']]);
+            $array[0]->each(function ($user) use($batch, $mode) {
+                $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode]]);
             });
         }
 
@@ -85,9 +97,11 @@ class BatchController extends BaseController
             return $this->sendError('Not found');
         }
 
+        $mode = 'salary';
+        if($request->mode) { $mode = $request->mode; }
         $users = $batch->users()->with('role', 'info')->get();
 
-        $excel =  $users->map(function ($data) {
+        $excel =  $users->map(function ($data) use($mode) {
             return [
                 'unique_id' => $data['id'],
                 'employee_id' => $data['employee_id'],
@@ -95,15 +109,13 @@ class BatchController extends BaseController
                 'last_name' => $data['last_name'],
                 'company' => $data['info']['company'],
                 'location' => $data['info']['location'],
-                'over_time' => '0',
-                'wages' => '0',
-                'deduction' => '0'
+                $mode => '0',
             ];
         });
 
         // return Excel::download(new BatchExport($excel), 'batch.xlsx', \Maatwebsite\Excel\Excel::XLSX);
 
-        Excel::store(new BatchExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+        Excel::store(new BatchExport($excel, $mode), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }

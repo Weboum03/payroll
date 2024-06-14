@@ -8,15 +8,17 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class BatchExport implements FromCollection, WithHeadings
 {
     protected $data;
+    protected $column;
   
     /**
      * Write code on Method
      *
      * @return response()
      */
-    public function __construct($data)
+    public function __construct($data, $column)
     {
         $this->data = $data;
+        $this->column = $column;
     }
   
     /**
@@ -43,9 +45,7 @@ class BatchExport implements FromCollection, WithHeadings
             'Last Name',
             'Company',
             'Location',
-            'Over Time',
-            'Gross Wages',
-            'Deduction',
+            $this->column
         ];
     }
 }

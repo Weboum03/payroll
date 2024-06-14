@@ -15,6 +15,12 @@ class Payroll extends Model
         'batch_id',
         'user_id',
         'gross_wages',
-        'deduction'
+        'deduction',
+        'salary',
+        'overtime',
+        'bonus',
+        'commission',
+        'reimbursement',
+        'leave_bal',
     ];
 }
