@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <Form @submit="nextStep" keep-values :validation-schema="currentSchema"
+                <Form @submit="nextStep" keep-values :validation-schema="currentSchema" @invalid-submit="onInvalidSubmit"
                     v-slot="{ handleSubmit, values, errors }">
                     <!-- Steps -->
                     <template v-if="currentStep === 0">
@@ -43,9 +43,16 @@
                                         <Field required name="reason" as="select" class="form-control input"
                                             autocomplete="off" style="color: #7e7e7e;">
                                             <option value="" disabled selected>Reason for De-boarding*</option>
-                                            <option value="male">option1</option>
-                                            <option value="female">option2</option>
-                                            <option value="other">Other</option>
+                                            <option value="Resignation (Voluntary)">Resignation (Voluntary)</option>
+                                            <option value="Termination (Involuntary)">Termination (Involuntary)</option>
+                                            <option value="End of Contract">End of Contract</option>
+                                            <option value="Retirement">Retirement</option>
+                                            <option value="Layoff">Layoff</option>
+                                            <option value="Relocation">Relocation</option>
+                                            <option value="Career Change">Career Change</option>
+                                            <option value="Personal Reasons">Personal Reasons</option>
+                                            <option value="Health Reasons">Health Reasons</option>
+                                            <option value="Family Reasons">Family Reasons</option>
                                         </Field>
                                         <label for="reason" class="user-label">Reason for De-boarding*</label>
                                         <ErrorMessage name="reason" class="text-danger mt-1" />
@@ -55,9 +62,13 @@
                                         <Field required name="notice_period" as="select" class="form-control input"
                                             autocomplete="off" style="color: #7e7e7e;">
                                             <option value="" disabled selected>Notice Period*</option>
-                                            <option value="male">option1</option>
-                                            <option value="female">option2</option>
-                                            <option value="other">Other</option>
+                                            <option value="1 Week">1 Week</option>
+                                            <option value="2 Weeks">2 Weeks</option>
+                                            <option value="3 Weeks">3 Weeks</option>
+                                            <option value="1 Month">1 Month</option>
+                                            <option value="2 Months">2 Months</option>
+                                            <option value="3 Months">3 Months</option>
+                                            <option value="Immediate">Immediate</option>
                                         </Field>
                                         <label for="notice_period" class="user-label">Notice Period*</label>
                                         <ErrorMessage name="notice_period" class="text-danger mt-1" />
@@ -135,9 +146,7 @@
                                     <Field required name="report_to" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Re-Assign Direct Reports to*</option>
-                                        <option value="male">option1</option>
-                                        <option value="female">option2</option>
-                                        <option value="other">Other</option>
+                                        <option v-for="user in users?.data" :value="user.id">{{ user.name }}</option>
                                     </Field>
                                     <label for="report_to" class="user-label">Re-Assign Direct Reports to*</label>
                                     <ErrorMessage name="report_to" class="text-danger mt-1" />
@@ -341,7 +350,7 @@ import { ref, onMounted, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 import { useRoute, useRouter } from "vue-router";
 import DeboardDoc from "../../../components/DeboardDoc.vue";
-const { user, getUser, storeUser, validationErrors, validationMessage, isLoading, deleteUser } = useUsers();
+const { users, user, getUser, getReportingUsers, storeUser, validationErrors, validationMessage, isLoading, deleteUser } = useUsers();
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
@@ -388,12 +397,20 @@ const deleteInput = (id) => {
 
 const schemas = [
     yup.object({
-        reason: yup.string().required("Required!"),
-        notice_period: yup.string().required("Required!"),
-        // comment: yup.string().required('Required!'),
-        start_date: yup.string().required("Required!"),
-        final_employment_date: yup.string().required("Required!"),
-        // final_working_date: yup.string().required("Required!"),
+        reason: yup.string().required(),
+        notice_period: yup.string().required("Notice Period is required!"),
+        start_date: yup.string().required("De-Boarding Date is required!"),
+        final_employment_date: yup.string().required("Final Employment Date is required!")
+        .test('is-greater', 'Final Employment date should be greater than De-Boarding date', function(value) {
+        const { start_date } = this.parent;
+        const date = new Date(value);
+        // Get year, month, and day part from the date
+        var year = date.toLocaleString("default", { year: "numeric" });
+        var month = date.toLocaleString("default", { month: "2-digit" });
+        var day = date.toLocaleString("default", { day: "2-digit" });
+        var formattedDate = year + "-" + month + "-" + day;
+        return !start_date || !value || formattedDate > start_date;
+        }),
         final_working_date: yup.date().required('End date is required')
         .test('is-greater', 'Final Working date should be greater than De-Boarding date', function(value) {
         const { start_date } = this.parent;
@@ -407,18 +424,19 @@ const schemas = [
         }),
     }),
     yup.object({
-        report_to: yup.string().required("Required!"),
+        report_to: yup.string().required("Report To Required!"),
         // support_comment: yup.string().required("Required!"),
         // re_employable: yup.string().required("Required!"),
     }),
     yup.object({
-        remaining_pl_year: yup.string().required("Required!"),
-        remaining_pl_leave: yup.string().required("Required!"),
+        remaining_pl_year: yup.string().required("Remaining Earned Leaves this year is required!"),
+        remaining_pl_leave: yup.string().required("Remaining Earned Leaves is required!!"),
     }),
 ];
 
 onMounted(async () => {
     getUser(route.params.id)
+    getReportingUsers()
 });
 
 const currentSchema = computed(() => {
@@ -444,6 +462,15 @@ async function nextStep(values, user) {
     }
     currentStep.value++;
     boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+}
+
+function onInvalidSubmit({ values, errors, results }) {
+    if (Object.keys(errors).length > 0) {
+        swal({
+            icon: "error",
+            title: Object.values(errors)[0],
+        });
+    }
 }
 
 function cancel() {

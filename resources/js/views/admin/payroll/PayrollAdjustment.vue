@@ -17,9 +17,16 @@
                             <select class="form-control input" id="UpdateMode" required autocomplete="off"
                                 style="color: #131313;">
                                 <option value="" selected>Update Mode*</option>
-                                <option value="Option1">Option1</option>
-                                <option value="Option2">Option2</option>
-                                <option value="other">Other</option>
+                                <option value="Update Salary">Update Salary</option>
+                                <option value="Overtime hours">Overtime hours</option>
+                                <option value="Bonus Adjustment">Bonus Adjustment</option>
+                                <option value="Commission Adjustment">Commission Adjustment</option>
+                                <option value="Deduction Adjustment">Deduction Adjustment</option>
+                                <option value="Reimbursement Adjustment">Reimbursement Adjustment</option>
+                                <option value="Salary Correction">Salary Correction</option>
+                                <option value="Leave Balance Adjustment">Leave Balance Adjustment</option>
+                                <option value="Shift Differential Adjustment">Shift Differential Adjustment</option>
+                                <option value="Retroactive Pay Adjustment">Retroactive Pay Adjustment</option>
                             </select>
                             <label class="user-label">Update Mode*</label>
                         </div>
@@ -34,7 +41,7 @@
                     <div id="dwnldFile" class="d-flex align-items-center justify-content-start"
                         style="gap: 1rem;font-size: 14px;font-weight: 700;font-family:  sans-serif;">Download file
                         pre-field with employee data to make adjustment
-                        <i class="fa-solid fa-download fa-sm"
+                        <i class="fa-solid fa-download fa-sm" @click="downloadFileBatch"
                             style="background-color: #2DB9F8;width: 36px;height: 33px;border-radius: 6px;text-align: center;align-items: center;justify-content: center;display: flex;color: white;"></i>
                     </div>
 
@@ -44,16 +51,14 @@
                     <span>Upload Excel file*</span>
                     <div class="input-group is-invalid">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="validatedInputGroupCustomFile" required>
+                            <input type="file" class="custom-file-input"  @change="handleFileSelect" id="validatedInputGroupCustomFile" required>
                             <label class="custom-file-label" for="validatedInputGroupCustomFile">Select File...</label>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center align-items-center" style="gap: 1.4rem;margin-left: -280px;">
 
-                    <router-link :to="{ name: 'admin.PayrollBatchProcess' }" custom v-slot="{ navigate }">
-                        <button @click="navigate" role="link" type="button" class="btn vldExcel ">Validate Excel</button>
-                    </router-link>
+                        <button @click="uploadFile" :disabled="!selectedFile" role="link" type="button" class="btn vldExcel ">Validate Excel</button>
 
                     
                     <button type="button" class="btn btn-cancle cancle">Cancle</button>
@@ -75,122 +80,75 @@
                         aria-hidden="true"></i>
                 </template>
             </DataTable>
-
-            <!-- <table id="PayrollAdjustment-Table" ref="myTable">
-                <thead>
-                    <tr>
-                        <th> Sr.No.</th>
-                        <th>EMP Id</th>
-                        <th> First Name</th>
-                        <th>Last Name</th>
-                        <th>Company</th>
-                        <th>Location</th>
-                        <th>Over Time</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="SrNo">1</td>
-                        <td id="EmpId">1016636</td>
-                        <td id="FName">David</td>
-                        <td id="LName">Ince</td>
-                        <td id="Company">Aenean quis placerat</td>
-                        <td id="Location">west Eleaser, Arkansas</td>
-                        <td id="OTime">0</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">2</td>
-                        <td id="EmpId">1035103</td>
-                        <td id="FName">Boris</td>
-                        <td id="LName">Gibson</td>
-                        <td id="Company">Crash in justo</td>
-                        <td id="Location">Emmieburgh, Ohio</td>
-                        <td id="OTime">0</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">3</td>
-                        <td id="EmpId">1092073</td>
-                        <td id="FName">Tracey</td>
-                        <td id="LName">Hughes</td>
-                        <td id="Company">Donec pellentesque</td>
-                        <td id="Location">Randallview, Nebraska</td>
-                        <td id="OTime">2,651.20</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">4</td>
-                        <td id="EmpId">1113615</td>
-                        <td id="FName">Jennifer</td>
-                        <td id="LName">Grant</td>
-                        <td id="Company">Aliquam sadales</td>
-                        <td id="Location">East Treva, Kentucky</td>
-                        <td id="OTime">0</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">5</td>
-                        <td id="EmpId">1204429</td>
-                        <td id="FName">Peter</td>
-                        <td id="LName">Nolan</td>
-                        <td id="Company">Vitae neque vel</td>
-                        <td id="Location">rauside, South Dakota</td>
-                        <td id="OTime">8,456.12</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">6</td>
-                        <td id="EmpId">1273333</td>
-                        <td id="FName">William</td>
-                        <td id="LName">Coleman</td>
-                        <td id="Company">Proin at nisl et</td>
-                        <td id="Location">Port Annette, New Hampshire</td>
-                        <td id="OTime">0</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">7</td>
-                        <td id="EmpId">1432342</td>
-                        <td id="FName">Michael</td>
-                        <td id="LName">Spinger</td>
-                        <td id="Company">Vivamus ut dolor</td>
-                        <td id="Location">Pollyview, Wisconsin</td>
-                        <td id="OTime">0</td>
-                    </tr>
-                    <tr>
-                        <td id="SrNo">8</td>
-                        <td id="EmpId">1501418</td>
-                        <td id="FName">Boris</td>
-                        <td id="LName">Murray</td>
-                        <td id="Company">Aenean quis nisi</td>
-                        <td id="Location">Riceberg, New York </td>
-                        <td id="OTime">0</td>
-                    </tr>
-                </tbody>
-            </table> -->
         </div>
     </div>
 </template>
 
 
 <script setup>
-import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
+import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch, inject } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
-
-const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, exportBatch,importBatch, getBatchUsers, loading: isLoading, success } = useBatch();
 const router = useRouter();
 const route = useRoute();
 const myTable = ref(null);
 const search_global = ref('');
 let dataTable = ref(null);
 const isDataTableInitialized = ref(false)
+const text = ref('Validate Excel')
+const swal = inject('$swal')
 
 onMounted(() => {
     loadDataTable();
     getBatchUsers(route.params.id)
     getBatch(route.params.id)
 });
+
+const downloadFileBatch = async () => {
+    let response = await exportBatch(route.params.id);
+    downloadFile(response)
+}
+
+const downloadFile = async (response) => {
+    const url = response.data;
+    const link = document.createElement('a');
+    link.href = url;
+    let fileName = 'downloaded_file.xlsx';
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    swal({
+        icon: "success",
+        title: "Export successfully",
+    });
+}
+
+const selectedFile = ref(null)
+
+const handleFileSelect = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        selectedFile.value = file;
+      }
+}
+
+const uploadFile = (event) => {
+    text.value = 'Processing';
+    setTimeout(async () => {
+
+        if (!selectedFile.value) {
+            alert("Please select a file first!");
+            return;
+        }
+        let response = await importBatch(route.params.id, {attachment : selectedFile.value});
+
+    }, 1000);
+}
 
 const tableHeaders = [
     { key: 'id', label: 'Sr No.', sorting: true },

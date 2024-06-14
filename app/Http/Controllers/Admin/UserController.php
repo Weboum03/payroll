@@ -40,6 +40,19 @@ class UserController extends BaseController
         return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
+
+    public function getReportUsers(Request $request)
+    {
+        $users = $this->userRepository->listing($request);
+        $users->map(function ($user) {
+            $picture = $user->getFirstMedia('user_profile_picture');
+            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->makeHidden('media');
+            return $user;
+        });
+        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -91,7 +104,7 @@ class UserController extends BaseController
             }
         }
         
-        return $this->sendResponse($user, __('AdminMessage.customerAdd'));
+        return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }
 
     /**
@@ -110,7 +123,7 @@ class UserController extends BaseController
         $mediaItems = $user->getMedia("*");
         $user->setAttribute('files', $mediaItems);
         $user->makeHidden('media');
-        return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
+        return $this->sendResponse($user, __('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -156,7 +169,7 @@ class UserController extends BaseController
             }
         }
 
-        return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
+        return $this->sendResponse($user, __('ApiMessage.customerUpdate'));
     }
 
     /**
@@ -178,6 +191,6 @@ class UserController extends BaseController
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
         $this->userRepository->deleteById($id);
-        return $this->sendSuccess(__('AdminMessage.customerDelete'));
+        return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 }

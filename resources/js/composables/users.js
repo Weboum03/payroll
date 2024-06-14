@@ -23,6 +23,17 @@ export default function useUsers() {
             });
     };
 
+    const getReportingUsers = async (filters=[]) => {
+        let queryString = new URLSearchParams(filters).toString();
+        if(queryString) { queryString = '?'+ queryString }
+        return apiClient
+            .get(
+                "/admin/user/reporting"+queryString)
+            .then((response) => {
+                users.value = response.data;
+            });
+    };
+
     const getUser = async (id) => {
         apiClient.get("/admin/users/" + id).then((response) => {
             user.value = response.data.data;
@@ -123,6 +134,7 @@ export default function useUsers() {
         users,
         user,
         getUsers,
+        getReportingUsers,
         getUser,
         storeUser,
         updateUser,

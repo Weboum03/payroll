@@ -68,7 +68,7 @@ class LeaveController extends BaseController
         $leave->save();
         $userInfo->decrement('earning_leave_entitlement', $leave->duration);
         
-        return $this->sendResponse($leave, __('AdminMessage.customerAdd'));
+        return $this->sendResponse($leave, __('ApiMessage.customerAdd'));
     }
 
     /**
@@ -77,7 +77,7 @@ class LeaveController extends BaseController
     public function show(string $id)
     {
         $leave = $this->leaveRepository->getById($id);
-        return $this->sendResponse($leave, __('AdminMessage.retrievedMessage'));
+        return $this->sendResponse($leave, __('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -86,7 +86,13 @@ class LeaveController extends BaseController
     public function getByUser(int $userId)
     {
         $leave = $this->leaveRepository->getByUserId($userId);
-        return $this->sendResponse($leave, __('AdminMessage.retrievedMessage'));
+        return $this->sendResponse($leave, __('ApiMessage.retrievedMessage'));
+    }
+
+    public function getLeaveTypes()
+    {
+        $leave = $this->leaveRepository->getLeaveTypes();
+        return $this->sendResponse($leave, __('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -107,7 +113,7 @@ class LeaveController extends BaseController
             }
         }
         $leave->save();
-        return $this->sendResponse($leave, __('AdminMessage.customerUpdate'));
+        return $this->sendResponse($leave, __('ApiMessage.customerUpdate'));
     }
 
     /**
@@ -116,6 +122,6 @@ class LeaveController extends BaseController
     public function destroy(string $id)
     {
         $this->leaveRepository->deleteById($id);
-        return $this->sendSuccess(__('AdminMessage.customerDelete'));
+        return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 }

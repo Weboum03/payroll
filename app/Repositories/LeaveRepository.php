@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\LeaveApplication as Leave;
+use App\Models\LeaveType;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,10 @@ class LeaveRepository extends BaseRepository
     public function getByUserId(int $userId): Collection
     {
         return $this->model->where('user_id', $userId)->latest()->with('user','type')->get();
+    }
+
+    public function getLeaveTypes() {
+        return LeaveType::all();
     }
 
     public function getByPhone(string $phone)

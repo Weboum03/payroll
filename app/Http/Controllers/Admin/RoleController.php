@@ -44,7 +44,7 @@ class RoleController extends BaseController
             ->orderBy($orderColumn, $orderDirection)
             ->paginate(50);
 
-        return $this->sendResponse(RoleResource::collection($roles), __('AdminMessage.retrievedMessage'));
+        return $this->sendResponse(RoleResource::collection($roles), __('ApiMessage.retrievedMessage'));
     }
 
     /**

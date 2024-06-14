@@ -43,7 +43,7 @@
                     </div>
                     <div class="row">
                         <div class="col input-group-fname">
-                            <Field type="text" name="from" class="input" onfocus="(this.type='date')"
+                            <Field type="date" name="from" class="input"
                                 autocomplete="off" placeholder="From Date*"
                                 :class="{ 'is-invalid': errors.from }" />
                             <label for="html" class="user-label ">From Date*</label>
@@ -68,7 +68,7 @@
 
                     <div class="row">
                         <div class="col input-group-fname">
-                            <Field type="text" name="to" class="input" onfocus="(this.type='date')"
+                            <Field type="date" name="to" class="input"
                                 autocomplete="off" placeholder="To Date*"
                                 :class="{ 'is-invalid': errors.to }" />
                             <label for="html" class="user-label ">To Date*</label>

@@ -29,6 +29,10 @@ const getApiPath = {
 
     processBatch(id) { return apiService.update(`admin/batches/${id}/process`); },
 
+    exportBatch(id) { return apiService.update(`admin/batches/${id}/export`); },
+
+    importBatch(id, params) { return apiService.post(`admin/batches/${id}/import`,params); },
+
     updateBadgeById(id, params) { return apiService.update(`admin/batches/${id}`, params); },
 
     deleteBadgeById(id) { return apiService.delete(`admin/batches/${id}`); },

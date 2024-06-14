@@ -101,6 +101,8 @@ class BatchController extends BaseController
             ];
         });
 
+        // return Excel::download(new BatchExport($excel), 'batch.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+
         Excel::store(new BatchExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
@@ -160,7 +162,7 @@ class BatchController extends BaseController
         //     return $this->sendError($validator->errors()->first(), $validator->errors());
         // }
         $user = $this->batchRepository->create($input);
-        return $this->sendResponse($user, __('AdminMessage.customerAdd'));
+        return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }
 
     /**
@@ -169,7 +171,7 @@ class BatchController extends BaseController
     public function show(string $id)
     {
         $user = $this->batchRepository->getById($id);
-        return $this->sendResponse($user, __('AdminMessage.retrievedMessage'));
+        return $this->sendResponse($user, __('ApiMessage.retrievedMessage'));
     }
 
     /**
@@ -179,7 +181,7 @@ class BatchController extends BaseController
     {
         $input = $request->all();
         $user = $this->batchRepository->updateById($id, $input);
-        return $this->sendResponse($user, __('AdminMessage.customerUpdate'));
+        return $this->sendResponse($user, __('ApiMessage.customerUpdate'));
     }
 
     /**
@@ -188,12 +190,12 @@ class BatchController extends BaseController
     public function destroy(string $id)
     {
         $this->batchRepository->deleteById($id);
-        return $this->sendSuccess(__('AdminMessage.customerDelete'));
+        return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 
     public function deleteUserByBatch(string $id, int $userId)
     {
         $this->batchRepository->deleteUserByBatch($id, $userId);
-        return $this->sendSuccess(__('AdminMessage.customerDelete'));
+        return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 }

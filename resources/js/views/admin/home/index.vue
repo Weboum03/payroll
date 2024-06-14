@@ -461,8 +461,6 @@ import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import useBatches from "@/composables/payrollBatch";
-
-const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
 import { useRouter } from "vue-router";
@@ -470,12 +468,13 @@ import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Use the appropriate CSS file for your project
 import DataTable from 'datatables.net-vue3';
-
 import DataTablesCore from 'datatables.net';
 // import Select from 'datatables.net-select';
 
 // DataTable.use(DataTablesCore);
 import {useAbility} from '@casl/vue';
+
+const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
 const {can} = useAbility()
 
 const router = useRouter();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LeaveController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -30,6 +31,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('logout', [AuthController::class, 'logout']);
     $router->post('refresh', [AuthController::class, 'refresh']);
     $router->get('user', [AuthController::class, 'me']);
+
+    $router->post('leaves', [LeaveController::class, 'store']);
+    $router->get('leaves_type', [LeaveController::class, 'getLeaveTypes']);
 
     //Notification
     $router->get('notifications/{notification_id}', [NotificationController::class, 'show']);

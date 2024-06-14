@@ -86,6 +86,42 @@ export default function useBatch() {
         }
     };
 
+    const exportBatch = async (id, data) => {
+        loading.value = true;
+        try {
+            return await getApiPath.exportBatch(id);
+        } catch (err) {
+            error.value = err;
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+
+    const importBatch = async (id, data) => {
+        loading.value = true;
+        try {
+            console.log('shahid', data)
+            let serializedPost = new FormData();
+            for (let item in data) {
+                if (data.hasOwnProperty(item)) {
+                    serializedPost.append(item, data[item]);
+                }
+            }
+            serializedPost.append('sf', 'sdgf');
+            return await getApiPath.importBatch(id, serializedPost);
+        } catch (err) {
+            error.value = err;
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const addEmployee = async (id, data) => {
         loading.value = true;
         try {
@@ -203,6 +239,8 @@ export default function useBatch() {
         getBatchUsers,
         deleteBatchUser,
         processBatch,
+        exportBatch,
+        importBatch,
         fetchOne,
         create,
         addEmployee,

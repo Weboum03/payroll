@@ -602,7 +602,7 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="this_year" placeholder="This Year"
+                                    <Field required type="number" name="this_year" placeholder="This Year"
                                         v-model="userData.this_year" :class="{ 'is-invalid': errors.this_year }"
                                         class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">This Year</label>
@@ -610,7 +610,7 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="next_year" placeholder="Next Year"
+                                    <Field required type="number" name="next_year" placeholder="Next Year"
                                         v-model="userData.next_year" :class="{ 'is-invalid': errors.next_year }"
                                         class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">Next Year</label>
@@ -997,13 +997,21 @@ const schemas = [
         pan_number: yup.string().nullable().test('length', 'Invalid PAN number',
             value => value === null || value === '' || value.length === 10),
     }),
-    //   yup.object({
-    //     address: yup.string().required(),
-    //     postalCode: yup
-    //       .string()
-    //       .required()
-    //       .matches(/^[0-9]+$/, 'Must be numeric'),
-    //   }),
+      yup.object({
+        earning_leave_entitlement: yup
+          .string()
+          .matches(/^[0-9]+$/, 'Must be numeric'),
+        this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
+        .test('is-greater', 'This year value must be less than Annual Earned Leave Entitlement', function(value) {
+        const { earning_leave_entitlement } = this.parent;
+        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        }),
+        next_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
+        .test('is-greater', 'Next year value must be less than Annual Earned Leave Entitlement', function(value) {
+        const { earning_leave_entitlement } = this.parent;
+        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        }),
+      }),
     //   yup.object({
     //     terms: yup.bool().required().equals([true]),
     //   }),
