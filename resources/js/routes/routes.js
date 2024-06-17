@@ -150,7 +150,7 @@ export default [
             },
             {
                 name: "admin.PayrollBatchProcess",
-                path: "PayrollBatchProcess",
+                path: "PayrollBatchProcess/:id",
                 component: () => import("../views/admin/payroll/PayrollBatchProcess.vue"),
                 meta: { breadCrumb: "Admin" },
             },

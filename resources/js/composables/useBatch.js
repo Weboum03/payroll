@@ -1,4 +1,4 @@
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import getApiPath from "@/services/apiPaths";
 
 export default function useBatch() {
@@ -89,6 +89,7 @@ export default function useBatch() {
     const exportBatch = async (id, data) => {
         loading.value = true;
         try {
+            
             return await getApiPath.exportBatch(id, data);
         } catch (err) {
             error.value = err;
@@ -102,16 +103,17 @@ export default function useBatch() {
 
     const importBatch = async (id, data) => {
         loading.value = true;
+        success.value = false;
         try {
-            console.log('shahid', data)
             let serializedPost = new FormData();
             for (let item in data) {
                 if (data.hasOwnProperty(item)) {
                     serializedPost.append(item, data[item]);
                 }
             }
-            serializedPost.append('sf', 'sdgf');
-            return await getApiPath.importBatch(id, serializedPost);
+            let response =  await getApiPath.importBatch(id, serializedPost);
+            success.value = true;
+            return response;
         } catch (err) {
             error.value = err;
             if (error.response?.data) {
@@ -246,6 +248,6 @@ export default function useBatch() {
         addEmployee,
         update,
         remove,
-        success,
+        success
     };
 }

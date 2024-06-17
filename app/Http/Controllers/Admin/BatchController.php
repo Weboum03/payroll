@@ -82,7 +82,9 @@ class BatchController extends BaseController
 
         if($array && $array[0]) {
             $array[0]->each(function ($user) use($batch, $mode) {
-                $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode]]);
+                if(array_key_exists($mode, $user->toArray())) {
+                    $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode]]);
+                }
             });
         }
 

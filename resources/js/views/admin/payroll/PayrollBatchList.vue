@@ -79,7 +79,7 @@
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, inject, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
-const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, create: storeBatch, deleteBatchUser, loading: isLoading, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, deleteBatchUser, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -121,26 +121,9 @@ const deleteUser = async (userId) => {
 }
 
 onMounted(() => {
-    loadDataTable();
     getBatchUsers(route.params.id)
     getBatch(route.params.id)
 });
-
-const loadDataTable = () => {
-    const dataTableOptions = {
-        "pagingType": "full_numbers",
-        "bLengthChange": false,
-        "columnDefs": [
-            { "className": "text-center", "targets": "_all" } // Center-align all columns
-        ],
-        processing: true,
-    }
-    if (!isDataTableInitialized.value) {
-        dataTable = $(myTable.value).DataTable(dataTableOptions);
-        console.log(dataTable)
-        isDataTableInitialized.value = true;
-    }
-}
 
 watch(search_global, (current, previous) => {
     dataTable.search(search_global.value).draw();

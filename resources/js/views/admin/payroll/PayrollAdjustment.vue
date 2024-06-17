@@ -145,16 +145,16 @@ const handleFileSelect = (event) => {
       }
 }
 
-const uploadFile = (event) => {
+const uploadFile = async (event) => {
     text.value = 'Processing';
-    setTimeout(async () => {
-
+    await setTimeout(async () => {
         if (!selectedFile.value) {
             alert("Please select a file first!");
             return;
         }
         let response = await importBatch(route.params.id, {attachment : selectedFile.value,mode:mode.value});
         text.value = 'Validate Excel';
+        if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
     }, 1000);
 }
 
