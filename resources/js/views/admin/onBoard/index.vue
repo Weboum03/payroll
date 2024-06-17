@@ -741,7 +741,11 @@
                             <a id="myAnchor" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
                         </div>
                     </div>
+                    <template>
+                        <div v-if="valErrors = errors"></div>
+                    </template>
                 </Form>
+                
             </form>
         </div>
 
@@ -789,15 +793,7 @@ import { ref, reactive, computed, inject } from 'vue';
 import useUsers from "@/composables/users";
 import UploadDoc from "@/components/UploadDoc.vue";
 import { countries } from "@/constants/countries";
-
-function onInvalidSubmit({ values, errors, results }) {
-    if (Object.keys(errors).length > 0) {
-        swal({
-            icon: "error",
-            title: Object.values(errors)[0],
-        });
-    }
-}
+const valErrors = ref({});
 
 const router = useRouter()
 const { storeUser, isLoading } = useUsers();
@@ -815,6 +811,21 @@ const childComponents = ref([]);
 
 localAddress.value.country = 'IN';
 perAddress.value.country = 'IN';
+
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
+function onInvalidSubmit({ values, errors, results }) {
+    let current = valErrors.value;
+    if (Object.keys(current).length > 0) {
+        swal({
+            icon: "error",
+            title: capitalize(Object.values(current)[0]),
+        });
+    }
+}
 
 watch(sameAsLocal, (current, previous) => {
     if(sameAsLocal.value === true) {
@@ -848,20 +859,20 @@ const schemas = [
     first_name: yup.string().required('First name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
     last_name: yup.string().required('Last name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
-    email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
+    email: yup.string().required('Email is required').matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
     secondary_email: yup.string().email('Invalid Email').nullable(),
-    phone: yup.string().required().min(10).max(10),
+    phone: yup.string().required('Phone is required').min(10).max(10),
     alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
           value => value === null || value === '' || value.length === 10),
-    gender: yup.string().required(),
-    password: yup.string().required(),
-    dob: yup.string().required(),
-    address: yup.string().required(),
-    address_1: yup.string().required('address 2 is required'),
-    city: yup.string().required(),
-    state: yup.string().required(),
-    country: yup.string().required(),
-    postcode: yup.string().required().test('length', 'Invalid postcode', 
+    gender: yup.string().required('Gender is required'),
+    password: yup.string().required('Password is required'),
+    dob: yup.string().required('Date of Birth is required'),
+    address: yup.string().required('Address is required'),
+    address_1: yup.string().required('Address 2 is required'),
+    city: yup.string().required('City is required'),
+    state: yup.string().required('State is required'),
+    country: yup.string().required('Country is required'),
+    postcode: yup.string().required('Postcode is required').test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
 
     p_address: yup.string().required('Permanent address is required'),
@@ -869,15 +880,15 @@ const schemas = [
     p_city: yup.string().required('Permanent city is required'),
     p_state: yup.string().required('Permanent state is required'),
     p_country: yup.string().required('Permanent country is required'),
-    p_postcode: yup.string().required().test('length', 'Invalid postcode', 
+    p_postcode: yup.string().required('Permanent postcode is required').test('length', 'Invalid postcode', 
             value => value === null || value === '' || value.length === 6),
   }),
   yup.object({
-    employee_id: yup.string().required(),
+    employee_id: yup.string().required('Employee ID is required'),
     role_id: yup.string().required('Role is required'),
-    doj: yup.string().required(),
+    doj: yup.string().required('Date of joining is required'),
     // prob_end_date: yup.string().required("Required!"),
-    prob_end_date: yup.string().required('End date is required')
+    prob_end_date: yup.string().required('Probation End date is required')
         .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
         const { doj } = this.parent;
         const date = new Date(value);
@@ -890,10 +901,18 @@ const schemas = [
         }),
     // aadhar_number: yup.string().required("Required!"),
     // pan_number: yup.string().required("Required!"),
-    aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
-          value => value === null || value === '' || value.length === 12),
-    pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
-          value => value === null || value === '' || value.length === 10),
+    // aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', 
+    //       value => value === null || value === '' || value.length === 12),
+        pan_number: yup.string().nullable().test('length', 'Invalid PAN number', 
+            value => value === null || value === '' || value.length === 10),
+            pan_number: yup.string().nullable()
+            .test('is-greater', 'Invalid PAN card number', function(value) {
+                const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+                if (value != null && value != '' && !panCardPattern.test(value)) {
+                    return false;
+                }
+                return true;
+            }),
   }),
   yup.object({
         earning_leave_entitlement: yup

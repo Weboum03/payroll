@@ -306,7 +306,9 @@
                             </div>
                         </div>
                     </div>
-
+                    <template>
+                        <div v-if="valErrors = errors"></div>
+                    </template>
                 </Form>
             </div>
         </div>
@@ -346,7 +348,7 @@
 <script setup>
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { ref, onMounted, reactive, computed, inject } from 'vue';
+import { ref, onMounted, reactive, computed, inject, watch } from 'vue';
 import useUsers from "@/composables/users";
 import { useRoute, useRouter } from "vue-router";
 import DeboardDoc from "../../../components/DeboardDoc.vue";
@@ -356,7 +358,7 @@ const router = useRouter();
 const swal = inject('$swal')
 const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
-
+const valErrors = ref({});
 
 const uploadComponent = ref([
     {
@@ -385,6 +387,21 @@ const uploadComponent = ref([
     }
 ]);
 
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
+function onInvalidSubmit({ values, errors, results }) {
+    let current = valErrors.value;
+    if (Object.keys(current).length > 0) {
+        swal({
+            icon: "error",
+            title: capitalize(Object.values(current)[0]),
+        });
+    }
+}
+
 const updateDocRefValue = (newValue) => {
     filesToUpload.value[newValue.name] = newValue.path;
     console.log('Rahul',newValue);
@@ -397,7 +414,7 @@ const deleteInput = (id) => {
 
 const schemas = [
     yup.object({
-        reason: yup.string().required(),
+        reason: yup.string().required('Reason is required'),
         notice_period: yup.string().required("Notice Period is required!"),
         start_date: yup.string().required("De-Boarding Date is required!"),
         final_employment_date: yup.string().required("Final Employment Date is required!")
@@ -462,15 +479,6 @@ async function nextStep(values, user) {
     }
     currentStep.value++;
     boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
-}
-
-function onInvalidSubmit({ values, errors, results }) {
-    if (Object.keys(errors).length > 0) {
-        swal({
-            icon: "error",
-            title: Object.values(errors)[0],
-        });
-    }
 }
 
 function cancel() {

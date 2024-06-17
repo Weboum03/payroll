@@ -711,6 +711,9 @@
                                 @click="cancel">Cancel</a>
                         </div>
                     </div>
+                    <template>
+                        <div v-if="valErrors = errors"></div>
+                    </template>
                 </Form>
             </form>
 
@@ -775,7 +778,7 @@ const oldPerAddress = ref({});
 const preview = ref();
 const checkAll = ref();
 const childComponents = ref([]);
-
+const valErrors = ref({});
 
 
 watch(sameAsLocal, (current, previous) => {
@@ -794,11 +797,17 @@ watch(checkAll, (current, previous) => {
     });
 });
 
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
 function onInvalidSubmit({ values, errors, results }) {
-    if (Object.keys(errors).length > 0) {
+    let current = valErrors.value;
+    if (Object.keys(current).length > 0) {
         swal({
             icon: "error",
-            title: Object.values(errors)[0],
+            title: capitalize(Object.values(current)[0]),
         });
     }
 }
@@ -951,19 +960,19 @@ const schemas = [
         first_name: yup.string().required('First name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
         middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
         last_name: yup.string().required('Last name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
-        email: yup.string().required().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
+        email: yup.string().required('Email is required').matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
         secondary_email: yup.string().email('Invalid Email').nullable(),
-        phone: yup.string().required().min(10).max(10),
+        phone: yup.string().required('Phone is required').min(10).max(10),
         alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
             value => value === null || value === '' || value.length === 10),
-        gender: yup.string().required(),
-        dob: yup.string().required(),
-        address: yup.string().required(),
-        address_1: yup.string().required('address 2 is required'),
-        city: yup.string().required(),
-        state: yup.string().required(),
-        country: yup.string().required(),
-        postcode: yup.string().required().test('length', 'Invalid postcode', 
+            gender: yup.string().required('Gender is required'),
+        dob: yup.string().required('Date of Birth is required'),
+        address: yup.string().required('Address is required'),
+        address_1: yup.string().required('Address 2 is required'),
+        city: yup.string().required('City is required'),
+        state: yup.string().required('State is required'),
+        country: yup.string().required('Country is required'),
+        postcode: yup.string().required('Postcode is required').test('length', 'Invalid postcode', 
                 value => value === null || value === '' || value.length === 6),
 
         p_address: yup.string().required('Permanent address is required'),
@@ -971,9 +980,9 @@ const schemas = [
         p_city: yup.string().required('Permanent city is required'),
         p_state: yup.string().required('Permanent state is required'),
         p_country: yup.string().required('Permanent country is required'),
-        p_postcode: yup.string().required().test('length', 'Invalid postcode', 
-            value => value === null || value === '' || value.length === 6),
-    }),
+        p_postcode: yup.string().required('Permanent postcode is required').test('length', 'Invalid postcode', 
+                value => value === null || value === '' || value.length === 6),
+        }),
     yup.object({
         employee_id: yup.string().required("Required!"),
         role_id: yup.string().required("Required!"),
@@ -994,8 +1003,19 @@ const schemas = [
         // pan_number: yup.string().required("Required!"),
         aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number',
             value => value === null || value === '' || value.length === 12),
-        pan_number: yup.string().nullable().test('length', 'Invalid PAN number',
-            value => value === null || value === '' || value.length === 10),
+        // pan_number: yup.string().nullable().test('length', 'Invalid PAN number',
+        //     value => value === null || value === '' || value.length === 10),
+
+        pan_number: yup.string().nullable()
+        .test('is-greater', 'Invalid PAN card number', function(value) {
+            const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (value != null && value != '' && !panCardPattern.test(value)) {
+                return false;
+            }
+            return true;
+        }),
+
+        
     }),
       yup.object({
         earning_leave_entitlement: yup
@@ -1075,7 +1095,7 @@ async function submitForm(user) {
     await updateUser(user);
 }
 
-async function nextStep(values, user) {
+async function nextStep(values, errors) {
     if (currentStep.value === 3) {
         userDetail.value = values;
         userData.value.as_local = sameAsLocal.value;
