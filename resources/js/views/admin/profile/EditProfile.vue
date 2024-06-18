@@ -821,6 +821,16 @@ const getUploadDocData = () => {
     return files;
 }
 
+const getOldUploadDocData = () => {
+    let files = [];
+    childComponents.value.forEach((childRef) => {
+        if (childRef) {
+            files.push({id: childRef.id, check: childRef.checked});
+        }
+    });
+    return files;
+}
+
 
 onMounted(async () => {
     getUser(route.params.id)
@@ -913,26 +923,21 @@ watchEffect(() => {
     // console.log('oldData2', userData.value)
 
     let files = user?.files;
-    console.log('files', files)
     if(files) {
-
-//         files.forEach(number => {
-//   console.log(number);
-// });
-
-//         Array.from(files).forEach((value, index) => {
-//   console.log(`Element at index ${index} is ${value}`);
-// });
-
-        // files.forEach(element => {
-        //     uploadComponent.value.push({
-        //         id: Math.random().toString(36).substring(7),
-        //         title: element.title,
-        //         type: element.collection_name,
-        //         check:element.check,
-        //         edit: true
-        //     });
-        // });
+        for (var key in files) {
+            console.log(files[key]);
+            let element = files[key];
+            if(element.custom_properties.collection_name != 'user_profile_picture') {
+                uploadComponent.value.push({
+                    id: key,
+                    title: element.custom_properties.title,
+                    type: element.custom_properties.collection_name,
+                    check:element.custom_properties.check,
+                    uploaded : true,
+                    edit: true
+                });
+            }
+        }
     }
     
 })
@@ -976,8 +981,10 @@ watchEffect(() => {
 //     }
 // ]);
 
+const deleteFiles = ref([])
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
+    deleteFiles.value.push(id)
 }
 
 const schemas = [
@@ -1125,6 +1132,7 @@ async function nextStep(values, errors) {
     if (currentStep.value === 3) {
         userDetail.value = values;
         userData.value.as_local = sameAsLocal.value;
+        userData.value.docs = getOldUploadDocData();;
         Object.assign(userData.value, {
             p_address: perAddress.value?.address,
             p_address_1: perAddress.value?.address_1,
@@ -1135,6 +1143,7 @@ async function nextStep(values, errors) {
             check_all: checkAll.value
         });
         userData.value.attachments = getUploadDocData();
+        userData.value.delete_files = deleteFiles.value;
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
     }
     userDetail.value = values;

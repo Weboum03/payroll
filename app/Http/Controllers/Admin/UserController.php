@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 
 class UserController extends BaseController
@@ -161,11 +162,32 @@ class UserController extends BaseController
         $checkAll = $request->check_all;
         if($checkAll) { $checkAll = true; } else { $checkAll = false; }
         $attachments = $request->attachments;
+        $files = $request->docs;
+        $deletedFiles = $request->delete_files;
+
+        if($deletedFiles) {
+            foreach($deletedFiles as $file) {
+                $media = Media::where('uuid',$file)->first();
+                if($media) {
+                    $media->delete();
+                }
+            }
+        }
+        
         if($attachments) {
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
                 $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $file['check']]);
+            }
+        }
+        if($files) {
+            foreach($files as $file) {
+                $media = Media::where('uuid',$file['id'])->first();
+                if($media) {
+                    $media->setCustomProperty('check', $file['check']);
+                    $media->save();
+                }
             }
         }
 

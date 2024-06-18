@@ -38,7 +38,12 @@ const props = defineProps({
 const text = ref('Upload Document');
 const fileInput = ref();
 const checked = ref(props.is.check || props.checked)
+const uploaded = ref(props.is.uploaded || false)
+const id = ref(props.is.id)
 
+if(uploaded.value) {
+    text.value = 'Re-Upload';
+}
 const onClick = () => {
     fileInput.value.click();
 }
@@ -90,7 +95,9 @@ const choosFile = (event) => {
 
 defineExpose({
     childMethod,
-    fileData
+    fileData,
+    checked,
+    id
 });
 
 const deleteInput = () => {
