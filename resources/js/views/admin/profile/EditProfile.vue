@@ -828,6 +828,7 @@ onMounted(async () => {
 
 });
 
+const uploadComponent = ref([])
 watchEffect(() => {
     const user = postData.value;
     // sameAsLocal.value = user?.info?.as_local;
@@ -910,46 +911,70 @@ watchEffect(() => {
         postcode: userData.value?.p_postcode,
     }
     // console.log('oldData2', userData.value)
+
+    let files = user?.files;
+    console.log('files', files)
+    if(files) {
+
+//         files.forEach(number => {
+//   console.log(number);
+// });
+
+//         Array.from(files).forEach((value, index) => {
+//   console.log(`Element at index ${index} is ${value}`);
+// });
+
+        // files.forEach(element => {
+        //     uploadComponent.value.push({
+        //         id: Math.random().toString(36).substring(7),
+        //         title: element.title,
+        //         type: element.collection_name,
+        //         check:element.check,
+        //         edit: true
+        //     });
+        // });
+    }
+    
 })
 
-const uploadComponent = ref([
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'Aadhar Card Number',
-        type: 'aadhar_proof',
-        edit: false
-    },
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'PAN Card',
-        type: 'pan_proof',
-        edit: false
-    },
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'PF & ESIC information',
-        type: 'pf_info',
-        edit: true
-    },
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'Confirmation letter',
-        type: 'confirmation_letter',
-        edit: true
-    },
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'Education Document',
-        type: 'education_doc',
-        edit: true
-    },
-    {
-        id: Math.random().toString(36).substring(7),
-        title: 'Experience Letter',
-        type: 'experience_letter',
-        edit: true
-    }
-]);
+// const uploadComponent = ref([
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'Aadhar Card Number',
+//         type: 'aadhar_proof',
+//         edit: false
+//     },
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'PAN Card',
+//         type: 'pan_proof',
+//         edit: false
+//     },
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'PF & ESIC information',
+//         type: 'pf_info',
+//         edit: true
+//     },
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'Confirmation letter',
+//         type: 'confirmation_letter',
+//         edit: true
+//     },
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'Education Document',
+//         type: 'education_doc',
+//         edit: true
+//     },
+//     {
+//         id: Math.random().toString(36).substring(7),
+//         title: 'Experience Letter',
+//         type: 'experience_letter',
+//         edit: true
+//     }
+// ]);
 
 const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
@@ -1022,14 +1047,15 @@ const schemas = [
           .string()
           .matches(/^[0-9]+$/, 'Must be numeric'),
         this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
-        .test('is-greater', 'This year value must be less than Annual Earned Leave Entitlement', function(value) {
-        const { earning_leave_entitlement } = this.parent;
-        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        .test('is-greater', 'This year value must be less than sum of Annual Earned Leave Entitlement and Next year value', function(value) {
+        const { earning_leave_entitlement, next_year } = this.parent;
+        if(Number(value) > earning_leave_entitlement) { return false; }
+        return !Number(earning_leave_entitlement) || !value || Number(value) + Number(next_year) <= Number(earning_leave_entitlement);
         }),
         next_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
         .test('is-greater', 'Next year value must be less than Annual Earned Leave Entitlement', function(value) {
         const { earning_leave_entitlement } = this.parent;
-        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        return !Number(earning_leave_entitlement) || !value || Number(value) <= Number(earning_leave_entitlement);
         }),
       }),
     //   yup.object({

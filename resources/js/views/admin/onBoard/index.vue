@@ -916,17 +916,17 @@ const schemas = [
   }),
   yup.object({
         earning_leave_entitlement: yup
-          .string()
-          .matches(/^[0-9]+$/, 'Must be numeric'),
+          .number(),
         this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
         .test('is-greater', 'This year value must be less than Annual Earned Leave Entitlement', function(value) {
-        const { earning_leave_entitlement } = this.parent;
-        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        const { earning_leave_entitlement, next_year } = this.parent;
+        if(Number(value) > earning_leave_entitlement) { return false; }
+        return !Number(earning_leave_entitlement) || !value || Number(value) + Number(next_year) <= Number(earning_leave_entitlement);
         }),
         next_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
         .test('is-greater', 'Next year value must be less than Annual Earned Leave Entitlement', function(value) {
         const { earning_leave_entitlement } = this.parent;
-        return !earning_leave_entitlement || !value || value <= earning_leave_entitlement;
+        return !Number(earning_leave_entitlement) || !value || Number(value) <= Number(earning_leave_entitlement);
         }),
       }),
 //   yup.object({

@@ -9,6 +9,12 @@
         <div id="Approvedleave-historyTable_filter" class="dataTables_filter">
             <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
             <div class="container1" style="display: flex; gap: 1rem;">
+                <select id="dropdown2" class="allActivity" v-model="pagelength"
+                style="width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
+                <option value="10">10 Activity</option>
+                <option value="25">25 Activity</option>
+                <option value="50">50 Activity</option>
+            </select>
                 <select name="SelectBydate" id="SelectBydate" v-model="dateFilter" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;">
                     <option value="" selected>All</option>
                     <option value="date">By Date</option>

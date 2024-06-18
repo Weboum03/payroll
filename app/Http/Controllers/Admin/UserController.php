@@ -100,7 +100,7 @@ class UserController extends BaseController
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
-                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'],'check' => $checkAll]);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'],'check' => $file['check']]);
             }
         }
         
@@ -165,7 +165,7 @@ class UserController extends BaseController
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
-                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $checkAll]);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $file['check']]);
             }
         }
 
