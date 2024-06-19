@@ -460,7 +460,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
-import useBatches from "@/composables/payrollBatch";
+import useBatch from "@/composables/useBatch";
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
 import { useRouter } from "vue-router";
@@ -474,7 +474,7 @@ import DataTablesCore from 'datatables.net';
 // DataTable.use(DataTablesCore);
 import {useAbility} from '@casl/vue';
 
-const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatches();
+const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
 const {can} = useAbility()
 
 const router = useRouter();

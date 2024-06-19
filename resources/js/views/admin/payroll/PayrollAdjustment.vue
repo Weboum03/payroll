@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" ref="table">
+            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData" ref="table">
                 <template v-slot:cell-company="{ row }">
                     {{ row.info?.company }}
                 </template>
@@ -119,6 +119,10 @@ const route = useRoute();
 const text = ref('Validate Excel')
 const swal = inject('$swal')
 const mode = ref('')
+
+const filterData = (filterValues) => {
+    getBatchUsers(route.params.id, filterValues)
+}
 
 onMounted(() => {
     getBatchUsers(route.params.id)

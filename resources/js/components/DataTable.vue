@@ -105,6 +105,7 @@ import {
     defineExpose,
     watch,
     computed,
+    watchEffect,
 } from "vue";
 
 const currentPage = ref(1);
@@ -151,10 +152,19 @@ const props = defineProps({
 const rowsData = ref(props.rows.data);
 const totalRecords = ref(0);
 totalRecords.value = ref(props.rows.totalRecords);
+console.log('totalRecords.value.value', totalRecords.value.value);
 const totalPages = computed(() => {
     return Math.ceil(totalRecords.value.value / pageLength.value);
 });
 
+watch(rowsData, (current, previous) => {
+    console.log('totalRecords.value.value', props.rows.totalRecords);
+    totalRecords.value = ref(props.rows.totalRecords);
+});
+
+watchEffect(() => {
+    console.log('totalRecords.value.value', totalRecords.value.value);
+})
 const paginatedRows = computed(() => {
     const start = (currentPage.value - 1) * pageLength.value;
     const end = start + pageLength.value;

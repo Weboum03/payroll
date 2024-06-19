@@ -1144,11 +1144,11 @@ async function nextStep(values, errors) {
         });
         userData.value.attachments = getUploadDocData();
         userData.value.delete_files = deleteFiles.value;
-        return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
+        return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '70'; }).catch(error => { return });
     }
     userDetail.value = values;
     currentStep.value++;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
 }
 
 function prevStep() {
@@ -1156,7 +1156,7 @@ function prevStep() {
         return;
     }
     currentStep.value--;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
 }
 
 function cancel() {
