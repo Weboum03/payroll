@@ -98,6 +98,10 @@ class BatchRepository extends BaseRepository
                     // });
 
                 })
+                ->when($request->search, function ($q) use($request) {
+                    return $q->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                })
                 ->paginate(10);
         }
         return [];

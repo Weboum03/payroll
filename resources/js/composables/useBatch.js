@@ -101,6 +101,21 @@ export default function useBatch() {
         }
     };
 
+    const downloadBatch = async (id, data) => {
+        loading.value = true;
+        try {
+            
+            return await getApiPath.downloadBatch(id, data);
+        } catch (err) {
+            error.value = err;
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const importBatch = async (id, data) => {
         loading.value = true;
         success.value = false;
@@ -242,6 +257,7 @@ export default function useBatch() {
         deleteBatchUser,
         processBatch,
         exportBatch,
+        downloadBatch,
         importBatch,
         fetchOne,
         create,

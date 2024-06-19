@@ -31,6 +31,8 @@ const getApiPath = {
 
     exportBatch(id,params) { return apiService.update(`admin/batches/${id}/export`, params); },
 
+    downloadBatch(id,params) { return apiService.update(`admin/batches/${id}/download`, params); },
+
     importBatch(id, params) { return apiService.post(`admin/batches/${id}/import`,params); },
 
     updateBadgeById(id, params) { return apiService.update(`admin/batches/${id}`, params); },

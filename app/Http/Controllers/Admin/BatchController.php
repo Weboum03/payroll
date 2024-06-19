@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\BatchExport;
+use App\Exports\BatchUserExport;
 use App\Http\Controllers\BaseController;
 use App\Imports\UsersImport;
 use App\Models\UserDetail;
@@ -118,6 +119,36 @@ class BatchController extends BaseController
         // return Excel::download(new BatchExport($excel), 'batch.xlsx', \Maatwebsite\Excel\Excel::XLSX);
 
         Excel::store(new BatchExport($excel, $mode), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
+    }
+
+    public function downloadBatch($id, Request $request) {
+
+        $batch = $this->batchRepository->getById($id);
+
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+
+        $mode = 'salary';
+        if($request->mode) { $mode = $request->mode; }
+        $users = $batch->users()->with('role', 'info')->get();
+
+        $excel =  $users->map(function ($data) use($mode) {
+            return [
+                'unique_id' => $data['id'],
+                'employee_id' => $data['employee_id'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'company' => $data['info']['company'],
+                'location' => $data['info']['location'],
+                'designation' => $data['role']['name'],
+                'doj' => $data['info']['doj'],
+            ];
+        });
+
+        Excel::store(new BatchUserExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }

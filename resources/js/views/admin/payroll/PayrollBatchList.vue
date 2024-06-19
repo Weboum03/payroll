@@ -23,7 +23,7 @@
             </div>
             <div id="PayrollbatchList-Table_filter" class="dataTables_filter"
                 style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
-                        v-model="search_global" placeholder="" aria-controls="PayrollbatchList-Table"></label>
+                        v-model="searchQuery" @input="filterRows" placeholder="" aria-controls="PayrollbatchList-Table"></label>
                 <div class="container1" v-show="!isPreview" style="display: flex; gap: 1rem;">
 
                     <router-link :to="{ name: 'admin.PayrollBatchform', params: { id: route.params.id } }" custom
@@ -47,7 +47,7 @@
                         data-target="#ProcessModal" class="Process"
                         style="background-color: #03A9F3;color: white;">Process</button>
                     <button id="button5"
-                        class="Download" style="background-color: #03A9F3;color: white;">Download</button>
+                        class="Download" @click="downloadFileBatch" style="background-color: #03A9F3;color: white;">Download</button>
                     <button type="buttonDelt" class="btn delete" style=" background-color: red;"><i
                             class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
                     </button>
@@ -79,7 +79,7 @@
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, inject, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
-const { items: batches, item: batch, fetchOne: getBatch, processBatch, remove, getBatchUsers, deleteBatchUser, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, downloadBatch, processBatch, remove, getBatchUsers, deleteBatchUser, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -87,20 +87,48 @@ import $ from 'jquery';
 import { param } from 'jquery';
 const route = useRoute()
 const router = useRouter();
-const myTable = ref(null);
+const table = ref(null)
 const search_global = ref('');
 let dataTable = ref(null);
 const isPreview = ref(false)
 const isDataTableInitialized = ref(false)
+const searchQuery = ref("");
 const swal = inject("$swal");
 
 const filterData = (filterValues) => {
     getBatchUsers(route.params.id, filterValues)
 }
 
+const downloadFileBatch = async () => {
+    let response = await downloadBatch(route.params.id);
+    downloadFile(response)
+}
+
+const downloadFile = async (response) => {
+    const url = response.data;
+    const link = document.createElement('a');
+    link.href = url;
+    let fileName = 'downloaded_file.xlsx';
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    swal({
+        icon: "success",
+        title: "Download successfully",
+    });
+}
+
+const filterRows = () => {
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+};
+
 const deleteBatch = async () => {
     await remove(route.params.id)
-    if (success) {
+    if (success.value) {
         swal({
             icon: 'success',
             title: 'Deleted successfully'
@@ -110,7 +138,7 @@ const deleteBatch = async () => {
 }
 const processData = async () => {
     await processBatch(route.params.id)
-    if (success) {
+    if (success.value) {
         swal({
             icon: 'success',
             title: 'Processed successfully'
@@ -121,7 +149,7 @@ const processData = async () => {
 }
 const deleteUser = async (userId) => {
     await deleteBatchUser(route.params.id, userId);
-    if (success) {
+    if (success.value) {
         getBatchUsers(route.params.id)
         swal({
             icon: 'success',

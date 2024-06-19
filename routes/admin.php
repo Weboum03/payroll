@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->put('batches/{id}/users', [BatchController::class, 'storeUsersByBatch']);
     $router->put('batches/{id}/process', [BatchController::class, 'processBatch']);
     $router->put('batches/{id}/export', [BatchController::class, 'exportBatch']);
+    $router->put('batches/{id}/download', [BatchController::class, 'downloadBatch']);
     $router->post('batches/{id}/import', [BatchController::class, 'importBatch']);
     $router->delete('batches/{id}/users/{userId}', [BatchController::class, 'deleteUserByBatch']);
     $router->apiResource('leaves', LeaveController::class);

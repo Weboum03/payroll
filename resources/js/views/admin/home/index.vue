@@ -431,28 +431,7 @@
                 </div>
             </div>
         </div>
-
-
     </div>
-
-    <!-- <DataTable class="display">
-    <thead>
-        <tr>
-            <th>First</th>
-            <th>Second</th>
-        </tr>
-    </thead>
-</DataTable> -->
-
-    <!-- <DataTable :data="tableData" class="display" width="100%">
-      <thead>
-        <tr>
-          <th>A</th>
-          <th>B</th>
-        </tr>
-      </thead>
-    </DataTable> -->
-    <!-- -----nav-dashboard-table end----- -->
 </template>
 
 <script setup>
@@ -474,10 +453,17 @@ import DataTablesCore from 'datatables.net';
 // DataTable.use(DataTablesCore);
 import {useAbility} from '@casl/vue';
 
-const { batches, storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
+const { batches, create: storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
 const {can} = useAbility()
 
 const router = useRouter();
+
+// const storeData = async (values) => {
+//     await storeBatch(values);
+//     if(success) {
+
+//     }
+// }
 
 const tableData = [
     [1, 2],
@@ -642,7 +628,7 @@ const closeModalTable = () => {
 };
 
 const target = ref(null)
-onClickOutside(target, () => emit('modal-close'));
+onClickOutside(target, () => closeModal());
 
 watch(success, (current, previous) => {
     router.push({ name: "admin.PayrollBatchform" });
