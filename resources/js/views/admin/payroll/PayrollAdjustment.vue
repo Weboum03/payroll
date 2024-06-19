@@ -74,8 +74,26 @@
                 <template v-slot:cell-location="{ row }">
                     {{ row.info?.location }}
                 </template>
+                <template v-slot:cell-salary="{ row }">
+                    {{ row.pivot?.salary }}
+                </template>
+                <template v-slot:cell-deduction="{ row }">
+                    {{ row.pivot?.deduction }}
+                </template>
                 <template v-slot:cell-overtime="{ row }">
-                    0
+                    {{ row.pivot?.overtime }}
+                </template>
+                <template v-slot:cell-bonus="{ row }">
+                    {{ row.pivot?.bonus }}
+                </template>
+                <template v-slot:cell-commission="{ row }">
+                    {{ row.pivot?.commission }}
+                </template>
+                <template v-slot:cell-reimbursement="{ row }">
+                    {{ row.pivot?.reimbursement }}
+                </template>
+                <template v-slot:cell-leave_bal="{ row }">
+                    {{ row.pivot?.leave_bal }}
                 </template>
                 <template v-slot:cell-action="{ row }">
                     <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
@@ -156,7 +174,7 @@ const uploadFile = async (event) => {
         }
         let response = await importBatch(route.params.id, {attachment : selectedFile.value,mode:mode.value});
         text.value = 'Validate Excel';
-        if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
+        // if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
     }, 1000);
 }
 
@@ -167,7 +185,7 @@ const tableHeaders = [
     { key: 'last_name', label: 'Last Name', sorting: true },
     { key: 'company', label: 'Company' },
     { key: 'location', label: 'Location' },
-    { key: 'salary', label: 'Salary', sorting: true }
+    { key: 'salary', label: 'Salary' }
 ];
 
 </script>

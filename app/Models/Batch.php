@@ -21,7 +21,8 @@ class Batch extends Model
     }
 
     public function users() {
-        return $this->hasManyThrough(User::class, Payroll::class, 'batch_id', 'id', 'id','user_id');
+        return $this->belongsToMany(User::class, Payroll::class, 'batch_id', 'user_id', 'id','id')
+        ->withPivot(['gross_wages','salary','deduction','overtime','bonus','commission','reimbursement','leave_bal']);
     }
 
     public function getCreatedAtAttribute($value)

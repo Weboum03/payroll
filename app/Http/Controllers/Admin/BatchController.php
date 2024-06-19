@@ -39,16 +39,16 @@ class BatchController extends BaseController
     public function getUsersByBatch($id, Request $request)
     {
         $users = $this->batchRepository->getUsersByBatch($id, $request);
-        $users->through(function ($user) {
-            $user->salary = 0;
-            $user->overtime = 0;
-            $user->bonus = 0;
-            $user->commission = 0;
-            $user->deduction = 0;
-            $user->reimbursement = 0;
-            $user->leave_bal = 0;
-            return $user;
-        });
+        // $users->through(function ($user) {
+        //     $user->salary = 0;
+        //     $user->overtime = 0;
+        //     $user->bonus = 0;
+        //     $user->commission = 0;
+        //     $user->deduction = 0;
+        //     $user->reimbursement = 0;
+        //     $user->leave_bal = 0;
+        //     return $user;
+        // });
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
