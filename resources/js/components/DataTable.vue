@@ -51,7 +51,7 @@
         <div class="dt-layout-row">
             <div class="dt-layout-cell dt-start">
                 <div class="dt-info" aria-live="polite" id="leavesEmpTable_info" role="status">
-                    Showing {{ (currentPage - 1) * pageLength + 1 }} to {{ ((currentPage*pageLength) > totalRecords.value)?totalRecords:(currentPage) * pageLength }} of
+                    Showing {{ fromNumber() }} to {{ ((currentPage*pageLength) > totalRecords.value)?totalRecords:(currentPage) * pageLength }} of
                     {{ totalRecords }} entry
                 </div>
             </div>
@@ -118,6 +118,10 @@ const filterData = ref({
     sorting: {},
 });
 
+const fromNumber = () => {
+    if(totalRecords.value.value == 0) { return 0 }
+    return (currentPage.value - 1) * pageLength.value + 1
+}
 
 const sortIcon = (header) => {
     if (header.sorting) {

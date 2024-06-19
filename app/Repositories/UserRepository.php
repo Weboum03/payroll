@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserDetail;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -67,9 +68,19 @@ class UserRepository extends BaseRepository
             //     return $q->where('employment_type', $request->employment_type);
             // });
         })
+        ->when($request->role, function ($q) use($request) {
+            return $q->where('role_id', $request->role);
+        })
         ->get();
     }
 
+    public function checkDocument($type, $value, $userId = null) {
+        return UserDetail::where($type, $value)
+        ->when($userId, function ($q) use($userId) {
+            return $q->where('user_id', '<>', $userId);
+        })
+        ->exists();
+    }
     public function updatePassword($data)
     {
 

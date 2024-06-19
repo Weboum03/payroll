@@ -40,6 +40,8 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('roles', RoleController::class);
     $router->apiResource('users', UserController::class);
     $router->get('user/reporting', [UserController::class, 'getReportUsers']);
+    $router->post('user/reporting', [UserController::class, 'getReportUsers']);
+    $router->post('document/{type}', [UserController::class, 'checkDocument']);
     $router->apiResource('batches', BatchController::class);
     $router->get('batches/{id}/users', [BatchController::class, 'getUsersByBatch']);
     $router->put('batches/{id}/users', [BatchController::class, 'storeUsersByBatch']);

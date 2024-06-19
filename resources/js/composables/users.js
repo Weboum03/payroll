@@ -15,11 +15,22 @@ export default function useUsers() {
     const getUsers = async (filters=[]) => {
         let queryString = new URLSearchParams(filters).toString();
         if(queryString) { queryString = '?'+ queryString }
-        apiClient
+        return apiClient
             .get(
                 "/admin/users"+queryString)
             .then((response) => {
                 users.value = response.data;
+                return response.data;
+            });
+    };
+
+    const checkDuplicacy = async (type, data) => {
+        return apiClient
+            .post(
+                "/admin/document/" + type, data)
+            .then((response) => {
+                users.value = response.data;
+                return response.data;
             });
     };
 
@@ -139,6 +150,7 @@ export default function useUsers() {
         storeUser,
         updateUser,
         deleteUser,
+        checkDuplicacy,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
         isLoading,

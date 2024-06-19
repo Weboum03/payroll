@@ -54,6 +54,15 @@ class UserController extends BaseController
         return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function checkDocument($type, Request $request)
+    {
+        $check = $this->userRepository->checkDocument($type, $request->value, $request->user_id);
+        if($type == 'pan_number') { $message = 'This PAN number already exists'; }
+        elseif($type == 'aadhar_number') { $message = 'This aadhar number already exists'; }
+        else { $message = 'Already exist'; }
+        return $this->sendResponse($check, $message);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

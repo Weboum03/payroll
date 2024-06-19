@@ -405,23 +405,30 @@
                             <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required name="immediate_manager" as="select" class="form-control input"
-                                        v-model="userData.immediate_manager" autocomplete="off" style="color: #7e7e7e;">
+                                        v-model="immediateManager" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Immediate-Manager</option>
-                                        <option value="Hiring Manager">Hiring Manager</option>
+                                        <option v-for="role in roles?.data" :key="role.id" :value="role.id">
+                                            {{ role.name }}
+                                        </option>
+                                        <!-- <option value="Hiring Manager">Hiring Manager</option>
 										<option value="Team Lead">Team Lead</option>
                                         <option value="C.E.O">C.E.O</option>
                                         <option value="Assist Project Manager">Assist Project Manager</option>
-                                        <option value="other">Other</option>
+                                        <option value="other">Other</option> -->
                                     </Field>
                                     <label for="immediate_manager" class="user-label">Immediate-Manager</label>
                                     <ErrorMessage name="immediate_manager" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="immediate_manager_code" placeholder="Employee Code"
-                                        v-model="userData.immediate_manager_code"
-                                        :class="{ 'is-invalid': errors.immediate_manager_code }" class="input"
-                                        autocomplete="off" />
+                                    <Field required name="immediate_manager_code" as="select" class="form-control input"
+                                        v-model="userData.immediate_manager_code" autocomplete="off" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Employee Code</option>
+                                        <option v-show="userData.immediate_manager_code" :value="userData.immediate_manager_code" :selected="true">{{ userData.immediate_manager_code }}</option>
+                                        <option v-for="user in immediateManagerCode" :key="user.id" :value="user.employee_id">
+                                            {{ user.name }} ( {{ user.employee_id }} )
+                                        </option>
+                                    </Field>
                                     <label for="employee_code" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="immediate_manager_code" class="text-danger mt-1" />
                                 </div>
@@ -429,14 +436,18 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="leave_approving_auth" as="select" class="form-control input"
-                                        v-model="userData.leave_approving_auth" autocomplete="off"
+                                    <Field required name="leave_approving_auth" as="select" class="form-control input" 
+                                        v-model="leaveApprovingAuth" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Leave Approving Authority</option>
+                                        <option v-for="role in roles?.data" :key="role.id" :value="role.id">
+                                            {{ role.name }}
+                                        </option>
+                                        <!-- <option value="" disabled selected>Leave Approving Authority</option>
                                         <option value="Project Manager">Project Manager</option>
                                         <option value="H. R. Manager">H. R. Manager</option>
 										<option value="Director">Director</option>
-                                        <option value="other">Other</option>
+                                        <option value="other">Other</option> -->
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
                                         Authority</label>
@@ -444,10 +455,14 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="leave_approving_code" placeholder="Employee Code"
-                                        v-model="userData.leave_approving_code"
-                                        :class="{ 'is-invalid': errors.leave_approving_code }" class="input"
-                                        autocomplete="off" />
+                                    <Field required name="leave_approving_code" as="select" class="form-control input"
+                                        v-model="userData.leave_approving_code" autocomplete="off" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Employee Code</option>
+                                        <option v-show="userData.leave_approving_code" :value="userData.leave_approving_code" :selected="true">{{ userData.leave_approving_code }}</option>
+                                        <option v-for="user in leaveApprovingAuthCode" :key="user.id" :value="user.employee_id">
+                                           {{ user.name }} ( {{ user.employee_id }} )
+                                        </option>
+                                    </Field>
                                     <label for="employee_code" class="user-label ">Employee Code</label>
                                     <ErrorMessage name="leave_approving_code" class="text-danger mt-1" />
                                 </div>
@@ -518,7 +533,7 @@
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
                                 <div class="col input-group-fname">
-                                    <Field type="text" name="pan_number" placeholder="PAN Number"
+                                    <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
                                         v-model="userData.pan_number" :class="{ 'is-invalid': errors.pan_number }"
                                         class="input" autocomplete="off" required />
                                     <label for="PAN Number" class="user-label">PAN Number</label>
@@ -761,7 +776,7 @@ import useUsers from "@/composables/users";
 import useRoles from "@/composables/roles";
 import UploadDoc from "@/components/UploadDoc.vue";
 import { countries } from "@/constants/countries";
-const { updateUser, getUser, user: postData, validationErrors, isLoading } = useUsers();
+const { updateUser, getUser, getUsers, user: postData, checkDuplicacy, validationErrors, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 import { useRoute, useRouter } from "vue-router";
 import { param } from "jquery";
@@ -779,7 +794,27 @@ const preview = ref();
 const checkAll = ref();
 const childComponents = ref([]);
 const valErrors = ref({});
+const leaveApprovingAuth = ref('')
+const immediateManager = ref('')
+const leaveApprovingAuthCode = ref([])
+const immediateManagerCode = ref([])
+const pancard = ref(null)
 
+const updateValue = (value) => {
+    pancard.value.value = value.toUpperCase();
+};
+
+watch(immediateManager, async (current, previous) => {
+    userData.value.immediate_manager = current;
+    let users = await getUsers({role:immediateManager.value});
+    immediateManagerCode.value = users.data;
+})
+
+watch(leaveApprovingAuth, async (current, previous) => {
+    userData.value.leave_approving_auth = current;
+    let users = await getUsers({role:leaveApprovingAuth.value});
+    leaveApprovingAuthCode.value = users.data;
+})
 
 watch(sameAsLocal, (current, previous) => {
     if (sameAsLocal.value === true) {
@@ -922,10 +957,13 @@ watchEffect(() => {
     }
     // console.log('oldData2', userData.value)
 
+    // immediateManagerCode.value = userData.value.immediate_manager_code
+    // leaveApprovingAuthCode.value = userData.value.leave_approving_code
+    // immediateManager.value = userData.value.immediate_manager
+    // leaveApprovingAuth.value = userData.value.leave_approving_auth;
     let files = user?.files;
     if(files) {
         for (var key in files) {
-            console.log(files[key]);
             let element = files[key];
             if(element.custom_properties.collection_name != 'user_profile_picture') {
                 uploadComponent.value.push({
@@ -940,6 +978,11 @@ watchEffect(() => {
         }
     }
     
+})
+
+watch(userData, () => {
+    immediateManager.value = userData.value.immediate_manager
+    leaveApprovingAuth.value = userData.value.leave_approving_auth;
 })
 
 // const uploadComponent = ref([
@@ -1033,11 +1076,19 @@ const schemas = [
         }),
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
-        aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number',
-            value => value === null || value === '' || value.length === 12),
-        // pan_number: yup.string().nullable().test('length', 'Invalid PAN number',
-        //     value => value === null || value === '' || value.length === 10),
-
+        aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', (value) => {
+            if(value === null || value === '' || value.length === 12) {
+                return true;
+            }
+        }).test('is-exists', 'This Aadhar number is already taken.', async (value) => {
+            const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (value == null || value == '') {
+                return true;
+            }
+            let checkResponse = await checkDuplicacy('aadhar_number', {value: value, user_id: route.params.id  });
+            if(checkResponse.data == false) { return true }
+            return false;
+        }),
         pan_number: yup.string().nullable()
         .test('is-greater', 'Invalid PAN card number', function(value) {
             const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
@@ -1045,6 +1096,14 @@ const schemas = [
                 return false;
             }
             return true;
+        }).test('is-exists', 'This PAN is already taken.', async (value) => {
+            const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+            if (value == null || value == '') {
+                return true;
+            }
+            let checkResponse = await checkDuplicacy('pan_number', {value: value, user_id: route.params.id  });
+            if(checkResponse.data == false) { return true }
+            return false;
         }),
 
         
