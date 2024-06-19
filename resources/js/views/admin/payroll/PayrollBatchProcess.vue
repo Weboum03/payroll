@@ -35,7 +35,7 @@
                     <button id="button4" @click="processData" data-toggle="modal"
                         data-target="#ProcessModal" class="Process" style="">Process</button><button id="button5"
                         class="Download" style="">Download</button>
-                    <button type="buttonDelt" class="btn delete"
+                    <button type="buttonDelt" @click="deleteBatch" class="btn delete"
                         style=" background-color: red;"><i class="fa-regular fa-trash-can fa-sm" style="color: white;"
                             aria-hidden="true"></i>
                     </button>
@@ -73,7 +73,7 @@
 import { ref, onMounted, inject } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
-const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, deleteBatchUser, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers,remove, deleteBatchUser, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -86,6 +86,16 @@ const search_global = ref('');
 let dataTable = ref(null);
 const isDataTableInitialized = ref(false)
 
+const deleteBatch = async () => {
+    await remove(route.params.id)
+    if (success) {
+        swal({
+            icon: 'success',
+            title: 'Deleted successfully'
+        });
+        router.push({name: 'admin.payroll'})
+    }
+}
 
 onMounted(() => {
     getBatchUsers(route.params.id)

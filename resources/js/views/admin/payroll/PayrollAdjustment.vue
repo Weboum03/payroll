@@ -60,8 +60,10 @@
 
                         <button @click="uploadFile" :disabled="!selectedFile" role="link" type="button" class="btn vldExcel ">{{ text }}</button>
 
+                    <router-link :to="{ name: 'admin.PayrollBatchList', params: {id: route.params.id}}" custom v-slot="{ navigate }">
+                        <button @click="navigate" type="button" class="btn btn-cancle cancle">Cancel</button>
+                    </router-link>
                     
-                    <button type="button" class="btn btn-cancle cancle">Cancle</button>
                 </div>
             </div>
 

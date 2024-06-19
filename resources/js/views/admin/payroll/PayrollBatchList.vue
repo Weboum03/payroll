@@ -37,7 +37,7 @@
 
                     <button @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
 
-                    <button type="buttonDelt" class="btn delete" style=" background-color: red;">
+                    <button type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: red;">
                         <i class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -79,7 +79,7 @@
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, inject, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
-const { items: batches, item: batch, fetchOne: getBatch, processBatch, getBatchUsers, deleteBatchUser, success } = useBatch();
+const { items: batches, item: batch, fetchOne: getBatch, processBatch, remove, getBatchUsers, deleteBatchUser, success } = useBatch();
 import { useRouter, useRoute } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
@@ -98,6 +98,16 @@ const filterData = (filterValues) => {
     getBatchUsers(route.params.id, filterValues)
 }
 
+const deleteBatch = async () => {
+    await remove(route.params.id)
+    if (success) {
+        swal({
+            icon: 'success',
+            title: 'Deleted successfully'
+        });
+        router.push({name: 'admin.payroll'})
+    }
+}
 const processData = async () => {
     await processBatch(route.params.id)
     if (success) {

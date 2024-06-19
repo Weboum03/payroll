@@ -54,7 +54,7 @@ export default function useBatch() {
             await fetchAll(); // Refresh the list
             swal({
                 icon: "success",
-                title: "Role saved successfully",
+                title: "Saved successfully",
             });
             success.value = true;
         } catch (err) {
