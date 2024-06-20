@@ -350,7 +350,6 @@
                                         <option value="Accenture Inc">Accenture Inc</option>
 										<option value="North Corp Software">North Corp Software</option>
 										<option value="Cyber Security Ltd">Cyber Security Ltd</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Company" class="user-label">Company</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
@@ -364,7 +363,6 @@
 										<option value="Pune">Pune</option>
 										<option value="Bangluru">Bangluru</option>
 										<option value="California">California</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="location" class="user-label">Location</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
@@ -373,14 +371,12 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="qualification" as="select" class="form-control input"
+                                    <Field required name="qualification" as="select" @change="isModalInputOpend(userData.qualification, 'qualification')" class="form-control input"
                                         v-model="userData.qualification" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Qualification-Degree</option>
-                                        <option value="Master Degree">Master Degree</option>
-                                        <option value="B.Tech or BE">B.Tech or BE</option>
-										<option value="Other Graduate">Other Graduate</option>
-										<option value="Under Graduate">Under Graduate</option>
-                                        <option value="other">Other</option>
+                                        <option v-for="option in inputValues.qualification" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
                                     </Field>
                                     <label for="qualification" class="user-label">Qualification-Degree</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
@@ -477,7 +473,6 @@
                                         <option value="Quality Testing">Quality Testing</option>
 										<option value="Designing">Designing</option>
 										<option value="Management">Management</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Department" class="user-label">Department</label>
                                     <ErrorMessage name="department" class="text-danger mt-1" />
@@ -765,6 +760,37 @@
             </div>
         </div>
     </div>
+
+    <div v-if="isModalInput" class="modal-mask" id="AddDocModal" tabindex="-1" aria-labelledby="AddDocModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddDocModalLabel">Add Option</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                style="color: #2DB9F8"></i></span>
+                    </button>
+                </div>
+                <Form @submit="submitInputForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col input-group-fname">
+                                <Field placeholder="Document name*" required type="text" name="docName"
+                                    autocomplete="off" class="input" id="Doc-name" style="width: 310px;" />
+                                <label class="user-label">Name*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-primary save">Save</button>
+                        <a href="javascript:;" class="btn btn-outline-light cancle" @click="isModalInput=!isModalInput">Cancel</a>
+                    </div>
+                </Form>
+
+            </div>
+        </div>
+    </div>
 </template>
 
 
@@ -779,7 +805,6 @@ import { countries } from "@/constants/countries";
 const { updateUser, getUser, getUsers, user: postData, checkDuplicacy, validationErrors, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 import { useRoute, useRouter } from "vue-router";
-import { param } from "jquery";
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
@@ -799,6 +824,24 @@ const immediateManager = ref('')
 const leaveApprovingAuthCode = ref([])
 const immediateManagerCode = ref([])
 const pancard = ref(null)
+const isModalInput = ref(false)
+
+const inputRef = ref('')
+const inputValues = ref({
+    qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate', 'Other']
+});
+const isModalInputOpend = (value, key) => {
+    // console.log('sfgr', value);
+    if(value == 'Other') {
+        isModalInput.value = true;
+    }
+    inputRef.value = key;
+}
+
+const submitInputForm = (values) => {
+    inputValues.value[inputRef.value].push(values.docName)
+    closeModal();
+};
 
 const updateValue = (value) => {
     pancard.value.value = value.toUpperCase();
@@ -866,7 +909,6 @@ const getOldUploadDocData = () => {
     return files;
 }
 
-
 onMounted(async () => {
     getUser(route.params.id)
     getRoles()
@@ -876,14 +918,11 @@ onMounted(async () => {
 const uploadComponent = ref([])
 watchEffect(() => {
     const user = postData.value;
-    // sameAsLocal.value = user?.info?.as_local;
     if (user?.info?.as_local) {
         sameAsLocal.value = user?.info?.as_local;
     } else {
         sameAsLocal.value = false;
     }
-
-
 
     preview.value = user?.user_profile_picture;
     checkAll.value = user?.info?.check_all;
@@ -955,12 +994,7 @@ watchEffect(() => {
         country: userData.value?.p_country,
         postcode: userData.value?.p_postcode,
     }
-    // console.log('oldData2', userData.value)
 
-    // immediateManagerCode.value = userData.value.immediate_manager_code
-    // leaveApprovingAuthCode.value = userData.value.leave_approving_code
-    // immediateManager.value = userData.value.immediate_manager
-    // leaveApprovingAuth.value = userData.value.leave_approving_auth;
     let files = user?.files;
     if(files) {
         for (var key in files) {
@@ -984,45 +1018,6 @@ watch(userData, () => {
     immediateManager.value = userData.value.immediate_manager
     leaveApprovingAuth.value = userData.value.leave_approving_auth;
 })
-
-// const uploadComponent = ref([
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'Aadhar Card Number',
-//         type: 'aadhar_proof',
-//         edit: false
-//     },
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'PAN Card',
-//         type: 'pan_proof',
-//         edit: false
-//     },
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'PF & ESIC information',
-//         type: 'pf_info',
-//         edit: true
-//     },
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'Confirmation letter',
-//         type: 'confirmation_letter',
-//         edit: true
-//     },
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'Education Document',
-//         type: 'education_doc',
-//         edit: true
-//     },
-//     {
-//         id: Math.random().toString(36).substring(7),
-//         title: 'Experience Letter',
-//         type: 'experience_letter',
-//         edit: true
-//     }
-// ]);
 
 const deleteFiles = ref([])
 const deleteInput = (id) => {
@@ -1129,17 +1124,9 @@ const schemas = [
     //   }),
 ];
 
-
-const previewFile = (event) => {
-    this.file = event.target.files[0];
-    this.preview = URL.createObjectURL(this.file);
-}
 const isImage = (file) => {
     return file;
 }
-// const isVideo = (file) => {
-//     return file && file.type.startsWith('data:video');
-// }
 
 const uploadTempFile = async (event) => {
     const file = event.target.files[0];
