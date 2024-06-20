@@ -790,7 +790,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="AddDocModalLabel">Add Option</h5>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="isModalInput=!isModalInput">
                         <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
                                 style="color: #2DB9F8"></i></span>
                     </button>
@@ -832,7 +832,7 @@ const router = useRouter()
 const { storeUser, getUsers, checkDuplicacy, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 const swal = inject('$swal')
-const currentStep = ref(1);
+const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const sameAsLocal = ref(false);
 const localAddress = ref({});
