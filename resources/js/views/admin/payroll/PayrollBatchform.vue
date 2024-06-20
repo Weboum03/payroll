@@ -61,10 +61,11 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.job_role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterVlaues.role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
-                            <option value="1">Admin</option>
-                            <option value="2">User</option>
+                            <option v-for="role in roles?.data" :key="role.id" :value="role.id">
+                                {{ role.name }}
+                            </option>
                         </Field>
                         <label class="user-label">Job Role</label>
                     </div>
@@ -214,9 +215,11 @@ import { useRouter,useRoute } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import useUsers from "@/composables/users";
 import useBatch from "@/composables/useBatch";
+import useRoles from "@/composables/roles";
 import { onMounted, reactive, watch } from "vue";
 const { users, getUsers, is } = useUsers()
 const { item: batch, fetchOne: getBatch, addEmployee, loading, success } = useBatch()
+const { roles, getRoles } = useRoles()
 const route = useRoute()
 const router = useRouter();
 const filteredValue = reactive([]);
@@ -224,7 +227,7 @@ const filterVlaues = reactive({
     company:'',
     location:'',
     department:'',
-    job_role:'',
+    role:'',
     gender:'',
     employment_type:'',
     filtered_users:[]
@@ -242,6 +245,7 @@ watch(filterVlaues, async (current, previous) => {
 onMounted(() => {
     getUsers(filterVlaues)
     getBatch(route.params.id)
+    getRoles()
 })
 
 

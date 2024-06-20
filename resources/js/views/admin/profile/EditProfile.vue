@@ -762,7 +762,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col input-group-fname">
-                                <Field placeholder="Document name*" required type="text" name="docName"
+                                <Field placeholder="Enter here*" required type="text" name="docName"
                                     autocomplete="off" class="input" id="Doc-name" style="width: 310px;" />
                                 <label class="user-label">Name*</label>
                             </div>

@@ -63,10 +63,10 @@ class UserRepository extends BaseRepository
             // })
             ->when($request->gender, function ($q) use($request) {
                 return $q->where('gender', $request->gender);
+            })
+            ->when($request->employment_type, function ($q) use($request) {
+                return $q->where('employment_type', $request->employment_type);
             });
-            // ->when($request->employment_type, function ($q) use($request) {
-            //     return $q->where('employment_type', $request->employment_type);
-            // });
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
