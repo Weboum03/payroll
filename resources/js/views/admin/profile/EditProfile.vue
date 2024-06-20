@@ -377,21 +377,20 @@
                                         <option v-for="option in inputValues.qualification" :key="option" :value="option">
                                             {{ option }}
                                         </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="qualification" class="user-label">Qualification-Degree</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="experience" as="select" class="form-control input"
+                                    <Field required name="experience" as="select" class="form-control input" @change="isModalInputOpend(userData.experience, 'experience')"
                                         autocomplete="off" v-model="userData.experience" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience</option>
-                                        <option value="0 - 1 year"> 0 - 1 year</option>
-										 <option value="1-3 years">1-3 years</option>
-										 <option value="4-6 years"> 4-6 years</option>
-										 <option value="7-9 years">7-9 years</option>
-										 <option value="10-15 years">10-15 years </option>
-                                        <option value="other">Other</option>
+                                        <option v-for="option in inputValues.experience" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="experience" class="user-label">Work Experience</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
@@ -406,11 +405,6 @@
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
                                         </option>
-                                        <!-- <option value="Hiring Manager">Hiring Manager</option>
-										<option value="Team Lead">Team Lead</option>
-                                        <option value="C.E.O">C.E.O</option>
-                                        <option value="Assist Project Manager">Assist Project Manager</option>
-                                        <option value="other">Other</option> -->
                                     </Field>
                                     <label for="immediate_manager" class="user-label">Immediate-Manager</label>
                                     <ErrorMessage name="immediate_manager" class="text-danger mt-1" />
@@ -439,11 +433,6 @@
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
                                         </option>
-                                        <!-- <option value="" disabled selected>Leave Approving Authority</option>
-                                        <option value="Project Manager">Project Manager</option>
-                                        <option value="H. R. Manager">H. R. Manager</option>
-										<option value="Director">Director</option>
-                                        <option value="other">Other</option> -->
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
                                         Authority</label>
@@ -491,14 +480,13 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="grade" as="select" class="form-control input"
+                                    <Field required name="grade" as="select" class="form-control input" @change="isModalInputOpend(userData.grade, 'grade')"
                                         autocomplete="off" v-model="userData.grade" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade</option>
-                                        <option value="Manager">Manager</option>
-										<option value="Lead">Lead</option>
-                                        <option value="Senior">Senior</option>
-                                        <option value="Junior">Junior</option>
-                                        <option value="other">Other</option>
+                                        <option v-for="option in inputValues.grade" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
@@ -825,13 +813,15 @@ const leaveApprovingAuthCode = ref([])
 const immediateManagerCode = ref([])
 const pancard = ref(null)
 const isModalInput = ref(false)
+const isDropdownUpdated = ref(false)
 
 const inputRef = ref('')
 const inputValues = ref({
-    qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate', 'Other']
+    qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
+    experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
+    grade:['Manager', 'Lead', 'Senior', 'Junior']
 });
 const isModalInputOpend = (value, key) => {
-    // console.log('sfgr', value);
     if(value == 'Other') {
         isModalInput.value = true;
     }
@@ -839,8 +829,9 @@ const isModalInputOpend = (value, key) => {
 }
 
 const submitInputForm = (values) => {
-    inputValues.value[inputRef.value].push(values.docName)
-    closeModal();
+    inputValues.value[inputRef.value].push(values.docName);
+    userData.value[inputRef.value] = values.docName;
+    isModalInput.value = false
 };
 
 const updateValue = (value) => {
@@ -995,6 +986,16 @@ watchEffect(() => {
         postcode: userData.value?.p_postcode,
     }
 
+    if (!isDropdownUpdated.value) {
+        for (var key in inputValues.value) {
+            if (user?.info?.[key]) {
+                inputValues.value[key].push(userData.value[key]);
+                isDropdownUpdated.value = true
+            }
+        }
+    }
+
+    
     let files = user?.files;
     if(files) {
         for (var key in files) {

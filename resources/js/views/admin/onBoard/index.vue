@@ -422,29 +422,26 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="qualification" as="select" class="form-control input"
+                                    <Field required name="qualification" as="select" class="form-control input" v-model="selectedOption.qualification" @change="isModalInputOpend(selectedOption.qualification, 'qualification')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Qualification-Degree</option>
-                                        <option value="Master Degree">Master Degree</option>
-                                        <option value="B.Tech or BE">B.Tech or BE  </option>
-										<option value="Other Graduate">Other Graduate</option>
-										<option value="Under Graduate">Under Graduate</option>
-                                        <option value="other">Other</option>
+                                        <option v-for="option in inputValues.qualification" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="qualification" class="user-label">Qualification-Degree</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="experience" as="select" class="form-control input"
+                                    <Field required name="experience" as="select" class="form-control input" v-model="selectedOption.experience" @change="isModalInputOpend(selectedOption.experience, 'experience')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Work Experience</option>
-                                        <option value="0 - 1 year"> 0 - 1 year</option>
- <option value="1-3 years">1-3 years</option>
- <option value="4-6 years"> 4-6 years</option>
- <option value="7-9 years">7-9 years</option>
- <option value="10-15 years">10-15 years </option>
-                                        <option value="other">Other</option>
+                                        <option v-for="option in inputValues.experience" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="experience" class="user-label">Work Experience</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
@@ -532,14 +529,14 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="grade" as="select" class="form-control input"
+                                    <Field required name="grade" as="select" class="form-control input" v-model="selectedOption.grade" @change="isModalInputOpend(selectedOption.grade, 'grade')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Grade</option>
 										<option value="Manager">Manager</option>
-										<option value="Lead">Lead</option>
-                                        <option value="Senior">Senior</option>
-                                        <option value="Junior">Junior</option>
-                                        <option value="other">Other</option>
+										<option v-for="option in inputValues.grade" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
@@ -786,6 +783,37 @@
             </div>
         </div>
     </div>
+
+    <div v-if="isModalInput" class="modal-mask" id="AddDocModal" tabindex="-1" aria-labelledby="AddDocModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddDocModalLabel">Add Option</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @click="closeModal">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
+                                style="color: #2DB9F8"></i></span>
+                    </button>
+                </div>
+                <Form @submit="submitInputForm">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col input-group-fname">
+                                <Field placeholder="Document name*" required type="text" name="docName"
+                                    autocomplete="off" class="input" id="Doc-name" style="width: 310px;" />
+                                <label class="user-label">Name*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn  btn-primary save">Save</button>
+                        <a href="javascript:;" class="btn btn-outline-light cancle" @click="isModalInput=!isModalInput">Cancel</a>
+                    </div>
+                </Form>
+
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -804,7 +832,7 @@ const router = useRouter()
 const { storeUser, getUsers, checkDuplicacy, isLoading } = useUsers();
 const { roles, getRoles } = useRoles();
 const swal = inject('$swal')
-const currentStep = ref(0);
+const currentStep = ref(1);
 const boxWidth = ref(0); // Initial width
 const sameAsLocal = ref(false);
 const localAddress = ref({});
@@ -818,6 +846,36 @@ const immediateManager = ref('')
 const leaveApprovingAuthCode = ref([])
 const immediateManagerCode = ref([])
 const pancard = ref(null)
+
+const isModalInput = ref(false)
+
+const inputRef = ref('')
+
+const selectedOption = ref({
+    qualification: '',
+    experience: '',
+    grade: ''
+});
+const inputValues = ref({
+    qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
+    experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
+    grade:['Manager', 'Lead', 'Senior', 'Junior']
+});
+
+const isModalInputOpend = (value, key) => {
+    if(value == 'Other') {
+        isModalInput.value = true;
+    }
+    inputRef.value = key;
+}
+
+const submitInputForm = (values) => {
+    const length = inputValues.value[inputRef.value].length;
+    const secondLastIndex = length - 1;
+    inputValues.value[inputRef.value].push(values.docName);
+    selectedOption.value[inputRef.value] = values.docName;
+    isModalInput.value = false
+};
 
 const updateValue = (value) => {
     pancard.value.value = value.toUpperCase();

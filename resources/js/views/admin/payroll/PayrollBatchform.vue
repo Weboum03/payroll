@@ -29,7 +29,6 @@
                             <option value="Accenture Inc">Accenture Inc</option>
                             <option value="North Corp Software">North Corp Software</option>
                             <option value="Cyber Security Ltd">Cyber Security Ltd</option>
-                            <option value="other">Other</option>
                         </Field>
                         <label class="user-label">Companies</label>
                     </div>
@@ -56,7 +55,6 @@
                             <option value="Quality Testing">Quality Testing</option>
                             <option value="Designing">Designing</option>
                             <option value="Management">Management</option>
-                            <option value="other">Other</option>
                         </Field>
                         <label class="user-label">Department</label>
                     </div>
