@@ -10,7 +10,7 @@
             style="background-color: white;padding: 10px; gap: 1rem;">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="Payroll-header">
-                    <p>Payroll Batch-March2024_Lipsum</p>
+                    <p>Payroll Batch - {{ batch?.data?.name }}</p>
                     <p>Select Employees to add to the batch</p>
                 </div>
                 <button type="button" id="testRslt" data-toggle="modal" data-target="#testRslt1">Test
@@ -216,7 +216,7 @@ import useUsers from "@/composables/users";
 import useBatch from "@/composables/useBatch";
 import { onMounted, reactive, watch } from "vue";
 const { users, getUsers, is } = useUsers()
-const { addEmployee, loading, success } = useBatch()
+const { item: batch, fetchOne: getBatch, addEmployee, loading, success } = useBatch()
 const route = useRoute()
 const router = useRouter();
 const filteredValue = reactive([]);
@@ -241,6 +241,7 @@ watch(filterVlaues, async (current, previous) => {
 
 onMounted(() => {
     getUsers(filterVlaues)
+    getBatch(route.params.id)
 })
 
 

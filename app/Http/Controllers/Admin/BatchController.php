@@ -79,7 +79,7 @@ class BatchController extends BaseController
         $file = $request->file("attachment");
         $filepath = $file->getPathname();
 
-        $array = (new UsersImport)->toCollection($filepath);
+        $array = (new UsersImport)->toCollection($file);
 
         if($array && $array[0]) {
             $array[0]->each(function ($user) use($batch, $mode) {
@@ -89,7 +89,7 @@ class BatchController extends BaseController
             });
         }
 
-        return $this->sendResponse($array[0], 'Success');
+        return $this->sendResponse(true, 'Success');
     }
 
     public function exportBatch($id, Request $request) {

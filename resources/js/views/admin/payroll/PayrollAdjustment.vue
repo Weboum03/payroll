@@ -178,7 +178,7 @@ const uploadFile = async (event) => {
         }
         let response = await importBatch(route.params.id, {attachment : selectedFile.value,mode:mode.value});
         text.value = 'Validate Excel';
-        // if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
+        if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
     }, 1000);
 }
 

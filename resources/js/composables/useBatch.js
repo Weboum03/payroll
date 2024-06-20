@@ -160,7 +160,7 @@ export default function useBatch() {
     const processBatch = async (id) => {
         await swal({
             title: "Are you sure to process payroll batch?",
-            text: "After processing payroll batchit can not be deleted.If you have checked all data press Process or press Cancle to verity data.",
+            text: "After processing payroll batch can not be deleted. If you have checked all data press Process or press cancel to verify data.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Process",
