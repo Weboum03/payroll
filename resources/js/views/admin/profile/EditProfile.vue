@@ -549,7 +549,6 @@
                                         <option value="Option1">2022 - 2023</option>
                                         <option value="Option2">2023 - 2024</option>
 										 <option value="Option3">2024 - 2025</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Holiday Year</label>
                                     <ErrorMessage name="holiday_year" class="text-danger mt-1" />
@@ -564,7 +563,6 @@
                                         <option value="Full Time">Full Time</option>
 										<option value="Part Time">Part Time</option>
                                         <option value="Remote">Remote</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Work Pattern</label>
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
@@ -705,7 +703,7 @@
                             <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                             <button type="button" v-if="currentStep !== 0" @click="prevStep"
                                 class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
+                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light "
                                 @click="cancel">Cancel</a>
                         </div>
                     </div>

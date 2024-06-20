@@ -399,7 +399,6 @@
                                         <option value="Accenture Inc">Accenture Inc</option>
 										<option value="North Corp Software">North Corp Software</option>
 										<option value="Cyber Security Ltd">Cyber Security Ltd</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Company" class="user-label">Company</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
@@ -410,10 +409,9 @@
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Location</option>
 										<option value="Guru Gram"> Guru Gram</option>
-<option value="Pune">Pune</option>
-<option value="Bangluru">Bangluru</option>
-<option value="California">California</option>
-                                        <option value="other">Other</option>
+                                        <option value="Pune">Pune</option>
+                                        <option value="Bangluru">Bangluru</option>
+                                        <option value="California">California</option>
                                     </Field>
                                     <label for="location" class="user-label">Location</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
@@ -510,7 +508,6 @@
                                         <option value="Quality Testing">Quality Testing</option>
 										<option value="Designing">Designing</option>
 										<option value="Management">Management</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Department" class="user-label">Department</label>
                                     <ErrorMessage name="department" class="text-danger mt-1" />
@@ -599,7 +596,6 @@
                                         <option value="Option1">2022 - 2023</option>
                                         <option value="Option2">2023 - 2024</option>
 										 <option value="Option3">2024 - 2025</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Holiday Year</label>
                                     <ErrorMessage name="holiday_year" class="text-danger mt-1" />
@@ -614,7 +610,6 @@
                                         <option value="Full Time">Full Time</option>
 										<option value="Part Time">Part Time</option>
                                         <option value="Remote">Remote</option>
-                                        <option value="other">Other</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Work Pattern</label>
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
