@@ -615,6 +615,18 @@
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
                                 </div>
                             </div>
+
+                            <div class="row d-flex">
+                                <div class="col input-group-fname">
+                                    <Field required type="number" name="salary"
+                                        placeholder="Salary"
+                                        :class="{ 'is-invalid': errors.salary }" class="input"
+                                        autocomplete="off" />
+                                    <label for="PAN Number" class="user-label">Salary</label>
+                                    <ErrorMessage name="salary" class="text-danger mt-1" />
+                                </div>
+                            </div>
+
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="earning_leave_entitlement"
@@ -632,14 +644,14 @@
                             <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="this_year" placeholder="This Year"
-                                        :class="{ 'is-invalid': errors.this_year }" value="0" class="input" autocomplete="off" />
+                                        :class="{ 'is-invalid': errors.this_year }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">This Year</label>
                                     <ErrorMessage name="this_year" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="next_year" placeholder="Next Year"
-                                        :class="{ 'is-invalid': errors.next_year }" value="0" class="input" autocomplete="off" />
+                                        :class="{ 'is-invalid': errors.next_year }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">Next Year</label>
                                     <ErrorMessage name="next_year" class="text-danger mt-1" />
                                 </div>
@@ -1076,8 +1088,8 @@ const formValues = {
     holiday_year: '',
     work_pattern: '',
     earning_leave_entitlement: 0,
-    this_year: '',
-    next_year: '',
+    this_year: 0,
+    next_year: 0,
     check_all:false
 };
 
@@ -1174,25 +1186,25 @@ const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
         title:'PF & ESIC information',
-        type:'doc',
+        type:'pf_information',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Confirmation letter',
-        type:'doc',
+        type:'confirmation_letter',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Education Document',
-        type:'doc',
+        type:'education_document',
         edit:true
     },
     {
         id : Math.random().toString(36).substring(7),
         title:'Experience Letter',
-        type:'doc',
+        type:'experience_letter',
         edit:true
     }
 ]);

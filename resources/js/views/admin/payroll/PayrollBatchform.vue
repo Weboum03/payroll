@@ -13,7 +13,7 @@
                     <p>Payroll Batch - {{ batch?.data?.name }}</p>
                     <p>Select Employees to add to the batch</p>
                 </div>
-                <button type="button" id="testRslt" data-toggle="modal" data-target="#testRslt1">Test
+                <button type="button" id="testRslt" @click="isModalOpened= true">Test
                     Rule</button>
             </div>
 
@@ -23,7 +23,7 @@
             <div class="container payForm d-flex flex-column" style="gap: 1rem;">
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.company" id="Companies" name="company" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.company" id="Companies" name="company" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
                             <option value="Accenture Inc">Accenture Inc</option>
@@ -36,7 +36,7 @@
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.location" id="Location" name="location" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.location" id="Location" name="location" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Guru Gram"> Guru Gram</option>
                             <option value="Pune">Pune</option>
@@ -49,7 +49,7 @@
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.department" id="Department" name="department" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.department" id="Department" name="department" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Software Development">Software Development</option>
                             <option value="Quality Testing">Quality Testing</option>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                 {{ role.name }}
@@ -72,7 +72,7 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.gender" id="Grader" name="gender" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.gender" id="Grader" name="gender" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterVlaues.employment_type" id="Emp-type" name="employment_type" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" v-model="filterValues.employment_type" id="Emp-type" name="employment_type" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option value="Regular">Regular</option>
                             <option value="Consultant">Contract</option>
@@ -127,24 +127,61 @@
     </div>
 
     <!-- Modal Notice period list2 -->
-    <div class="modal fade" id="testRslt1" data-backdrop="false" data-keyboard="false" tabindex="-1"
+    <div v-if="isModalOpened" class="modal-mask" ref="target" id="testRslt1" data-backdrop="false" data-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" style=" width: 800px !important; scrollbar-width: none; ">
-                <div class="modal-header" style="align-items: center; gap: 3rem;">
-                    <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
-                        style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                style="color: #000000;"></i></span>
+                
+                <div class="modal-body">
+
+                <div id="testRslt-table_filter" class="dataTables_filter">    
+                    <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="testRslt-table"></label>
+                    <button type="button" @click="showDataTable" class="close1" data-dismiss="modal" aria-label="Close" style="margin: 0px; padding: 0px; font-size: medium; color: black !important">
+                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;" aria-hidden="true"></i></span>
                         <span style="cursor: pointer;">Back</span>
                     </button>
-                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
-                                style="color: #2DB9F8;opacity: 1;"></i></span>
+                    <button @click="showDataTable" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;" aria-hidden="true"></i>
+                        </span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <table id="testRslt-table">
+                <DataTable v-if="paginateUser?.data" :headers="tableHeaders" :rows="paginateUser" @filter="filterData" ref="table">
+                    <template v-slot:cell-company="{ row }">
+                        {{ row.info?.company }}
+                    </template>
+                    <template v-slot:cell-location="{ row }">
+                        {{ row.info?.location }}
+                    </template>
+                    <template v-slot:cell-department="{ row }">
+                        {{ row.info?.department }}
+                    </template>
+                    <template v-slot:cell-salary="{ row }">
+                        {{ row.pivot?.salary }}
+                    </template>
+                    <template v-slot:cell-deduction="{ row }">
+                        {{ row.pivot?.deduction }}
+                    </template>
+                    <template v-slot:cell-overtime="{ row }">
+                        {{ row.pivot?.overtime }}
+                    </template>
+                    <template v-slot:cell-bonus="{ row }">
+                        {{ row.pivot?.bonus }}
+                    </template>
+                    <template v-slot:cell-commission="{ row }">
+                        {{ row.pivot?.commission }}
+                    </template>
+                    <template v-slot:cell-reimbursement="{ row }">
+                        {{ row.pivot?.reimbursement }}
+                    </template>
+                    <template v-slot:cell-leave_bal="{ row }">
+                        {{ row.pivot?.leave_bal }}
+                    </template>
+                    <template v-slot:cell-action="{ row }">
+                        <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
+                            aria-hidden="true"></i>
+                    </template>
+                </DataTable>
+                    <!-- <table id="testRslt-table">
                         <thead>
                             <tr>
                                 <th id="EmpId">Employee ID</th>
@@ -180,7 +217,7 @@
 
 
                         </tbody>
-                    </table>
+                    </table> -->
                 </div>
             </div>
         </div>
@@ -213,17 +250,22 @@
 <script setup>
 import { useRouter,useRoute } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
+import DataTable from '@/components/DataTable.vue';
 import useUsers from "@/composables/users";
 import useBatch from "@/composables/useBatch";
 import useRoles from "@/composables/roles";
-import { onMounted, reactive, watch } from "vue";
-const { users, getUsers, is } = useUsers()
-const { item: batch, fetchOne: getBatch, addEmployee, loading, success } = useBatch()
+import { onMounted, reactive, watch, ref } from "vue";
+const { users, getUsers, getUsersPaginate, is } = useUsers()
+const { items: batches, item: batch, fetchOne: getBatch, getBatchUsers, addEmployee, loading, success } = useBatch()
 const { roles, getRoles } = useRoles()
+const table = ref(null)
 const route = useRoute()
 const router = useRouter();
 const filteredValue = reactive([]);
-const filterVlaues = reactive({
+const isModalOpened = ref(false)
+const searchQuery = ref("");
+const paginateUser = ref([])
+const filterValues = reactive({
     company:'',
     location:'',
     department:'',
@@ -233,22 +275,44 @@ const filterVlaues = reactive({
     filtered_users:[]
 });
 
-watch(filterVlaues, async (current, previous) => {
-    await getUsers(filterVlaues)
-    // console.log(filterVlaues.filtered_users)
-    // filterVlaues.filtered_users = users.value.data.map(e => e.id)
+const filterRows = () => {
+    table.value.filterPayload();
+};
+
+const showDataTable = () => {
+    isModalOpened.value = !isModalOpened.value;
+}
+
+watch(filterValues, async (current, previous) => {
+    await getUsers(filterValues)
     filteredValue.value = users.value.data.map(e => e.id)
+    paginateUser.value = await getUsersPaginate(filterValues)
 });
 
+const filterData = async (values) => {
+    let filters = filterValues;
+    Object.assign(filters,{
+        page: table.value.filterData.page,
+        search: searchQuery.value.toLowerCase()
+    })
+    paginateUser.value = await getUsersPaginate(filters)
+}
 
+const tableHeaders = [
+    { key: 'employee_id', label: 'Employee ID', sorting: true },
+    { key: 'name', label: 'Employee Name', sorting: true },
+    { key: 'company', label: 'Company' },
+    { key: 'location', label: 'Location' },
+    { key: 'department', label: 'Department' }
+];
 
 onMounted(() => {
-    getUsers(filterVlaues)
+    getUsers(filterValues)
     getBatch(route.params.id)
     getRoles()
+    getBatchUsers(route.params.id)
+    paginateUser.value = getUsersPaginate()
 })
-
-
 
 const submitForm = async (values) => {
     await addEmployee(route.params.id, values);
@@ -262,5 +326,31 @@ const submitForm = async (values) => {
 .save {
     display: inline-block;
     padding: 0.375rem 0.75rem;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
 }
 </style>

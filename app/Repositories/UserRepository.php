@@ -74,6 +74,38 @@ class UserRepository extends BaseRepository
         ->get();
     }
 
+    public function listingPaginate($request)
+    {
+        return $this->model->latest()->with('role','info')
+        ->whereHas('info', function ($query) use($request) {
+            $query->when($request->company, function ($q) use($request) {
+                return $q->where('company', $request->company);
+            })
+            ->when($request->location, function ($q) use($request) {
+                return $q->where('location', $request->location);
+            })
+            ->when($request->department, function ($q) use($request) {
+                return $q->where('department', $request->department);
+            })
+            // ->when($request->job_role, function ($q) use($request) {
+            //     return $q->where('job_role', $request->job_role);
+            // })
+            ->when($request->gender, function ($q) use($request) {
+                return $q->where('gender', $request->gender);
+            })
+            ->when($request->employment_type, function ($q) use($request) {
+                return $q->where('employment_type', $request->employment_type);
+            });
+        })
+        ->when($request->search, function ($query) use($request) {
+            return $query->where('name', 'LIKE', "%$request->search%");
+        })
+        ->when($request->role, function ($q) use($request) {
+            return $q->where('role_id', $request->role);
+        })
+        ->paginate(10);
+    }
+
     public function checkDocument($type, $value, $userId = null) {
         return UserDetail::where($type, $value)
         ->when($userId, function ($q) use($userId) {

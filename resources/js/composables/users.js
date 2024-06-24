@@ -24,6 +24,19 @@ export default function useUsers() {
             });
     };
 
+    const getUsersPaginate = async (filters=[]) => {
+        console.log('getUsersPaginate', filters);
+        let queryString = new URLSearchParams(filters).toString();
+        if(queryString) { queryString = '?'+ queryString }
+        console.log('queryString', queryString);
+        return apiClient
+            .get(
+                "/admin/user/pagination"+queryString)
+            .then((response) => {
+                return response.data;
+            });
+    };
+
     const checkDuplicacy = async (type, data) => {
         return apiClient
             .post(
@@ -145,6 +158,7 @@ export default function useUsers() {
         users,
         user,
         getUsers,
+        getUsersPaginate,
         getReportingUsers,
         getUser,
         storeUser,

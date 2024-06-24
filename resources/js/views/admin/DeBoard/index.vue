@@ -196,7 +196,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="number" name="remaining_pl_year" class="input"
+                                    <Field required type="number" name="remaining_pl_year" class="input" value="0"
                                         autocomplete="off" placeholder="Remaining Earned Leaves This Year*"
                                         :class="{ 'is-invalid': errors.remaining_pl_year }" />
                                     <label for="html" class="user-label ">Remaining Earned Leaves This Year*</label>
@@ -205,7 +205,7 @@
                             </div>
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required type="number" name="remaining_pl_leave" class="input"
+                                    <Field required type="number" name="remaining_pl_leave" class="input" value="0"
                                         id="proRataLeavingDate" autocomplete="off"
                                         placeholder="Remaining Earned Leaves (Pro-Rata based on leaving date)"
                                         :class="{ 'is-invalid': errors.remaining_pl_leave }" />
@@ -446,8 +446,8 @@ const schemas = [
         // re_employable: yup.string().required("Required!"),
     }),
     yup.object({
-        remaining_pl_year: yup.string().required("Remaining Earned Leaves this year is required!"),
-        remaining_pl_leave: yup.string().required("Remaining Earned Leaves is required!!"),
+        remaining_pl_year: yup.number().min(0, 'Remaining Earned Year must be at least 0 characters').required("Remaining Earned Year this year is required!"),
+        remaining_pl_leave: yup.number().min(0, 'Remaining Earned Leaves must be at least 0 characters').required("Remaining Earned Leaves is required!!"),
     }),
 ];
 
@@ -464,6 +464,7 @@ const submitDocForm = (values) => {
     uploadComponent.value.push({
         id: Math.random().toString(36).substring(7),
         title: values.docName,
+        type:values.docName,
         edit:true
     });
     closeModal();
@@ -475,10 +476,10 @@ async function submitForm(user) {
 
 async function nextStep(values, user) {
     if (currentStep.value === 3) {
-        return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '72'; }).catch(error => { return });
+        return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '70'; }).catch(error => { return });
     }
     currentStep.value++;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
 }
 
 function cancel() {
@@ -489,7 +490,7 @@ function prevStep() {
         return;
     }
     currentStep.value--;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '72' : '0';
+    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
 }
 
 const isModalOpened = ref(false);

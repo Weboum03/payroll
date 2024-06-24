@@ -41,6 +41,17 @@ class UserController extends BaseController
         return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function getUserPaginate(Request $request)
+    {
+        $users = $this->userRepository->listingPaginate($request);
+        $users->through(function ($user) {
+            $picture = $user->getFirstMedia('user_profile_picture');
+            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->makeHidden('media');
+            return $user;
+        });
+        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
 
     public function getReportUsers(Request $request)
     {
@@ -71,6 +82,7 @@ class UserController extends BaseController
         $input = $request->all();
         $rules = [
             'email'    => 'unique:users|required',
+            'phone'    => 'unique:users|required',
             'employee_id'    => 'unique:users|required',
             'prob_end_date' => 'required|after:doj',
         ];
