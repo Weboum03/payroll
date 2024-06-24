@@ -311,8 +311,12 @@ onMounted(() => {
     getBatch(route.params.id)
     getRoles()
     getBatchUsers(route.params.id)
-    paginateUser.value = getUsersPaginate()
+    fetPaginateData()
 })
+
+const fetPaginateData = async () => {
+    paginateUser.value = await getUsersPaginate()
+}
 
 const submitForm = async (values) => {
     await addEmployee(route.params.id, values);
