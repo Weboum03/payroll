@@ -1,26 +1,28 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+
+    <div id="dashboard-table-info">
             <span>Approval history</span>
             <span>Leaves > Approval History</span>
-        </div>
+    </div>
 
+    <div id="dashboard-table">
+        
+        <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
         <div id="Approvedleave-historyTable_filter" class="dataTables_filter">
             <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
             <div class="container1" style="display: flex; gap: 1rem;">
-                <select id="dropdown2" class="allActivity" v-model="pagelength"
-                style="width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
+                <select id="dropdown2" class="allActivity" v-model="pagelength">
                 <option value="10">10 Activity</option>
                 <option value="25">25 Activity</option>
                 <option value="50">50 Activity</option>
             </select>
-                <select name="SelectBydate" id="SelectBydate" v-model="dateFilter" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;">
+                <select name="SelectBydate" id="SelectBydate" v-model="dateFilter">
                     <option value="" selected>All</option>
                     <option value="date">By Date</option>
                 </select>
-                <input v-show="showDate" type="date" v-model="dateValue" name="" id="Date" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;width: 117px;background-color: white;">
-                <button @click="refreshData" type="button" id="reset" style="border: none;border-radius: 10px;font-size: 12px;height: 36px;padding: 10px;font-weight: 500;background-color: #2DB9F8;color: white;width: 80px;">Reset</button>
+                <input v-show="showDate" type="date" v-model="dateValue" name="" id="Date">
+                <button @click="refreshData" type="button" id="reset">Reset</button>
             </div>
         </div>
 
@@ -51,6 +53,8 @@
                 <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
             </template>
         </DataTable>
+
+    </div>
         <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
         <singleHistory v-if="isActive" :user="selectedUser" :active="isActive" @showHistory="showHistory"></singleHistory>
     </div>
@@ -213,6 +217,41 @@ table.dataTable tbody tr td {
     padding: 5px;
     background-color: transparent;
     margin-left: 3px;
+}
+
+#SelectBydate, .allActivity {
+    height: 40px;
+    width: 136px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    padding-left: 8px;
+    border: none;
+    border-radius: 8px;
+}
+
+#reset {
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    height: 40px;
+    line-height: 24px;
+    font-weight: 500;
+    background-color: #2DB9F8;
+    color: white;
+    width: 81px;
+}
+
+#Date {
+    height: 40px;
+    width: 220px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    padding-left: 8px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
 }
 
 .modal-mask {

@@ -1,16 +1,23 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
-            <span>DASHBOARD</span>
-            <span>Employee > Dashboard</span>
-        </div>
-       
-        <div id="EmpTable_filter" class="dataTables_filter .add" style="display: flex; justify-content: space-between;">
-                <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
-                        aria-controls="EmpTable"></label>
 
-                <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }"><button id="button3" class="add" style="height: 36.83px;width: 132px;font-size: 12px;font-weight: 500;font-family: sans-serif;padding: 0px 20px;border: none;border-radius: 5px;text-align: start;">Add Onboard</button></router-link>
+    <div id="dashboard-table-info">
+        <span>All Employees</span>
+        <span>Employees &gt; All Employees</span>
+    </div>
+
+    <div id="dashboard-table">
+        <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
+        <div id="EmpTable_filter" class="dataTables_filter .add" style="display: flex; justify-content: space-between;">
+            <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
+                    aria-controls="EmpTable"></label>
+
+            <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }">
+                <button id="button3" class="add"
+                    style="height: 50px;width: 154px;font;font-size: 16px;font-weight: 500;font-family: sans-serif;border: none;border-radius: 5px;text-align: start;display: flex;justify-content: space-evenly;align-items: center;">Add
+                    on Board <div id="datatable-Emp-info"><span type="button" class="add1"> <i
+                                class="fa-solid fa-plus fa-xs" style="color: white;" aria-hidden="true"></i> </span>
+                    </div></button></router-link>
         </div>
         <table v-if="users" class="table text-center" ref="myTable">
             <thead>
@@ -24,7 +31,8 @@
             </thead>
             <tbody>
                 <tr v-for="user in users?.data" :key="user.id" @click="navigateToDetailPage(user.id)">
-                    <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px" height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
+                    <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px"
+                            height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
                     <td>{{ user.employee_id }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.phone }}</td>
@@ -33,19 +41,20 @@
             </tbody>
         </table>
     </div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
 import useUsers from "../../../composables/users";
-import {useAbility} from '@casl/vue';
+import { useAbility } from '@casl/vue';
 const { users, getUsers, deleteUser } = useUsers()
 import { useRouter } from "vue-router";
 import 'datatables.net'; // Import DataTables.js library
 import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
 import $ from 'jquery';
 
-const {can} = useAbility()
+const { can } = useAbility()
 const router = useRouter();
 const myTable = ref(null);
 const search_global = ref('');
@@ -80,13 +89,13 @@ const loadDataTable = () => {
     }
 }
 const commaSeparated = (jsonArray) => {
-      // Use array map function to extract names
-      const namesArray = jsonArray.map(obj => obj.name);
-      // Join the names with comma
-      return namesArray.join(', ');
+    // Use array map function to extract names
+    const namesArray = jsonArray.map(obj => obj.name);
+    // Join the names with comma
+    return namesArray.join(', ');
 }
 const navigateToDetailPage = (itemId) => {
-    if(can('View Profile')) {
+    if (can('View Profile')) {
         router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
     }
 };
@@ -106,12 +115,15 @@ table.dataTable tfoot th,
 table.dataTable tfoot td {
     text-align: center;
 }
+
 .text-center {
-  text-align: center !important;
+    text-align: center !important;
 }
+
 table.dataTable tbody tr td {
     text-align: center;
 }
+
 .dataTables_filter input {
     border: 1px solid #aaa;
     border-radius: 3px;

@@ -1,448 +1,485 @@
-#Financial-year-dropdown{
-  padding: 15px;
-  background-color: #DAE1F3;
-  border-top-right-radius: 12px;
-  border-top-left-radius: 12px;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-  align-items: center;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  font-family: "Poppins", sans-serif;
   }
+ #Financial-year-dropdown{
+    padding: 18px 21px;
+    background-color: #DAE1F3;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: center;
+    }
 
 
 #Financial-year-dropdown span:nth-of-type(1){
-  font-size: 14px;
-  font-weight: 500;
-  font-family: system-ui;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    line-height: 24px;
 }
 
 
 
 .page-link{
- display: flex !important;
- align-items: center;
- justify-content: center;
-  width: 60px;
-  height: 50px;
-  padding: 3px !important;
-  font-size: 11px !important; 
-  color: #000000 !important;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
+   display: flex !important;
+   align-items: center;
+   justify-content: center;
+    width: 60px;
+    height: 50px;
+    padding: 3px !important;
+    font-size: 11px !important; 
+    color: #000000 !important;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
 }
 
 .months-years{
-  display: flex;
-  overflow: scroll;
-  scrollbar-width: none;
+    display: flex;
+    overflow: scroll;
+    scrollbar-width: none;
 }
 .page-item-prev:hover,.page-item-next:hover{
-  background-color: white;
+    background-color: white;
 }
 .page-item-prev{
-   border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  box-shadow: 10px 1px 14px -6px #686867 !important;
-  z-index: 1;
+     border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    box-shadow: 10px 1px 14px -6px #686867 !important;
+    z-index: 1;
 }
 .page-item-next{
-  border-top-right-radius:0px !important;
-  border-bottom-right-radius: 0px !important;
-  border-top-left-radius:0.25rem;
-  border-bottom-left-radius: 0.25rem;
-  box-shadow: -10px 1px 14px -6px #686867 !important;
-  z-index: 1;
+    border-top-right-radius:0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-top-left-radius:0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    box-shadow: -10px 1px 14px -6px #686867 !important;
+    z-index: 1;
 }
 
 .page-link:focus{
- color: white !important;
- background-color: #03A9F3;
+   color: white !important;
+   background-color: #03A9F3;
 }
 
 .pagination{
-  margin: 0px;
-  border-bottom: 1px solid #A8A8A8;
+    margin: 0px;
+    border-bottom: 1px solid #A8A8A8;
 }
 
 .chart-heading {
-  font-family: monospace;
-  color: #023047;
-  font-weight: 500;
-  font-size: 15px;
-  text-align: start;
-  width: 264px ;
-  margin-top: 16px;
-}
-
-
-.payrollData-container {
-  width: 145px;
-  margin-left: 2px;
-  margin-top: 10px;
-}
-
-.graph{
- background-color: white;
+  font-family: "Poppins", sans-serif;
+    color: #023047;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: start;
+    width: 264px ;
+    margin-top: 16px;
   }
-  .payrolldata-graph{
-    font-family: monospace;
   
-    padding: 4px 0px;
-    color: #023047;
-    transition: all 400ms ease;
-  }
-  .programming-stats4 {
-    font-family: monospace;
-    display: flex;
-    align-items: center;
-    gap: 17px;
-    width: fit-content;
-    padding: 4px 0px;
-    color: #023047;
-    margin-left: 11px;
-    transition: all 400ms ease;
+  
+  .payrollData-container {
+    width: 145px;
+    margin-left: 2px;
+    margin-top: 10px;
   }
 
-  .payrolldata-chart{
-      width: 135px !important;
-      height: 135px !important;
+  .graph{
+   background-color: white;
     }
-
-    .programming-stats4 .details ul {
-      list-style: none;
-      padding: 0;
-    }
+    .payrolldata-graph{
+      font-family: "Poppins", sans-serif;
     
-    .programming-stats4 .details ul li {
-      font-size: 12px;
-      margin: 4px 0;
-     font-weight: 600;
-     font-family: monospace;
-     justify-content: start;
-      align-items: center;
-      gap: 3px;
-      margin-bottom: 12px;
+      padding: 4px 0px;
+      color: #023047;
+      transition: all 400ms ease;
     }
+    .programming-stats4 {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 17px;
+      width: fit-content;
+      padding: 4px 0px;
+      color: #023047;
+      margin-left: 11px;
+      transition: all 400ms ease;
+    }
+
+    .payrolldata-chart{
+        width: 135px !important;
+        height: 135px !important;
+      }
+
+      .programming-stats4 .details ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .programming-stats4 .details ul li {
+        font-size: 12px;
+        margin: 4px 0;
+       font-weight: 600;
+       font-family: "Poppins", sans-serif;
+       justify-content: start;
+        align-items: center;
+        gap: 3px;
+        margin-bottom: 12px;
+      }
 
 .details{
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .details ul li:nth-of-type(1) div:nth-of-type(2) {
-width: 115px;
+  width: 115px;
 }
 
 
-    .page-link{
-      display: flex !important;
-      align-items: center;
-      justify-content: center;
-       width: 60px;
-       height: 50px;
-       padding: 3px !important;
-       font-size: 11px !important; 
-       color: #000000 !important;
-       background-color: #fff;
-       border: 1px solid #dee2e6;
-   }
-   
-   .months-years{
-       display: flex;
-       overflow: scroll;
-       scrollbar-width: none;
-   }
-   .page-item-prev:hover,.page-item-next:hover{
-       background-color: white;
-   }
-   .page-item-prev{
-        border-top-right-radius: 0.25rem;
-       border-bottom-right-radius: 0.25rem;
-       box-shadow: 10px 1px 14px -6px #686867 !important;
-       z-index: 1;
-   }
-   .page-item-next{
-       border-top-right-radius:0px !important;
-       border-bottom-right-radius: 0px !important;
-       border-top-left-radius:0.25rem;
-       border-bottom-left-radius: 0.25rem;
-       box-shadow: -10px 1px 14px -6px #686867 !important;
-       z-index: 1;
-   }
-   
-   .page-link:focus{
-      color: white !important;
-      background-color: #03A9F3;
-   }
-   
-   .pagination{
-       margin: 0px;
-       border-bottom: 1px solid #A8A8A8;
-   }
-   
-   .chart-heading {
-       font-family: monospace;
-       color: #023047;
-       font-weight: 500;
-       font-size: 15px;
-       text-align: start;
-       width: 264px ;
-       margin-top: 16px;
+      .page-link{
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+         width: 100px;
+         height: 67px;
+         padding: 23px 18px !important;
+         font-size: 11px !important; 
+         color: #000000 !important;
+         background-color: #fff;
+         border: 1px solid #dee2e6;
      }
      
-     
-     .payrollData-container {
-       width: 145px;
-       margin-left: 2px;
-       margin-top: 10px;
+     .months-years{
+         display: flex;
+         overflow: scroll;
+         scrollbar-width: none;
      }
-   
-     .graph{
-      background-color: white;
-       }
-       .payrolldata-graph{
-         font-family: monospace;
-       
-         padding: 4px 0px;
+     .page-item-prev:hover,.page-item-next:hover{
+         background-color: white;
+     }
+     .page-item-prev{
+          border-top-right-radius: 0.25rem;
+         border-bottom-right-radius: 0.25rem;
+         box-shadow: 10px 1px 14px -6px #686867 !important;
+         z-index: 1;
+     }
+     .page-item-next{
+         border-top-right-radius:0px !important;
+         border-bottom-right-radius: 0px !important;
+         border-top-left-radius:0.25rem;
+         border-bottom-left-radius: 0.25rem;
+         box-shadow: -10px 1px 14px -6px #686867 !important;
+         z-index: 1;
+     }
+     
+     .page-link:focus{
+        color: white !important;
+        background-color: #03A9F3;
+     }
+     
+     .pagination{
+         margin: 0px;
+         border-bottom: 1px solid #A8A8A8;
+     }
+     
+     .chart-heading {
+      font-family: "Poppins", sans-serif;
          color: #023047;
-         transition: all 400ms ease;
+         font-weight: 500;
+         font-size: 15px;
+         text-align: start;
+         width: 264px ;
+         margin-top: 16px;
        }
-       .programming-stats4 {
-         font-family: monospace;
+       
+       
+       .payrollData-container {
+         width: 145px;
+         margin-left: 2px;
+         margin-top: 10px;
+       }
+     
+       .graph{
+        background-color: white;
+        flex-wrap: wrap;
+         }
+         .payrolldata-graph{
+          font-family: "Poppins", sans-serif;
+         
+           padding: 4px 0px;
+           color: #023047;
+           transition: all 400ms ease;
+         }
+         .programming-stats4 {
+          font-family: "Poppins", sans-serif;
+           display: flex;
+           align-items: center;
+           gap: 17px;
+           width: fit-content;
+           padding: 4px 0px;
+           color: #023047;
+           margin-left: 11px;
+           transition: all 400ms ease;
+           flex-wrap: wrap;
+         }
+     
+         .payrolldata-chart{
+             width: 150px !important;
+             height: 150px !important;
+           }
+     
+           .programming-stats4 .details ul {
+             list-style: none;
+             padding: 0;
+           }
+           
+           .programming-stats4 .details ul li {
+             font-size: 12px;
+             margin: 4px 0;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            justify-content: start;
+             align-items: center;
+             gap: 3px;
+             margin-bottom: 12px;
+           }
+     
+     .details{
+         margin-top: 10px;
+     }
+     
+           .details ul li div:nth-of-type(2){
+             width: 95px;
+           }
+     
+     .FinencialTable{
+      font-size: 13px !important;
+      font-weight: 500 !important;
+      line-height: 19.5px;
+      text-align: center;
+      margin-right: 45px;
+     }
+     
+     
+     .table-bordered {
+         border-radius: 15px !important; /* Adjust the border-radius value as needed */
+       }
+       .table-bordered th,
+       .table-bordered td:nth-of-type(0) {
+        background-color: #F8F8F8;
+       }
+     
+     .table{
+         width: 451px !important;
+     }
+       .table th, .table td {
+         padding: 7px !important;
+     }
+      
+     .PayrollBatchbtn{
+      background-color: #2DB9F8 !important;
+      border: none !important;
+      font-size: 16px !important;
+      width: 201px;
+      height: 50px;
+      font-weight: 500 !important;
+     }
+   
+     .PayrollBatchbtn:hover{
+         background-color: #03A9F3 !important;
+         border-color:white !important;
+     }
+     .JJAA{
+      background-color: #2DB9F8 !important;
+      border: none !important;
+      font-size: 16px !important;
+      width: 201px !important;
+      height: 50px;
+      font-weight: 500 !important;
+  }
+     .PayrollDocbtn{
+         color: black !important;
+         border: none !important;   
+        font-size: 16px !important;
+    width: 201px;
+    height: 50px;
+    font-weight: 500 !important;
+     }
+     
+     
+     .Year-Payrool-Batch-modalLAbInp{
+         gap: 24px;
+     }
+     
+     .Year-Payrool-Batch-modalLAbInp>label{
+      font-size: 16px;
+      font-weight: 500;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      width: 91px;
+     }
+     .Year-Payrool-Batch-modalLAbInp>input{
+         font-size: smaller;
+         font-weight: 500;
+         font-family: "Poppins", sans-serif;
+     }
+     
+     .Year-Payrool-Batch-modalLAbInp>input:focus{
+         outline: none;
+     }
+     
+     .modal-header {
+         border: none !important;
+     }
+     .modal-footer{
+         justify-content: center !important;
+         border: none !important;
+     
+         gap: 17px;
+     }
+     
+     .modal-header .close {
+         padding: 0rem 0rem !important;
+         margin: 0rem 1rem -1rem auto !important;
+         background-color: #007bff !important;
+         color: white !important;
+         border-radius: 50%;
+         width: 30px;
+         height: 30px;
          display: flex;
          align-items: center;
-         gap: 17px;
-         width: fit-content;
-         padding: 4px 0px;
-         color: #023047;
-         margin-left: 11px;
-         transition: all 400ms ease;
+         justify-content: center;
+         font-weight: 400 !important;
+     }
+     
+     .cancle{
+         color: black !important;
+         width: 150px !important;
+         height: 50px;
+         font-size: 16px;
+         font-weight: 500 !important;
+         border: none !important;
        }
-   
-       .payrolldata-chart{
-           width: 135px !important;
-           height: 135px !important;
-         }
-   
-         .programming-stats4 .details ul {
-           list-style: none;
-           padding: 0;
-         }
-         
-         .programming-stats4 .details ul li {
-           font-size: 12px;
-           margin: 4px 0;
-          font-weight: 600;
-          font-family: monospace;
-          justify-content: start;
-           align-items: center;
-           gap: 3px;
-           margin-bottom: 12px;
-         }
-   
-   .details{
-       margin-top: 10px;
-   }
-   
-         .details ul li div:nth-of-type(2){
-           width: 95px;
-         }
-   
-   .FinencialTable{
-       font-size: 10px;
-       font-weight: 700;
-   }
-   
-   
-   .table-bordered {
-       border-radius: 15px !important; /* Adjust the border-radius value as needed */
+       .cancle:hover{
+        box-shadow: 0px 0px 3px black !important;
+        border: none !important;
+       }
+       .save{
+        font-size: 16px !important;
+        width: 150px;
+        padding: 0.75rem;
+        text-decoration: none;
+        border: none !important;
+        background-color: #2DB9F8 !important;
+        height: 50px;
+        font-weight: 500 !important;
+       }
+       .save:hover{ 
+           box-shadow: 0px 0px 3px white !important;
+           background-color: #03A9F3 !important;
+       }
+     
+       .modal-content {
+         width: 514px !important;
+         height: 235px;
+       }
+     
+       #comp-name{
+         padding: 0rem !important;
+         display: flex;
+         justify-content:flex-start !important;
+         gap: 1rem;
+         width: auto;
+         align-items: center;
+       }
+       .compname-name{
+         margin-bottom: 0px !important;
+         font-size: 13px;
+         font-weight: 600;
+       }
+       .comp-name-no{
+         margin-bottom: 0px !important;
+         font-size: 10px;
+         color: #A8A8A8;
+       }
+     
+       #comp-date{
+         color: #A8A8A8;
+         font-size: 10px;
+         margin-left: 4px;
+       }
+       #Valid-up-to,#Valid-up-to-date{
+         margin-bottom: 0px !important;
+       }
+     
+       #compy-Profile{
+         width: auto;
+         display: flex;
+         gap: 1rem;
+         align-items: center;
+         justify-content: center;
+         padding: 15px;
+         border-bottom: 1px solid white;
      }
-     .table-bordered th,
-     .table-bordered td:nth-of-type(0) {
-      background-color: #F8F8F8;
+     #compy-Link a:active,#compy-Link a:link,#compy-Link a:visited{
+         text-decoration: none;
+         color: #2DB9F8 !important;
+         font-size: 14px;
+         font-weight: 500;
      }
-   
-   .table{
-       width: 310px !important;
-   }
-     .table th, .table td {
-       padding: 7px !important;
-   }
-    
-   .PayrollBatchbtn{
-       background-color:#2DB9F8 !important ;
-       border: none !important;
-       font-size: 13px;
-   }
- 
-   .PayrollBatchbtn:hover{
-       background-color: #03A9F3 !important;
-       border-color:white !important;
-   }
-   .JJAA{
-    background-color:#2DB9F8 !important ;
-    border: none !important;
-    font-size: 13px;
-}
-   .PayrollDocbtn{
-       color: black !important;
-       border: none !important;
-       font-size: 13px;
-   }
-   
-   
-   .Year-Payrool-Batch-modalLAbInp{
-       gap: 24px;
-   }
-   
-   .Year-Payrool-Batch-modalLAbInp>label{
-    font-size: 14px;
-    font-weight: bold;
-    font-family: sans-serif;
-    display: flex;
-    width: 71px;
-   }
-   .Year-Payrool-Batch-modalLAbInp>input{
-       font-size: smaller;
-       font-weight: 500;
-       font-family: sans-serif;
-   }
-   
-   .Year-Payrool-Batch-modalLAbInp>input:focus{
-       outline: none;
-   }
-   
-   .modal-header {
-       border: none !important;
-   }
-   .modal-footer{
-       justify-content: center !important;
-       border: none !important;
-   
-       gap: 17px;
-   }
-   
-   .modal-header .close {
-       padding: 0rem 0rem !important;
-       margin: 0rem 1rem -1rem auto !important;
-       background-color: #007bff !important;
-       color: white !important;
-       border-radius: 50%;
-       width: 30px;
-       height: 30px;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       font-weight: 400 !important;
-   }
-   
-   .cancle{
-       color: black !important;
-       width: 100px !important;
-       border: none !important;
-     }
-     .cancle:hover{
-      box-shadow: 0px 0px 3px black !important;
-      border: none !important;
-     }
-     .save{
-       font-size: small !important;
-       width: 100px;
-       padding: 0.75rem;
-       display: block;
-       text-decoration: none;
-       text-align: center;
-       border-radius: 0.25rem;
-       border: none !important;
-       cursor: pointer;
-       transition: 0.3s;
-       background-color: #2DB9F8 !important;
-     }
-     .save:hover{ 
-         box-shadow: 0px 0px 3px white !important;
-         background-color: #03A9F3 !important;
-     }
-   
-     .modal-content {
-       width: 85% !important;
-     }
-   
-     #comp-name{
-       padding: 0rem !important;
-       display: flex;
-       justify-content:flex-start !important;
-       gap: 1rem;
-       width: auto;
-       align-items: center;
-     }
-     .compname-name{
-       margin-bottom: 0px !important;
-       font-size: 13px;
-       font-weight: 600;
-     }
-     .comp-name-no{
-       margin-bottom: 0px !important;
-       font-size: 10px;
-       color: #A8A8A8;
-     }
-   
-     #comp-date{
-       color: #A8A8A8;
-       font-size: 10px;
-       margin-left: 4px;
-     }
-     #Valid-up-to,#Valid-up-to-date{
-       margin-bottom: 0px !important;
-     }
-   
-     #compy-Profile{
-       width: auto;
-       display: flex;
-       gap: 1rem;
-       align-items: center;
-       justify-content: center;
-       padding: 15px;
-       border-bottom: 1px solid white;
-   }
-   #compy-Link a:active,#compy-Link a:link,#compy-Link a:visited{
-       text-decoration: none;
-       color: #2DB9F8 !important;
-       font-size: 14px;
-       font-weight: 500;
-   }
 
+#Payroll-Batch-table{
 
-
-     #Payroll-Batch-table thead th,   #Payroll-Batch-table  thead td {
-    padding: 4px 10px !important;
-    background-color:#E0E0E0 !important ;
+    padding: 0px 20px;
+    width: 1590px !important;
 }
 
-#Payroll-Batch-table_filter{
-  display: none;
+#Payroll-Batch-table_wrapper{
+  overflow-x: scroll ;
+  scrollbar-width: none;
+}
+#Payroll-Batch-table thead th{
+  width:50.219px!important;
 }
 
+       #Payroll-Batch-table thead th,   #Payroll-Batch-table  thead td {
+      padding: 22px 10px !important;
+      background-color:#F8F8F8!important ;
+     
+  }
 
-#Payroll-Batch-table thead tr th{
-  font-size: 13px;
-  text-align: center;
-}
-#Payroll-Batch-table tbody tr td{
-  font-size: 12px;
-  font-weight:  300px !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  padding: 13px 10px !important;
-}
-
-.dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
-  font-size: 12px;
-}
-
-.dataTables_wrapper .dataTables_info{
-  padding-left: .755em
-}
-
-.dataTables_wrapper{
-      background-color: white;
+  #Payroll-Batch-table_filter{
+    display: none;
   }
 
   
+  #Payroll-Batch-table thead tr th{
+    font-size: 14px;
+    text-align: center;
+  }
+  #Payroll-Batch-table tbody tr td{
+    font-size: 14px;
+    font-weight:  500 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 22px 15px !important;
+  }
+
+  .dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px;
+    display: none;
+}
+
+.dataTables_wrapper .dataTables_info{
+    padding-left: .755em
+}
+
+.dataTables_wrapper{
+        background-color: white;
+    }
+
+    .FinencialTable .table td:nth-child(2),.FinencialTable .table td:last-child{
+      text-align: center !important;
+    }
+    

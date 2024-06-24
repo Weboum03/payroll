@@ -1,19 +1,20 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container-fluid">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Patroll > Payroll batch</span>
-        </div>
+    </div>
+    <div id="dashboard-table" class="container-fluid">
+        
 
 
-        <div class="container-fluid header d-flex flex-column">
+        <div class="header d-flex flex-column">
 
-            <div class="d-flex justify-content-start align-items-center" style="background-color: white; gap: 12rem;">
+            <div class="d-flex justify-content-start align-items-center" style="background-color: white;gap: 12rem;height: 85px;">
                 <router-link :to="{ name: 'admin.payroll' }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
                         aria-label="Close"
-                        style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
+                        style="   margin: 0px;padding-left: 10px !important;font-size:20px;color: black !important;width: 135px;">
                         <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
                                 style="color: #000000;"></i></span>
                         <span style="cursor: pointer;">Back to list</span>
@@ -21,6 +22,8 @@
                 </router-link>
                 <h5>{{ batch?.data?.name }}</h5>
             </div>
+
+            <div id="PayrollbatchList-Table_wrapper" class="dataTables_wrapper no-footer">
             <div id="PayrollbatchList-Table_filter" class="dataTables_filter"
                 style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
                         v-model="searchQuery" @input="filterRows" placeholder="" aria-controls="PayrollbatchList-Table"></label>
@@ -37,8 +40,8 @@
 
                     <button @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
 
-                    <button type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: red;">
-                        <i class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
+                    <button type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: #e7272d;width: 56px;">
+                        <i class="fa-regular fa-trash-can fa-lg" style="color: white;" aria-hidden="true"></i>
                     </button>
                 </div>
                 <div v-show="isPreview" class="container2" style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -48,8 +51,8 @@
                         style="background-color: #03A9F3;color: white;">Process</button>
                     <button id="button5"
                         class="Download" @click="downloadFileBatch" style="background-color: #03A9F3;color: white;">Download</button>
-                    <button type="buttonDelt" class="btn delete" style=" background-color: red;"><i
-                            class="fa-regular fa-trash-can fa-sm" style="color: white;" aria-hidden="true"></i>
+                    <button type="buttonDelt" class="btn delete" style=" background-color: #e7272d;width: 56px;"><i
+                            class="fa-regular fa-trash-can fa-lg" style="color: white;" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -71,6 +74,7 @@
                         aria-hidden="true"></i>
                 </template>
             </DataTable>
+        </div>
         </div>
     </div>
 </template>
@@ -190,12 +194,11 @@ const tableHeaders = [
 .SavePre,
 .Process,
 .Download {
-    height: 36.83px;
-    width: 120px;
-    font-size: 12px;
+    height: 50px;
+    width: 154px;
+    font-size: 16px;
     font-weight: 500;
     font-family: sans-serif;
-    padding-left: 9px;
     border: none;
     border-radius: 5px;
 }
@@ -203,6 +206,7 @@ const tableHeaders = [
 
 <style>
 @import 'datatables.net-dt';
+
 
 .dt-search {
     display: none;

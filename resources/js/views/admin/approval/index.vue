@@ -1,33 +1,32 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>Leaves</span>
             <span>Employee > Leaves</span>
         </div>
+    <div id="dashboard-table">
+        
 
-        <div id="datatable-Emp-info" class="container">
+        <div id="datatable-Emp-info">
 
 
         </div>
+        <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
         <div id="leavesEmpTable_filter" class="dataTables_filter"
             style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
                     v-model="searchQuery" @input="filterRows" placeholder=""
-                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" v-model="filterStatus"
-                style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
+                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" v-model="filterStatus">
                 <option value="" disabled>Select Status</option>
                 <option value="Pending">Pending</option>
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
             </select>
-            <select id="dropdown2" class="allActivity" v-model="pagelength"
-                style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
+            <select id="dropdown2" class="allActivity" v-model="pagelength">
                 <option value="10">10 Activity</option>
                 <option value="25">25 Activity</option>
                 <option value="50">50 Activity</option>
             </select>
-            <select id="dropdown1" class="empWise" v-model="filterUser"
-                style="height: 30.83px;width: 150px;font-size: 13px;font-weight: 500;font-family: sans-serif;padding-left: 9px;border: none;border-radius: 5px;">
+            <select id="dropdown1" class="empWise" v-model="filterUser">
                 <option disabled value="">Employee wise</option>
                 <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
             </select>
@@ -61,7 +60,7 @@
                 <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
             </template>
         </DataTable>
-
+    </div>
     </div>
 
     <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
@@ -202,6 +201,17 @@ table.dataTable tbody tr td {
     padding: 5px;
     background-color: transparent;
     margin-left: 3px;
+}
+
+.bulkAction, .allActivity, .empWise {
+    height: 40px;
+    width: 210px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    padding-left: 8px;
+    border: none;
+    border-radius: 8px;
 }
 
 #leavesEmpTable_filter {

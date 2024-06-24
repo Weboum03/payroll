@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  font-family: "Poppins", sans-serif;
+  }
 .close1 {
     padding: 2rem 0rem !important;
     width: 125px;
@@ -13,12 +17,14 @@
 
   .header h5{
     margin-bottom: 0px !important;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: 400;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
   }
 
   .header{
     padding: 0px !important;
+    width: -webkit-fill-available;
+    width: -moz-available;
   }
 
 
@@ -26,7 +32,7 @@
     display: inline-flex !important;
     align-items: center;
     font-weight: 600;
-    font-family: sans-serif;
+    font-family: "Poppins", sans-serif;
     margin-bottom: 0px;
 }
 
@@ -34,8 +40,9 @@
     float: left;
     background-color: #DAE1F3;
     width: 100%;
-    padding: 12px;
+    padding: 18px 20px;
    align-items: center !important;
+   flex-wrap: wrap;
 }
 .Addemployee,.Adjustments,.SavePre{
     background-color: #2DB9F8;
@@ -46,24 +53,37 @@
     background-color: red;
 }
 
-#PayrollbatchList-Table tr td{
- padding: 8px 0px !important;
- width: 90px !important;
+#PayrollbatchList-Table tr th,#PayrollbatchList-Table tr td{
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 11px !important;
 }
 #PayrollbatchList-Table tr th{
-    font-size:11px;
- padding: 8px 0px !important;
- width: 57px !important;
+    background-color: #e0e0e0;
+}
+#PayrollbatchList-Table tr th:nth-child(9),#PayrollbatchList-Table tr th:last-child{
+    width: 128.729px !important;
+}
+#PayrollbatchList-Table tr th:nth-child(10){
+    width: 199.729px !important;
+}
+#PayrollbatchList-Table tr th:nth-child(4){
+    width: 159.729px !important;
+}
+#PayrollbatchList-Table tr th:nth-child(8){
+    width: 122.8125px !important;
 }
 
 #PayrollbatchList-Table{
-    font-size: 11px;
     padding: 12px;
     background-color: white;
     justify-content: space-evenly !important;
+    
 }
 .dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
     font-size: 12px;
+    padding: 10px;
+    padding-top: 10px !important;
 }
 
 .dataTables_wrapper .dataTables_info{
@@ -81,13 +101,15 @@
         justify-content: center;
     }
     #processModal .modal-content{
-        width: 75% !important;
+        width: 514px !important;
+        height: 230px;
     }
     #processModal .modal-body{
-        font-size: 12px;
+        font-size: 16px;
         font-weight: 500;
-        color: #8c8c8c;
+        color: #212121;
         padding-top: 7px;
+        opacity: 50%;
     }
     #processModal .modal-footer{
         border-top: 0px !important;
@@ -96,17 +118,14 @@
     }
 
     .process{
-        font-size: small !important;
-        width: 80px;
-        padding: 0.75rem;
-        display: block;
+        font-size: 16px !important;
+        width: 154px;
         text-decoration: none;
-        text-align: center;
-        border-radius: 0.25rem;
         border: none !important;
-        cursor: pointer;
-        transition: 0.3s;
         background-color: #2DB9F8 !important;
+        height: 50px;
+        font-weight: 500 !important;
+        line-height: 24px !important;
       }
       .process:hover{ 
           box-shadow:0px 0px 3px  black !important;
@@ -115,9 +134,11 @@
 
       .cancle{
         color: black !important;
-        width: 77px !important;
+        width: 154px !important;
         border: none !important;
-        font-size: small !important;
+        font-size:16px !important;
+        font-weight: 500 !important;
+        height: 50px;
       }
       .cancle:hover{
        box-shadow: 0px 0px 3px black !important;

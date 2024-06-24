@@ -1,11 +1,11 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container-fluid">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Payroll > Payroll Data</span>
-        </div>
+    </div>
 
+    <div id="dashboard-table" class="container-fluid">
         <div id="Financial-year-dropdown">
             <span>Financial Year</span>
             <span id="finYearDropdown"></span>
@@ -28,13 +28,12 @@
                     </a>
                 </li>
             </ul>
-            <div class="d-flex" style="gap: 15rem;">
-                <div
-                    style="font-size: 10px; margin-left: 10px; color: #4D4D4D; font-weight: 600; font-family: sans-serif;background-color: white;">
-                    March 2024 payroll from 1st March 2024 to 31st march 2024</div>
-                <a href="#"
-                    style="font-size: 10px; margin-left: 10px; color:#2DB9F8; font-weight: 600; font-family: sans-serif;text-decoration: none;">Check
-                    for deduction u/s 80JJAA for Hiring New Employee</a>
+            <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
+                        <div style="font-size: 13px;margin-left: 10px;color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;opacity: 50%;line-height: 19.5px;">
+                            March 2024 payroll from 1st March 2024 to 31st march 2024</div>
+                         <a href="#" style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
+                            for deduction u/s 80JJAA for Hiring New Employee
+                        </a>
 
             </div>
         </nav>
@@ -43,8 +42,8 @@
         <div class="d-flex flex-column align-items-center; " style="background-color: white;gap: 1rem;">
 
 
-            <div class="graph chartjs-div-payrolldata d-flex" style="gap: 175px;">
-                <div class="payrolldata-graph d-flex flex-column">
+            <div class="graph chartjs-div-payrolldata d-flex justify-content-between" style="gap: 175px;">
+                <div class="payrolldata-graph d-flex flex-column justify-content-center align-items-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
                             <canvas class="payrolldata-chart"></canvas>
@@ -97,6 +96,8 @@
                     Batch</button>
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
+                
+                    <button type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
             </div>
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
@@ -235,6 +236,9 @@ const navigateToDetailPage = (data) => {
 @import '@/assets/css/Payroll.css';
 @import '@/assets/css/onBoard.css';
 
+.JJAA {
+
+}
 .modal-mask {
     position: fixed;
     z-index: 1;

@@ -1,14 +1,15 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
-            <span>Dashboard</span>
-            <span>Dashboard</span>
-        </div>
 
+    <div id="dashboard-table-info">
+            <span>Dashboard</span>
+            <span>Dashboard</span>
+    </div>
+
+    <div id="dashboard-table">
         <div id="Financial-year-dropdown">
             <span>Employee Data</span>
-            <button type="button" class="btn btn-primary" @click="openModalCompare">
+            <button type="button" class="btn btn-primary" id="compareData" @click="openModalCompare">
                 Compare Data
             </button>
         </div>
@@ -16,18 +17,17 @@
         <nav aria-label="Page navigation example" class="d-flex flex-column"
             style="background-color: white;gap: 1rem;padding-top: 10px;">
             <div class="d-flex" style="gap: 15rem;">
-                <div
-                    style="font-size: 10px; margin-left: 10px; color: #4D4D4D; font-weight: 600; font-family: sans-serif;background-color: white;">
+                <div style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
                     March 2024 payroll from 1st March 2024 to 31st march 2024</div>
             </div>
         </nav>
 
 
-        <div class="d-flex flex-column align-items-center; " style="background-color: white;gap: 1rem; height: 275px;">
+        <div class="d-flex flex-column align-items-center; " style="background-color: white;gap: 1rem; ">
 
 
-            <div class="graph chartjs-div-payrolldata d-flex" style="gap: 175px;">
-                <div class="payrolldata-graph d-flex flex-column">
+            <div class="graph chartjs-div-payrolldata d-flex justify-content-between" style="gap: 175px;">
+                <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
                             <div class="payrolldata-chart">
@@ -101,10 +101,9 @@
                     style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
             </div>
 
-            <div
-                style="font-size: 10px; margin-left: 10px; color:#A8A8A8; font-weight: 600; font-family: sans-serif;text-align: center;">
-                *Check
-                for deduction u/s 80JJAA for Hiring New Employee</div>
+            <div style="font-size: 13px; margin-left: 10px; color:#212121;opacity: 50%; font-weight: 500; font-family: sans-serif;text-align: center;">
+                        *Check
+                        for deduction u/s 80JJAA for Hiring New Employee</div>
 
         </div>
 

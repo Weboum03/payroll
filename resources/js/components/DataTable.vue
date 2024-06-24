@@ -40,7 +40,7 @@
                             </td>
                         </tr>
                         <tr v-else>
-                            <td :colspan="Object.keys(headers).length">
+                            <td :colspan="Object.keys(headers).length" class="text-center">
                                 No Record Found
                             </td>
                         </tr>
@@ -323,6 +323,10 @@ table.dataTable tbody tr td {
 
 #leavesEmpTable_filter {
     margin-bottom: -5px;
+}
+
+#leavesEmpTable_info {
+    padding: 15px;;
 }
 
 .modal-mask {
