@@ -1,19 +1,22 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>Employee Roles</span>
             <span>Employee Roles > Employee Roles</span>
-        </div>
+    </div>
 
-        <div id="datatable-Emp-info" class="container">
+    <div id="dashboard-table">
+        <div id="EmpRolesTable_wrapper" class="dataTables_wrapper no-footer">
+        <div id="EmpRolesTable_filter" class="dataTables_filter"
+            style="display: flex; justify-content: space-between;"><label>Search:<input type="search"
+                    v-model="search_global" class="" placeholder="" aria-controls="EmpRolesTable"></label>
+                
+                    <div id="datatable-Emp-info">
             <router-link :to="{ name: 'admin.EmployeeRoleAdd' }" class="add2">
-                <i class="fa-solid fa-plus fa-xs" style="color: white;"></i>
+                <i class="fa-solid fa-plus fa-sm" style="color: white;"></i>
             </router-link>
         </div>
-        <div id="EmpRolesTable_filter" class="dataTables_filter .add2"
-            style="display: flex; justify-content: space-between;"><label>Search:<input type="search"
-                    v-model="search_global" class="" placeholder="" aria-controls="EmpRolesTable"></label></div>
+    </div>
         <table id="EmpRolesTable" ref="myTable">
             <thead>
                 <tr>
@@ -42,7 +45,7 @@
                 </tr>
             </tbody>
         </table>
-
+    </div>
     </div>
 </template>
 

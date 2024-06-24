@@ -1,18 +1,18 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
+    <div id="dashboard-table">
         <div id="dashboard-table-info">
             <span>Employee Roles</span>
             <span>Employee Roles > Employee Roles</span>
         </div>
 
-        <div class="container header d-flex flex-column" style="gap: 1.5rem;">
+        <div class="header d-flex flex-column" style="gap: 1.5rem;">
             <div class="sec d-flex flex-column">
                 <p>Update Employee Roles</p>
                 <p>Update employee role and it's permissions to access portal features.</p>
             </div>
             <form @submit.prevent="submitForm">
-                <div class="container d-flex flex-column" style="gap: 2rem;">
+                <div class="d-flex flex-column" style="gap: 2rem;">
 
                     <div class="row">
                         <div class="col input-group-fname">
