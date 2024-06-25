@@ -132,8 +132,12 @@
     <div v-if="isModalOpened" class="modal-mask" ref="target" id="testRslt1" data-backdrop="false" data-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content" style=" width: 800px !important; scrollbar-width: none; ">
+            <div class="modal-content" style=" width: 940px !important; scrollbar-width: none; ">
                 
+                <div data-v-f3042a6e="" class="modal-header">
+                    <h5 data-v-f3042a6e="" class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
+                    <button data-v-f3042a6e="" type="button" class="close">
+                        <span data-v-f3042a6e="" aria-hidden="true" style="margin-bottom: 5px;">×</span></button></div>
                 <div class="modal-body">
 
                 <div id="testRslt-table_filter" class="dataTables_filter">    
