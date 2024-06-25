@@ -35,7 +35,7 @@
                     aria-hidden="true"></i></button>
         </div>
         <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData"
-            @rowclick="selectUser" ref="table">
+             ref="table">
             <template v-slot:cell-name="{ row }">
                 <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
                     height="20px" style="border-radius: 50%;">
@@ -53,11 +53,9 @@
                     :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
                     id="pendingBtn">{{ row.status }}</button>
             </template>
-
-
-
+            
             <template v-slot:cell-action="{ row }">
-                <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
+                <i class="fa-solid fa-ellipsis-vertical fa-sm" @click="selectUser(row)" style="color: #000000;"></i>
             </template>
         </DataTable>
     </div>

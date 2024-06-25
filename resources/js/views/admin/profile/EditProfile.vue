@@ -1,11 +1,14 @@
 <template>
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+
+<div id="dashboard-table-info" class="container">
             <span>Update</span>
             <span>Employees > Profile > Update</span>
         </div>
 
-        <div id="form-info" class="container">
+    <div id="dashboard-table" class="container">
+        
+
+        <div id="form-info">
             <form action="#" class="form">
                 <div class="d-flex" style="gap: 1rem;">
                     <!-- <button type="button" class="close1 btn-prev" data-dismiss="modal" aria-label="Close"
@@ -29,9 +32,9 @@
                         data-title="Job Information"></div>
                     <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }"
                         data-title="Attendance & Leaves"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks">
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Documents">
                     </div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done">
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done!">
                     </div>
                 </div>
 
@@ -1189,11 +1192,11 @@ async function nextStep(values, errors) {
         });
         userData.value.attachments = getUploadDocData();
         userData.value.delete_files = deleteFiles.value;
-        return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '70'; }).catch(error => { return });
+        return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '95'; }).catch(error => { return });
     }
     userDetail.value = values;
     currentStep.value++;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+    boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 function prevStep() {
@@ -1201,7 +1204,7 @@ function prevStep() {
         return;
     }
     currentStep.value--;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+    boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 function cancel() {
@@ -1237,6 +1240,11 @@ const submitDocForm = (values) => {
     max-width: 300px;
     max-height: 300px;
     margin-top: 10px;
+}
+
+.progressbar {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .modal-mask {

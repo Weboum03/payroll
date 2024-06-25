@@ -1,17 +1,23 @@
 <template>
-    <div id="dashboard-table" class="container-fluid">
-        <div id="dashboard-table-info">
+
+<div id="dashboard-table-info" class="container">
             <span>On-board</span>
             <span>Employees > On-board</span>
         </div>
 
-        <div id="form-info" class="container">
+    <div id="dashboard-table" class="container">
+        
+
+        <div id="form-info">
             <form class="form">
-                <div class=" d-flex flex-column">
+                <div class="d-flex" style="gap: 1rem;">
+                    <div class=" d-flex flex-column">
                     <div class="Add-emp-div">Add Employee</div>
                     <div class="div-emp-rem"> Fill in the fields on each screen to create an employment record
                         for a new stater.</div>
                 </div>
+                </div>
+                
                 <!-- Progress bar -->
                 <div class="progressbar container">
                     <div class="progress" :style="{ width: boxWidth + '%' }"></div>
@@ -21,9 +27,9 @@
                         data-title="Job Information"></div>
                     <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 2 }"
                         data-title="Attendance & Leaves"></div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Tasks">
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 3 }" data-title="Documents">
                     </div>
-                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done">
+                    <div class="progress-step" :class="{ 'progress-step-active': currentStep >= 4 }" data-title="Done!">
                     </div>
                 </div>
 
@@ -1152,11 +1158,11 @@ async function nextStep(values) {
     userDetail.value.check_all = checkAll.value;
     userDetail.value.user_profile_picture = profilePic.value;
     userDetail.value.attachments = getUploadDocData();
-    return submitForm(userDetail.value).then(response => { currentStep.value++; boxWidth.value = '70'; } ).catch(error => { return });
+    return submitForm(userDetail.value).then(response => { currentStep.value++; boxWidth.value = '95'; } ).catch(error => { return });
   }
   userDetail.value = values;
   currentStep.value++;
-  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+  boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 function cancel() {
@@ -1167,7 +1173,7 @@ function prevStep() {
     return;
   }
   currentStep.value--;
-  boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+  boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 const uploadComponent = ref([
@@ -1242,6 +1248,11 @@ const deleteInput = (id) => {
     max-width: 300px;
     max-height: 300px;
     margin-top: 10px;
+}
+
+.progressbar {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .modal-mask {
