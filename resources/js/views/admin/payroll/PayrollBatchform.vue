@@ -1,13 +1,15 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+
+    <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Payroll > Payroll batch</span>
-        </div>
+    </div>
 
-        <div class="container d-flex flex-column justify-content-center"
-            style="background-color: white;padding: 10px; gap: 1rem;">
+
+    <div id="dashboard-table">
+        <div class="d-flex flex-column justify-content-center"
+            style="background-color: white;padding: 10px;gap: 1rem;border-radius: 8px;">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="Payroll-header">
                     <p>Payroll Batch - {{ batch?.data?.name }}</p>
@@ -17,10 +19,10 @@
                     Rule</button>
             </div>
 
-            <div style="font-size: 10px;color: red;font-weight: 500;">Note: Only those employees who are not
+            <div style="font-size: 13px;color: #e7272d;font-weight: 500;">Note: Only those employees who are not
                 already added to another batch and meet the below criteria will be added </div>
             <Form @submit="submitForm">
-            <div class="container payForm d-flex flex-column" style="gap: 1rem;">
+            <div class="payForm d-flex flex-column" style="gap: 1rem;">
                 <div class="row d-flex">
                     <div class="col input-group-fname">
                         <Field as="select" class="form-control input" v-model="filterValues.company" id="Companies" name="company" autocomplete="off" style="color: #7e7e7e;">
@@ -276,6 +278,7 @@ const filterValues = reactive({
 });
 
 const filterRows = () => {
+    table.value.currentPage = 1;
     table.value.filterPayload();
 };
 
@@ -287,6 +290,7 @@ watch(filterValues, async (current, previous) => {
     await getUsers(filterValues)
     filteredValue.value = users.value.data.map(e => e.id)
     paginateUser.value = await getUsersPaginate(filterValues)
+    table.value.filterData.page = 1;
 });
 
 const filterData = async (values) => {

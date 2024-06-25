@@ -1242,7 +1242,7 @@ const deleteInput = (id) => {
 @import '@/assets/css/onBoard.css';
 </style>
 
-<style>
+<style setup>
 .preview img,
 .preview video {
     max-width: 300px;

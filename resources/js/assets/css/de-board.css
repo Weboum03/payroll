@@ -41,7 +41,6 @@ input {
   justify-content: space-between;
   counter-reset: step;
   margin: 24px 0 49px;
-  padding: 0 150px;
 }
 
 .progressbar::before,

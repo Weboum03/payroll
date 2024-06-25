@@ -243,6 +243,7 @@ watch(
 )
 
 defineExpose({
+    currentPage,
     filterData,
     filterPayload,
     pageLength,
