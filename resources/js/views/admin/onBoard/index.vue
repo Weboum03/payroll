@@ -954,9 +954,25 @@ const schemas = [
     first_name: yup.string().required('First name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
     middle_name: yup.string().nullable().max(30, 'Name must be at max 30 characters'),
     last_name: yup.string().required('Last name is required').min(3, 'Name must be at least 3 characters').max(30, 'Name must be at max 30 characters'),
-    email: yup.string().required('Email is required').matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format'),
+    email: yup.string().required('Email is required').matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format')
+    .test('is-exists', 'This Email is already taken.', async (value) => {
+        if (value == null || value == '') {
+            return true;
+        }
+        let checkResponse = await checkDuplicacy('email', {value: value  });
+        if(checkResponse.data == false) { return true }
+        return false;
+    }),
     secondary_email: yup.string().email('Invalid Email').nullable(),
-    phone: yup.string().required('Phone is required').min(10).max(10),
+    phone: yup.string().required('Phone is required').min(10).max(10)
+    .test('is-exists', 'This Phone number is already taken.', async (value) => {
+        if (value == null || value == '') {
+            return true;
+        }
+        let checkResponse = await checkDuplicacy('phone', {value: value  });
+        if(checkResponse.data == false) { return true }
+        return false;
+    }),
     alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
           value => value === null || value === '' || value.length === 10),
     gender: yup.string().required('Gender is required'),

@@ -275,7 +275,7 @@ table.dataTable tbody tr td {
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: .3rem;
     outline: 0;
-    width: 100% !important;
+    width: 100%;
 }
 
 .dataTables_filter {

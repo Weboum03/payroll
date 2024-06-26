@@ -175,7 +175,6 @@ watch(tableHeaders, (current, previous) => {
 
 <style>
 @import '@/assets/css/Approvals.css';
-@import '@/assets/css/onBoard.css';
 @import 'datatables.net-dt';
 
 table.dataTable thead th,
@@ -239,7 +238,7 @@ table.dataTable tbody tr td {
     border: 1px solid rgba(0, 0, 0, .2);
     border-radius: .3rem;
     outline: 0;
-    width: 100% !important;
+    width: 100%;
 }
 
 .dt-search {

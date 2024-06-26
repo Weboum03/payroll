@@ -12,8 +12,12 @@
                     v-model="search_global" class="" placeholder="" aria-controls="EmpRolesTable"></label>
                 
                     <div id="datatable-Emp-info">
-            <router-link :to="{ name: 'admin.EmployeeRoleAdd' }" class="add2">
-                <i class="fa-solid fa-plus fa-sm" style="color: white;"></i>
+            <router-link :to="{ name: 'admin.EmployeeRoleAdd' }">
+                <button id="button3" class="add"
+                    style="height: 50px;width: 125px;font-size: 16px;font-weight: 500;font-family: sans-serif;border: none;border-radius: 5px;text-align: start;display: flex;justify-content: space-evenly;align-items: center;">Add
+                    Role <div id="datatable-Emp-info"><span type="button" class="add1"> <i
+                                class="fa-solid fa-plus fa-xs" style="color: white;" aria-hidden="true"></i> </span>
+                    </div></button>
             </router-link>
         </div>
     </div>

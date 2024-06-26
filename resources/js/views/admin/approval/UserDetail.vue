@@ -2,7 +2,7 @@
     <div v-if="props.user"  class="modal-mask" id="leaveModal" data-backdrop="static" data-keyboard="false"
         tabindex="-1" aria-labelledby="leaveModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content" style="height: 500px;" ref="target">
+                <Form @submit="submitForm" :validation-schema="schema" v-slot="{ validate, errors }" ref="form" class="modal-content">
                 <div class="modal-header">
                     <div id="Leave-approve-profile">
                         <nav class="navbar navbar-light ">
@@ -18,7 +18,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <Form @submit="submitForm" :validation-schema="schema" v-slot="{ validate, errors }" ref="form" >
+                
                 <div class="modal-body">
                     <div class="leavedetails-popupModal" >
                         <div class="form-row">
@@ -82,10 +82,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save">Save</button>
-                    <a @click="closeModal" href="javascript:;" class="btn btn-outline-light cancle">Cancel</a>
                 </div>
             </Form>
-            </div>
         </div>
     </div>
 </template>
@@ -133,6 +131,10 @@ const target = ref(null)
 onClickOutside(target, () => emit('close'));
 </script>
 
+<style>
+@import '@/assets/css/Approvals.css';
+@import 'datatables.net-dt';
+</style>
 <style scoped>
 p {
     margin: 0;

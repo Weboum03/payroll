@@ -107,6 +107,14 @@ class UserRepository extends BaseRepository
     }
 
     public function checkDocument($type, $value, $userId = null) {
+
+        if($type == 'email' || $type == 'phone') {
+            return User::where($type, $value)
+            ->when($userId, function ($q) use($userId) {
+                return $q->where('id', '<>', $userId);
+            })
+            ->exists();
+        }
         return UserDetail::where($type, $value)
         ->when($userId, function ($q) use($userId) {
             return $q->where('user_id', '<>', $userId);

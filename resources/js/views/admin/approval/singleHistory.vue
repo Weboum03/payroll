@@ -115,6 +115,7 @@ const loadDataTable = () => {
 
 <style>
 @import 'datatables.net-dt';
+@import '@/assets/css/Approvals.css';
 
 .dataTables_filter {
     margin-bottom: -15px;

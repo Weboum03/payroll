@@ -70,6 +70,8 @@ class UserController extends BaseController
         $check = $this->userRepository->checkDocument($type, $request->value, $request->user_id);
         if($type == 'pan_number') { $message = 'This PAN number already exists'; }
         elseif($type == 'aadhar_number') { $message = 'This aadhar number already exists'; }
+        elseif($type == 'phone') { $message = 'Phone number already exists'; }
+        elseif($type == 'email') { $message = 'Email already exists'; }
         else { $message = 'Already exist'; }
         return $this->sendResponse($check, $message);
     }
