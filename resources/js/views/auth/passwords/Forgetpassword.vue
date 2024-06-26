@@ -1,15 +1,16 @@
 <template>
-    <div class="container1 d-flex max-width: 1616px;">
-        <div class="image container">
+    <div class="container1 d-flex">
+        <div class="container d-flex flex-column justify-content-center align-items-center" style="background-color: #D9D9D9;gap: 7rem;height: 100vh;">
 
-            <div class="content">
-                <h1 class="Unic">U</h1>
-                <h2 class="Aven">aven.</h2>
-            </div>
+        <div class="content">
+            <h1 class="Unic"></h1>
+            <h2 class="Aven"></h2>
+        </div>
+        <div class="image"></div>
         </div>
 
         <div class="container d-flex flex-column justify-content-center align-items-start"
-            style="gap: 1rem;padding: 117px;padding-top: 70px;">
+        style="gap: 1rem;padding: 0px 117px;">
 
             <div class="Welcome gy-20">
                 <h1 class="hadding1">Welcome to Uaven</h1>
@@ -22,21 +23,21 @@
             <div class="flex-column" id="emailFields" style="gap: 1.5rem;">
                 <div class="row">
                     <div class="col input-group-fname">
-                        <input placeholder="Email*" required="" type="email" autocomplete="off" class="input"
+                        <input placeholder="Email*" required type="email" autocomplete="off" class="input"
                             id="Email">
                         <label class="user-label">Email*</label>
                     </div>
 
                 </div>
                 <div class="d-flex justify-content-end">
-                    <router-link style="font-size: small;" :to="{name: 'auth.login'}">Sign In?</router-link>
+                    <router-link style="font-size: 16px;font-weight: 500;line-height: 24px;font-family:Poppins,sans-serif; color: #03A9F3;" :to="{name: 'auth.login'}">Log In?</router-link>
                 </div>
             </div>
 
             <div class="flex-column" id="passwordFields" style="gap: 1.5rem; display: none;">
                 <div class="row">
                     <div class="col input-group-fname">
-                        <input placeholder="New Password*" required="" type="password" autocomplete="off" class="input"
+                        <input placeholder="New Password*" required type="password" autocomplete="off" class="input"
                             id="newPassword">
                         <label class="user-label"> New Password*</label>
                         <i class="fas fa-eye" id="togglePassword2"
@@ -50,7 +51,7 @@
                             style="color:#848484;position:relative;top: -32px; left: 363px;"></i>
                     </div>
                     <div class="col input-group-fname">
-                        <input placeholder="OTP*" required="" type="text" autocomplete="off" class="input"
+                        <input placeholder="OTP*" required type="text" autocomplete="off" class="input"
                             id="confirmPassword">
                         <label class="user-label">OTP*</label>
                     </div>
