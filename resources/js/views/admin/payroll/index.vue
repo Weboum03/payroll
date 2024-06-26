@@ -233,8 +233,8 @@ const navigateToDetailPage = (data) => {
 </script>
 
 <style scoped>
-@import '@/assets/css/Payroll.css';
 @import '@/assets/css/onBoard.css';
+@import '@/assets/css/Payroll.css';
 
 .JJAA {
 

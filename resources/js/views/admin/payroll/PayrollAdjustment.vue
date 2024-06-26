@@ -1,15 +1,15 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>Payroll</span>
             <span>Payroll > Payroll adjustment</span>
-        </div>
+    </div>
 
-        <div class="container d-flex flex-column" style="gap: 2rem; background-color: white;padding: 20px;">
+    <div id="dashboard-table">
+        <div class="d-flex flex-column" style="gap: 2rem; background-color: white;padding: 20px;">
             <div class="header">{{ batch?.data?.name }} - Make a new payroll adjustment</div>
             <div class="section d-flex flex-column" style="gap: 1rem;">
-                <div class="updateMode d-flex justify-content-start align-items-baseline" style="gap: 1rem;">
+                <div class="updateMode d-flex justify-content-start align-items-baseline" style="gap: 1rem;flex-wrap: wrap;">
                     <span>1</span>
 
                     <div class="row d-flex flex-column align-items-start justify-content-center">
@@ -31,7 +31,7 @@
                             <label class="user-label">Update Mode*</label>
                         </div>
                         <p
-                            style="margin-left: 18px;margin-bottom: 0px;font-size: 10px;color: #A8A8A8;font-weight: 500;">
+                            style="margin-left: 18px;margin-bottom: 0px;font-size: 12px;color: #212121;font-weight: 500;opacity: 50%;">
                             Praesent sit amet metus nec quam molestie</p>
                     </div>
 
@@ -39,10 +39,10 @@
                 <div class="dwnldFile  d-flex justify-content-start align-items-baseline" style="gap: 1rem;">
                     <span>2</span>
                     <div id="dwnldFile" class="d-flex align-items-center justify-content-start"
-                        style="gap: 1rem;font-size: 14px;font-weight: 700;font-family:  sans-serif;">Download file
+                        style="gap: 1rem;font-size: 16px;font-weight: 500;font-family:  sans-serif;">Download file
                         pre-field with employee data to make adjustment
                         <i class="fa-solid fa-download fa-sm" @click="downloadFileBatch"
-                            style="background-color: #2DB9F8;width: 36px;height: 33px;border-radius: 6px;text-align: center;align-items: center;justify-content: center;display: flex;color: white;"></i>
+                            style="background-color: #2DB9F8;width: 44px;height: 40px;border-radius: 6px;text-align: center;align-items: center;justify-content: center;display: flex;color: white;"></i>
                     </div>
 
                 </div>
@@ -195,12 +195,8 @@ const tableHeaders = [
 </script>
 
 <style scoped>
-@import '@/assets/css/PayrollAdjustment.css';
-
-</style>
-
-<style>
 @import 'datatables.net-dt';
+@import '@/assets/css/PayrollAdjustment.css';
 
 .dt-search {
     display: none;

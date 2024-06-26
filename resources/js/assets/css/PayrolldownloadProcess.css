@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  font-family: "Poppins", sans-serif;
+  }
+.back-button-div p{
+    margin-bottom: 0px !important;
+}
+.header {
+    padding: 0px !important;
+}
+.close{
+    opacity: 1 !important;
+}
+.back-button-div{
+    padding: 20px;
+}
+.data1,.data2,.data3,.data4,.data5{
+    display: flex;
+    flex-direction: column;
+    border-right:1px solid #E0E0E0;
+    padding-right: 62px;
+    height: 24px;
+    justify-content: center;
+   
+    
+
+} 
+.data6{
+    display: flex;
+    flex-direction: column;
+    height: 24px;
+    justify-content: center;
+  
+
+}
+.details{
+    display: flex;
+    gap: 1rem;
+    border-bottom: 0.5px solid #E0E0E0;
+    padding-bottom: 20px;
+    padding-left: 28px;
+    flex-wrap: wrap;
+    
+}
+.GrossWages, .Deduction,.NetWages,.LeaveEncashment,.Gratuity,.TotalPay{
+    font-size: 12px;
+    color: #212121;
+    font-weight: 500;
+    opacity: 50%;
+}
+.GrossValue,.DeductionValue,.NetValue,.LeaveValue,.GratuityValue,.TotalValue{
+    font-weight: 500;
+    font-size: 15px;
+}
+.back-button-div{
+    border-bottom: 0.5px solid #E0E0E0;
+    flex-wrap: wrap;
+    
+}
+.buttons-div{
+    padding-left: 20px;
+    padding-bottom: 20px;
+    flex-wrap: wrap;
+}
+#viewlog{
+    background-color: #03A9F3 !important;
+    color: white !important;
+    font-size: 16px;
+    width: 107px;
+    font-weight: 500;
+    border: none;
+    box-shadow: none !important;
+    height: 50px;
+    font-family: "Poppins", sans-serif;
+
+}
+#revisepay,#relSalSlip,#DiscardPay{
+    background-color:#03A9F3 !important ;
+    color: white !important;
+    font-size: 16px;
+       height: 50px;
+        width: 185px;
+        font-weight: 500;
+        border: none;
+        outline: none !important;
+        box-shadow: none !important;
+        font-family: "Poppins", sans-serif;
+}
+#viewlog:hover,#revisepay:hover,#relSalSlip:hover,#DiscardPay:hover,#Download:hover{
+    background-color: #2DB9F8 !important;
+    box-shadow: 0px 0px 5px rgb(174, 174, 174);
+}
+
+#SRDownload,#ARDownload,#BLDownload,#CBDownload,#SSDownload{
+    background-color: #03A9F3 !important;
+    color: white !important;
+    font-size: 16px;
+    padding: 9px;
+    width: 154px;
+    font-weight: 500;
+    border: none;
+    text-align: start;
+    gap: 9px;
+    box-shadow: none !important;
+    height: 50px;
+}
+#SRDownload:hover,#ARDownload:hover,#BLDownload:hover,#CBDownload:hover,#SSDownload:hover{
+    background-color: #2DB9F8 !important;
+    box-shadow: 0px 0px 5px rgb(174, 174, 174);
+}
+
+th,td{
+    text-align: start !important;
+}
+td{
+    font-size: 13px;
+    font-weight: 500;
+    color: #4D4D4D;
+    width: 200px;
+}
+
+td select{
+    width: 305.33px;
+    height: 50px;
+    padding: 9px;
+    color: #A8A8A8;
+    border: 1px solid #A8A8A8;
+    outline: none;
+    border-radius: 6px;
+}
+
+#Doc-Download_filter,#Doc-Download_info,#Doc-Download_paginate{
+    display: none;
+}
+#Doc-Download thead th{
+    background-color: #ECF0F4 !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3) !important;
+    padding: 22px 15px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+
+}
+
+#Doc-Download tbody td{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+    padding: 22px 15px !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#Doc-Download{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table.dataTable > tbody > tr > td {
+    padding: 15px 10px !important;
+}
+

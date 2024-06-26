@@ -1,151 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+  font-family: "Poppins", sans-serif;
+  }
 .input-group-fname>.input {
-  width: 755px;
-  height: 40px;
-  border: solid 1px #9e9e9e;
-  padding: 8px !important;
-  border-radius: 5px;
-  background-color: white !important;
-  font-size: .95rem;
-  color: #000000;
-  transition: border 150ms cubic-bezier(0.4,0,0.2,1);
- }
+    width: 815px;
+    height: 50px;
+    border: solid 1px #9e9e9e;
+    border-radius: 5px;
+    background-color: white !important;
+    font-size: 15px;
+    color: #000000;
+    transition: border 150ms cubic-bezier(0.4,0,0.2,1);
+   }
 
- .input-group-fname>.input:hover{
-  border: solid 1.3px black;
-  cursor: pointer;
+   .input-group-fname>.input:hover{
+    border: solid 1.3px black;
+    cursor: pointer;
 
- }
- .input-group-fname>.user-label {
-  position: absolute;
-  margin-bottom: none !important;
-  top: 11px;
-  font-size: 11px;
-  font-weight: 500;
-  color: #9e9e9e;
-  pointer-events: none;
-  transform: translateX(21px);
-  transition: 150ms cubic-bezier(0.4,0,0.2,1);
-  opacity: 0;
- }
+   }
+   .input-group-fname>.user-label {
+    position: absolute;
+    margin-bottom: none !important;
+    top: 11px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #9e9e9e;
+    pointer-events: none;
+    transform: translateX(21px);
+    transition: 150ms cubic-bezier(0.4,0,0.2,1);
+    opacity: 0;
+   }
 
- .input-group-fname>.input:focus,.input-group-fname>.input:valid {
-  outline: none;
-  border: 1.5px solid #1a73e8;
- }
+   .input-group-fname>.input:focus,.input-group-fname>.input:valid {
+    outline: none;
+    border: 1.5px solid #1a73e8;
+   }
 
- .input-group-fname>.input:focus ~ .user-label,
+   .input-group-fname>.input:focus ~ .user-label,
 .input-group-fname>.input:valid ~ .user-label{
-  transform: translateY(-117%) scale(1);
-  left: 35px;
-  background-color: #ffffff;
-  font-size: 10px;
-  padding: 0 .2em;
-  color: #2196f3;
-  opacity: 1;
- }
+    transform: translateY(-117%) scale(1);
+    left: 35px;
+    background-color: #ffffff;
+    font-size: 10px;
+    padding: 0 .2em;
+    color: #2196f3;
+    opacity: 1;
+   }
 
- .header{
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
- }
+   .header{
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+   }
 
- .updateMode span{
-  background-color: #2DB9F8;
-  width: 26px;
-  height: 26px;
-  text-align: center;
-  color: white;
-  border-radius: 50%;
+   .updateMode span{
+    background-color: #2DB9F8;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
 
- }
- .dwnldFile span{
-  background-color: #2DB9F8;
-  width: 26px;
-  height: 26px;
-  text-align: center;
-  color: white;
-  border-radius: 50%;
+   }
+   .dwnldFile span{
+    background-color: #2DB9F8;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
 
- }
- .upldExcelfile span:nth-of-type(1){
-  background-color: #2DB9F8;
-  width: 26px;
-  height: 26px;
-  text-align: center;
-  color: white;
-  border-radius: 50%;
+   }
+   .upldExcelfile span:nth-of-type(1){
+    background-color: #2DB9F8;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    color: white;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
 
- }
- .upldExcelfile span:nth-of-type(2){
-  gap: 1rem;font-size: 14px;
-  font-weight: 700;
-  font-family:  sans-serif;
+   }
+   .upldExcelfile span:nth-of-type(2){
+    gap: 1rem;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
 
- }
+   }
 
- .is-invalid{
-  width: 50% !important;
-  font-size: 14px;
- }
+   .is-invalid{
+    width: 342px !important;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+   }
 
- .custom-file-label::after {
- 
-  content: "Upload" !important;
-  color: white !important;
-  background-color: #2DB9F8 !important;
+   .custom-file-label::after {
+   
+    content: "Upload" !important;
+    color: white !important;
+    background-color: #2DB9F8 !important;
 
 }
 
 .btn-cancle{
-  color: black !important;
-  width: 100px !important;
-  border: none !important;
-}
-.btn-cancle:hover{
- box-shadow: 0px 0px 3px black !important;
-}
+    color: #03A9F3 !important;
+    width: 154px !important;
+    border: none !important;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 500 !important;
+    font-family: "Poppins", sans-serif;
+  }
+  .btn-cancle:hover{
+   box-shadow: 0px 0px 3px black !important;
+  }
 
+  
+  .vldExcel{
+    font-size: 16px !important;
+    width: 154px;
+    padding: 8px !important;
+    background-color: #03A9F3 !important;
+    color: white !important;
+    height: 50px;
+    font-weight: 500 !important;
+    font-family: "Poppins", sans-serif;
+  }
+  .vldExcel:hover{ 
+      box-shadow: 0px 0px 3px white !important;
+      background-color: #2DB9F8 !important;
+  }
 
-.vldExcel{
-  font-size: small !important;
-  width: 110px;
-  padding:8px !important;
-  display: block;
-  text-align: center;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: 0.3s;
-  background-color: #03A9F3 !important;
-  color: white !important;
-}
-.vldExcel:hover{ 
-    box-shadow: 0px 0px 3px white !important;
-    background-color: #2DB9F8 !important;
-}
+  #PayrollAdjustment-Table thead tr th{
+    font-size: 14px;
+    text-align: center;
+    font-weight: 700;
+    font-family: "Poppins", sans-serif;
+    background-color: #e0e0e0;
+  }
+  #PayrollAdjustment-Table thead tr th:nth-child(3),  #PayrollAdjustment-Table thead tr th:nth-child(4){
+    width: 110.2083px !important;
+  }
+  #PayrollAdjustment-Table thead tr th:last-child{
+    width: 96.354px !important;
+  }
+  #PayrollAdjustment-Table tbody tr td{
+    font-size: 14px;
+    font-weight:  500 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 13px 10px !important;
+    font-family: "Poppins", sans-serif;
+  }
 
-#PayrollAdjustment-Table thead tr th{
-  font-size: 13px;
-  text-align: center;
-}
-#PayrollAdjustment-Table tbody tr td{
-  font-size: 12px;
-  font-weight:  300px !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  padding: 13px 10px !important;
-}
+  #PayrollAdjustment-Table_filter{
+    display: none;
+  }
 
-#PayrollAdjustment-Table_filter{
-  display: none;
-}
-
-.dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
-  font-size: 12px;
+  .dataTables_wrapper .dataTables_info,.dataTables_wrapper .dataTables_paginate {
+    font-size: 12px;
+    padding-top: 10px !important;
 }
 
 .dataTables_wrapper .dataTables_info{
-  padding-left: .755em
+    padding-left: .755em
 }
 
 .dataTables_wrapper{
-      background-color: white;
-  }
+        background-color: white;
+    }

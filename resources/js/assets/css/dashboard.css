@@ -25,7 +25,7 @@ body{
 
 .image {
 
-  background-image: url('../IMAGE/U\ Mark.png');
+  background-image: url('/resources/images/U\ Mark.png');
   background-repeat: no-repeat;
   width:44px ;
   height:44px ;

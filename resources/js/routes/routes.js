@@ -137,6 +137,12 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.PayrolldownloadProcess",
+                path: "PayrolldownloadProcess/:id",
+                component: () => import("../views/admin/payroll/PayrolldownloadProcess.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.PayrollprocessList",
                 path: "PayrollprocessList",
                 component: () => import("../views/admin/payroll/PayrollprocessList.vue"),
