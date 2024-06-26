@@ -476,10 +476,10 @@ async function submitForm(user) {
 
 async function nextStep(values, user) {
     if (currentStep.value === 3) {
-        return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '70'; }).catch(error => { return });
+        return submitForm(values).then(response => { currentStep.value++; boxWidth.value = '95'; }).catch(error => { return });
     }
     currentStep.value++;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+    boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 function cancel() {
@@ -490,7 +490,7 @@ function prevStep() {
         return;
     }
     currentStep.value--;
-    boxWidth.value = currentStep.value == 1 ? '18' : currentStep.value == 2 ? '36' : currentStep.value == 3 ? '54' : currentStep.value == 4 ? '70' : '0';
+    boxWidth.value = currentStep.value == 1 ? '24' : currentStep.value == 2 ? '50' : currentStep.value == 3 ? '70' : currentStep.value == 4 ? '95' : '0';
 }
 
 const isModalOpened = ref(false);
@@ -505,6 +505,11 @@ const closeModal = () => {
 
 <style>
 @import '@/assets/css/de-board.css';
+
+.progressbar {
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .modal-mask {
     position: fixed;

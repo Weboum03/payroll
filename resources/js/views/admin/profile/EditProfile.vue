@@ -706,7 +706,7 @@
                             <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
                             <button type="button" v-if="currentStep !== 0" @click="prevStep"
                                 class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light "
+                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
                                 @click="cancel">Cancel</a>
                         </div>
                     </div>
@@ -1231,10 +1231,10 @@ const submitDocForm = (values) => {
 };
 </script>
 <style>
-@import '@/assets/css/onboard.css';
+@import '@/assets/css/onBoard.css';
 </style>
 
-<style>
+<style scoped>
 .preview img,
 .preview video {
     max-width: 300px;

@@ -1,22 +1,20 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-Profile" class="container  d-flex flex-column">
 
-        <div id="dashboard-table-info">
-            
+    <div id="dashboard-table-info" class="container">
 
-
-                    <router-link :to="{ name: 'admin.dashboard'}" custom v-slot="{ navigate }">
-                        <span @click="navigate" class="d-flex justify-content-center align-items-center" style="gap: 9px;"><i
-                    class="fa-solid fa-arrow-left fa-xs back-icon" style="color: #000000;"></i>Profile</span>
+        <router-link :to="{ name: 'admin.dashboard'}" custom v-slot="{ navigate }">
+            <span @click="navigate" class="d-flex justify-content-center align-items-center" style="gap: 9px;"><i class="fa-solid fa-arrow-left fa-xs back-icon" style="color: #000000;" aria-hidden="true"></i>Profile</span>
                     </router-link>
-            <span>Employee > Profile</span>
-        </div>
+                
+                <span>Employees &gt; Profile</span>
+    </div>
+    <div id="dashboard-Profile" class="d-flex flex-column">
 
         <div id="EmpProfile-details" class="d-flex container" style="gap: 1rem;">
 
             <div id="Emp-details" class="d-flex flex-column justify-content-center align-items-center"
-                style="gap: 1rem;height: 500px;">
+                style="gap: 1rem;height: 604px;">
 
                 <img v-if="user?.user_profile_picture" class="emp-img" :src="user?.user_profile_picture" />
 
@@ -26,7 +24,7 @@
                 <div class="name-role d-flex flex-column justify-content-center align-items-center"
                     style="font-family: monospace;">
                     <div>{{ user?.first_name }}</div>
-                    <div style="font-size: 13px;color: #A8A8A8;font-weight: 500;">{{ user?.role?.name }}</div>
+                    <div style="font-size: 16px;color: #212121;font-weight: 500;opacity: 50%;line-height: 24px; font-family:Poppins, sans-serif;">{{ user?.role?.name }}</div>
                 </div>
 
                 <div class="email-phone d-flex flex-column justify-content-center align-items-center"
@@ -34,12 +32,12 @@
                     <div class="Phone d-flex justify-content-center align-items-center" style="gap: .5rem;">
                         <div class="Phone-icon"><i class="fa-solid fa-phone fa-sm" style="color: #2DB9F8;"></i>
                         </div>
-                        <div style=" font-size: 12px; font-weight: 600;">{{ user?.phone }}</div>
+                        <div style=" font-size: 16px; font-weight: 500;line-height: 24px;font-family:Poppins, sans-serif;">{{ user?.phone }}</div>
                     </div>
 
                     <div class="Email d-flex justify-content-center align-items-center" style="gap: .5rem;">
                         <div class="Phone-icon"><i class="fa-solid fa-envelope fa-sm" style="color: #2DB9F8;"></i></div>
-                        <div style=" font-size: 11px; font-weight: 600;" id="email-Value">{{ user?.email }}
+                        <div style=" font-size: 14px; font-weight: 500;line-height: 21px;font-family:Poppins, sans-serif;">{{ user?.email }}
                         </div>
                     </div>
 
@@ -72,11 +70,11 @@
                         <p>{{ user?.info?.employment_duration?.months }} Months</p>
                         <p>{{ user?.info?.employment_duration?.days }} Days</p>
                     </div>
-                    <div id="Absences" class="d-flex flex-column justify-content-flex-start align-items-center">
+                    <div id="Absences" class="d-flex flex-column justify-content-center align-items-center">
                         <p>Absences</p>
                         <p>0 Days</p>
                     </div>
-                    <div id="Remaining-Leaves" class="d-flex flex-column justify-content-flex-start align-items-center">
+                    <div id="Remaining-Leaves" class="d-flex flex-column justify-content-center align-items-center">
                         <p>Remaining Leaves</p>
                         <p>{{ user?.info?.earning_leave_entitlement }} Days</p>
                     </div>
