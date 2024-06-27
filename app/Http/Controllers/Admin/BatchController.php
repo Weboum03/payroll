@@ -173,6 +173,9 @@ class BatchController extends BaseController
         $selectedUser = $request->selected_user;
         $excludedUser = $request->excluded_user;
         if($selectedUser) {
+            if($selectedUser == $excludedUser) {
+                return $this->sendError('You cannot choose same employee to specific and exclude employee field');
+            }
             $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
             if(!$exits) {
                 $user = UserDetail::where('user_id', $selectedUser)->first();
