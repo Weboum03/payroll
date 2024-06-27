@@ -36,6 +36,19 @@ export default function useBatch() {
         }
     };
 
+    const getBatchFormUser = async (id, filters=[]) => {
+        loading.value = true;
+        try {
+            let queryString = new URLSearchParams(filters).toString();
+            if(queryString) { queryString = '?'+ queryString }
+            return await getApiPath.getBatchFormUser(id, queryString);
+        } catch (err) {
+            error.value = err;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const fetchOne = async (id) => {
         loading.value = true;
         try {
@@ -257,6 +270,7 @@ export default function useBatch() {
         loading,
         fetchAll,
         getBatchUsers,
+        getBatchFormUser,
         deleteBatchUser,
         processBatch,
         exportBatch,

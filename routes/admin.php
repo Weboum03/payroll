@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('document/{type}', [UserController::class, 'checkDocument']);
     $router->apiResource('batches', BatchController::class);
     $router->get('batches/{id}/users', [BatchController::class, 'getUsersByBatch']);
+    $router->get('batches/{id}/process_users', [BatchController::class, 'getBatchFormUser']);
     $router->put('batches/{id}/users', [BatchController::class, 'storeUsersByBatch']);
     $router->put('batches/{id}/process', [BatchController::class, 'processBatch']);
     $router->put('batches/{id}/export', [BatchController::class, 'exportBatch']);

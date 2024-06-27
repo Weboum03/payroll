@@ -261,8 +261,8 @@ import useUsers from "@/composables/users";
 import useBatch from "@/composables/useBatch";
 import useRoles from "@/composables/roles";
 import { onMounted, reactive, watch, ref } from "vue";
-const { users, getUsers, getUsersPaginate, is } = useUsers()
-const { items: batches, item: batch, fetchOne: getBatch, getBatchUsers, addEmployee, loading, success } = useBatch()
+// const { users, getUsers, getUsersPaginate, is } = useUsers()
+const { items: batches, item: batch, fetchOne: getBatch, getBatchUsers,getBatchFormUser, addEmployee, loading, success } = useBatch()
 const { roles, getRoles } = useRoles()
 const table = ref(null)
 const route = useRoute()
@@ -271,6 +271,7 @@ const filteredValue = reactive([]);
 const isModalOpened = ref(false)
 const searchQuery = ref("");
 const paginateUser = ref([])
+const users = ref([])
 const filterValues = reactive({
     company:'',
     location:'',
@@ -291,9 +292,9 @@ const showDataTable = () => {
 }
 
 watch(filterValues, async (current, previous) => {
-    await getUsers(filterValues)
+    users.value = await getBatchFormUser(route.params.id, filterValues)
     filteredValue.value = users.value.data.map(e => e.id)
-    paginateUser.value = await getUsersPaginate(filterValues)
+    paginateUser.value = await getBatchFormUser(route.params.id, Object.assign(filterValues, {paginate : true}))
     table.value.filterData.page = 1;
 });
 
@@ -301,9 +302,10 @@ const filterData = async (values) => {
     let filters = filterValues;
     Object.assign(filters,{
         page: table.value.filterData.page,
-        search: searchQuery.value.toLowerCase()
+        search: searchQuery.value.toLowerCase(),
+        paginate: true
     })
-    paginateUser.value = await getUsersPaginate(filters)
+    paginateUser.value = await getBatchFormUser(route.params.id, filters)
 }
 
 const tableHeaders = [
@@ -314,21 +316,22 @@ const tableHeaders = [
     { key: 'department', label: 'Department' }
 ];
 
-onMounted(() => {
-    getUsers(filterValues)
+onMounted( async () => {
+    users.value = await getBatchFormUser(route.params.id, filterValues)
     getBatch(route.params.id)
     getRoles()
-    getBatchUsers(route.params.id)
     fetPaginateData()
 })
 
 const fetPaginateData = async () => {
-    paginateUser.value = await getUsersPaginate()
+    paginateUser.value = await getBatchFormUser(route.params.id, {paginate:true})
 }
 
 const submitForm = async (values) => {
     await addEmployee(route.params.id, values);
-    router.push({ name: 'admin.PayrollBatchList', params: { id: route.params.id } });
+    if(success.value) {
+        router.push({ name: 'admin.PayrollBatchList', params: { id: route.params.id } });
+    }
 };
 </script>
 

@@ -46,6 +46,35 @@ class BatchRepository extends BaseRepository
             ->first();
     }
 
+    public function getBatchFormUser($batchId, $request)
+    {
+        return User::latest()->with('role')
+        ->whereHas('info', function ($query) use($request) {
+            $query->when($request->company, function ($q) use($request) {
+                return $q->where('company', $request->company);
+            })
+            ->when($request->location, function ($q) use($request) {
+                return $q->where('location', $request->location);
+            })
+            ->when($request->department, function ($q) use($request) {
+                return $q->where('department', $request->department);
+            })
+            ->when($request->gender, function ($q) use($request) {
+                return $q->where('gender', $request->gender);
+            })
+            ->when($request->employment_type, function ($q) use($request) {
+                return $q->where('employment_type', $request->employment_type);
+            });
+        })
+        ->whereDoesntHave('payroll', function ($q) use($batchId) {
+            // return $q->where('batch_id', $batchId);
+        })
+        ->when($request->role, function ($q) use($request) {
+            return $q->where('role_id', $request->role);
+        })
+        ->when($request->paginate , function ($q) { return $q->paginate(10); }, function ($q) { return $q->get(); });
+    }
+
     public function listing($request)
     {
         $limit = $request->input('length', 20);
@@ -131,8 +160,8 @@ class BatchRepository extends BaseRepository
 
     public function getAllUsersByBatch($id, $request)
     {
-        return User::doesntHave('payroll', 'or', function ($q) use($id) {
-            $q->where('batch_id', $id);
+        return User::whereDoesntHave('payroll', function ($q) use($id) {
+            // return $q->where('batch_id', $id);
         })->with('info')->whereHas('info', function ($query) use ($request) {
             $query->when($request->company, function ($q) use ($request) {
                 return $q->where('company', $request->company);

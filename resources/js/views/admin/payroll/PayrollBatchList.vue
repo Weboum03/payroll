@@ -2,7 +2,7 @@
     <!-- -----nav-dashboard-table start----- -->
     <div id="dashboard-table-info">
             <span>Payroll</span>
-            <span>Patroll > Payroll batch</span>
+            <span>Payroll > Payroll batch</span>
     </div>
     <div id="dashboard-table" class="container-fluid">
         

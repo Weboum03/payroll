@@ -37,6 +37,15 @@ class BatchController extends BaseController
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function getBatchFormUser($id, Request $request)
+    {
+        $users = $this->batchRepository->getBatchFormUser($id, $request);
+        if($request->paginate) {
+            return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+        }
+        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+    }
+
     public function getUsersByBatch($id, Request $request)
     {
         $users = $this->batchRepository->getUsersByBatch($id, $request);
@@ -181,6 +190,9 @@ class BatchController extends BaseController
             });
         }
         
+        if($addedUser == 0) {
+            return $this->sendError('Employees are not available to add');
+        }
         return $this->sendResponse($addedUser.' Employees were added to the payroll batch successfully.', 'Success');
     }
 
