@@ -191,7 +191,7 @@ class BatchController extends BaseController
         }
         
         if($addedUser == 0) {
-            return $this->sendError('Employees are not available to add');
+            return $this->sendError('Employees are not available to add in this batch');
         }
         return $this->sendResponse($addedUser.' Employees were added to the payroll batch successfully.', 'Success');
     }
