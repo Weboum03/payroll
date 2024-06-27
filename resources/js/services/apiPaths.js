@@ -15,7 +15,7 @@ const getApiPath = {
 
     //Batches
 
-    getBadges() { return apiService.get(`admin/batches`); },
+    getBadges(params = '') { return apiService.get(`admin/batches${params}`); },
 
     getBadgeUsers(id,params = '') { return apiService.get(`admin/batches/${id}/users${params}`); },
 

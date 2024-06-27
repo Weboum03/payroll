@@ -15,7 +15,7 @@ class Batch extends Model
         'name',
         'status'
     ];
-
+    
     public function employee() {
         return $this->hasMany(Payroll::class, 'batch_id');
     }

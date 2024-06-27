@@ -166,9 +166,6 @@ watch(rowsData, (current, previous) => {
     totalRecords.value = ref(props.rows.totalRecords);
 });
 
-watchEffect(() => {
-    console.log('totalRecords.value.value', totalRecords.value.value);
-})
 const paginatedRows = computed(() => {
     const start = (currentPage.value - 1) * pageLength.value;
     const end = start + pageLength.value;

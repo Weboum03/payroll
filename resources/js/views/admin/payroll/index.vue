@@ -102,13 +102,19 @@
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
 
-            <DataTable :key="tableKey" v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
+            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
                 @rowclick="navigateToDetailPage" ref="table">
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
+                <template v-slot:cell-wages="{ row }">
+                    {{ row.wages || '0.00' }}
+                </template>
+                <template v-slot:cell-deduction="{ row }">
+                    {{ row.deduction || '0.00' }}
+                </template>
                 <template v-slot:cell-payout="{ row }">
-                    0
+                    {{ row.payout || '0.00' }}
                 </template>
                 <template v-slot:cell-action="{ row }">
                     <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
@@ -151,7 +157,7 @@
 
 <script setup>
 
-import { ref, onMounted, defineProps, watch } from 'vue';
+import { ref, onMounted, defineProps, watch, watchEffect } from 'vue';
 import * as yup from 'yup';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
@@ -164,6 +170,7 @@ const { can } = useAbility()
 
 const router = useRouter();
 const isModalOpened = ref(false);
+const table = ref(null)
 
 const schema = yup.object({
     name: yup.string().required('Required'),
@@ -201,13 +208,18 @@ const closeModal = () => {
     isModalOpened.value = false;
 };
 
+const filterData = (filterValues) => {
+    getBatches(filterValues)
+}
+
 onMounted(() => {
-    const script = document.createElement('script');
-    script.src = '../../resources/js/Payroll.js';
-    document.head.appendChild(script);
     getBatches();
 });
 
+
+watchEffect(() => {
+    if(table.value) { table.value.pageLength = 5; }
+})
 const emit = defineEmits(["modal-close"]);
 const target = ref(null)
 onClickOutside(target, () => emit('modal-close'));

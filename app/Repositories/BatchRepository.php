@@ -69,7 +69,7 @@ class BatchRepository extends BaseRepository
                     ->orWhere('phone', 'like', '%' . $search['value'] . '%');
             });
         }
-        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'gross_wages')->withSum('employee as deduction', 'deduction')->paginate(5);
+        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'salary')->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate(5);
     }
 
     public function getUsersByBatch($id, $request)

@@ -160,6 +160,7 @@ class BatchController extends BaseController
             return $this->sendError('Not found');
         }
 
+        $addedUser = 0;
         $selectedUser = $request->selected_user;
         $excludedUser = $request->excluded_user;
         if($selectedUser) {
@@ -167,18 +168,20 @@ class BatchController extends BaseController
             if(!$exits) {
                 $user = UserDetail::where('user_id', $selectedUser)->first();
                 $batch->employee()->create(['user_id' => $selectedUser, 'gross_wages' => $user->salary]);
+                $addedUser++;
             }
         } else {
             $users = $this->batchRepository->getAllUsersByBatch($id, $request);
-            $users->each(function ($user) use($batch, $excludedUser) {
+            $users->each(function ($user) use($batch, $excludedUser, &$addedUser) {
                 $exits = $batch->employee()->where('user_id', $user->id)->exists();
                 if(!$exits && $excludedUser != $user->id) {
                     $batch->employee()->create(['user_id' => $user->id, 'gross_wages' => $user->info->salary]);
+                    $addedUser++;
                 }
             });
         }
         
-        return $this->sendSuccess('Success');
+        return $this->sendResponse($addedUser.' Employees were added to the payroll batch successfully.', 'Success');
     }
 
     public function processBatch($id, Request $request)

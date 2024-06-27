@@ -20,6 +20,7 @@ class Payroll extends Model
         'overtime',
         'bonus',
         'commission',
+        'payout',
         'reimbursement',
         'leave_bal',
     ];

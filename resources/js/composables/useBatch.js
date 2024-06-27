@@ -10,10 +10,12 @@ export default function useBatch() {
     const validationErrors = ref({});
     const swal = inject("$swal");
 
-    const fetchAll = async () => {
+    const fetchAll = async (filters=[]) => {
         loading.value = true;
         try {
-            items.value = await getApiPath.getBadges();
+            let queryString = new URLSearchParams(filters).toString();
+            if(queryString) { queryString = '?'+ queryString }
+            items.value = await getApiPath.getBadges(queryString);
         } catch (err) {
             error.value = err;
         } finally {
@@ -142,10 +144,11 @@ export default function useBatch() {
     const addEmployee = async (id, data) => {
         loading.value = true;
         try {
-            await getApiPath.storeBadgeEmployee(id, data);
+            let response = await getApiPath.storeBadgeEmployee(id, data);
             swal({
                 icon: "success",
-                title: "Updated successfully",
+                title: "Added employee to batch",
+                text: response.data
             });
         } catch (err) {
             error.value = err;
