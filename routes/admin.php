@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\LeaveController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -54,6 +55,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->delete('batches/{id}/users/{userId}', [BatchController::class, 'deleteUserByBatch']);
     $router->apiResource('leaves', LeaveController::class);
     $router->get('leaves/user/{userId}', [LeaveController::class, 'getByUser']);
+
+    $router->post('attendance/{userId}', [AttendanceController::class, 'getAttendance']);
+    
     $router->get('abilities', function(Request $request) {
         return Auth::user()->roles()->with('permissions')
             ->get()

@@ -40,6 +40,9 @@ const getApiPath = {
     updateBadgeById(id, params) { return apiService.update(`admin/batches/${id}`, params); },
 
     deleteBadgeById(id) { return apiService.delete(`admin/batches/${id}`); },
+
+    //Attendance
+    getAttendance(id, params) { return apiService.post(`admin/attendance/${id}`,params); },
 };
 
 export default getApiPath;

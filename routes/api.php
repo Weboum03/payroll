@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\LeaveController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -34,6 +35,10 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
 
     $router->post('leaves', [LeaveController::class, 'store']);
     $router->get('leaves_type', [LeaveController::class, 'getLeaveTypes']);
+
+    $router->put('attendance/checkin', [AttendanceController::class, 'checkIn']);
+    $router->put('attendance/checkout', [AttendanceController::class, 'checkOut']);
+    $router->get('attendance', [AttendanceController::class, 'getAttendance']);
 
     //Notification
     $router->get('notifications/{notification_id}', [NotificationController::class, 'show']);

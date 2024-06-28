@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\Attendance\Contracts\CanLogAttendance;
+use App\Services\Attendance\Traits\HasAttendance;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -17,9 +19,9 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable implements JWTSubject, HasMedia
+class User extends Authenticatable implements JWTSubject, HasMedia, CanLogAttendance
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, InteractsWithMedia, HasAttendance;
 
     public const MEDIA_COLLECTION_PROFILE_PICTURE = 'user_profile_picture';
 

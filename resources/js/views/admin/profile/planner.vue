@@ -46,7 +46,7 @@
                             Year</label>
                     </div>
                     <div class="d-flex" style="gap:10px">
-                        <input type="radio" name="viewdata" id="ByMonth" value="ByMonth" style="width: 20px;">
+                        <input type="radio" checked name="viewdata" id="ByMonth" value="ByMonth" style="width: 20px;">
                         <label for="ByMonth"
                             style="font-size: 16px;font-weight: 500;margin-top: -1px;margin-bottom: 0px;line-height: 24px;font-family: Poppins, sans-serif;">By
                             Month</label>
@@ -57,16 +57,16 @@
 
             <div class="row row-cols-6" style=" padding: 0px 13px;align-items: center;">
                 <div class="col input-group-fname">
-                    <input placeholder="from" required="" type="text" name="text" autocomplete="off"
-                        class="input form-control" onfocus="(this.type='date')" onfocusin="showLabel()"
+                    <input v-model="startDate" @change="filterRows" placeholder="from" required="" type="text" name="text" autocomplete="off"
+                        class="input form-control" onfocus="(this.type='date')"
                         style="width: 251px;height: 45px;">
                     <label class="user-label ">From</label>
                 </div>
                 <span
                     style="text-align: center;padding-left: 115px;padding-bottom: 4px;font-size: 16px;font-weight: 500;line-height: 24px;">to</span>
                 <div class="col input-group-fname">
-                    <input placeholder="To" required="" type="text" name="text" autocomplete="off"
-                        class="input form-control" onfocus="(this.type='date')" onfocusin="showLabel()"
+                    <input v-model="endDate" @change="filterRows" placeholder="To" required="" type="text" name="text" autocomplete="off"
+                        class="input form-control" onfocus="(this.type='date')"
                         style="width: 251px;height: 45px;">
                     <label class="user-label ">To</label>
                 </div>
@@ -88,13 +88,13 @@
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(45, 185, 248); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>5 days absence</div>
+                                    <div>{{ attendanceValue.present }} days absence</div>
                                 </li>
                                 <li style="display: flex;">
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>900 working days</div>
+                                    <div>{{ attendanceValue.absent }} working days</div>
                                 </li>
                             </ul>
                         </div>
@@ -228,8 +228,8 @@
                 </div>
             </div>
         </div>
-
     </div>
+    {{ attendancechartData }}
 </template>
 
 <script setup>
@@ -238,13 +238,29 @@ import $, { param } from 'jquery';
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useRoute } from "vue-router";
+import useAttendance from "@/composables/useAttendance";
+const { getUserAttendanceCount, loading: isLoading, success } = useAttendance();
+const startDate = ref('2024-06-01')
+const endDate = ref('2024-06-31')
+const attendanceData = ref({})
 const route = useRoute()
-
+const attendanceValue = ref({
+    present : 0,
+    absent : 0
+})
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+const filterRows = async () => {
+    attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
+    attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
+    attendanceValue.value = {
+        present : attendanceData.value.data.present_count,
+        absent : attendanceData.value.data.absent_count
+    }
+};
 
-const attendancechartData = {
+const attendancechartData = ref({
     labels: ["5 days absence", "900 working days"],
     datasets: [
         {
@@ -253,7 +269,7 @@ const attendancechartData = {
             cutout: '70%',
         }
     ],
-}
+})
 
 const counter1 = {
     id: "counter",
@@ -317,12 +333,16 @@ const options2 = {
         },
     },
 }
-onMounted(() => {
-    const script = document.createElement('script');
-    script.src = '../../resources/js/planner.js';
-    document.head.appendChild(script);
-});
 
+onMounted( async () => {
+    attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
+    attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
+    attendancechartData.value.labels = ['Rahul', 'Vipan']
+    attendanceValue.value = {
+        present : attendanceData.value.data.present_count,
+        absent : attendanceData.value.data.absent_count
+    }
+});
 
 </script>
 
