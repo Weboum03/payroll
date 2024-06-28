@@ -179,7 +179,7 @@ class BatchController extends BaseController
             $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
             if(!$exits) {
                 $user = UserDetail::where('user_id', $selectedUser)->first();
-                $batch->employee()->create(['user_id' => $selectedUser, 'gross_wages' => $user->salary]);
+                $batch->employee()->create(['user_id' => $selectedUser, 'salary' => $user->salary, 'payout' => $user->salary]);
                 $addedUser++;
             }
         } else {
@@ -187,7 +187,7 @@ class BatchController extends BaseController
             $users->each(function ($user) use($batch, $excludedUser, &$addedUser) {
                 $exits = $batch->employee()->where('user_id', $user->id)->exists();
                 if(!$exits && $excludedUser != $user->id) {
-                    $batch->employee()->create(['user_id' => $user->id, 'gross_wages' => $user->info->salary]);
+                    $batch->employee()->create(['user_id' => $user->id, 'salary' => $user->info->salary, 'payout' => $user->info->salary]);
                     $addedUser++;
                 }
             });

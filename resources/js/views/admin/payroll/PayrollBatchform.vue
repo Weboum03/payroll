@@ -329,7 +329,7 @@ const fetPaginateData = async () => {
 
 const submitForm = async (values) => {
     await addEmployee(route.params.id, values);
-    if(success.value) {
+    if(success) {
         router.push({ name: 'admin.PayrollBatchList', params: { id: route.params.id } });
     }
 };
