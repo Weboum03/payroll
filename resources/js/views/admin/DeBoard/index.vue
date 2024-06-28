@@ -275,11 +275,11 @@
                                         <div class="d-flex align-items-center" style="gap: 1rem;"><i
                                                 class="fa-solid fa-circle-check fa-xl" style="color: #1B8A5A;"></i>
                                             <div style="font-size: 14px;font-weight: 600;">Done! <span
-                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> {{ user?.first_name }} {{ user?.last_name }}</span> is successfully deboarded from the system.
+                                                    style="color: #2DB9F8;font-weight: bold;font-size: 13px;"> {{ user?.first_name }} {{ user?.last_name }}</span> is successfully de-board from the system.
                                             </div>
                                         </div>
-                                        <div style="font-size: 13px;font-weight: 500">Unique employee ID was <span
-                                                style="color: #2DB9F8;">{{ user?.employee_id }}</span></div>
+                                        <div style="font-size: 13px;font-weight: 500">Employee ID <span
+                                                style="color: #2DB9F8;">{{ user?.employee_id }}</span> will disabled after last notice period day.</div>
                                         <div class="div-emp-rem"> What would you like to do next?</div>
                                     </div>
                                 </div>
@@ -301,8 +301,8 @@
                         <div class="personal-infor">
                             <div class="btns-save-cancle" style="margin-top: -9px;">
                                 <button class="btn btn-next btn-primary savenext">Save & Next</button>
-                                <a href="javascript:;" v-if="currentStep !== 0" @click="prevStep"
-                                    class="btn btn-outline-light cancle">Back</a>
+                                <a :disabled="isLoading" v-if="currentStep !== 0" @click="prevStep"  class="btn btn-outline-light cancle">Back</a>
+                                <a :disabled="isLoading" v-if="currentStep == 0"  class="btn btn-outline-light cancle" @click="cancel">Back</a>
                             </div>
                         </div>
                     </div>
@@ -483,7 +483,7 @@ async function nextStep(values, user) {
 }
 
 function cancel() {
-    router.push({ name: 'admin.onBoard' })
+    router.push({ name: 'admin.EmpProfile', params: {id:route.params.id} })
 }
 function prevStep() {
     if (currentStep.value <= 0) {

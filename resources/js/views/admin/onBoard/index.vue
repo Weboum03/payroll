@@ -509,7 +509,6 @@
                                     <Field required name="department" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
-                                        <option value="">Department</option>
                                         <option value="Software Development">Software Development</option>
                                         <option value="Quality Testing">Quality Testing</option>
 										<option value="Designing">Designing</option>
@@ -751,9 +750,8 @@
                     <div v-if="currentStep < 4" class="form-step form-step-active">
                         <div class="btns-save-cancle">
                             <button @click="validate" type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                            <button type="button" :disabled="isLoading" v-if="currentStep !== 0" @click="prevStep"
-                                class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" class="btn btn-outline-light cancle" @click="cancel">Cancel</a>
+                            <a id="myAnchor" :disabled="isLoading" v-if="currentStep !== 0" @click="prevStep"  class="btn btn-outline-light cancle">Back</a>
+                            <a id="myAnchor" :disabled="isLoading" v-if="currentStep == 0"  class="btn btn-outline-light cancle" @click="cancel">Back</a>
                         </div>
                     </div>
                     <template>
@@ -1046,13 +1044,13 @@ const schemas = [
         earning_leave_entitlement: yup
           .number(),
         this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
-        .test('is-greater', 'This year value must be less than Annual Earned Leave Entitlement', function(value) {
+        .test('is-greater', 'sum of this year and next year should not be greater than annual earned leave', function(value) {
         const { earning_leave_entitlement, next_year } = this.parent;
         if(Number(value) > earning_leave_entitlement) { return false; }
         return !Number(earning_leave_entitlement) || !value || Number(value) + Number(next_year) <= Number(earning_leave_entitlement);
         }),
         next_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
-        .test('is-greater', 'Next year value must be less than Annual Earned Leave Entitlement', function(value) {
+        .test('is-greater', 'sum of this year and next year should not be greater than annual earned leave', function(value) {
         const { earning_leave_entitlement } = this.parent;
         return !Number(earning_leave_entitlement) || !value || Number(value) <= Number(earning_leave_entitlement);
         }),

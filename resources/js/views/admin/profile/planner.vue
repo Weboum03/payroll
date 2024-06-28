@@ -172,7 +172,7 @@
 
         <div class="input-valuses"
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
-            January,2024 to March,2024 </div>
+            May,2024 to June,2024 </div>
 
         <div class="accordion" id="input-valuses-accord">
             <div class="card leaveTable-card">

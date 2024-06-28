@@ -57,7 +57,7 @@
             </div>
             <div class="dt-layout-cell dt-end">
                 <div class="dt-paging paging_full_numbers">
-                    <button @click="currentPage = 1" class="dt-paging-button first"
+                    <button @click="goToFirstPage" class="dt-paging-button first"
                         :class="{ 'disabled': currentPage === 1 }" :disabled="currentPage === 1" role="link"
                         type="button" aria-controls="DataTables_Table_0" aria-label="First" data-dt-idx="first"
                         tabindex="0">
@@ -86,7 +86,7 @@
                         aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next" tabindex="0">
                         ›</button>
 
-                    <button @click="currentPage = totalPages" :class="{ 'disabled': currentPage === totalPages }"
+                    <button @click="goToLastPage" :class="{ 'disabled': currentPage === totalPages }"
                         :disabled="currentPage === totalPages" class="dt-paging-button last" role="link" type="button"
                         aria-controls="DataTables_Table_0" aria-label="Last" data-dt-idx="last" tabindex="0">
                         »
@@ -193,6 +193,19 @@ const nextPage = () => {
         filterPayload();
     }
 };
+
+const goToFirstPage = () => {
+    currentPage.value = 1;
+    filterData.value.page = currentPage.value;
+    filterPayload();
+}
+
+const goToLastPage = () => {
+    currentPage.value = totalPages.value;
+    filterData.value.page = currentPage.value;
+    filterPayload();
+}
+
 const prevPage = () => {
     if (currentPage.value > 1) {
         currentPage.value--;

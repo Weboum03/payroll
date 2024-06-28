@@ -140,6 +140,15 @@
                                         <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
                                     </div>
+
+                                    <div class="col input-group-fname">
+                                        <Field type="password" name="password"
+                                            :class="{ 'is-invalid': errors.password }"
+                                            v-model="userData.password" class="input" autocomplete="off"
+                                            placeholder="Password" required />
+                                        <label for="Password" class="user-label">Password</label>
+                                        <ErrorMessage name="password" class="text-danger mt-1" />
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -1126,13 +1135,13 @@ const schemas = [
           .string()
           .matches(/^[0-9]+$/, 'Must be numeric'),
         this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
-        .test('is-greater', 'This year value must be less than sum of Annual Earned Leave Entitlement and Next year value', function(value) {
+        .test('is-greater', 'Sum of this year and next year should not be greater than annual earned leave', function(value) {
         const { earning_leave_entitlement, next_year } = this.parent;
         if(Number(value) > earning_leave_entitlement) { return false; }
         return !Number(earning_leave_entitlement) || !value || Number(value) + Number(next_year) <= Number(earning_leave_entitlement);
         }),
         next_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')
-        .test('is-greater', 'Next year value must be less than Annual Earned Leave Entitlement', function(value) {
+        .test('is-greater', 'Sum of this year and next year should not be greater than annual earned leave', function(value) {
         const { earning_leave_entitlement } = this.parent;
         return !Number(earning_leave_entitlement) || !value || Number(value) <= Number(earning_leave_entitlement);
         }),

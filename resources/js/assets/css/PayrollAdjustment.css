@@ -104,7 +104,7 @@ body{
 
    .custom-file-label::after {
    
-    content: "Upload" !important;
+    content: "Browse" !important;
     color: white !important;
     background-color: #2DB9F8 !important;
 
