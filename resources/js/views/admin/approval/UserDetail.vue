@@ -82,6 +82,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" data-dismiss="modal" id="save">Save</button>
+                    <a @click="closeModal" href="javascript:;" class="btn btn-outline-light cancle">Cancel</a>
                 </div>
             </Form>
         </div>
@@ -139,5 +140,13 @@ onClickOutside(target, () => emit('close'));
 p {
     margin: 0;
     padding: 5px 0;
+}
+.cancle {
+    color: #000 !important;
+    width: 150px !important;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 500 !important;
+    border: none !important;
 }
 </style>

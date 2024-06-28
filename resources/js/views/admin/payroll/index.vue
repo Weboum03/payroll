@@ -101,7 +101,10 @@
             </div>
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
-
+            <div data-v-5d5095b1="" id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
+        <div id="leavesEmpTable_filter" class="dataTables_filter" style="display: flex; justify-content: space-between;">
+            <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
+        </div>
             <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
                 @rowclick="navigateToDetailPage" ref="table">
                 <template v-slot:cell-sn="{ row }">
@@ -120,6 +123,7 @@
                     <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
                 </template>
             </DataTable>
+            </div>
         </div>
     </div>
 
@@ -171,7 +175,7 @@ const { can } = useAbility()
 const router = useRouter();
 const isModalOpened = ref(false);
 const table = ref(null)
-
+const searchQuery = ref("");
 const schema = yup.object({
     name: yup.string().required('Required'),
 });
@@ -200,6 +204,14 @@ watch(success, (current, previous) => {
         success.value = false;
     }
 })
+
+const filterRows = () => {
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+};
 
 const openModal = () => {
     isModalOpened.value = true;
@@ -275,5 +287,25 @@ const navigateToDetailPage = (data) => {
     border-radius: .3rem;
     outline: 0;
     width: 100% !important;
+}
+
+#leavesEmpTable_filter {
+    margin-bottom: -15px;
+}
+#leavesEmpTable_filter>label {
+    display: inline-flex !important;
+    align-items: center;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 24px;
+}
+#leavesEmpTable_filter {
+    float: left;
+    background-color: #dae1f3;
+    width: 100%;
+    padding: 18px 21px;
+    align-items: center !important;
 }
 </style>

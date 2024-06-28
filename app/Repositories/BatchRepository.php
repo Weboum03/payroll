@@ -77,28 +77,11 @@ class BatchRepository extends BaseRepository
 
     public function listing($request)
     {
-        $limit = $request->input('length', 20);
-        $start = $request->input('start', 20);
-        $orders = $request->order;
-        $columns = $request->columns;
-        $search = $request->search;
-        $page = floor($start / $limit) + 1;
-        $response =  $this->model->offset(20);
-
-        // if($orders) {
-        //     foreach($orders as $order) {
-        //         $response->orderBy($columns[$order['column']]['data'], $order['dir']);
-        //     }
-        // }
-        if ($search) {
-            $response->where(function ($query) use ($search) {
-                $query->where(DB::raw('CONCAT(`first_name`, " ",`last_name`)'), 'like', '%' . $search['value'] . '%')
-                    ->orWhere('employee_id', 'like', '%' . $search['value'] . '%')
-                    ->orWhere('email', 'like', '%' . $search['value'] . '%')
-                    ->orWhere('phone', 'like', '%' . $search['value'] . '%');
-            });
-        }
-        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'salary')->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate(5);
+        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'salary')
+        ->when($request->search, function ($q) use($request) {
+            return $q->where('name', 'like', '%' . $request->search . '%');
+        })
+        ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate(5);
     }
 
     public function getUsersByBatch($id, $request)
@@ -128,8 +111,10 @@ class BatchRepository extends BaseRepository
 
                 })
                 ->when($request->search, function ($q) use($request) {
-                    return $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                    return $q->where(function ($q) use($request) {
+                        return $q->where('name', 'like', '%' . $request->search . '%')
+                        ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                    });
                 })
                 ->paginate(10);
         }
