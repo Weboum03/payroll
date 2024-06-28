@@ -174,7 +174,7 @@ export default [
             },
             {
                 name: "admin.planner",
-                path: "planner",
+                path: "planner/:id",
                 component: () => import("../views/admin/profile/planner.vue"),
                 meta: { breadCrumb: "Admin" },
             },

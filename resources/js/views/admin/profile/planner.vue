@@ -9,8 +9,11 @@
 
         <div class=" d-flex flex-column" style="background-color: white; padding: 20px; gap: 1rem;">
             <div id="empPlanner" class=" d-flex">
-                <div class="back-icon"><i class="fa-solid fa-arrow-left fa-sm" style="color: #000000;"></i>
-                </div>
+                <RouterLink :to="{ name: 'admin.EmpProfile', params: { id: route.params.id } }" custom v-slot="{ navigate }">
+                    <div @click="navigate" class="back-icon">
+                        <i class="fa-solid fa-arrow-left fa-sm" style="color: #000000;"></i>
+                    </div>
+                </RouterLink>
                 <div class="div-empPlanner d-flex flex-column">
                     <div style="font-size: 17px;font-weight: 500;line-height: 25.5px;font-family: Poppins, sans-serif;">
                         Employee Planner
@@ -74,11 +77,26 @@
                     <h6 class="chart-heading d-flex justify-content-start">Attendance</h6>
                     <div class="programming-stats">
                         <div class="attendance-container">
-                            <canvas class="attendance-chart"></canvas>
+                            <Doughnut id="counter" :data="attendancechartData" :options="options" width="125"
+                                height="125"
+                                style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
 
                         <div class="details">
-                            <ul></ul>
+                            <ul>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(45, 185, 248); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>5 days absence</div>
+                                </li>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>900 working days</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -89,11 +107,25 @@
                     <h6 class="chart-heading d-flex justify-content-start">Earned Leaves (Days)</h6>
                     <div class="programming-stats1">
                         <div class="earned-container">
-                            <canvas class="earned-chart"></canvas>
+                            <Doughnut id="counter" :data="earnedchartData" :options="options2" width="125" height="125"
+                                style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
 
                         <div class="details1">
-                            <ul></ul>
+                            <ul>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(45, 185, 248); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>10 days taken</div>
+                                </li>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>6 remaining</div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -202,14 +234,108 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import $, { param } from 'jquery';
+import { Doughnut } from 'vue-chartjs'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { useRoute } from "vue-router";
+const route = useRoute()
+
+
+ChartJS.register(ArcElement, Tooltip, Legend)
+
+
+const attendancechartData = {
+    labels: ["5 days absence", "900 working days"],
+    datasets: [
+        {
+            backgroundColor: ['#0492F5', '#DAE1F3'],
+            data: [10, 70],
+            cutout: '70%',
+        }
+    ],
+}
+
+const counter1 = {
+    id: "counter",
+    beforeDraw(chart, args, options) {
+        const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+        ctx.save()
+        const yCenter = (height / 2) + top + 6;
+        ctx.font = '15px monospace'
+        ctx.fillStyle = 'black'
+        ctx.fillText('70%', '40', yCenter)
+    }
+}
+
+const earnedchartData = {
+    labels: ["10 days taken", "6 remaining"],
+    datasets: [
+        {
+            backgroundColor: ['#0492F5', '#DAE1F3'],
+            data: [70, 10],
+            cutout: '70%',
+        }
+    ],
+}
+
+const options = {
+    borderRadius: 2,
+    hoverBorderWidth: 0,
+    responsive: true,
+    maintainAspectRatio: false,
+    rotation: 0,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    return context.label; // Display only the label, without associated data
+                },
+            },
+        },
+    },
+}
+
+const options2 = {
+    borderRadius: 2,
+    hoverBorderWidth: 0,
+    responsive: true,
+    maintainAspectRatio: false,
+    rotation: 0,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    return context.label; // Display only the label, without associated data
+                },
+            },
+        },
+    },
+}
 onMounted(() => {
     const script = document.createElement('script');
     script.src = '../../resources/js/planner.js';
     document.head.appendChild(script);
 });
+
+
 </script>
 
 <style scoped>
 @import '@/assets/css/planner.css';
 @import '@/assets/css/onBoard.css';
+
+.form-row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
 </style>

@@ -49,7 +49,7 @@
                         Profile</button>
                 </router-link>
 
-                <router-link :to="{ name: 'admin.planner' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.planner', params: { id: user?.id } }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" id="plannerButton" class="btn">Planner</button>
                 </router-link>
 
