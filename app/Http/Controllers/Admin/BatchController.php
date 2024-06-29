@@ -6,6 +6,7 @@ use App\Exports\BatchExport;
 use App\Exports\BatchUserExport;
 use App\Http\Controllers\BaseController;
 use App\Imports\UsersImport;
+use App\Models\Payroll;
 use App\Models\UserDetail;
 use App\Repositories\BatchRepository;
 use Illuminate\Http\Request;
@@ -91,9 +92,14 @@ class BatchController extends BaseController
         $array = (new UsersImport)->toCollection($file);
 
         if($array && $array[0]) {
-            $array[0]->each(function ($user) use($batch, $mode) {
+            $array[0]->each(function ($user) use($batch, $mode, $id) {
                 if(array_key_exists($mode, $user->toArray())) {
-                    $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode]]);
+                    $userData = Payroll::where('user_id', $user['unique_id'])->where('batch_id', $id)->first();
+                    if($userData) {
+                        if($mode == 'salary') { $payout = $user[$mode] - $userData->deduction; }
+                        if($mode == 'deduction') { $payout = $userData->salary - $user[$mode]; }
+                        $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode], 'payout'=> $payout]);
+                    } 
                 }
             });
         }
@@ -121,7 +127,7 @@ class BatchController extends BaseController
                 'last_name' => $data['last_name'],
                 'company' => $data['info']['company'],
                 'location' => $data['info']['location'],
-                $mode => '0',
+                $mode => $data['pivot'][$mode],
             ];
         });
 

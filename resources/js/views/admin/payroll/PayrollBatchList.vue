@@ -10,7 +10,7 @@
 
         <div class="header d-flex flex-column">
 
-            <div class="d-flex justify-content-start align-items-center" style="background-color: white;gap: 12rem;height: 85px;">
+            <div class="d-flex justify-content-start align-items-center" style="background-color: white;gap: 33%;height: 85px;">
                 <router-link :to="{ name: 'admin.payroll' }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
                         aria-label="Close"

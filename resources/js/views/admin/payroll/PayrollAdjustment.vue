@@ -52,7 +52,7 @@
                     <div class="input-group is-invalid">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input"  @change="handleFileSelect" id="validatedInputGroupCustomFile" required>
-                            <label class="custom-file-label" for="validatedInputGroupCustomFile">Select File...</label>
+                            <label class="custom-file-label" for="validatedInputGroupCustomFile">{{ fileText }}</label>
                         </div>
                     </div>
                 </div>
@@ -119,6 +119,7 @@ const route = useRoute();
 const text = ref('Validate Excel')
 const swal = inject('$swal')
 const mode = ref('')
+const fileText = ref('Select File...')
 
 const filterData = (filterValues) => {
     getBatchUsers(route.params.id, filterValues)
@@ -165,6 +166,7 @@ const selectedFile = ref(null)
 const handleFileSelect = (event) => {
       const file = event.target.files[0];
       if (file) {
+        fileText.value = file.name
         selectedFile.value = file;
       }
 }

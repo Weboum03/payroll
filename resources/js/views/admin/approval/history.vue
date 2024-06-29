@@ -114,7 +114,7 @@ const showHistory = (value) => {
 const tableHeaders = [
         { key: 'created_at', label: 'Log Time', sorting: true },
         { key: 'name', label: 'Reference' },
-        { key: 'from', label: 'From', sorting: true },
+        { key: 'from', label: 'Date', sorting: true },
         { key: 'name', label: 'Employee' },
         { key: 'reason', label: 'Description', sorting: true },
         { key: 'remarks', label: 'Remarks', sorting: true },

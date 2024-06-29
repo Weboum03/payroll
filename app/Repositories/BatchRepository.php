@@ -77,11 +77,12 @@ class BatchRepository extends BaseRepository
 
     public function listing($request)
     {
+        $limit = $request->input('limit', 5);
         return Batch::latest()->withCount('employee')->withSum('employee as wages', 'salary')
         ->when($request->search, function ($q) use($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
         })
-        ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate(5);
+        ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate($limit);
     }
 
     public function getUsersByBatch($id, $request)

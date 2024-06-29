@@ -469,7 +469,6 @@
                                     <Field required name="department" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.department" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
-                                        <option value="">Department</option>
                                         <option value="Software Development">Software Development</option>
                                         <option value="Quality Testing">Quality Testing</option>
 										<option value="Designing">Designing</option>
@@ -709,14 +708,12 @@
 
                             </div>
                         </div>
-                    </template>
+                    </template> 
                     <div v-if="currentStep < 4" class="form-step form-step-active">
                         <div class="btns-save-cancle">
                             <button type="submit" class="btn btn-next btn-primary savenext">Save & Next</button>
-                            <button type="button" v-if="currentStep !== 0" @click="prevStep"
-                                class="btn btn-next btn-primary savenext">Previous</button>
-                            <a id="myAnchor" href="javascript:;" class="btn btn-outline-light cancle"
-                                @click="cancel">Cancel</a>
+                                <a id="myAnchor" :disabled="isLoading" v-if="currentStep !== 0" @click="prevStep"  class="btn btn-outline-light cancle">Back</a>
+                                <a id="myAnchor" :disabled="isLoading" v-if="currentStep == 0"  class="btn btn-outline-light cancle" @click="cancel">Back</a>
                         </div>
                     </div>
                     <template>

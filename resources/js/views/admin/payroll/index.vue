@@ -104,6 +104,14 @@
             <div data-v-5d5095b1="" id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
         <div id="leavesEmpTable_filter" class="dataTables_filter" style="display: flex; justify-content: space-between;">
             <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
+            <div class="container1" style="display: flex; gap: 1rem;">
+                <select id="dropdown2" class="allActivity" v-model="pagelength">
+                <option value="5">5 Activity</option>
+                <option value="10">10 Activity</option>
+                <option value="25">25 Activity</option>
+                <option value="50">50 Activity</option>
+            </select>
+            </div>
         </div>
             <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
                 @rowclick="navigateToDetailPage" ref="table">
@@ -184,6 +192,7 @@ let currentMonth = '';
 let currentYear = '';
 // Get the current date
 const currentDate = new Date();
+const pagelength = ref(5);
 
 
 // Get the current month (returns a number from 0 to 11)
@@ -254,6 +263,11 @@ const navigateToDetailPage = (data) => {
     router.push({ name: 'admin.PayrollBatchList', params: { id: data.id } });
 };
 
+watch(pagelength, (current, previous) => {
+    table.value.pageLength = current;
+    table.value.page = 1;
+    table.value.filterPayload();
+});
 </script>
 
 <style scoped>
@@ -307,5 +321,15 @@ const navigateToDetailPage = (data) => {
     width: 100%;
     padding: 18px 21px;
     align-items: center !important;
+}
+.allActivity {
+    height: 40px;
+    width: 136px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Poppins, sans-serif;
+    padding-left: 8px;
+    border: none;
+    border-radius: 8px;
 }
 </style>

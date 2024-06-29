@@ -11,7 +11,7 @@
 
             <div class="d-flex justify-content-start align-items-center" style="background-color: white; gap: 12rem;">
 
-                <router-link :to="{ name: 'admin.home' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.payroll' }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
                         aria-label="Close"
                         style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
