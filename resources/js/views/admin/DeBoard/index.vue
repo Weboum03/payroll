@@ -428,7 +428,7 @@ const schemas = [
         var formattedDate = year + "-" + month + "-" + day;
         return !start_date || !value || formattedDate > start_date;
         }),
-        final_working_date: yup.date().required('End date is required')
+        final_working_date: yup.string().required('End date is required')
         .test('is-greater', 'Final Working date should be greater than De-Boarding date', function(value) {
         const { start_date } = this.parent;
         const date = new Date(value);

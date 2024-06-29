@@ -120,6 +120,7 @@ const text = ref('Validate Excel')
 const swal = inject('$swal')
 const mode = ref('')
 const fileText = ref('Select File...')
+const table = ref(null)
 
 const filterData = (filterValues) => {
     getBatchUsers(route.params.id, filterValues)
@@ -180,7 +181,14 @@ const uploadFile = async (event) => {
         }
         let response = await importBatch(route.params.id, {attachment : selectedFile.value,mode:mode.value});
         text.value = 'Validate Excel';
-        if(success.value) { router.push({name: 'admin.PayrollBatchProcess', params: {id: route.params.id}}) }
+        if(success.value) { getBatchUsers(route.params.id)
+            table.value.filterPayload();
+            fileText.value = 'Select File...';
+            swal({
+                icon: "success",
+                title: "Sync Successfully",
+            });
+        }
     }, 1000);
 }
 

@@ -60,8 +60,8 @@
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
-                <template v-slot:cell-wages="{ row }">
-                    0
+                <template v-slot:cell-overtime="{ row }">
+                    {{ row.pivot?.overtime }}
                 </template>
                 <template v-slot:cell-doj="{ row }">
                     {{ row.info?.doj }}
@@ -182,7 +182,7 @@ const tableHeaders = [
     { key: 'doj', label: 'DOJ', sorting: true },
     { key: 'payout', label: 'Last Day', sorting: true },
     { key: 'salary_slip', label: 'Payment Frequency', sorting: true },
-    { key: 'download', label: 'Over Time' },
+    { key: 'overtime', label: 'Over Time' },
 ];
 </script>
 

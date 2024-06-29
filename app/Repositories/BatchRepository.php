@@ -66,6 +66,12 @@ class BatchRepository extends BaseRepository
                 return $q->where('employment_type', $request->employment_type);
             });
         })
+        ->when($request->search, function ($q) use($request) {
+            return $q->where(function ($q) use($request) {
+                return $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+            });
+        })
         ->whereDoesntHave('payroll', function ($q) use($batchId) {
             // return $q->where('batch_id', $batchId);
         })

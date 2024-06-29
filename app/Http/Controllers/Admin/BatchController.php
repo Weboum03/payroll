@@ -97,7 +97,8 @@ class BatchController extends BaseController
                     $userData = Payroll::where('user_id', $user['unique_id'])->where('batch_id', $id)->first();
                     if($userData) {
                         if($mode == 'salary') { $payout = $user[$mode] - $userData->deduction; }
-                        if($mode == 'deduction') { $payout = $userData->salary - $user[$mode]; }
+                        elseif($mode == 'deduction') { $payout = $userData->salary - $user[$mode]; }
+                        else { $payout = $userData->payout; }
                         $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode], 'payout'=> $payout]);
                     } 
                 }
