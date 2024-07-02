@@ -416,8 +416,32 @@ const schemas = [
     yup.object({
         reason: yup.string().required('Reason is required'),
         notice_period: yup.string().required("Notice Period is required!"),
-        start_date: yup.string().required("De-Boarding Date is required!"),
-        final_employment_date: yup.string().required("Final Employment Date is required!")
+        start_date: yup.string().required("De-Boarding Date is required!").test('is-greater', 'Invalid Date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day;
+            if (date.toISOString() >= formattedDate && year <= 2099) {
+                return true;
+            }
+            return false;
+        }),
+        final_employment_date: yup.string().required("Final Employment Date is required!").test('is-greater', 'Invalid Date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day;
+            if (date.toISOString() >= formattedDate && year <= 2099) {
+                return true;
+            }
+            return false;
+        })
         .test('is-greater', 'Final Employment date should be greater than De-Boarding date', function(value) {
         const { start_date } = this.parent;
         const date = new Date(value);
@@ -428,7 +452,19 @@ const schemas = [
         var formattedDate = year + "-" + month + "-" + day;
         return !start_date || !value || formattedDate > start_date;
         }),
-        final_working_date: yup.string().required('End date is required')
+        final_working_date: yup.string().required('End date is required').test('is-greater', 'Invalid Date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day;
+            if (date.toISOString() >= formattedDate && year <= 2099) {
+                return true;
+            }
+            return false;
+        })
         .test('is-greater', 'Final Working date should be greater than De-Boarding date', function(value) {
         const { start_date } = this.parent;
         const date = new Date(value);

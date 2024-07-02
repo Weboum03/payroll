@@ -975,7 +975,14 @@ const schemas = [
           value => value === null || value === '' || value.length === 10),
     gender: yup.string().required('Gender is required'),
     password: yup.string().required('Password is required'),
-    dob: yup.string().required('Date of Birth is required'),
+    dob: yup.string().required('Date of Birth is required').test('is-greater', 'Invalid Date', function(value) {
+            const date = new Date(value);
+            const year = date.getFullYear();
+            if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
+        }),
     address: yup.string().required('Address is required'),
     address_1: yup.string().required('Address 2 is required'),
     city: yup.string().required('City is required'),
@@ -995,7 +1002,14 @@ const schemas = [
   yup.object({
     employee_id: yup.string().required('Employee ID is required'),
     role_id: yup.string().required('Role is required'),
-    doj: yup.string().required('Date of joining is required'),
+    doj: yup.string().required('Date of joining is required').test('is-greater', 'Invalid Date', function(value) {
+            const date = new Date(value);
+            const year = date.getFullYear();
+            if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
+        }),
     // prob_end_date: yup.string().required("Required!"),
     prob_end_date: yup.string().required('Probation End date is required')
         .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
@@ -1007,6 +1021,13 @@ const schemas = [
         var day = date.toLocaleString("default", { day: "2-digit" });
         var formattedDate = year + "-" + month + "-" + day;
         return !doj || !value || formattedDate > doj;
+        }).test('is-greater', 'Invalid Date', function(value) {
+            const date = new Date(value);
+            const year = date.getFullYear();
+            if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
         }),
     // aadhar_number: yup.string().required("Required!"),
     // pan_number: yup.string().required("Required!"),
