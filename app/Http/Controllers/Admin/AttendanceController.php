@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Models\LeaveApplication;
 use App\Models\User;
 use App\Services\Attendance\Exceptions\AlreadyTimeInException;
 use App\Services\Attendance\Exceptions\AlreadyTimeOutException;
@@ -57,12 +58,21 @@ class AttendanceController extends BaseController
         $end = $request->end;
 
         if(!isset($start) || !isset($end)) {
-            $month = '2024-06';
+            $month = Carbon::now();
             $start = Carbon::parse($month)->startOfMonth();
             $end = Carbon::parse($month)->endOfMonth();
         }
         
         $response = $this->getMonthlyAttendance($user->id, $start, $end);
+
+        $leavesCount = LeaveApplication::where('user_id', $userId)->count();
+        $info = $user->info;
+        $remaining = 0;
+        if($info) {
+            $remaining = $info->earning_leave_entitlement - $leavesCount;
+        }
+        $response['leave_taken'] = $leavesCount;
+        $response['leave_remaining'] = $remaining;
 
         return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));
     }
@@ -112,6 +122,8 @@ class AttendanceController extends BaseController
                 $absentCount++;
             }
         }
+
+
 
         return [
             'present_count' => $presentCount,

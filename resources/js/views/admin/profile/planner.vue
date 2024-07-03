@@ -32,21 +32,21 @@
                     View Data</div>
                 <div class="d-flex align-items-center" style="gap: 2rem;margin-top: -15px;flex-wrap: wrap;">
                     <div class="d-flex" style="gap:10px">
-                        <input type="radio" name="viewdata" id="Financial-Year" value="Financial-Year"
+                        <input type="radio" value="finencial" v-model="plannerType" id="Financial-Year"
                             style="width: 20px;">
                         <label for="Financial-Year"
                             style="font-size: 16px;font-weight: 500;margin-top: -1px;margin-bottom: 0px;line-height: 24px;font-family: Poppins, sans-serif;">By
                             finencial year</label>
                     </div>
                     <div class="d-flex" style="gap:10px">
-                        <input type="radio" name="viewdata" value="FinancialYear" id="ByYear" style="width: 20px;">
+                        <input type="radio" value="calendar" v-model="plannerType" id="ByYear" style="width: 20px;">
                         <label for="ByYear"
                             style="font-size: 16px;font-weight: 500;margin-top: -1px;margin-bottom: 0px;line-height: 24px;font-family: Poppins, sans-serif;">By
                             Calender
                             Year</label>
                     </div>
                     <div class="d-flex" style="gap:10px">
-                        <input type="radio" checked name="viewdata" id="ByMonth" value="ByMonth" style="width: 20px;">
+                        <input type="radio" value="month" v-model="plannerType" id="ByMonth" style="width: 20px;">
                         <label for="ByMonth"
                             style="font-size: 16px;font-weight: 500;margin-top: -1px;margin-bottom: 0px;line-height: 24px;font-family: Poppins, sans-serif;">By
                             Month</label>
@@ -117,13 +117,13 @@
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(45, 185, 248); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>10 days taken</div>
+                                    <div>{{ attendanceValue.leave_taken }} days taken</div>
                                 </li>
                                 <li style="display: flex;">
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>6 remaining</div>
+                                    <div>{{ attendanceValue.leave_remaining }} remaining</div>
                                 </li>
                             </ul>
                         </div>
@@ -172,7 +172,7 @@
 
         <div class="input-valuses"
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
-            May,2024 to June,2024 </div>
+            June,2024 to July,2024 </div>
 
         <div class="accordion" id="input-valuses-accord">
             <div class="card leaveTable-card">
@@ -232,30 +232,108 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import $, { param } from 'jquery';
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useRoute } from "vue-router";
 import useAttendance from "@/composables/useAttendance";
 const { getUserAttendanceCount, loading: isLoading, success } = useAttendance();
-const startDate = ref('2024-06-01')
-const endDate = ref('2024-06-31')
+const startDate = ref('')
+const endDate = ref('')
 const attendanceData = ref({})
 const route = useRoute()
+const plannerType = ref()
 const attendanceValue = ref({
     present : 0,
-    absent : 0
+    absent : 0,
+    leave_taken: 0,
+    leave_remaining: 0
 })
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+watch(plannerType, (current, previous) => {
+    if(current == 'calendar') {
+        // Get the current year
+        const currentYear = new Date().getFullYear();
+
+        // Create a date object for January 1st of the current year
+        const firstDate = new Date(currentYear, 0, 1);
+
+        // Create a date object for December 31st of the current year
+        const lastDate = new Date(currentYear, 11, 31);
+
+        startDate.value = formatDate(firstDate);
+        endDate.value = formatDate(lastDate);
+        updateChart();
+    } 
+    else if(current == 'finencial') {
+        getFinencialYear();
+        updateChart();
+    }
+    else {
+        const today = new Date();
+
+        // Get the current year and month
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth();
+
+        // Create a date object for the first day of the current month
+        let firstDateOfMonth = new Date(currentYear, currentMonth, 1);
+
+        // Create a date object for the last day of the current month
+        let lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+        // Format the first and last dates of the current month
+        startDate.value = formatDate(firstDateOfMonth);
+        endDate.value = formatDate(lastDateOfMonth);
+        updateChart();
+    }
+})
+
+function getFinencialYear() {
+    // Get the current date
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+
+    // Determine the financial year
+    let financialStartYear;
+    let financialEndYear;
+
+    if (currentMonth >= 3) { // April (3) to December (11) months
+    financialStartYear = currentYear;
+    financialEndYear = currentYear + 1;
+    } else { // January (0) to March (2) months
+    financialStartYear = currentYear - 1;
+    financialEndYear = currentYear;
+    }
+
+    // Create date objects for the financial year's start and end
+    const financialStartDate = new Date(financialStartYear, 3, 1); // April 1st
+    const financialEndDate = new Date(financialEndYear, 2, 31); // March 31st
+
+    startDate.value = formatDate(financialStartDate);
+    endDate.value = formatDate(financialEndDate);
+}
+// Function to format a Date object into YY-MM-DD format
+function formatDate(date) {
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 const filterRows = async () => {
     attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
     attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
+    earnedchartData.value.datasets[0].data = [attendanceData.value.data.leave_taken, attendanceData.value.data.leave_remaining]
     attendanceValue.value = {
         present : attendanceData.value.data.present_count,
-        absent : attendanceData.value.data.absent_count
+        absent : attendanceData.value.data.absent_count,
+        leave_remaining : attendanceData.value.data.leave_remaining,
+        leave_taken : attendanceData.value.data.leave_taken,
     }
 };
 
@@ -282,7 +360,7 @@ const counter1 = {
     }
 }
 
-const earnedchartData = {
+const earnedchartData = ref({
     labels: ["10 days taken", "6 remaining"],
     datasets: [
         {
@@ -291,7 +369,7 @@ const earnedchartData = {
             cutout: '70%',
         }
     ],
-}
+})
 
 const options = {
     borderRadius: 2,
@@ -333,14 +411,20 @@ const options2 = {
     },
 }
 
-onMounted( async () => {
+const updateChart = async () => {
     attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
     attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
-    attendancechartData.value.labels = ['Rahul', 'Vipan']
+    earnedchartData.value.datasets[0].data = [attendanceData.value.data.leave_taken, attendanceData.value.data.leave_remaining]
     attendanceValue.value = {
         present : attendanceData.value.data.present_count,
-        absent : attendanceData.value.data.absent_count
+        absent : attendanceData.value.data.absent_count,
+        leave_remaining : attendanceData.value.data.leave_remaining,
+        leave_taken : attendanceData.value.data.leave_taken,
     }
+}
+
+onMounted( async () => {
+    plannerType.value = 'month';
 });
 
 </script>
