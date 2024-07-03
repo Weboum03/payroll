@@ -19,7 +19,7 @@
             <div class="d-flex" style="gap: 15rem;">
                 <div
                     style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
-                    March 2024 payroll from 1st July 2024 to 31st July 2024</div>
+                    July 2024 payroll from 1st July 2024 to 31st July 2024</div>
             </div>
         </nav>
 

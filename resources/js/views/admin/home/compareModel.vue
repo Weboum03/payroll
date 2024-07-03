@@ -74,7 +74,7 @@
                                             </div>
 
                                             <div class="modal-footer" style="padding-top: 0px;">
-                                                <button type="submit" id="Compare-Data-Financi-Year"
+                                                <button type="submit" @click="comparePage" id="Compare-Data-Financi-Year"
                                                     class="btn btn-primary"
                                                     style="background-color: #2DB9F8;border: none;width: 113px;height: 50px;font-size: 16px;font-weight: 500;font-family: poppins,sans-serif;">Compare</button>
                                             </div>
@@ -119,7 +119,7 @@
                                             </div>
 
                                             <div class="modal-footer" style="padding-top: 0px;">
-                                                <button type="submit" id="Compare-Data-Years" class="btn btn-primary"
+                                                <button type="submit" @click="comparePage" id="Compare-Data-Years" class="btn btn-primary"
                                                     style="background-color: #2DB9F8;border: none;width: 113px;height: 50px;font-size: 16px;font-weight: 500;font-family: poppins,sans-serif;">Compare</button>
                                             </div>
                                         </div>
@@ -182,7 +182,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer" style="padding-top: 0px;">
-                                                <button type="submit" id="Compare-Data-Months-Year"
+                                                <button type="submit" @click="comparePage" id="Compare-Data-Months-Year"
                                                     class="btn btn-primary"
                                                     style="background-color: #2DB9F8;border: none;width: 113px;height: 50px;font-size: 16px;font-weight: 500;font-family: poppins,sans-serif;">Compare</button>
                                             </div>
@@ -197,7 +197,9 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { useRouter } from "vue-router";
 const emit = defineEmits(['close']);
+const router = useRouter();
 const currentStep = ref(1);
 const closeModalCompare = () => {
     emit('close');
@@ -207,6 +209,10 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 const years = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
 const financialYears = ['April, 2022 to March, 2023', 'April, 2023 to March, 2024', 'April, 2024 to March, 2025'];
 const calenderYears = ['Jan, 2024 to Dec, 2025', 'Jan, 2024 to Dec, 2025', 'Jan, 2024 to Dec, 2025']
+
+const comparePage = () => {
+    router.push({name:'admin.FinancialYearCompareTable'})
+}
 </script>
 
 <style scope>
