@@ -46,6 +46,8 @@ const getApiPath = {
 
     //Dashboard
     getDashboardDetails(params) { return apiService.post(`admin/dashboard`,params); },
+    
+    getDashboardUsers(params) { return apiService.post(`admin/dashboard/users`,params); },
 };
 
 export default getApiPath;

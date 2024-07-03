@@ -156,7 +156,6 @@ const props = defineProps({
 const rowsData = ref(props.rows.data);
 const totalRecords = ref(0);
 totalRecords.value = ref(props.rows.totalRecords);
-console.log('totalRecords.value.value', totalRecords.value.value);
 const totalPages = computed(() => {
     return Math.ceil(totalRecords.value.value / pageLength.value);
 });
@@ -225,6 +224,20 @@ const filterPayload = () => {
     emit("filter", queryFilter);
 }
 
+const filterPostPayload = () => {
+    let queryFilter = {
+        page : currentPage.value,
+        limit : pageLength.value,
+    }
+
+    if (filterData && filterData.value.filter.length > 0) {
+        filterData.value.filter.forEach((element) => {
+            Object.assign(queryFilter, {[element.key] : element.value });
+        });
+    }
+    emit("filter", queryFilter);
+}
+
 const sortBy = (column) => {
     if (column.sorting) {
         if (sortedColumn.value === column.key) {
@@ -256,6 +269,7 @@ defineExpose({
     currentPage,
     filterData,
     filterPayload,
+    filterPostPayload,
     pageLength,
 });
 </script>

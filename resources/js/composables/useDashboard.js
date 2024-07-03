@@ -21,6 +21,17 @@ export default function useDashboard() {
         }
     };
 
+    const getDashboardUsers = async (data=[]) => {
+        loading.value = true;
+        try {
+            return await getApiPath.getDashboardUsers(data);
+        } catch (err) {
+            error.value = err;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     return {
         items,
         item,
@@ -28,6 +39,7 @@ export default function useDashboard() {
         validationErrors,
         loading,
         getDashboardDetails,
+        getDashboardUsers,
         success
     };
 }

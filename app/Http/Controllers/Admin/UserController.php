@@ -53,6 +53,18 @@ class UserController extends BaseController
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function dashboardUser(Request $request)
+    {
+        $users = $this->userRepository->getDashboardUser($request);
+        $users->through(function ($user) {
+            $picture = $user->getFirstMedia('user_profile_picture');
+            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->makeHidden('media');
+            return $user;
+        });
+        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+    }
+
     public function getReportUsers(Request $request)
     {
         $users = $this->userRepository->listing($request);

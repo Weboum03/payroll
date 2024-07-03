@@ -19,7 +19,7 @@
             <div class="d-flex" style="gap: 15rem;">
                 <div
                     style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
-                    March 2024 payroll from 1st March 2024 to 31st march 2024</div>
+                    March 2024 payroll from 1st July 2024 to 31st July 2024</div>
             </div>
         </nav>
 
@@ -42,13 +42,13 @@
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(4, 146, 245); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>Payroll Processed 253</div>
+                                    <div>Payroll Processed {{ employeeData?.batch_processed }}</div>
                                 </li>
                                 <li style="display: flex;">
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>Pending count 5</div>
+                                    <div>Pending count {{ employeeData?.batch_pending }}</div>
                                 </li>
                             </ul>
                         </div>
@@ -468,10 +468,11 @@ import { useAbility } from '@casl/vue';
 const searchQuery = ref("");
 const table = ref(null)
 const { batches, create: storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
-const { getDashboardDetails, loading } = useDashboard();
+const { getDashboardDetails, getDashboardUsers, loading } = useDashboard();
 const { can } = useAbility()
 const employeeData = ref(null);
 const router = useRouter();
+const selectedMonth = ref({});
 
 // const storeData = async (values) => {
 //     await storeBatch(values);
@@ -485,11 +486,12 @@ const filterRows = () => {
         key: "search",
         value: searchQuery.value.toLowerCase(),
     })
-    table.value.filterPayload();
+    table.value.filterPostPayload();
 };
 
 const filterData = async (filterValues) => {
-    users.value = await getUsersPaginate(filterValues);
+    Object.assign(filterValues, selectedMonth.value)
+    users.value = await getDashboardUsers(filterValues);
 }
 
 const tableHeaders = [
@@ -614,7 +616,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 const detail = ref(null);
 
 onMounted(async () => {
-    users.value = await getUsersPaginate();
+    users.value = await getDashboardUsers();
     let response = await getDashboardDetails();
     employeeData.value = response.data;
 });
@@ -660,9 +662,9 @@ const closeModalCompare = () => {
 };
 
 const viewEmployeeData = async (month, type) => {
-    let response = await getDashboardDetails({month: month, type: type});
-    employeeData.value = response.data;
-    openModalTable.value = true;
+    selectedMonth.value = {month: month, type: type}
+    users.value = await getDashboardUsers(selectedMonth.value);
+    isModalTable.value = true;
 }
 
 const openModalTable = () => {

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Batch;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
@@ -61,16 +62,35 @@ class UserRepository extends BaseRepository
         $usersCount = User::whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->count();
+
+        $usersNewJoinCount = UserDetail::whereYear('doj', $currentYear)
+            ->whereMonth('doj', $currentMonth)
+            ->count();
         
         // Count users created in the previous month
         $previousUsersCount = User::whereYear('created_at', $previousMonthYear)
             ->whereMonth('created_at', $previousMonthNumber)
             ->count();
+
         
+        
+        $previousUsersNewJoinCount = UserDetail::whereYear('doj', $previousMonthYear)
+            ->whereMonth('doj', $previousMonthNumber)
+            ->count();
+
+        $batchCount = Batch::where('status', 'Processed')
+        ->whereYear('created_at', $currentYear)
+        ->whereMonth('created_at', $currentMonth)
+        ->count();
+
+        $batchPendingCount = Batch::where('status', 'Generated')
+        ->whereYear('created_at', $currentYear)
+        ->whereMonth('created_at', $currentMonth)
+        ->count();
         $lastMonth = [
             'name' => 'June 2024',
             'employees' => $previousUsersCount,
-            'new_starter' => 0,
+            'new_starter' => $previousUsersNewJoinCount,
             'leaver' => 0,
             'on_notice_period' => 0
         ];
@@ -78,12 +98,14 @@ class UserRepository extends BaseRepository
         $currentMonth = [
             'name' => 'July 2024',
             'employees' => $usersCount,
-            'new_starter' => 0,
+            'new_starter' => $usersNewJoinCount,
             'leaver' => 0,
             'on_notice_period' => 0
         ];
 
         return [
+            'batch_processed' => $batchCount,
+            'batch_pending' => $batchPendingCount,
             'last_month' => $lastMonth,
             'current_month' => $currentMonth,
         ];
@@ -134,6 +156,51 @@ class UserRepository extends BaseRepository
             // ->when($request->job_role, function ($q) use($request) {
             //     return $q->where('job_role', $request->job_role);
             // })
+            ->when($request->gender, function ($q) use($request) {
+                return $q->where('gender', $request->gender);
+            })
+            ->when($request->employment_type, function ($q) use($request) {
+                return $q->where('employment_type', $request->employment_type);
+            });
+        })
+        ->when($request->search, function ($query) use($request) {
+            return $query->where('name', 'LIKE', "%$request->search%");
+        })
+        ->when($request->role, function ($q) use($request) {
+            return $q->where('role_id', $request->role);
+        })
+        ->paginate(10);
+    }
+
+    public function getDashboardUser($request)
+    {
+        if($request->month == 6) {
+            // Get the previous month and year
+            $previousMonth = Carbon::now()->subMonth();
+            $month = $previousMonth->month;
+            $year = $previousMonth->year;
+        } else {
+            // Get the current month and year
+            $month = Carbon::now()->month;
+            $year = Carbon::now()->year;
+        }
+
+        return $this->model->latest()->with('role','info')
+        ->when($request->type == 'employees', function ($q) use($request, $year, $month) {
+            return $q->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month);
+        })
+        ->whereHas('info', function ($query) use($request, $year, $month) {
+            $query->when($request->type == 'new_starter', function ($q) use($request, $year, $month) {
+                return $q->whereYear('doj', $year)
+                ->whereMonth('doj', $month);
+            })
+            ->when($request->type == 'leaver' || $request->type == 'on_notice_period', function ($q) use($request) {
+                return $q->where('location', 'rgregre');
+            })
+            ->when($request->department, function ($q) use($request) {
+                return $q->where('department', $request->department);
+            })
             ->when($request->gender, function ($q) use($request) {
                 return $q->where('gender', $request->gender);
             })
