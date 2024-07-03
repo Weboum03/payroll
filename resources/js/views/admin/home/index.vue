@@ -2,8 +2,8 @@
     <!-- -----nav-dashboard-table start----- -->
 
     <div id="dashboard-table-info">
-            <span>Dashboard</span>
-            <span>Dashboard</span>
+        <span>Dashboard</span>
+        <span>Dashboard</span>
     </div>
 
     <div id="dashboard-table">
@@ -17,7 +17,8 @@
         <nav aria-label="Page navigation example" class="d-flex flex-column"
             style="background-color: white;gap: 1rem;padding-top: 10px;">
             <div class="d-flex" style="gap: 15rem;">
-                <div style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
+                <div
+                    style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
                     March 2024 payroll from 1st March 2024 to 31st march 2024</div>
             </div>
         </nav>
@@ -59,51 +60,53 @@
                 </div>
 
 
-                <div class="FinencialTable">
+                <div class="FinencialTable" v-if="employeeData">
                     <table class="table table-bordered" style="margin-top: 14px;">
                         <thead>
                             <tr>
                                 <th scope="col"></th>
-                                <th scope="col">February 2024</th>
-                                <th scope="col">March 2024</th>
+                                <th scope="col">{{ employeeData?.last_month?.name }}</th>
+                                <th scope="col">{{ employeeData?.current_month?.name }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th scope="row">Employee Count</th>
-                                <td>251</td>
-                                <td>253</td>
+                                <td @click="viewEmployeeData(6,'employees')">{{ employeeData?.last_month?.employees }}</td>
+                                <td @click="viewEmployeeData(7,'employees')">{{ employeeData?.current_month?.employees }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">New Starter</th>
-                                <td>3</td>
-                                <td>5</td>
+                                <td @click="viewEmployeeData(6,'new_starter')">{{ employeeData?.last_month?.new_starter }}</td>
+                                <td @click="viewEmployeeData(7,'new_starter')">{{ employeeData?.current_month?.new_starter }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Leaver</th>
-                                <td>1</td>
-                                <td>0</td>
+                                <td @click="viewEmployeeData(6,'leaver')">{{ employeeData?.last_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(7,'leaver')">{{ employeeData?.current_month?.leaver }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">On Notice Period</th>
-                                <td>0</td>
-                                <td id="noticPrd-Table" @click="openModalTable">
-                                    3</td>
+                                <td @click="viewEmployeeData(6,'on_notice_period')">{{ employeeData?.last_month?.on_notice_period }}</td>
+                                <td @click="viewEmployeeData(7,'on_notice_period')" id="noticPrd-Table" >
+                                    {{ employeeData?.current_month?.on_notice_period }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div id="PayrollBatch-btn" class="d-flex justify-content-center align-items-center" style="gap: 1rem;">
-                <button type="button" v-if="can('Generate Payroll')" class="btn btn-primary PayrollBatchbtn" @click="openModal">Create Payroll
+                <button type="button" v-if="can('Generate Payroll')" class="btn btn-primary PayrollBatchbtn"
+                    @click="openModal">Create Payroll
                     Batch</button>
                 <button type="button" class="btn btn-primary JJAA"
                     style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
             </div>
 
-            <div style="font-size: 13px; margin-left: 10px; color:#212121;opacity: 50%; font-weight: 500; font-family: sans-serif;text-align: center;">
-                        *Check
-                        for deduction u/s 80JJAA for Hiring New Employee</div>
+            <div
+                style="font-size: 13px; margin-left: 10px; color:#212121;opacity: 50%; font-weight: 500; font-family: sans-serif;text-align: center;">
+                *Check
+                for deduction u/s 80JJAA for Hiring New Employee</div>
 
         </div>
 
@@ -367,7 +370,7 @@
         <!-- Modal Notice period list2 -->
         <div v-if="isModalTable" class="modal-mask" id="noticPrd-Table-list2">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content" style=" width: 900px !important; height: auto ">
+                <div class="modal-content" style=" width: 1030px !important; height: auto ">
                     <div class="modal-header" style="align-items: center; gap: 3rem;">
                         <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
                             style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
@@ -381,51 +384,65 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="noticeperiod-table1" ref="myTable">
-                            <thead>
-                                <tr>
-                                    <th id="EmpId">Employee Id</th>
-                                    <th id="EmpName">Employee Name</th>
-                                    <th id="DoResg">Date of Resignation</th>
-                                    <th id="LstPDMAster">Last Notice Period Date as per master</th>
-                                    <th id="NPbyEmp">Notice Period Date Selected by Employee</th>
-                                    <th id="NPbyDepthead">Notice Period Date Approved Department Head</th>
-                                    <th id="SrtNP">Short Notice Pay in Days</th>
+                        <div id="noticeperiod-table1_wrapper" class="dataTables_wrapper no-footer">
+                            <div id="noticeperiod-table1_filter" class="dataTables_filter"><label>Search:<input
+                                        type="search" v-model="searchQuery" @input="filterRows" class="" placeholder=""
+                                        aria-controls="noticeperiod-table1"></label>
+                                        <button type="button" class="close1" @click="isModalTable=false"
+                                    data-dismiss="modal" aria-label="Close"
+                                    style="margin: 0px; padding: 0px; font-size: medium; color: black !important"><span><i
+                                            class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                            style="color: #000000;" aria-hidden="true"></i></span>
+                                            <span
+                                        style="cursor: pointer;">Back</span></button>
+                                        
+                                        <button type="button" class="close" @click="isModalTable=false"
+                                    data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"><i
+                                            class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;"
+                                            aria-hidden="true"></i>
+                                        </span>
+                                    </button>
+                                </div>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>DFH51324</td>
-                                    <td>Austin Hodges</td>
-                                    <td>March 12,2024</td>
-                                    <td>April 11,2024</td>
-                                    <td>March 27,2024</td>
-                                    <td>March 27,2024</td>
-                                    <td>15</td>
-                                </tr>
-                                <tr>
-                                    <td>SDG54635</td>
-                                    <td>Randy Johnson</td>
-                                    <td>March 4,2024</td>
-                                    <td>April 3,2024</td>
-                                    <td>April 3,2024</td>
-                                    <td>April 3,20244</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td>YTJ62463</td>
-                                    <td>MAtthew Luckett</td>
-                                    <td>March 2,2024</td>
-                                    <td>May 1,2024</td>
-                                    <td>April 1,2024</td>
-                                    <td>April 1,2024</td>
-                                    <td>30</td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
+                            <DataTable v-if="users?.data" :headers="tableHeaders" :rows="users" @filter="filterData"
+                                ref="table">
+                                <template v-slot:cell-company="{ row }">
+                                    {{ row.info?.company }}
+                                </template>
+                                <template v-slot:cell-location="{ row }">
+                                    {{ row.info?.location }}
+                                </template>
+                                <template v-slot:cell-department="{ row }">
+                                    {{ row.info?.department }}
+                                </template>
+                                <template v-slot:cell-salary="{ row }">
+                                    {{ row.pivot?.salary }}
+                                </template>
+                                <template v-slot:cell-deduction="{ row }">
+                                    {{ row.pivot?.deduction }}
+                                </template>
+                                <template v-slot:cell-overtime="{ row }">
+                                    {{ row.pivot?.overtime }}
+                                </template>
+                                <template v-slot:cell-bonus="{ row }">
+                                    {{ row.pivot?.bonus }}
+                                </template>
+                                <template v-slot:cell-commission="{ row }">
+                                    {{ row.pivot?.commission }}
+                                </template>
+                                <template v-slot:cell-reimbursement="{ row }">
+                                    {{ row.pivot?.reimbursement }}
+                                </template>
+                                <template v-slot:cell-leave_bal="{ row }">
+                                    {{ row.pivot?.leave_bal }}
+                                </template>
+                                <template v-slot:cell-action="{ row }">
+                                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg"
+                                        style="color: #f02828;" aria-hidden="true"></i>
+                                </template>
+                            </DataTable>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -438,23 +455,22 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
+import DataTable from '@/components/DataTable.vue';
+import useUsers from "@/composables/users";
+const { users, getUsers, getUsersPaginate, is } = useUsers()
 import useBatch from "@/composables/useBatch";
+import useDashboard from "@/composables/useDashboard";
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
 import { useRouter } from "vue-router";
 import $ from 'jquery';
-import 'datatables.net';
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Use the appropriate CSS file for your project
-import DataTable from 'datatables.net-vue3';
-import DataTablesCore from 'datatables.net';
-// import Select from 'datatables.net-select';
-
-// DataTable.use(DataTablesCore);
-import {useAbility} from '@casl/vue';
-
+import { useAbility } from '@casl/vue';
+const searchQuery = ref("");
+const table = ref(null)
 const { batches, create: storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
-const {can} = useAbility()
-
+const { getDashboardDetails, loading } = useDashboard();
+const { can } = useAbility()
+const employeeData = ref(null);
 const router = useRouter();
 
 // const storeData = async (values) => {
@@ -463,6 +479,28 @@ const router = useRouter();
 
 //     }
 // }
+
+const filterRows = () => {
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+};
+
+const filterData = async (filterValues) => {
+    users.value = await getUsersPaginate(filterValues);
+}
+
+const tableHeaders = [
+    { key: 'employee_id', label: 'Employee ID', sorting: true },
+    { key: 'name', label: 'Employee Name', sorting: true },
+    { key: 'company', label: 'Date of Resignation' },
+    { key: 'location', label: 'Last Notice Period Date as per master' },
+    { key: 'department', label: 'Notice Period Date Selected by Employee' },
+    { key: 'department', label: 'Notice Period Date Approved Department Head' },
+    { key: 'department', label: 'Short Notice Pay in Days' },
+];
 
 const tableData = [
     [1, 2],
@@ -475,7 +513,7 @@ const data = {
         {
             backgroundColor: ['#0492F5', '#DAE1F3'],
             data: [253, 5],
-            cutout:'70%'
+            cutout: '70%'
         }
     ],
     cutout: '70%',
@@ -518,23 +556,23 @@ const payrollchartData = {
 };
 
 const options = {
-  borderRadius: 2,
-  hoverBorderWidth: 0,
-  responsive: true,
-  maintainAspectRatio: false,
-  rotation: 90,
-  plugins: {
-            legend: {
-                display: false,
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return context.label; // Display only the label, without associated data
-                    },
+    borderRadius: 2,
+    hoverBorderWidth: 0,
+    responsive: true,
+    maintainAspectRatio: false,
+    rotation: 90,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    return context.label; // Display only the label, without associated data
                 },
             },
         },
+    },
 }
 // const options = {
 //     type: "doughnut",
@@ -575,8 +613,10 @@ const options = {
 ChartJS.register(ArcElement, Tooltip, Legend)
 const detail = ref(null);
 
-onMounted(() => {
-    $(myTable.value).DataTable();
+onMounted(async () => {
+    users.value = await getUsersPaginate();
+    let response = await getDashboardDetails();
+    employeeData.value = response.data;
 });
 
 const isModalOpened = ref(false);
@@ -618,6 +658,12 @@ const openModalCompare = () => {
 const closeModalCompare = () => {
     isModalCompare.value = false;
 };
+
+const viewEmployeeData = async (month, type) => {
+    let response = await getDashboardDetails({month: month, type: type});
+    employeeData.value = response.data;
+    openModalTable.value = true;
+}
 
 const openModalTable = () => {
     isModalTable.value = true;

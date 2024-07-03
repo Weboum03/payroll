@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('roles', RoleController::class);
     $router->apiResource('users', UserController::class);
     $router->get('user/pagination', [UserController::class, 'getUserPaginate']);
+    $router->post('dashboard', [UserController::class, 'dashboard']);
+    $router->post('dashboard/users', [UserController::class, 'dashboardUser']);
     $router->get('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('document/{type}', [UserController::class, 'checkDocument']);

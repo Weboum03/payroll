@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Models\UserDetail;
+use Carbon\Carbon;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,49 @@ class UserRepository extends BaseRepository
             ->orWhere('phone', $email)
             ->select('customerID', 'uniquecode', 'phone', 'email', 'country', 'currency', 'user_extension', 'credit', 'user_extension as sipUsername', 'domain as sipDomain', 'password as sipPassword')
             ->first();
+    }
+
+    public function getDashboardInfo($request) {
+
+        // Get the current month and year
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+
+        // Get the previous month and year
+        $previousMonth = Carbon::now()->subMonth();
+        $previousMonthNumber = $previousMonth->month;
+        $previousMonthYear = $previousMonth->year;
+
+        // Count users created in the current month
+        $usersCount = User::whereYear('created_at', $currentYear)
+            ->whereMonth('created_at', $currentMonth)
+            ->count();
+        
+        // Count users created in the previous month
+        $previousUsersCount = User::whereYear('created_at', $previousMonthYear)
+            ->whereMonth('created_at', $previousMonthNumber)
+            ->count();
+        
+        $lastMonth = [
+            'name' => 'June 2024',
+            'employees' => $previousUsersCount,
+            'new_starter' => 0,
+            'leaver' => 0,
+            'on_notice_period' => 0
+        ];
+
+        $currentMonth = [
+            'name' => 'July 2024',
+            'employees' => $usersCount,
+            'new_starter' => 0,
+            'leaver' => 0,
+            'on_notice_period' => 0
+        ];
+
+        return [
+            'last_month' => $lastMonth,
+            'current_month' => $currentMonth,
+        ];
     }
 
     public function listing($request)

@@ -65,6 +65,12 @@ class UserController extends BaseController
         return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function dashboard(Request $request)
+    {
+        $users = $this->userRepository->getDashboardInfo($request);
+        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+    }
+
     public function checkDocument($type, Request $request)
     {
         $check = $this->userRepository->checkDocument($type, $request->value, $request->user_id);

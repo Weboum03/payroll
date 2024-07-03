@@ -43,6 +43,9 @@ const getApiPath = {
 
     //Attendance
     getAttendance(id, params) { return apiService.post(`admin/attendance/${id}`,params); },
+
+    //Dashboard
+    getDashboardDetails(params) { return apiService.post(`admin/dashboard`,params); },
 };
 
 export default getApiPath;
