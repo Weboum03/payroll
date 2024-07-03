@@ -258,7 +258,6 @@ defineExpose({
     currentPage,
     filterData,
     filterPayload,
-    filterPostPayload,
     pageLength,
 });
 </script>
