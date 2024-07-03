@@ -214,17 +214,6 @@ const prevPage = () => {
 };
 
 const filterPayload = () => {
-    let queryFilter =
-        "?page=" + currentPage.value + "&limit=" + pageLength.value;
-    if (filterData && filterData.value.filter.length > 0) {
-        filterData.value.filter.forEach((element) => {
-            queryFilter = queryFilter + "&" + element.key + "=" + element.value;
-        });
-    }
-    emit("filter", queryFilter);
-}
-
-const filterPostPayload = () => {
     let queryFilter = {
         page : currentPage.value,
         limit : pageLength.value,

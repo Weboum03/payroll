@@ -1,11 +1,10 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
-    <div id="dashboard-table" class="container">
-        <div id="dashboard-table-info">
+    <div id="dashboard-table-info">
             <span>DASHBOARD</span>
             <span>Employee > Dashboard</span>
-        </div>
-
+    </div>
+    <div id="dashboard-table">
         <div class="d-flex justify-content-between" style="padding: 10px;background-color: #DAE1F3;">
             <div class="d-flex" style="gap: 2rem;">
                 <router-link :to="{ name: 'admin.home' }" custom v-slot="{ navigate }">
@@ -277,39 +276,55 @@
 
 <style scoped>
 #FinancialYearcompareTable_filter {
-    display: none;
-}
+            display: none;
+        }
 
-.FinancialYearcompareTable {
-    font-size: 11px;
+        .FinancialYearcompareTable {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .FinancialYearcompareTable tbody tr:nth-of-type(4) td:nth-of-type(2) {
+            background-color: #2DB9F8;
+            color: white;
+        }
+
+        .table-bordered th,
+        .table-bordered td:nth-of-type(0) {
+            background-color: #F8F8F8;
+        }
+
+        td,th{
+    font-size: 13px;
     font-weight: 500;
+    text-align: center !important;
 }
 
-.FinancialYearcompareTable tbody tr:nth-of-type(4) td:nth-of-type(2) {
-    background-color: #2DB9F8;
-    color: white;
+.table-bordered td:first-child{
+    text-align: start !important;
 }
 
-.table-bordered th,
-.table-bordered td:nth-of-type(0) {
-    background-color: #F8F8F8;
-}
 
-.FinancialYearcompareTable {
-    background-color: white;
-    padding: 20px;
-}
+        .FinancialYearcompareTable {
+            background-color: white;
+            padding: 20px;
+        }
 
-#Modify {
+        #Modify{
+    font-weight: 500;
     border: none;
     background-color: #2DB9F8;
     color: white;
     border-radius: 4px;
-    padding: 9px;
-    font-size: 12px;
-    width: 65px;
-    height: 35px;
+    font-family: "Poppins", sans-serif;
+    font-size: 19px;
+    width: 154px;
+    height: 50px;
 
+}
+#Compare .modal-content{
+  width: 592px !important;
+  height: 385px;
 }
 
 #Compare .modal-body {
