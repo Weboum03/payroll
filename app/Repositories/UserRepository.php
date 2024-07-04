@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Batch;
+use App\Models\Deboard;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
@@ -231,6 +232,12 @@ class UserRepository extends BaseRepository
             return $q->where('user_id', '<>', $userId);
         })
         ->exists();
+    }
+
+    public function storeDeBoardUser($id, $data) {
+        $data['user_id'] = $id;
+        $data['re_employable'] = false;
+        return Deboard::create($data);
     }
     public function updatePassword($data)
     {

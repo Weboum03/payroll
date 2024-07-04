@@ -238,7 +238,7 @@ class UserController extends BaseController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, string $id)
+    public function destroy(int $id, Request $request)
     {
         $input = $request->all();
         $rules = [
@@ -253,7 +253,8 @@ class UserController extends BaseController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
-        $this->userRepository->deleteById($id);
+
+        $this->userRepository->storeDeBoardUser($id, $input);
         return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 }

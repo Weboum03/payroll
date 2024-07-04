@@ -1,4 +1,5 @@
 <template>
+    <div class="modal-mask" id="Compare">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -193,6 +194,7 @@
                             </div>
                 </div>
             </div>
+        </div>
 </template>
 
 <script setup>

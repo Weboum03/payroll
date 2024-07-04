@@ -11,6 +11,7 @@ class Deboard extends Model
 
     protected $table = 'deboards';
     protected $fillable = [
+        'user_id',
         'reason',
         'notice_period',
         'comment',
@@ -22,5 +23,9 @@ class Deboard extends Model
         're_employable',
         'remaining_pl_year',
         'remaining_pl_leave',
+    ];
+
+    protected $casts = [
+        're_employable' => 'boolean'
     ];
 }

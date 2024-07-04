@@ -132,15 +132,13 @@ export default function useUsers() {
                 data: user,
             })
             .then((response) => {
-                console.log("api", "success");
                 swal({
                     icon: "success",
-                    title: "User deleted successfully",
+                    title: "De-board successfully",
                 });
                 return Promise.resolve(response);
             })
             .catch((error) => {
-                console.log("api", "failed");
                 if (error.response?.data) {
                     validationErrors.value = error.response.data.errors;
                     validationMessage.value = error.response.data.message;

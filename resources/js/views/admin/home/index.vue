@@ -144,90 +144,11 @@
         </div>
 
         <!-- Modal compare-->
-        <div v-if="isModalCompare" class="modal-mask" id="Compare">
-            <compareModel @close="isModalCompare=false"></compareModel>
-        </div>
+        <compareModel v-if="isModalCompare" @close="isModalCompare=false"></compareModel>
 
-        <!-- Modal Notice period list2 -->
-        <div v-if="isModalTable" class="modal-mask" id="noticPrd-Table-list2">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content" style=" width: 1030px !important; height: auto ">
-                    <div class="modal-header" style="align-items: center; gap: 3rem;">
-                        <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
-                            style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                            <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                    style="color: #000000;"></i></span>
-                            <span style="cursor: pointer;">Back</span>
-                        </button>
-                        <button type="button" class="close" @click="closeModalTable">
-                            <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
-                                    style="color: #2DB9F8;opacity: 1;"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="noticeperiod-table1_wrapper" class="dataTables_wrapper no-footer">
-                            <div id="noticeperiod-table1_filter" class="dataTables_filter"><label>Search:<input
-                                        type="search" v-model="searchQuery" @input="filterRows" class="" placeholder=""
-                                        aria-controls="noticeperiod-table1"></label>
-                                        <button type="button" class="close1" @click="isModalTable=false"
-                                    data-dismiss="modal" aria-label="Close"
-                                    style="margin: 0px; padding: 0px; font-size: medium; color: black !important"><span><i
-                                            class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                            style="color: #000000;" aria-hidden="true"></i></span>
-                                            <span
-                                        style="cursor: pointer;">Back</span></button>
-                                        
-                                        <button type="button" class="close" @click="isModalTable=false"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"><i
-                                            class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;"
-                                            aria-hidden="true"></i>
-                                        </span>
-                                    </button>
-                                </div>
+        <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable=false"></UserTable>
 
-                            <DataTable v-if="users?.data" :headers="tableHeaders" :rows="users" @filter="filterData"
-                                ref="table">
-                                <template v-slot:cell-company="{ row }">
-                                    {{ row.info?.company }}
-                                </template>
-                                <template v-slot:cell-location="{ row }">
-                                    {{ row.info?.location }}
-                                </template>
-                                <template v-slot:cell-department="{ row }">
-                                    {{ row.info?.department }}
-                                </template>
-                                <template v-slot:cell-salary="{ row }">
-                                    {{ row.pivot?.salary }}
-                                </template>
-                                <template v-slot:cell-deduction="{ row }">
-                                    {{ row.pivot?.deduction }}
-                                </template>
-                                <template v-slot:cell-overtime="{ row }">
-                                    {{ row.pivot?.overtime }}
-                                </template>
-                                <template v-slot:cell-bonus="{ row }">
-                                    {{ row.pivot?.bonus }}
-                                </template>
-                                <template v-slot:cell-commission="{ row }">
-                                    {{ row.pivot?.commission }}
-                                </template>
-                                <template v-slot:cell-reimbursement="{ row }">
-                                    {{ row.pivot?.reimbursement }}
-                                </template>
-                                <template v-slot:cell-leave_bal="{ row }">
-                                    {{ row.pivot?.leave_bal }}
-                                </template>
-                                <template v-slot:cell-action="{ row }">
-                                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg"
-                                        style="color: #f02828;" aria-hidden="true"></i>
-                                </template>
-                            </DataTable>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal=false"></LeaverTable>
     </div>
 </template>
 
@@ -237,9 +158,9 @@ import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import DataTable from '@/components/DataTable.vue';
+import LeaverTable from './LeaverTable.vue';
+import UserTable from './UserTable.vue';
 import compareModel from './compareModel.vue';
-import useUsers from "@/composables/users";
-const { users, getUsers, getUsersPaginate, is } = useUsers()
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
 import * as yup from 'yup';
@@ -250,12 +171,16 @@ import { useAbility } from '@casl/vue';
 const searchQuery = ref("");
 const table = ref(null)
 const { batches, create: storeBatch, validationErrors, validationMessage, isLoading, success } = useBatch();
-const { getDashboardDetails, getDashboardUsers, loading } = useDashboard();
+const { getDashboardDetails, loading } = useDashboard();
 const { can } = useAbility()
 const employeeData = ref(null);
 const router = useRouter();
 const selectedMonth = ref({});
 const currentStep = ref(1);
+const isModalOpened = ref(false);
+const isModalCompare = ref(false);
+const isModalTable = ref(false);
+const isLeaverModal = ref(false);
 // const storeData = async (values) => {
 //     await storeBatch(values);
 //     if(success) {
@@ -263,33 +188,6 @@ const currentStep = ref(1);
 //     }
 // }
 
-const filterRows = () => {
-    table.value.filterData.filter.push({
-        key: "search",
-        value: searchQuery.value.toLowerCase(),
-    })
-    table.value.filterPayload();
-};
-
-const filterData = async (filterValues) => {
-    Object.assign(filterValues, selectedMonth.value)
-    users.value = await getDashboardUsers(filterValues);
-}
-
-const tableHeaders = [
-    { key: 'employee_id', label: 'Employee ID', sorting: true },
-    { key: 'name', label: 'Employee Name', sorting: true },
-    { key: 'company', label: 'Date of Resignation' },
-    { key: 'location', label: 'Last Notice Period Date as per master' },
-    { key: 'department', label: 'Notice Period Date Selected by Employee' },
-    { key: 'department', label: 'Notice Period Date Approved Department Head' },
-    { key: 'department', label: 'Short Notice Pay in Days' },
-];
-
-const tableData = [
-    [1, 2],
-    [3, 4],
-];
 
 const data = {
     labels: ['Total employee 253', 'Pending count 5'],
@@ -303,41 +201,6 @@ const data = {
     cutout: '70%',
 }
 
-
-const counter3 = {
-    id: "counter",
-    beforeDraw(chart, args, options) {
-        const {
-            ctx,
-            chartArea: { top, right, bottom, left, width, height },
-        } = chart;
-        ctx.save();
-        const yCenter = height / 2 + top + 15;
-        ctx.font = "15px monospace";
-        ctx.fillStyle = "black";
-        ctx.fillText("258", "61", yCenter);
-    },
-};
-const counter4 = {
-    id: "counter",
-    beforeDraw(chart, args, options) {
-        const {
-            ctx,
-            chartArea: { top, right, bottom, left, width, height },
-        } = chart;
-        ctx.save();
-        const yCenter = height / 2 + top - 7;
-        ctx.font = "10px monospace";
-        ctx.fillStyle = "black";
-        ctx.fillText("Total Employee", "35", yCenter);
-    },
-};
-
-// const data = [253, 5];
-const payrollchartData = {
-    labels: [`Payroll Processed 253`, `Pending count 5`],
-    data: [253, 5],
-};
 
 const options = {
     borderRadius: 2,
@@ -358,54 +221,16 @@ const options = {
         },
     },
 }
-// const options = {
-//     type: "doughnut",
-//     data: {
-//         labels: payrollchartData.labels,
-//         datasets: [
-//             {
-//                 data: payrollchartData.data,
-//                 backgroundColor: [
-//                     // Set background color for each label
-//                     "#0492F5", // Background color for "5 days absence"
-//                     "#DAE1F3", // Background color for "900 working days"
-//                 ],
-//                 cutout: "70%",
-//             },
-//         ],
-//     },
-//     options: {
-//         borderRadius: 2,
-//         hoverBorderWidth: 0,
-//         plugins: {
-//             legend: {
-//                 display: false,
-//             },
-//             tooltip: {
-//                 callbacks: {
-//                     label: function (context) {
-//                         return context.label; // Display only the label, without associated data
-//                     },
-//                 },
-//             },
-//         },
-//         rotation: 90,
-//     },
-//     plugins: [counter4, counter3],
-// }
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 const detail = ref(null);
 
 onMounted(async () => {
-    users.value = await getDashboardUsers();
     let response = await getDashboardDetails();
     employeeData.value = response.data;
 });
 
-const isModalOpened = ref(false);
-const isModalCompare = ref(false);
-const isModalTable = ref(false);
+
 const myTable = ref(null);
 const schema = yup.object({
     name: yup.string().required('Required'),
@@ -445,16 +270,12 @@ const closeModalCompare = () => {
 
 const viewEmployeeData = async (month, type) => {
     selectedMonth.value = {month: month, type: type}
-    users.value = await getDashboardUsers(selectedMonth.value);
-    isModalTable.value = true;
+    if(type == 'leaver' || type == 'on_notice_period') {
+        isLeaverModal.value = true;
+    } else {
+        isModalTable.value = true;
+    }
 }
-
-const openModalTable = () => {
-    isModalTable.value = true;
-};
-const closeModalTable = () => {
-    isModalTable.value = false;
-};
 
 const target = ref(null)
 onClickOutside(target, () => closeModal());
