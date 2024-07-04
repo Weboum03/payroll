@@ -12,7 +12,9 @@ export default function useLeaves() {
 
     const getLeaves = async (filters= '') => {
         isLoading.value = true;
-        apiClient.get('admin/leaves' + filters).then((response) => {
+        let queryString = new URLSearchParams(filters).toString();
+        if(queryString) { queryString = '?'+ queryString }
+        apiClient.get('admin/leaves' + queryString).then((response) => {
             leaves.value = response.data;
             isLoading.value = false;
         });

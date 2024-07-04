@@ -278,10 +278,6 @@ table.dataTable tbody tr td {
     width: 100%;
 }
 
-.dataTables_filter {
-    margin-bottom: -15px;
-}
-
 .dt-search {
     display: none;
 }

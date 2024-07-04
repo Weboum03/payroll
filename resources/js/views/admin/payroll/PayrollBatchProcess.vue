@@ -153,9 +153,6 @@ const tableHeaders = [
     display: none;
 }
 
-#PayrollbatchList-Table_filter {
-    margin-bottom: -15px;
-}
 
 .Addemployee,
 .Adjustments,

@@ -212,10 +212,6 @@ table.dataTable tbody tr td {
     margin-left: 3px;
 }
 
-#leavesEmpTable_filter {
-    margin-bottom: -15px;
-}
-
 .modal-mask {
     position: fixed;
     z-index: 1;

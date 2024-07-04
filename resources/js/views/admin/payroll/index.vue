@@ -423,9 +423,6 @@ watch(pagelength, (current, previous) => {
     width: 100% !important;
 }
 
-#leavesEmpTable_filter {
-    margin-bottom: -15px;
-}
 #leavesEmpTable_filter>label {
     display: inline-flex !important;
     align-items: center;

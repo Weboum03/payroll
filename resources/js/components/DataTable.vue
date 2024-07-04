@@ -1,24 +1,6 @@
 <template>
     <div id="leavesEmpTable_wrapper" class="dt-container dt-empty-footer">
-        <div class="dt-layout-row">
-            <div class="dt-layout-cell dt-start"></div>
-            <div class="dt-layout-cell dt-end">
-                <div class="dt-search">
-                    <label for="dt-search-0">Search:</label><input type="search" class="dt-input" id="dt-search-0"
-                        placeholder="" aria-controls="leavesEmpTable" />
-                </div>
-            </div>
-        </div>
         <div class="dt-layout-row dt-layout-table">
-            <div class="dt-layout-cell">
-                <div id="leavesEmpTable_processing" class="dt-processing" role="status" style="display: none">
-                    <div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
                 <table class="table text-center dataTable">
                     <thead>
                         <tr>
@@ -46,7 +28,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
         </div>
         <div class="dt-layout-row">
             <div class="dt-layout-cell dt-start">
@@ -332,10 +313,6 @@ table.dataTable tbody tr td {
     padding: 5px;
     background-color: transparent;
     margin-left: 3px;
-}
-
-#leavesEmpTable_filter {
-    margin-bottom: -5px;
 }
 
 #leavesEmpTable_info {
