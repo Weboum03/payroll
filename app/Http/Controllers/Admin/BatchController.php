@@ -9,6 +9,9 @@ use App\Imports\UsersImport;
 use App\Models\Payroll;
 use App\Models\UserDetail;
 use App\Repositories\BatchRepository;
+use App\Services\Attendance\Models\AttendanceLog;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
@@ -150,23 +153,86 @@ class BatchController extends BaseController
         $mode = 'salary';
         if($request->mode) { $mode = $request->mode; }
         $users = $batch->users()->with('role', 'info')->get();
-
-        $excel =  $users->map(function ($data) use($mode) {
+        $excel =  $users->map(function ($data) use($mode, $batch) {
             return [
                 'unique_id' => $data['id'],
                 'employee_id' => $data['employee_id'],
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'company' => $data['info']['company'],
-                'location' => $data['info']['location'],
-                'designation' => $data['role']['name'],
+                'name' => $data['name'],
                 'doj' => $data['info']['doj'],
+                'employment_type' => $data['info']['employment_type'],
+                'role' => $data['role']['name'],
+                'department' => $data['info']['department'],
+                'location' => $data['info']['location'],
+                'gender' => $data['info']['gender'],
+                'dob' => $data['info']['dob'],
+                'pan_number' => $data['info']['pan_number'],
+                'month' => $batch->name,
+                'actual_payble_days' => $data['pivot']['actual_payble_days'],
+                'working_days' => (string)$data['pivot']['working_days'],
+                'loss_pay_days' => (string)$data['pivot']['loss_pay_days'],
+                'payble_days' => (string)$data['pivot']['payble_days'],
+                'gross_salary' => (string)$data['pivot']['salary'],
+                'deduction' => (string)$data['pivot']['deduction'],
+                'net_pay' => (string)$data['pivot']['payout'],
             ];
         });
 
+        // return $this->sendResponse($excel, 'Success');
         Excel::store(new BatchUserExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
+    }
+
+    public function getMonthlyAttendance($userId, $start, $end)
+    {
+        // Generate all days in the month
+        $daysInMonth = $this->getAllDaysOfMonth($start, $end);
+
+        // Fetch attendance records for the user in the specified month
+        $attendanceRecords = AttendanceLog::where('user_id', $userId)
+            ->whereBetween('date', [$start, $end])
+            ->where('type', 'in')
+            ->get()
+            ->keyBy('date'); // Key by date for easier lookup
+
+        // Initialize counters
+        $presentCount = 0;
+        $absentCount = 0;
+
+        // return $attendanceRecords['2024-06-28'];
+        // Iterate through each day of the month
+        foreach ($daysInMonth as $day) {
+            $date = $day->format('Y-m-d');
+            if (isset($attendanceRecords[$date])) {
+                // Check the status of the attendance record for the current day
+                if ($attendanceRecords[$date]->status == 'on-time' || $attendanceRecords[$date]->status == 'late') {
+                    $presentCount++;
+                } else {
+                    $absentCount++;
+                }
+            } else {
+                // No record means absent
+                $absentCount++;
+            }
+        }
+
+        return [
+            'present_count' => (string)$presentCount,
+            'absent_count' => (string)$absentCount,
+        ];
+    }
+
+    function getAllDaysOfMonth($start, $end)
+    {
+        $period = CarbonPeriod::create($start, $end)->toArray();
+        $weekdays = [];
+        foreach ($period as $date) {
+            if (!$date->isWeekend()) {
+                $weekdays[] = $date;
+            }
+        }
+        
+        return $weekdays;
     }
 
     public function storeUsersByBatch($id, Request $request)
@@ -186,15 +252,58 @@ class BatchController extends BaseController
             $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
             if(!$exits) {
                 $user = UserDetail::where('user_id', $selectedUser)->first();
-                $batch->employee()->create(['user_id' => $selectedUser, 'salary' => $user->salary, 'payout' => $user->salary]);
+                $month = Carbon::now()->subMonth();
+                $start = Carbon::parse($month)->startOfMonth();
+                $end = Carbon::parse($month)->endOfMonth();
+                $response = $this->getMonthlyAttendance($user->user_id, $start, $end);
+                $actualPaybleDays = date('d', strtotime('last day of previous month'));
+                $present = $response['present_count'];
+                $absent = $response['absent_count'];
+                $paybleDays = $actualPaybleDays - $absent;
+                $percent = round(($paybleDays/$actualPaybleDays)*100,2);
+                $payout = round(($percent/100)*$user->salary,2);
+                $deduction = $user->salary - $payout;
+                $dataToStore = [
+                    'user_id' => $selectedUser,
+                    'actual_payble_days' => $actualPaybleDays,
+                    'working_days' => $present + $absent,
+                    'loss_pay_days' => $absent,
+                    'payble_days' => $paybleDays,
+                    'salary' => $user->salary,
+                    'deduction' => $deduction,
+                    'payout' => $payout,
+                ];
+                $batch->employee()->create($dataToStore);
                 $addedUser++;
             }
         } else {
             $users = $this->batchRepository->getAllUsersByBatch($id, $request);
-            $users->each(function ($user) use($batch, $excludedUser, &$addedUser) {
-                $exits = $batch->employee()->where('user_id', $user->id)->exists();
-                if(!$exits && $excludedUser != $user->id) {
-                    $batch->employee()->create(['user_id' => $user->id, 'salary' => $user->info->salary, 'payout' => $user->info->salary]);
+            $users->each(function ($data) use($batch, $excludedUser, &$addedUser) {
+                $exits = $batch->employee()->where('user_id', $data->id)->exists();
+                if(!$exits && $excludedUser != $data->id) {
+                    $user = UserDetail::where('user_id', $data->id)->first();
+                    $month = Carbon::now()->subMonth();
+                    $start = Carbon::parse($month)->startOfMonth();
+                    $end = Carbon::parse($month)->endOfMonth();
+                    $response = $this->getMonthlyAttendance($user->user_id, $start, $end);
+                    $actualPaybleDays = date('d', strtotime('last day of previous month'));
+                    $present = $response['present_count'];
+                    $absent = $response['absent_count'];
+                    $paybleDays = $actualPaybleDays - $absent;
+                    $percent = round(($paybleDays/$actualPaybleDays)*100,2);
+                    $payout = round(($percent/100)*$user->salary,2);
+                    $deduction = $user->salary - $payout;
+                    $dataToStore = [
+                        'user_id' => $data->id,
+                        'actual_payble_days' => $actualPaybleDays,
+                        'working_days' => $present + $absent,
+                        'loss_pay_days' => $absent,
+                        'payble_days' => $paybleDays,
+                        'salary' => $user->salary,
+                        'deduction' => $deduction,
+                        'payout' => $payout,
+                    ];
+                    $batch->employee()->create($dataToStore);
                     $addedUser++;
                 }
             });

@@ -39,12 +39,23 @@ class BatchUserExport implements FromCollection, WithHeadings
         return [
             'Unique ID',
             'EMP ID',
-            'First Name',
-            'Last Name',
-            'Company',
+            'Employee Name',
+            'Date of Joining',
+            'Worker Type',
+            'Job Title',
+            'Department',
             'Location',
-            'Designation',
-            'DOJ'
+            'Gender',
+            'Date of Birth',
+            'PAN Number',
+            'Payroll Month',
+            'Actual Payable days',
+            'Working days',
+            'Loss of Pay days',
+            'Days Payable',
+            'Gross Salary',
+            'Deduction',
+            'Net Pay'
         ];
     }
 }
