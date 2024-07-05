@@ -161,7 +161,7 @@ class UserController extends BaseController
     public function show(string $id)
     {
         $user = $this->userRepository->getById($id);
-        $user->load('info','role');
+        $user->load('info','role','deboard');
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             $picture = $user->getFirstMedia($collectionName);
