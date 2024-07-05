@@ -68,8 +68,8 @@ class UserRepository extends BaseRepository
             ->whereMonth('doj', $currentMonth)
             ->count();
         
-        $leaver = Deboard::whereYear('final_employment_date', $currentYear)
-        ->whereMonth('final_employment_date', $currentMonth)->distinct('user_id')->count();
+        $leaver = Deboard::whereYear('start_date', $currentYear)
+        ->whereMonth('start_date', $currentMonth)->distinct('user_id')->count();
         
         $onNoticePeriod = Deboard::distinct('user_id')->where('start_date','>=', "$currentYear-$currentMonth-01")
         ->where('final_working_date','<=', "$currentYear-$currentMonth-31")->count();
@@ -83,8 +83,8 @@ class UserRepository extends BaseRepository
             ->whereMonth('doj', $previousMonthNumber)
             ->count();
         
-        $previousLeaver = Deboard::whereYear('final_employment_date', $previousMonthYear)
-            ->whereMonth('final_employment_date', $previousMonthNumber)->distinct('user_id')->count();
+        $previousLeaver = Deboard::whereYear('start_date', $previousMonthYear)
+            ->whereMonth('start_date', $previousMonthNumber)->distinct('user_id')->count();
 
         $previousNoticePeriod = Deboard::distinct('user_id')->where('start_date','>=', "$previousMonthYear-$previousMonthNumber-01")
             ->where('final_working_date','<=', "$previousMonthYear-$previousMonthNumber-31")->count();
@@ -262,13 +262,13 @@ class UserRepository extends BaseRepository
             return $q->where('role_id', $request->role);
         })
         ->when($request->type == 'leaver', function ($q) use($year, $month) {
-            return $q->whereHas('deboard', function ($query) use($year, $month){
+            return $q->with('deboard:start_date,id,user_id')->whereHas('deboard', function ($query) use($year, $month){
                 return $query->whereYear('start_date', $year)
                 ->whereMonth('start_date', $month);
             });
         })
         ->when($request->type == 'on_notice_period', function ($q) use($year, $month) {
-            return $q->whereHas('deboard', function ($query) use($year, $month){
+            return $q->with('deboard:start_date,id,user_id')->whereHas('deboard', function ($query) use($year, $month){
                 return $query->where('start_date','>=', "$year-$month-01")
                 ->where('final_working_date','<=', "$year-$month-31");
             });

@@ -65,13 +65,13 @@ class AttendanceController extends BaseController
         
         $response = $this->getMonthlyAttendance($user->id, $start, $end);
 
-        $leavesCount = LeaveApplication::where('user_id', $userId)->count();
+        $leavesCount = LeaveApplication::where('user_id', $userId)->sum('leave_count');
         $info = $user->info;
         $remaining = 0;
         if($info) {
             $remaining = $info->earning_leave_entitlement - $leavesCount;
         }
-        $response['leave_taken'] = $leavesCount;
+        $response['leave_taken'] = round($leavesCount);
         $response['leave_remaining'] = $remaining;
 
         return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));

@@ -62,6 +62,7 @@ class LeaveController extends BaseController
         $leave = new LeaveApplication();
         $input['user_id'] = $user->id;
         $leave->fill($input);
+        $leave->leave_count = $leave->duration;
         if($leave->duration > $userInfo->earning_leave_entitlement) {
             return $this->sendError('You have insufficient Earned Leave');
         }

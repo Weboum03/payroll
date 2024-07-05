@@ -41,8 +41,8 @@
                                     <template v-slot:cell-blank="{ row }">
                                         --
                                     </template>
-                                    <template v-slot:cell-reimbursement="{ row }">
-                                        {{ row.pivot?.reimbursement }}
+                                    <template v-slot:cell-start_date="{ row }">
+                                        {{ row.deboard?.start_date }}
                                     </template>
                                     <template v-slot:cell-leave_bal="{ row }">
                                         {{ row.pivot?.leave_bal }}
@@ -106,7 +106,7 @@
     const tableHeaders = [
         { key: 'employee_id', label: 'Employee ID', sorting: true },
         { key: 'name', label: 'Employee Name', sorting: true },
-        { key: 'created_at', label: 'Date of Resignation' },
+        { key: 'start_date', label: 'Date of Resignation' },
         { key: 'blank', label: 'Last Notice Period Date as per master' },
         { key: 'blank', label: 'Notice Period Date Selected by Employee' },
         { key: 'blank', label: 'Notice Period Date Approved Department Head' },

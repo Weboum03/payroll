@@ -64,6 +64,11 @@ class UserDetail extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function deboard()
+    {
+        return $this->hasOne(Deboard::class, 'user_id', 'user_id');
+    }
+
     public function getEmploymentDurationAttribute()
     {
         $date1 = new Carbon($this->prob_end_date);

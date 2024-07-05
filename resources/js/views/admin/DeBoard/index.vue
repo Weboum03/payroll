@@ -285,10 +285,14 @@
                                 </div>
                                 <div class="d-flex flex-column justify-content-center align-items-center"
                                     style="gap: 1rem;">
-                                    <a href="/admin/EmpProfile" class="btn btn-primary btn1">Finish and visit
-                                        employee's
-                                        profile</a>
-                                    <a href="/admin/dashboard" class="btn btn-primary btn1">Finish and exit</a>
+
+                                    <RouterLink :to="{ name: 'admin.EmpProfile' , params: route.params.id }" class="btn btn-primary btn1">
+                                        Finish and visit employee's profile
+                                    </RouterLink>
+
+                                    <RouterLink :to="{ name: 'admin.dashboard' }" class="btn btn-primary btn1">
+                                        Finish and exit
+                                    </RouterLink>
                                 </div>
 
                             </div>

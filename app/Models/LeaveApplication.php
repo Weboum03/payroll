@@ -23,6 +23,7 @@ class LeaveApplication extends Model
         'to_type',
         'to',
         'leave_type_id',
+        'leave_count',
         'status'
     ];
 

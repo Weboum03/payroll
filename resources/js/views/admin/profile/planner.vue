@@ -335,7 +335,7 @@ const updateAttendanceChartData = () => {
     var leaveTaken = attendanceData.value.data.leave_taken;
     var leaveRemaining = attendanceData.value.data.leave_remaining;
 
-    attendancechartData.value.labels = [present + " working days", absent + " days absence"]
+    attendancechartData.value.labels = [absent + " days absence", present + " working days"]
     attendancechartData.value.datasets[0].data = [absent, present]
 
     earnedchartData.value.labels = [leaveTaken + " days taken", leaveRemaining + " remaining"]
