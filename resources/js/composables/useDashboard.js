@@ -21,6 +21,17 @@ export default function useDashboard() {
         }
     };
 
+    const getDashboardCompare = async (data=[]) => {
+        loading.value = true;
+        try {
+            return await getApiPath.getDashboardCompare(data);
+        } catch (err) {
+            error.value = err;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const getDashboardUsers = async (data=[]) => {
         loading.value = true;
         try {
@@ -40,6 +51,7 @@ export default function useDashboard() {
         loading,
         getDashboardDetails,
         getDashboardUsers,
+        getDashboardCompare,
         success
     };
 }

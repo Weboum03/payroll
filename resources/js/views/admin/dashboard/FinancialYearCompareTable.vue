@@ -16,7 +16,7 @@
                     </button>
                 </router-link>
             </div>
-            <div><button type="button" id="Modify" data-toggle="modal" data-target="#Compare">Modify</button>
+            <div><button type="button" @click="isModalCompare = true" id="Modify" data-toggle="modal" data-target="#Compare">Modify</button>
             </div>
         </div>
 
@@ -29,29 +29,21 @@
                 <thead>
                     <tr>
                         <td scope="col"></td>
-                        <td scope="col">April 2022 to March-2023</td>
-                        <td scope="col">April 2023 to March-2024</td>
-                        <td scope="col">April 2024 to March-2025</td>
+                        <td scope="col" v-for="item in compareData">{{ item.title }}</td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td scope="row">Employee Count</td>
-                        <td>4652</td>
-                        <td>4732</td>
-                        <td>5406</td>
+                        <td v-for="item in compareData">{{ item.employee_count }}</td>
                     </tr>
                     <tr>
                         <td scope="row">New Starter</td>
-                        <td>652</td>
-                        <td>586</td>
-                        <td>354</td>
+                        <td v-for="item in compareData">{{ item.new_starter }}</td>
                     </tr>
                     <tr>
                         <td scope="row">Leaver</td>
-                        <td>573</td>
-                        <td>324</td>
-                        <td>335</td>
+                        <td v-for="item in compareData">{{ item.leaver }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -60,219 +52,46 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="Compare" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="CompareLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="CompareLabel">Compare Employee Data</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
-                                style="color: #2DB9F8;opacity: 1;"></i></span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container d-flex flex-column" id="Compare-Date-Format" style="gap: 1rem;height: 253px;">
-                        <div id="Compare-Date-Type" class="d-flex">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <input type="radio" name="CompareDateType" id="Financial-Year" value="FinancialYear"
-                                    style="width: 25px;" onclick="radioshow(event)" checked>
-                                <label for="Financial-Year" style="font-size: 13px;width: 115px;margin-bottom: 0px;">By
-                                    Financial
-                                    Year</label>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <input type="radio" name="CompareDateType" id="ByYear" value="ByYear"
-                                    style="width: 25px;" onclick="radioshow(event)">
-                                <label for="ByYear" style="font-size: 13px;width: 115px;margin-bottom: 0px;">By Calender
-                                    Year</label>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <input type="radio" name="CompareDateType" id="ByMonth" value="ByMonth"
-                                    style="width: 25px;" onclick="radioshow(event)">
-                                <label for="ByMonth" style="font-size: 13px;width: 115px;margin-bottom: 0px;">By
-                                    Month</label>
-                            </div>
-                        </div>
-                        <div id="Compare-Data-Input">
-                            <div id="Compare-Data-FinanInput" class="d-flex flex-column " style="gap: 1rem;">
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input" id="FinancialYear1" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Financial Year-1*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Financial Year-1*</label>
-                                    </div>
-                                </div>
-
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input" id="FinancialYear2" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Financial Year-2*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Financial Year-2*</label>
-                                    </div>
-                                </div>
-
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input1" id="FinancialYear3" autocomplete="off"
-                                            style="color: black; height: 40px;">
-                                            <option value="" disabled selected>Financial Year-3</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label1">Financial Year-3</label>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" id="Compare-Data-Financi-Year" class="btn btn-primary"
-                                        style="background-color: #2DB9F8;border: none;">Compare</button>
-                                </div>
-
-                            </div>
-                            <div id="Compare-Data-YearInput" class="d-flex flex-column " style="gap: 1rem;">
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input" id="Year1" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Year-1*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Year-1*</label>
-                                    </div>
-                                </div>
-
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input" id="Year2" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Year-2*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Year-2*</label>
-                                    </div>
-                                </div>
-
-
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input1" id="Year3" autocomplete="off"
-                                            style="color: black; height: 40px;">
-                                            <option value="" disabled selected> Select Year-3</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label1">Select Year-3</label>
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="submit" id="Compare-Data-Years" class="btn btn-primary"
-                                        style="background-color: #2DB9F8;border: none;">Compare</button>
-                                </div>
-                            </div>
-
-
-
-                            <div id="Compare-Data-MonthInput" class="d-flex flex-column" style="gap: 1rem;">
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Month1" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Month-1*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Month-1*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Year1" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Year-1*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Year-1*</label>
-                                    </div>
-                                </div>
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Month2" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Month-2*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Month-2*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Year2" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Year-2*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Year-2*</label>
-                                    </div>
-                                </div>
-                                <div class="row d-flex">
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Month3" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Month-3*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Month-3*</label>
-                                    </div>
-                                    <div class="col input-group-fname">
-                                        <select class="form-control input3" id="Year3" autocomplete="off"
-                                            style="color: black; height: 40px;" required="">
-                                            <option value="" disabled selected>Select Year-3*</option>
-                                            <option value="Option1">Option1</option>
-                                            <option value="Option2">Option2</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                        <label class="user-label">Select Year-3*</label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" id="Compare-Data-Months-Year" class="btn btn-primary"
-                                        style="background-color: #2DB9F8;border: none;">Compare</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Modal compare-->
+    <compareModel v-if="isModalCompare" @close="closeModal"></compareModel>
 </template>
+
+<script setup>
+import { ref, onMounted, onUpdated, watch } from 'vue'
+import compareModel from '@/views/admin/home/compareModel.vue'
+import useDashboard from "@/composables/useDashboard"
+const { getDashboardCompare, loading } = useDashboard()
+import { useRouter, useRoute } from "vue-router";
+const isModalCompare = ref(false);
+const compareData = ref(null)
+const route = useRoute();
+const payload = ref(route.query)
+
+onMounted(async () => {
+    let response = await getDashboardCompare(route.query);
+    compareData.value = response.data;
+});
+
+watch(payload, async () => {
+    payload.value = route.query;
+    let response = await getDashboardCompare(route.query);
+    compareData.value = response.data;
+})
+
+const closeModal = async() => {
+    isModalCompare.value = false
+    payload.value = route.query;
+    let response = await getDashboardCompare(route.query);
+    compareData.value = response.data;
+    location.reload()
+}
+
+// onUpdated(async () => {
+//     let response = await getDashboardCompare(route.query);
+//     compareData.value = response.data;
+// });
+
+</script>
 
 <style scoped>
 #FinancialYearcompareTable_filter {
@@ -334,5 +153,31 @@
 
 #Compare .modal-footer {
     padding-top: 0px;
+}
+
+.modal-mask {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 100% !important;
 }
 </style>

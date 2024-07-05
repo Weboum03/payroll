@@ -68,16 +68,20 @@ class UserRepository extends BaseRepository
             ->whereMonth('doj', $currentMonth)
             ->count();
         
+        $leaver = Deboard::whereYear('final_employment_date', $currentYear)
+        ->whereMonth('final_employment_date', $currentMonth)->distinct('user_id')->count();
+        
         // Count users created in the previous month
         $previousUsersCount = User::whereYear('created_at', $previousMonthYear)
             ->whereMonth('created_at', $previousMonthNumber)
             ->count();
 
-        
-        
         $previousUsersNewJoinCount = UserDetail::whereYear('doj', $previousMonthYear)
             ->whereMonth('doj', $previousMonthNumber)
             ->count();
+        
+        $previousLeaver = Deboard::whereYear('final_employment_date', $previousMonthYear)
+            ->whereMonth('final_employment_date', $previousMonthNumber)->distinct('user_id')->count();
 
         $batchCount = Batch::where('status', 'Processed')
         ->whereYear('created_at', $currentYear)
@@ -88,11 +92,12 @@ class UserRepository extends BaseRepository
         ->whereYear('created_at', $currentYear)
         ->whereMonth('created_at', $currentMonth)
         ->count();
+        
         $lastMonth = [
             'name' => 'June 2024',
             'employees' => $previousUsersCount,
             'new_starter' => $previousUsersNewJoinCount,
-            'leaver' => 0,
+            'leaver' => $previousLeaver,
             'on_notice_period' => 0
         ];
 
@@ -100,7 +105,7 @@ class UserRepository extends BaseRepository
             'name' => 'July 2024',
             'employees' => $usersCount,
             'new_starter' => $usersNewJoinCount,
-            'leaver' => 0,
+            'leaver' => $leaver,
             'on_notice_period' => 0
         ];
 
@@ -110,6 +115,44 @@ class UserRepository extends BaseRepository
             'last_month' => $lastMonth,
             'current_month' => $currentMonth,
         ];
+    }
+
+    protected function getUserFilterCount($dateType, $fullYear) {
+
+        if($dateType == 'ByMonth') {
+            $from = $fullYear.'-01';
+            $to = $fullYear.'-31';
+            $title = Carbon::parse($from)->format('F  Y');
+        } else {
+            $fullRange = explode(',',$fullYear);
+            $from = $fullRange[0];
+            $to = $fullRange[1];
+            $title = Carbon::parse($from)->format('F  Y').' to '.Carbon::parse($to)->format('F  Y');
+        }
+
+        $usersCount = User::whereBetween('created_at', [$from, $to])->count();
+
+        $usersNewJoinCount = UserDetail::whereBetween('doj', [$from, $to])->count();
+
+        $leaver = Deboard::whereBetween('final_employment_date', [$from, $to])->distinct('user_id')->count();
+
+        return ['title' => $title, 'employee_count' => $usersCount, 'new_starter' => $usersNewJoinCount, 'leaver' => $leaver]; 
+    }
+
+    public function compareData($request) {
+
+        // Get the current month and year
+        $response = [];
+
+        $getResult = $this->getUserFilterCount($request->date_type, $request->year_one);
+        $response[] = $getResult;
+
+        $getResult = $this->getUserFilterCount($request->date_type, $request->year_two);
+        $response[] = $getResult;
+
+        $getResult = $this->getUserFilterCount($request->date_type, $request->year_three);
+        $response[] = $getResult;
+        return $response;
     }
 
     public function listing($request)

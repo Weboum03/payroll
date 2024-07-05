@@ -47,6 +47,9 @@
                                     <template v-slot:cell-department="{ row }">
                                         {{ row.info?.department }}
                                     </template>
+                                    <template v-slot:cell-doj="{ row }">
+                                        {{ row.info?.doj }}
+                                    </template>
                                 </DataTable>
                             </div>
                         </div>
@@ -105,7 +108,8 @@
     { key: 'name', label: 'Employee Name', sorting: true },
     { key: 'company', label: 'Company' },
     { key: 'location', label: 'Location' },
-    { key: 'department', label: 'Department' }
+    { key: 'department', label: 'Department' },
+    { key: 'doj', label: 'Date of Joining' }
 ];
 
     

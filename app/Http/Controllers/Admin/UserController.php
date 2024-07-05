@@ -83,6 +83,12 @@ class UserController extends BaseController
         return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function compareData(Request $request)
+    {
+        $response = $this->userRepository->compareData($request);
+        return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));
+    }
+
     public function checkDocument($type, Request $request)
     {
         $check = $this->userRepository->checkDocument($type, $request->value, $request->user_id);

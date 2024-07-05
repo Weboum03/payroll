@@ -48,6 +48,8 @@ const getApiPath = {
     getDashboardDetails(params) { return apiService.post(`admin/dashboard`,params); },
     
     getDashboardUsers(params) { return apiService.post(`admin/dashboard/users`,params); },
+
+    getDashboardCompare(params) { return apiService.post(`admin/dashboard/compare`,params); },
 };
 
 export default getApiPath;

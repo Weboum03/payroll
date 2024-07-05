@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->get('user/pagination', [UserController::class, 'getUserPaginate']);
     $router->post('dashboard', [UserController::class, 'dashboard']);
     $router->post('dashboard/users', [UserController::class, 'dashboardUser']);
+    $router->post('dashboard/compare', [UserController::class, 'compareData']);
     $router->get('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('document/{type}', [UserController::class, 'checkDocument']);
