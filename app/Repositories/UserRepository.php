@@ -71,6 +71,9 @@ class UserRepository extends BaseRepository
         $leaver = Deboard::whereYear('final_employment_date', $currentYear)
         ->whereMonth('final_employment_date', $currentMonth)->distinct('user_id')->count();
         
+        $onNoticePeriod = Deboard::distinct('user_id')->where('start_date','>=', "$currentYear-$currentMonth-01")
+        ->where('final_working_date','<=', "$currentYear-$currentMonth-31")->count();
+
         // Count users created in the previous month
         $previousUsersCount = User::whereYear('created_at', $previousMonthYear)
             ->whereMonth('created_at', $previousMonthNumber)
@@ -82,6 +85,9 @@ class UserRepository extends BaseRepository
         
         $previousLeaver = Deboard::whereYear('final_employment_date', $previousMonthYear)
             ->whereMonth('final_employment_date', $previousMonthNumber)->distinct('user_id')->count();
+
+        $previousNoticePeriod = Deboard::distinct('user_id')->where('start_date','>=', "$previousMonthYear-$previousMonthNumber-01")
+            ->where('final_working_date','<=', "$previousMonthYear-$previousMonthNumber-31")->count();
 
         $batchCount = Batch::where('status', 'Processed')
         ->whereYear('created_at', $currentYear)
@@ -98,7 +104,7 @@ class UserRepository extends BaseRepository
             'employees' => $previousUsersCount,
             'new_starter' => $previousUsersNewJoinCount,
             'leaver' => $previousLeaver,
-            'on_notice_period' => 0
+            'on_notice_period' => $previousNoticePeriod
         ];
 
         $currentMonth = [
@@ -106,7 +112,7 @@ class UserRepository extends BaseRepository
             'employees' => $usersCount,
             'new_starter' => $usersNewJoinCount,
             'leaver' => $leaver,
-            'on_notice_period' => 0
+            'on_notice_period' => $onNoticePeriod
         ];
 
         return [
@@ -239,9 +245,6 @@ class UserRepository extends BaseRepository
                 return $q->whereYear('doj', $year)
                 ->whereMonth('doj', $month);
             })
-            ->when($request->type == 'leaver' || $request->type == 'on_notice_period', function ($q) use($request) {
-                return $q->where('location', 'rgregre');
-            })
             ->when($request->department, function ($q) use($request) {
                 return $q->where('department', $request->department);
             })
@@ -257,6 +260,18 @@ class UserRepository extends BaseRepository
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
+        })
+        ->when($request->type == 'leaver', function ($q) use($year, $month) {
+            return $q->whereHas('deboard', function ($query) use($year, $month){
+                return $query->whereYear('start_date', $year)
+                ->whereMonth('start_date', $month);
+            });
+        })
+        ->when($request->type == 'on_notice_period', function ($q) use($year, $month) {
+            return $q->whereHas('deboard', function ($query) use($year, $month){
+                return $query->where('start_date','>=', "$year-$month-01")
+                ->where('final_working_date','<=', "$year-$month-31");
+            });
         })
         ->paginate(10);
     }

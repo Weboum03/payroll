@@ -10,26 +10,26 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <Form @submit="onSubmit" :validation-schema="currentSchema" @invalid-submit="onInvalidSubmit"
-                    v-slot="{ handleSubmit, values, errors, validate  }">
+                        <Form :key="tableKey" @submit="onSubmit" :validation-schema="currentSchema" @invalid-submit="onInvalidSubmit" :initial-values="formValues"
+                    v-slot="{ handleSubmit, values, errors, validate, handleReset  }">
                                 <div class="container d-flex flex-column" id="Compare-Date-Format" style="gap: 1rem;">
                                     <div id="Compare-Date-Type" class="d-flex">
                                         <div class="d-flex justify-content-center align-items-center">
                                             <Field type="radio" name="date_type" v-model="CompareDateType" id="Financial-Year" value="FinancialYear"
-                                                style="width: 25px;" @click="currentStep = 1" checked />
+                                                style="width: 25px;" @click="() => { currentStep = 1;  setToggle('FinancialYear'); handleReset(); }" />
                                             <label for="Financial-Year" style="font-size: 16px;width:145px;margin-bottom: 0px;font-weight: 500; font-family: sans-serif;">By
                                                 Financial
                                                 Year</label>
                                         </div>
                                         <div class="d-flex justify-content-center align-items-center">
                                             <Field type="radio" name="date_type" id="ByYear" value="ByYear" v-model="CompareDateType" 
-                                                style="width: 25px;" @click="currentStep = 2" />
+                                                style="width: 25px;"@click="() => { currentStep = 2; setToggle('ByYear'); handleReset(); }" />
                                             <label for="ByYear" style="font-size: 16px;width: 145px;margin-bottom: 0px;font-weight: 500;font-family: sans-serif;">By Calender
                                                 Year</label>
                                         </div>
                                         <div class="d-flex justify-content-center align-items-center">
                                             <Field type="radio" name="date_type" id="ByMonth" value="ByMonth" v-model="CompareDateType" 
-                                                style="width: 25px;" @click="currentStep = 3" />
+                                                style="width: 25px;" @click="() => { currentStep = 3; setToggle('ByMonth'); handleReset(); }" />
                                             <label for="ByMonth" style="font-size: 16px;width: 145px;margin-bottom: 0px;font-weight: 500;font-family: sans-serif;">By
                                                 Month</label>
                                         </div>
@@ -204,7 +204,7 @@
 
 <script setup>
 import { ref, onMounted, watch, computed, inject } from 'vue';
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 // import { useForm, Form, Field } from 'vee-validate';
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
 import useDashboard from "@/composables/useDashboard";
@@ -212,10 +212,14 @@ const { getDashboardCompare, loading } = useDashboard();
 import * as yup from 'yup';
 const swal = inject('$swal')
 const currentStep = ref(1);
-const formValues = ref({});
+const formValues = ref(null);
 const valErrors = ref({});
 const compareData = ref(null)
 const CompareDateType = ref('FinancialYear');
+const emit = defineEmits(['close']);
+const router = useRouter();
+const route = useRoute();
+const tableKey = ref(0)
 const { errors, resetForm, handleSubmit } = useForm({
   validationSchema: yup.object({}),
 });
@@ -246,12 +250,20 @@ const schemas = [
   }),
 ];
 
+const setToggle = (value) => {
+    CompareDateType.value = value;
+    formValues.value = {};
+    tableKey.value++;
+}
 const currentSchema = computed(() => {
   return schemas[currentStep.value - 1];
 }); 
 
 const { validate } = useForm({ validationSchema: currentSchema });
 
+watch(formValues, () => {
+    tableKey.value++;
+})
 
 
 // Creates a submission handler
@@ -288,8 +300,32 @@ const onSubmit = async (values) => {
 }
 
 
-const emit = defineEmits(['close']);
-const router = useRouter();
+onMounted(() => {
+    let queryParams = route.query;
+    if(Object.keys(queryParams).length > 0) {
+        console.log('queryParams',queryParams);
+        CompareDateType.value = queryParams.date_type;
+        if(queryParams.date_type == 'ByYear') { currentStep.value = 2; }
+        if(queryParams.date_type == 'ByMonth') {
+            currentStep.value = 3;
+            let custom_one = queryParams.year_one.split('-');
+            let custom_two = queryParams.year_two.split('-');
+            let custom_three = queryParams.year_three.split('-');
+            let defaultSelect = {
+                year_one : custom_one[0],
+                month_one: custom_one[1],
+                year_two : custom_two[0],
+                month_two: custom_two[1],
+                year_three : custom_three[0],
+                month_three: custom_three[1],
+            }
+            formValues.value = defaultSelect;
+        } else {
+            formValues.value = queryParams;
+        }
+    }
+    
+})
 
 const closeModalCompare = () => {
     emit('close');
@@ -317,9 +353,9 @@ const financialYears = [
 ];
 
 const calenderYears = [
-    {name: 'Jan, 2022 to Dec, 2023', value: '2022-01-01,2023-12-31'},
-    {name: 'Jan, 2023 to Dec, 2024', value: '2023-01-01,2024-12-31'},
-    {name: 'Jan, 2024 to Dec, 2025', value: '2024-01-01,2025-12-31'},
+    {name: 'Jan, 2022 to Dec, 2022', value: '2022-01-01,2022-12-31'},
+    {name: 'Jan, 2023 to Dec, 2023', value: '2023-01-01,2023-12-31'},
+    {name: 'Jan, 2024 to Dec, 2024', value: '2024-01-01,2024-12-31'},
 ];
 
 const years = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];

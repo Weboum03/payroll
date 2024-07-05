@@ -77,7 +77,7 @@
                     <h6 class="chart-heading d-flex justify-content-start">Attendance</h6>
                     <div class="programming-stats">
                         <div class="attendance-container">
-                            <Doughnut id="counter" :data="attendancechartData" :options="options" width="125"
+                            <Doughnut :key="tableKey" id="counter" :data="attendancechartData" :options="options" width="125"
                                 height="125"
                                 style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
@@ -88,13 +88,13 @@
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(45, 185, 248); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>{{ attendanceValue.present }} days absence</div>
+                                    <div>{{ attendanceValue.absent }} days absence</div>
                                 </li>
                                 <li style="display: flex;">
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>{{ attendanceValue.absent }} working days</div>
+                                    <div>{{ attendanceValue.present }} working days</div>
                                 </li>
                             </ul>
                         </div>
@@ -107,7 +107,7 @@
                     <h6 class="chart-heading d-flex justify-content-start">Earned Leaves (Days)</h6>
                     <div class="programming-stats1">
                         <div class="earned-container">
-                            <Doughnut id="counter" :data="earnedchartData" :options="options2" width="125" height="125"
+                            <Doughnut :key="tableKey" id="counter" :data="earnedchartData" :options="options2" width="125" height="125"
                                 style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
 
@@ -229,6 +229,8 @@
             </div>
         </div>
     </div>
+
+    {{ attendancechartData.labels }}
 </template>
 
 <script setup>
@@ -244,6 +246,7 @@ const endDate = ref('')
 const attendanceData = ref({})
 const route = useRoute()
 const plannerType = ref()
+const tableKey = ref(0)
 const attendanceValue = ref({
     present : 0,
     absent : 0,
@@ -325,20 +328,34 @@ function formatDate(date) {
   return `${year}-${month}-${day}`;
 }
 
+const updateAttendanceChartData = () => {
+
+    var present = attendanceData.value.data.present_count;
+    var absent = attendanceData.value.data.absent_count;
+    var leaveTaken = attendanceData.value.data.leave_taken;
+    var leaveRemaining = attendanceData.value.data.leave_remaining;
+
+    attendancechartData.value.labels = [present + " working days", absent + " days absence"]
+    attendancechartData.value.datasets[0].data = [absent, present]
+
+    earnedchartData.value.labels = [leaveTaken + " days taken", leaveRemaining + " remaining"]
+    earnedchartData.value.datasets[0].data = [leaveTaken, leaveRemaining]
+    attendanceValue.value = {
+        present : present,
+        absent : absent,
+        leave_remaining : leaveRemaining,
+        leave_taken : leaveTaken,
+    }
+    tableKey.value++;
+}
+
 const filterRows = async () => {
     attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
-    attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
-    earnedchartData.value.datasets[0].data = [attendanceData.value.data.leave_taken, attendanceData.value.data.leave_remaining]
-    attendanceValue.value = {
-        present : attendanceData.value.data.present_count,
-        absent : attendanceData.value.data.absent_count,
-        leave_remaining : attendanceData.value.data.leave_remaining,
-        leave_taken : attendanceData.value.data.leave_taken,
-    }
+    updateAttendanceChartData();
 };
 
 const attendancechartData = ref({
-    labels: ["5 days absence", "900 working days"],
+    labels: ["5 days absence", "800 working days"],
     datasets: [
         {
             backgroundColor: ['#0492F5', '#DAE1F3'],
@@ -413,14 +430,7 @@ const options2 = {
 
 const updateChart = async () => {
     attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
-    attendancechartData.value.datasets[0].data = [attendanceData.value.data.present_count, attendanceData.value.data.absent_count]
-    earnedchartData.value.datasets[0].data = [attendanceData.value.data.leave_taken, attendanceData.value.data.leave_remaining]
-    attendanceValue.value = {
-        present : attendanceData.value.data.present_count,
-        absent : attendanceData.value.data.absent_count,
-        leave_remaining : attendanceData.value.data.leave_remaining,
-        leave_taken : attendanceData.value.data.leave_taken,
-    }
+    updateAttendanceChartData();
 }
 
 onMounted( async () => {

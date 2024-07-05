@@ -21,8 +21,7 @@
         </div>
 
         <div style=" background-color: white; font-size: 9px; padding: 12px; color: #A8A8A8; font-weight: 500">
-            Comparison data between financial yaer April-2022 to March-2023,April-2023 to March-2024 and
-            April-2024 to March-2025</div>
+            Comparison data between <span v-for="item in compareData"> , {{ item.title }} </span></div>
 
         <div class="FinancialYearcompareTable" style="margin-top: -14px;">
             <table class="table table-bordered">

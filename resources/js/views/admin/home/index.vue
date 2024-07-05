@@ -32,7 +32,7 @@
                     <div class="programming-stats4">
                         <div class="payrollData-container">
                             <div class="payrolldata-chart">
-                                <Doughnut id="counter" :data="data" :options="options" />
+                                <Doughnut :key="tableKey" id="counter" :data="data" :options="options" />
                             </div>
                         </div>
 
@@ -181,6 +181,7 @@ const isModalOpened = ref(false);
 const isModalCompare = ref(false);
 const isModalTable = ref(false);
 const isLeaverModal = ref(false);
+const tableKey = ref(0)
 // const storeData = async (values) => {
 //     await storeBatch(values);
 //     if(success) {
@@ -228,6 +229,11 @@ const detail = ref(null);
 onMounted(async () => {
     let response = await getDashboardDetails();
     employeeData.value = response.data;
+    var processed = employeeData.value.batch_processed;
+    var pending = employeeData.value.batch_pending;
+    data.labels = ['Payroll Processed ' + processed, 'Pending count '+ pending]
+    data.datasets[0].data = [processed, pending]
+    tableKey.value++;
 });
 
 
