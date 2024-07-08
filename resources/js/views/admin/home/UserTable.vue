@@ -2,18 +2,6 @@
     <div class="modal-mask" id="noticPrd-Table-list2">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content" style=" width: 1030px !important; height: auto ">
-                        <div class="modal-header" style="align-items: center; gap: 3rem;">
-                            <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
-                                style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                                <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                        style="color: #000000;"></i></span>
-                                <span style="cursor: pointer;">Back</span>
-                            </button>
-                            <button type="button" class="close" @click="closeModal">
-                                <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
-                                        style="color: #2DB9F8;opacity: 1;"></i></span>
-                            </button>
-                        </div>
                         <div class="modal-body">
                             <div id="noticeperiod-table1_wrapper" class="dataTables_wrapper no-footer">
                                 <div id="noticeperiod-table1_filter" class="dataTables_filter"><label>Search:<input
@@ -120,6 +108,7 @@
     </script>
     
     <style scoped>
+    @import '@/assets/css/Home.css';
     @import 'datatables.net-dt';
     
     table.dataTable thead th,

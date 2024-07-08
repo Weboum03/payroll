@@ -167,87 +167,9 @@
         </div>
     </div>
 
+    <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable=false"></UserTable>
 
-    <!-- Modal Notice period list2 -->
-    <div v-if="isModalTable" class="modal-mask" id="noticPrd-Table-list2">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content" style=" width: 1030px !important; height: auto ">
-                    <div class="modal-header" style="align-items: center; gap: 3rem;">
-                        <button type="button" class="close1" data-dismiss="modal" aria-label="Close"
-                            style=" margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                            <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                    style="color: #000000;"></i></span>
-                            <span style="cursor: pointer;">Back</span>
-                        </button>
-                        <button type="button" class="close" @click="closeModalTable">
-                            <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-lg"
-                                    style="color: #2DB9F8;opacity: 1;"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="noticeperiod-table1_wrapper" class="dataTables_wrapper no-footer">
-                            <div id="noticeperiod-table1_filter" class="dataTables_filter"><label>Search:<input
-                                        type="search" v-model="searchQuery" @input="filterRows" class="" placeholder=""
-                                        aria-controls="noticeperiod-table1"></label>
-                                        <button type="button" class="close1" @click="isModalTable=false"
-                                    data-dismiss="modal" aria-label="Close"
-                                    style="margin: 0px; padding: 0px; font-size: medium; color: black !important"><span><i
-                                            class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
-                                            style="color: #000000;" aria-hidden="true"></i></span>
-                                            <span
-                                        style="cursor: pointer;">Back</span></button>
-                                        
-                                        <button type="button" class="close" @click="isModalTable=false"
-                                    data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true"><i
-                                            class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;"
-                                            aria-hidden="true"></i>
-                                        </span>
-                                    </button>
-                                </div>
-
-                            <DataTable v-if="users?.data" :headers="tableHeaders2" :rows="users" @filter="filterData2"
-                                ref="table2">
-                                <template v-slot:cell-company="{ row }">
-                                    {{ row.info?.company }}
-                                </template>
-                                <template v-slot:cell-location="{ row }">
-                                    {{ row.info?.location }}
-                                </template>
-                                <template v-slot:cell-department="{ row }">
-                                    {{ row.info?.department }}
-                                </template>
-                                <template v-slot:cell-salary="{ row }">
-                                    {{ row.pivot?.salary }}
-                                </template>
-                                <template v-slot:cell-deduction="{ row }">
-                                    {{ row.pivot?.deduction }}
-                                </template>
-                                <template v-slot:cell-overtime="{ row }">
-                                    {{ row.pivot?.overtime }}
-                                </template>
-                                <template v-slot:cell-bonus="{ row }">
-                                    {{ row.pivot?.bonus }}
-                                </template>
-                                <template v-slot:cell-commission="{ row }">
-                                    {{ row.pivot?.commission }}
-                                </template>
-                                <template v-slot:cell-reimbursement="{ row }">
-                                    {{ row.pivot?.reimbursement }}
-                                </template>
-                                <template v-slot:cell-leave_bal="{ row }">
-                                    {{ row.pivot?.leave_bal }}
-                                </template>
-                                <template v-slot:cell-action="{ row }">
-                                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg"
-                                        style="color: #f02828;" aria-hidden="true"></i>
-                                </template>
-                            </DataTable>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal=false"></LeaverTable>
 </template>
 
 <script setup>
@@ -257,6 +179,8 @@ import * as yup from 'yup';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
+import LeaverTable from '@/views/admin/home/LeaverTable.vue';
+import UserTable from '@/views/admin/home/UserTable.vue';
 const { items: batches, fetchAll: getBatches, create: storeBatch, loading: isLoading, success } = useBatch();
 const { getDashboardDetails, getDashboardUsers, loading } = useDashboard();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
@@ -273,6 +197,7 @@ const searchQuery = ref("");
 const employeeData = ref(null);
 const selectedMonth = ref({});
 const isModalTable = ref(false);
+const isLeaverModal = ref(false);
 const users = ref([])
 const schema = yup.object({
     name: yup.string().required('Required'),
@@ -303,6 +228,15 @@ watch(success, (current, previous) => {
         success.value = false;
     }
 })
+
+const viewEmployeeData = async (month, type) => {
+    selectedMonth.value = {month: month, type: type}
+    if(type == 'leaver' || type == 'on_notice_period') {
+        isLeaverModal.value = true;
+    } else {
+        isModalTable.value = true;
+    }
+}
 
 const filterRows = () => {
     table.value.filterData.filter.push({
@@ -336,11 +270,6 @@ const filterData2 = async (filterValues) => {
     users.value = await getDashboardUsers(filterValues);
 }
 
-const viewEmployeeData = async (month, type) => {
-    selectedMonth.value = {month: month, type: type}
-    users.value = await getDashboardUsers(selectedMonth.value);
-    isModalTable.value = true;
-}
 onMounted(async() => {
     getBatches();
     let response = await getDashboardDetails();

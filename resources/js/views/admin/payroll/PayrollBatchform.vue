@@ -138,7 +138,7 @@
                     <h5 data-v-f3042a6e="" class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
                     <button data-v-f3042a6e="" type="button" class="close">
                         <span data-v-f3042a6e="" aria-hidden="true" style="margin-bottom: 5px;">×</span></button></div>
-                <div class="modal-body">
+                <div class="modal-body" style="scrollbar-width: thin;">
 
                 <div id="testRslt-table_filter" class="dataTables_filter">    
                     <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="testRslt-table"></label>
