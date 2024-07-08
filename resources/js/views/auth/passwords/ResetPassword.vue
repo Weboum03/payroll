@@ -17,24 +17,26 @@
                 </h6>
             </div>
 
-            <span class="singnIn">Find your account</span>
-
-            <div class="flex-column" id="emailFields" style="gap: 1.5rem;">
-                <div class="row">
+            <div class="flex-column" id="passwordFields" style="gap: 1.5rem;">
+                <div class="row" >
                     <div class="col input-group-fname">
-                        <input placeholder="Email*" required type="email" autocomplete="off" class="input" id="Email">
-                        <label class="user-label">Email*</label>
+                        <input placeholder="New Password*" required="" :type="showToggle.password" autocomplete="off" class="input" id="newPassword">
+                        <label class="user-label"> New Password*</label>
+                        <i class="fas fa-eye fa-lg" @click="eyeIcon('password')" id="togglePassword2" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                    </div>
+                    <div class="col input-group-fname">
+                        <input placeholder="Conform Password*" :type="showToggle.cpassword" required="" autocomplete="off" class="input" id="confirmPassword">
+                        <label class="user-label">Conform Password*</label>
+                    <i class="fas fa-eye fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                    </div>
+                    <div class="col input-group-fname">
+                        <input placeholder="OTP*" required="" type="number" autocomplete="off" class="input" id="confirmPassword">
+                        <label class="user-label">OTP*</label>
                     </div>
 
                 </div>
-                <div class="d-flex justify-content-end">
-                    <router-link
-                        style="font-size: 16px;font-weight: 500;line-height: 24px;font-family:Poppins,sans-serif; color: #03A9F3;"
-                        :to="{ name: 'auth.login' }">Log In?</router-link>
-                </div>
+                <a href="Login.html" class="btn btn-primary savenext" data-toggle="modal" data-target="#SuccessBackdrop" style=" margin-top: 20px;">Submit</a>
             </div>
-
-            <a href="/reset-password/token" class="btn btn-primary go" data-toggle="modal" data-target="#ForgetBackdrop">Go</a>
         </div>
     </div>
 </template>
@@ -45,15 +47,18 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import { ref } from 'vue';
 import * as yup from "yup";
 const { loginForm, validationErrors, processing, submitLogin } = useAuth();
-const showToggle = ref('password')
+const showToggle = ref({
+    password : 'password',
+    cpassword : 'password',
+})
 
 const schema = yup.object().shape({
     email: yup.string().required("Email is required!"),
     password: yup.string().required("Password is required!"),
 });
 
-const eyeIcon = () => {
-    if(showToggle.value == 'password') { showToggle.value = 'text'; } else { showToggle.value = 'password' }
+const eyeIcon = (value) => {
+    if(showToggle.value[value] == 'password') { showToggle.value[value] = 'text'; } else { showToggle.value[value] = 'password' }
 }
 </script>
 

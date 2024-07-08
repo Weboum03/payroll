@@ -79,10 +79,10 @@ export default [
             //     beforeEnter: guest,
             // },
             {
-                path: "reset-password/:token",
                 name: "auth.reset-password",
-                component: () => import("../views/auth/passwords/Reset.vue"),
-                beforeEnter: guest,
+                path: "reset-password/:token",
+                component: () => import("../views/auth/passwords/ResetPassword.vue"),
+                // beforeEnter: guest,
             },
         ],
     },

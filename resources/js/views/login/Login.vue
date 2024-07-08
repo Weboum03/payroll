@@ -39,12 +39,13 @@
                 <div class="row">
 
                     <div class="col input-group-fname">
-                        <Field name="password" :class="{ 'is-invalid': errors.password }" v-model="loginForm.password"
-                            placeholder="Password*" required type="password" autocomplete="off" class="input"
+                        <Field name="password" :class="{ 'is-invalid': errors.password }" v-model="loginForm.password" 
+                            placeholder="Password*" required :type="showToggle" autocomplete="off" class="input" ref="password"
                             id="Password" />
                         <label class="user-label">Password*</label>
+                        <i class="fa-regular fa-eye fa-lg" @click="eyeIcon" style="position: relative;top: -37px;left: 420px;cursor: pointer; color:#9e9e9e;"></i>
                         <!-- Validation Errors -->
-                        <div class="text-danger mt-1">
+                        <div class="text-danger" style="margin-top: -15px;">
                             {{ errors.password }}
                         </div>
                     </div>
@@ -72,13 +73,19 @@
 <script setup>
 import useAuth from '@/composables/auth'
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { ref } from 'vue';
 import * as yup from "yup";
 const { loginForm, validationErrors, processing, submitLogin } = useAuth();
+const showToggle = ref('password')
 
 const schema = yup.object().shape({
     email: yup.string().required("Email is required!"),
     password: yup.string().required("Password is required!"),
 });
+
+const eyeIcon = () => {
+    if(showToggle.value == 'password') { showToggle.value = 'text'; } else { showToggle.value = 'password' }
+}
 </script>
 
 <style scoped>
