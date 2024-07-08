@@ -101,6 +101,8 @@ class BatchController extends BaseController
                     if($userData) {
                         if($mode == 'salary') { $payout = $user[$mode] - $userData->deduction; }
                         elseif($mode == 'deduction') { $payout = $userData->salary - $user[$mode]; }
+                        elseif($mode == 'bonus') { $payout = $userData->salary + $user[$mode]; die; }
+                        elseif($mode == 'commission') { $payout = $userData->salary + $user[$mode]; }
                         else { $payout = $userData->payout; }
                         if(!$user[$mode]) { $user[$mode] = 0; }
                         $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode], 'payout'=> $payout]);

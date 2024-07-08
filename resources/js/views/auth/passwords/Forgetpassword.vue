@@ -18,42 +18,58 @@
             </div>
 
             <span class="singnIn">Find your account</span>
-
-            <div class="flex-column" id="emailFields" style="gap: 1.5rem;">
-                <div class="row">
-                    <div class="col input-group-fname">
-                        <input placeholder="Email*" required type="email" autocomplete="off" class="input" id="Email">
-                        <label class="user-label">Email*</label>
+            <Form @submit="submitForgotPassword" :validation-schema="schema" v-slot="{ validate, errors }">
+                <div class="flex-column" id="emailFields" style="gap: 1.5rem;">
+                    <div class="row">
+                        <div class="col input-group-fname">
+                            <Field type="text" name="email" :class="{ 'is-invalid': errors.last_name }"
+                                placeholder="Email*" class="input" autocomplete="off" required />
+                            <label class="user-label">Email*</label>
+                            <ErrorMessage name="email" class="text-danger mt-1" />
+                            <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.name">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <router-link
+                            style="font-size: 16px;font-weight: 500;line-height: 24px;font-family:Poppins,sans-serif; color: #03A9F3;"
+                            :to="{ name: 'auth.login' }">Log In?</router-link>
                     </div>
 
                 </div>
-                <div class="d-flex justify-content-end">
-                    <router-link
-                        style="font-size: 16px;font-weight: 500;line-height: 24px;font-family:Poppins,sans-serif; color: #03A9F3;"
-                        :to="{ name: 'auth.login' }">Log In?</router-link>
-                </div>
-            </div>
-
-            <a href="/reset-password/token" class="btn btn-primary go" data-toggle="modal" data-target="#ForgetBackdrop">Go</a>
+                <button class="btn btn-primary go" type="submit">Go</button>
+            </Form>
         </div>
     </div>
 </template>
 
 <script setup>
 import useAuth from '@/composables/auth'
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { useForm, Form, Field, ErrorMessage } from 'vee-validate';
+const { submitForgotPassword, validationErrors, processing, submitLogin } = useAuth();
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import * as yup from "yup";
-const { loginForm, validationErrors, processing, submitLogin } = useAuth();
 const showToggle = ref('password')
 
-const schema = yup.object().shape({
-    email: yup.string().required("Email is required!"),
-    password: yup.string().required("Password is required!"),
-});
+const route = useRoute();
 
-const eyeIcon = () => {
-    if(showToggle.value == 'password') { showToggle.value = 'text'; } else { showToggle.value = 'password' }
+const schema =
+    yup.object({
+        email: yup.string().required("Email is required!"),
+    });
+
+const { validate, errors } = useForm({ validationSchema: schema });
+
+async function submitForm(values) {
+    Object.assign(values, {
+        email: route.params.email
+    });
+    await submitForgotPassword(values)
+    
 }
 </script>
 

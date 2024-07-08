@@ -368,4 +368,8 @@ const submitForm = async (values) => {
     outline: 0;
     width: 100% !important;
 }
+
+.modal-content{
+  height:auto;
+}
 </style>

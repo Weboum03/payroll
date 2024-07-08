@@ -122,14 +122,14 @@ export default function useAuth() {
             .finally(() => (processing.value = false));
     };
 
-    const submitForgotPassword = async () => {
+    const submitForgotPassword = async (data) => {
         if (processing.value) return;
 
         processing.value = true;
         validationErrors.value = {};
 
-        await axios
-            .post("/api/forget-password", forgotForm)
+        await apiClient
+            .post("/admin/password/forgot", data)
             .then(async (response) => {
                 swal({
                     icon: "success",
@@ -137,7 +137,7 @@ export default function useAuth() {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                // await router.push({ name: 'admin.index' })
+                router.push({ name: 'auth.reset-password' , query: data })
             })
             .catch((error) => {
                 if (error.response?.data) {
@@ -147,14 +147,14 @@ export default function useAuth() {
             .finally(() => (processing.value = false));
     };
 
-    const submitResetPassword = async () => {
+    const submitResetPassword = async (data) => {
         if (processing.value) return;
 
         processing.value = true;
         validationErrors.value = {};
 
-        await axios
-            .post("/reset-password", resetForm)
+        await apiClient
+            .post("/admin/password/reset", data)
             .then(async (response) => {
                 swal({
                     icon: "success",
@@ -162,7 +162,7 @@ export default function useAuth() {
                     showConfirmButton: false,
                     timer: 1500,
                 });
-                await router.push({ name: "auth.login" });
+                router.push({ name: "auth.login" });
             })
             .catch((error) => {
                 if (error.response?.data) {

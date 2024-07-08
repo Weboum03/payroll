@@ -18,29 +18,36 @@
             </div>
 
             <div class="flex-column" id="passwordFields" style="gap: 1.5rem;">
-                <form @submit.prevent="onSubmit">
+                <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ validate, errors }" @invalid-submit="onInvalidSubmit">
                 <div class="row" >
                     <div class="col input-group-fname">
-                        <input placeholder="New Password*" name="password" v-model="formValues.password" required="" :type="showToggle.password" autocomplete="off" class="input" id="newPassword">
+                        <Field :type="showToggle.password" name="password" :class="{ 'is-invalid': errors.last_name }"
+                                placeholder="New Password*" class="input" autocomplete="off" required />
                         <label class="user-label"> New Password*</label>
-                        <i class="fas fa-eye fa-lg" @click="eyeIcon('password')" id="togglePassword2" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
-                        <!-- <ErrorMessage name="password" /> -->
+                        <i v-if="showToggle.password == 'password'" class="fas fa-eye fa-lg" @click="eyeIcon('password')" id="togglePassword2" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                        <i v-if="showToggle.password == 'text'" class="fas fa-eye-slash fa-lg" @click="eyeIcon('password')" id="togglePassword2" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                        
                     </div>
                     <div class="col input-group-fname">
-                        <input placeholder="Conform Password*" name="cpassword" v-model="formValues.cpassword" :type="showToggle.cpassword" required="" autocomplete="off" class="input">
+                        <Field :type="showToggle.cpassword" name="cpassword" :class="{ 'is-invalid': errors.last_name }"
+                                placeholder="Conform Password*" class="input" autocomplete="off" required />
                         <label class="user-label">Conform Password*</label>
-                    <i class="fas fa-eye fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
-                    <ErrorMessage name="cpassword" />
+                    <i v-if="showToggle.cpassword == 'password'" class="fas fa-eye fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                    <i v-if="showToggle.cpassword == 'text'" class="fas fa-eye-slash fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
+                        
                 </div>
                     <div class="col input-group-fname">
-                        <input placeholder="OTP*" required="" name="otp" type="number" v-model="formValues.otp" autocomplete="off" class="input">
+                        <Field type="text" name="otp" :class="{ 'is-invalid': errors.last_name }"
+                                placeholder="OTP*" class="input" autocomplete="off" required />
                         <label class="user-label">OTP*</label>
-                        <ErrorMessage name="otp" />
+                        
                     </div>
-
                 </div>
                 <button type="submit" class="btn btn-primary savenext" style=" margin-top: 20px;">Submit</button>
-                </form>
+                <template>
+                        <div v-if="valErrors = errors"></div>
+                    </template>
+                </Form>
             </div>
         </div>
     </div>
@@ -48,14 +55,36 @@
 
 <script setup>
 import useAuth from '@/composables/auth'
-import { useForm, Field, ErrorMessage } from 'vee-validate';
-import { ref } from 'vue';
+import { Form, useForm, Field, ErrorMessage } from 'vee-validate';
+import { inject, ref } from 'vue';
 import * as yup from "yup";
-const { loginForm, validationErrors, processing, submitLogin } = useAuth();
+const { submitResetPassword, validationErrors, processing, submitLogin } = useAuth();
+const valErrors = ref({});
+const swal = inject('$swal')
+
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
 const showToggle = ref({
     password : 'password',
     cpassword : 'password',
 })
+
+function capitalize(s)
+{
+    return s[0].toUpperCase() + s.slice(1);
+}
+
+function onInvalidSubmit({ values, errors, results }) {
+    let current = valErrors.value;
+    if (Object.keys(current).length > 0) {
+        swal({
+            icon: "error",
+            title: capitalize(Object.values(current)[0]),
+        });
+    }
+}
 
 const formValues = ref({
     password:'',
@@ -65,22 +94,42 @@ const formValues = ref({
 const schema =
     yup.object({
         password: yup.string().required("Password is required!"),
+        cpassword: yup.string().required("Confirm Password is required!"),
+        otp: yup.string().required("OTP is required!"),
     });
 
 const { validate, errors } = useForm({ validationSchema: schema });
 
 // const { handleSubmit, values } = useForm();
-    
-const onSubmit = () => {
-    
-    validate().then(form => {
-        console.log('values', form)
-        if (form.valid) {
-            alert('sfg');
-        }
-    })
+
+const onSubmit = async (values) => {
+    Object.assign(values, {
+        email: route.query.email
+    });
+    await submitResetPassword(values)
 };
 
+
+const handleSubmit = async (values, { resetForm }) => {
+  const result = await validate(); // Assuming you have a validation function
+
+  console.log('result', result)
+  if (!result.valid) {
+    // Find the first invalid field and focus on it
+    for (const key in result.errors) {
+      if (result.errors[key]) {
+        if (key === "password" && emailInput.value) {
+          emailInput.value.focus();
+          break;
+        }
+      }
+    }
+  } else {
+    // Form is valid, proceed with submission
+    console.log("Form submitted successfully!", values);
+    resetForm();
+  }
+};
 
 
 const eyeIcon = (value) => {
@@ -104,5 +153,12 @@ const eyeIcon = (value) => {
     transition: 0.3s;
     border-color: rgb(193, 188, 188) !important;
     background-color: #278d27e6 !important;
+}
+
+.text-danger {
+    float: left;
+}
+.is-invalid {
+    border-color: red;
 }
 </style>

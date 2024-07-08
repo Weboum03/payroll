@@ -43,7 +43,8 @@
                             placeholder="Password*" required :type="showToggle" autocomplete="off" class="input" ref="password"
                             id="Password" />
                         <label class="user-label">Password*</label>
-                        <i class="fa-regular fa-eye fa-lg" @click="eyeIcon" style="position: relative;top: -37px;left: 420px;cursor: pointer; color:#9e9e9e;"></i>
+                        <i v-if="showToggle == 'password'" class="fa-regular fa-eye fa-lg" @click="eyeIcon" style="position: relative;top: -37px;left: 420px;cursor: pointer; color:#9e9e9e;"></i>
+                        <i v-if="showToggle == 'text'" class="fa-regular fa-eye-slash fa-lg" @click="eyeIcon" style="position: relative;top: -37px;left: 420px;cursor: pointer;color:#9e9e9e;"></i>
                         <!-- Validation Errors -->
                         <div class="text-danger" style="margin-top: -15px;">
                             {{ errors.password }}

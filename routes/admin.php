@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\LeaveController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\Auth\ForgotPasswordController;
+use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +26,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
+Route::post('password/forgot',[ForgotPasswordController::class,'forgotPassword']);
+Route::post('password/reset',[ResetPasswordController::class,'resetPassword']);
 
 Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('login', [AdminAuthController::class, 'login']);
