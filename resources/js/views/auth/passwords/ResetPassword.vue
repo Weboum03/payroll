@@ -30,8 +30,8 @@
                     </div>
                     <div class="col input-group-fname">
                         <Field :type="showToggle.cpassword" name="cpassword" :class="{ 'is-invalid': errors.last_name }"
-                                placeholder="Conform Password*" class="input" autocomplete="off" required />
-                        <label class="user-label">Conform Password*</label>
+                                placeholder="Confirm Password*" class="input" autocomplete="off" required />
+                        <label class="user-label">Confirm Password*</label>
                     <i v-if="showToggle.cpassword == 'password'" class="fas fa-eye fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
                     <i v-if="showToggle.cpassword == 'text'" class="fas fa-eye-slash fa-lg" @click="eyeIcon('cpassword')" id="togglePassword3" style="color: #848484;position:relative;top: -38px;left: 416px;"></i>
                         
