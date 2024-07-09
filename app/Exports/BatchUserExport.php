@@ -53,7 +53,11 @@ class BatchUserExport implements FromCollection, WithHeadings
             'Working days',
             'Loss of Pay days',
             'Days Payable',
-            'Gross Salary',
+            'Salary',
+            'Commission',
+            'Bonus',
+            'Overtime',
+            'Gross Wages',
             'Deduction',
             'Net Pay'
         ];

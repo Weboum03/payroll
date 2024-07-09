@@ -72,6 +72,12 @@ class BatchController extends BaseController
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
+    protected function getPayoutAmount($data) {
+        $grossWages = $data->salary + $data->bonus + $data->commission + $data->overtime;
+        $payout = $grossWages - $data->deduction;
+        return ['payout' => $payout, 'gross_wages' => $grossWages ];
+    }
+
     public function importBatch($id, Request $request) {
 
         $input = $request->only('attachment');
@@ -87,7 +93,7 @@ class BatchController extends BaseController
             return $this->sendError('Not found');
         }
 
-        $mode = 'salary';
+        $mode = '';
         if($request->mode) { $mode = $request->mode; }
         $file = $request->file("attachment");
         $filepath = $file->getPathname();
@@ -96,22 +102,25 @@ class BatchController extends BaseController
 
         if($array && $array[0]) {
             $array[0]->each(function ($user) use($batch, $mode, $id) {
-                if(array_key_exists($mode, $user->toArray())) {
+                if($mode != '' && array_key_exists($mode, $user->toArray())) {
                     $userData = Payroll::where('user_id', $user['unique_id'])->where('batch_id', $id)->first();
                     if($userData) {
-                        if($mode == 'salary') { $payout = $user[$mode] - $userData->deduction; }
-                        elseif($mode == 'deduction') { $payout = $userData->salary - $user[$mode]; }
-                        elseif($mode == 'bonus') { $payout = $userData->salary + $user[$mode]; die; }
-                        elseif($mode == 'commission') { $payout = $userData->salary + $user[$mode]; }
-                        else { $payout = $userData->payout; }
                         if(!$user[$mode]) { $user[$mode] = 0; }
-                        $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode], 'payout'=> $payout]);
+                        $userData->setAttribute($mode, $user[$mode]);
+                        $payoutData = $this->getPayoutAmount($userData);
+                        $payout = $payoutData['payout'];
+                        $grossWages = $payoutData['gross_wages'];
+                        $batch->employee()->where('user_id', $user['unique_id'])->update([$mode => $user[$mode],'gross_wages' => $grossWages, 'payout'=> $payout]);
                     } 
+                } else {
+                    $userData = Payroll::where('user_id', $user['unique_id'])->where('batch_id', $id)->first();
+                    $userData->fill($user->toArray());
+                    $userData->save();
                 }
             });
         }
 
-        return $this->sendResponse(true, 'Success');
+        return $this->sendResponse($array[0], 'Success');
     }
 
     public function exportBatch($id, Request $request) {
@@ -122,25 +131,59 @@ class BatchController extends BaseController
             return $this->sendError('Not found');
         }
 
-        $mode = 'salary';
+        $mode = '';
         if($request->mode) { $mode = $request->mode; }
         $users = $batch->users()->with('role', 'info')->get();
 
-        $excel =  $users->map(function ($data) use($mode) {
-            return [
-                'unique_id' => $data['id'],
-                'employee_id' => $data['employee_id'],
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'company' => $data['info']['company'],
-                'location' => $data['info']['location'],
-                $mode => $data['pivot'][$mode],
-            ];
-        });
+        if($mode != '') {
+            $excel =  $users->map(function ($data) use($mode) {
+                return [
+                    'unique_id' => $data['id'],
+                    'employee_id' => $data['employee_id'],
+                    'first_name' => $data['first_name'],
+                    'last_name' => $data['last_name'],
+                    'company' => $data['info']['company'],
+                    'location' => $data['info']['location'],
+                    $mode => (string)$data['pivot'][$mode],
+                ];
+            });
+
+            Excel::store(new BatchExport($excel, $mode), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        } else {
+            $excel =  $users->map(function ($data) use($batch) {
+                return [
+                    'unique_id' => $data['id'],
+                    'employee_id' => $data['employee_id'],
+                    'name' => $data['name'],
+                    'doj' => $data['info']['doj'],
+                    'employment_type' => $data['info']['employment_type'],
+                    'role' => $data['role']['name'],
+                    'department' => $data['info']['department'],
+                    'location' => $data['info']['location'],
+                    'gender' => $data['info']['gender'],
+                    'dob' => $data['info']['dob'],
+                    'pan_number' => $data['info']['pan_number'],
+                    'month' => $batch->name,
+                    'actual_payble_days' => (string)$data['pivot']['actual_payble_days'],
+                    'working_days' => (string)$data['pivot']['working_days'],
+                    'loss_pay_days' => (string)$data['pivot']['loss_pay_days'],
+                    'payble_days' => (string)$data['pivot']['payble_days'],
+                    'salary' => (string)$data['pivot']['salary'],
+                    'commission' => (string)$data['pivot']['commission'],
+                    'bonus' => (string)$data['pivot']['bonus'],
+                    'overtime' => (string)$data['pivot']['overtime'],
+                    'gross_wages' => (string)$data['pivot']['gross_wages'],
+                    'deduction' => (string)$data['pivot']['deduction'],
+                    'net_pay' => (string)$data['pivot']['payout'],
+                ];
+            });
+            Excel::store(new BatchUserExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+        }
 
         // return Excel::download(new BatchExport($excel), 'batch.xlsx', \Maatwebsite\Excel\Excel::XLSX);
 
-        Excel::store(new BatchExport($excel, $mode), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+        
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }
@@ -170,11 +213,15 @@ class BatchController extends BaseController
                 'dob' => $data['info']['dob'],
                 'pan_number' => $data['info']['pan_number'],
                 'month' => $batch->name,
-                'actual_payble_days' => $data['pivot']['actual_payble_days'],
+                'actual_payble_days' => (string)$data['pivot']['actual_payble_days'],
                 'working_days' => (string)$data['pivot']['working_days'],
                 'loss_pay_days' => (string)$data['pivot']['loss_pay_days'],
                 'payble_days' => (string)$data['pivot']['payble_days'],
-                'gross_salary' => (string)$data['pivot']['salary'],
+                'salary' => (string)$data['pivot']['salary'],
+                'commission' => (string)$data['pivot']['commission'],
+                'bonus' => (string)$data['pivot']['bonus'],
+                'overtime' => (string)$data['pivot']['overtime'],
+                'gross_salary' => (string)$data['pivot']['gross_salary'],
                 'deduction' => (string)$data['pivot']['deduction'],
                 'net_pay' => (string)$data['pivot']['payout'],
             ];

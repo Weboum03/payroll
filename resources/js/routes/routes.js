@@ -244,7 +244,12 @@ export default [
                 component: () => import("../views/admin/approval/Create.vue"),
                 meta: { breadCrumb: "Admin" },
             },
-
+            {
+                name: "admin.ImportData",
+                path: "ImportData",
+                component: () => import("../views/admin/users/ImportData.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
             {
                 path: 'users/:id/edit',
                 name: 'UserUpdate',

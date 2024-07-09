@@ -348,4 +348,7 @@ table.dataTable tbody tr td {
 .dt-search {
     display: none;
 }
+.dt-layout-table {
+    overflow-x: auto;
+}
 </style>

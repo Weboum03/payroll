@@ -77,8 +77,14 @@
                 <template v-slot:cell-salary="{ row }">
                     {{ row.pivot?.salary }}
                 </template>
+                <template v-slot:cell-gross_wages="{ row }">
+                    {{ row.pivot?.gross_wages }}
+                </template>
                 <template v-slot:cell-deduction="{ row }">
                     {{ row.pivot?.deduction }}
+                </template>
+                <template v-slot:cell-payout="{ row }">
+                    {{ row.pivot?.payout }}
                 </template>
                 <template v-slot:cell-overtime="{ row }">
                     {{ row.pivot?.overtime }}
@@ -199,7 +205,13 @@ const tableHeaders = [
     { key: 'last_name', label: 'Last Name', sorting: true },
     { key: 'company', label: 'Company' },
     { key: 'location', label: 'Location' },
-    { key: 'salary', label: 'Salary' }
+    { key: 'salary', label: 'Salary' },
+    { key: 'overtime', label: 'Overtime' },
+    { key: 'bonus', label: 'Bonus' },
+    { key: 'commission', label: 'Commission' },
+    { key: 'gross_wages', label: 'Gross Wages' },
+    { key: 'deduction', label: 'Deduction' },
+    { key: 'payout', label: 'Payout' },
 ];
 
 </script>

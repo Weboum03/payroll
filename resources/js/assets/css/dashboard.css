@@ -93,6 +93,7 @@ body{
 .navbar{
     padding: 0rem !important;
     display: flex;
+    justify-content:flex-start !important;
     gap: 1rem;
     width: auto;
     align-items: center;
@@ -124,7 +125,8 @@ body{
 #accordion .card-header-emp a,
 #accordion .card-header-leave button,
 #accordion .card-header-payroll button,
-#accordion .card-header-empRole a
+#accordion .card-header-empRole a,
+#accordion .card-header-more button
 {
   opacity: 50%;
   color: white;
@@ -145,6 +147,9 @@ body{
   justify-content: center;
 }
 
+#accordion .card-header-more button{
+  gap: 21px !important;
+}
 
 
 #accordion .card-header-empRole a{
@@ -159,7 +164,8 @@ body{
 
 #accordion .card-header-emp a:focus,
 #accordion .card-header-leave button:focus,
-#accordion .card-header-payroll button:focus {
+#accordion .card-header-payroll button:focus,
+#accordion .card-header-more button:focus {
   outline: none;
   box-shadow: none;
 }
@@ -173,7 +179,8 @@ body{
 }
 
 #accordion .card-header-leave button::after,
-#accordion .card-header-payroll button::after {
+#accordion .card-header-payroll button::after,
+#accordion .card-header-more button::after {
   content: "\f078";
   font-family: "FontAwesome";
   float: right;
@@ -209,11 +216,12 @@ body{
   float: left;
   font-size: 15px;
   transition: transform 0.2s ease-in-out;
-  margin-left: 7px;
+  margin-left: 9px;
 }
 
 #accordion .card-header-leave button::before,
-#accordion .card-header-payroll button::before {
+#accordion .card-header-payroll button::before,
+#accordion .card-header-more button::before {
   content: "\f073";
     font-family: "FontAwesome";
     float: left;
@@ -223,8 +231,23 @@ body{
     margin-left: 25px;
 }
 
+#accordion .card-header-payroll button::before{
+  margin-right: 7px !important;
+}
+
+#accordion .card-header-leave button::before{
+  margin-right: 10px !important;
+}
+
 #accordion .card-header-payroll button::before {
   content: "\f0d6";
+  font-family: "FontAwesome";
+  float: left;
+  font-size: 17px;
+  transition: transform 0.2s ease-in-out;
+}
+#accordion .card-header-more button::before {
+  content: "\f067";
   font-family: "FontAwesome";
   float: left;
   font-size: 17px;
@@ -233,7 +256,8 @@ body{
 
 #accordion .card-header-emp a[aria-expanded="true"]::after,
 #accordion .card-header-leave button[aria-expanded="true"]::after,
-#accordion .card-header-payroll button[aria-expanded="true"]::after {
+#accordion .card-header-payroll button[aria-expanded="true"]::after,
+#accordion .card-header-more button[aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
 #accordion .card-body {
@@ -732,7 +756,6 @@ font-family: "Poppins", sans-serif;
     flex-wrap: wrap;
     overflow: scroll;
     scrollbar-width: none;
-    margin-bottom: -15px;
 }
 
 .add1{
@@ -764,6 +787,10 @@ th,td {
   font-size: 14px;
   line-height: 21px;
 }
+#noticPrd-Table-list2 th{
+  text-align: left !important;
+}
+
 /* #EmpTable>tbody>tr>td>img{
   vertical-align: text-top;
 } */
@@ -805,6 +832,15 @@ tr {
   font-size: small;
   font-family: "Poppins", sans-serif;
   width: 200px;
+  background-color: #ffffff !important;
+  padding: 9px !important;
+}
+.dataTables_wrapper #leavesEmpTable_filter input[type="search"] {
+  outline: none;
+  font-size: small;
+  font-family: "Poppins", sans-serif;
+  width: 135px;
+  height: 40px;
   background-color: #ffffff !important;
   padding: 9px !important;
 }
@@ -948,4 +984,48 @@ a{
   overflow: scroll;
     scrollbar-width: none;
     border-radius: 7px;
+}
+
+
+.Import{
+  height: 50px;
+  width: 154px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 5px;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  background-color: #03A9F3;
+  color: white;
+}
+#Import,#Export{
+  text-decoration: none;
+}
+.Export{
+  height: 50px;
+  width: 154px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: sans-serif;
+  border: none;
+  border-radius: 5px;
+  text-align: start;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  background-color: #03A9F3;
+  color: white;
+  text-decoration: none;
+}
+
+.ImpoExpBtns{
+  display:flex;
+  flex-direction: row-reverse;
+  gap: 20px;
 }

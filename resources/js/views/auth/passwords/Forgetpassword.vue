@@ -14,8 +14,7 @@
             style="gap: 1rem;padding: 0px 117px;">
             <div class="Welcome gy-20">
                 <h1 class="hadding1">Welcome to Uaven</h1>
-                <h6 class="hadding2">Aenean feugiat tempus nunc, a comodo tortor feugiat quis. Duis finis sodlar aliquam
-                </h6>
+                <h6 class="hadding2">Aenean feugiat tempus nunc, a comodo tortor feugiat quis. Duis finis sodlar aliquam</h6>
             </div>
 
             <span class="singnIn">Find your account</span>
@@ -91,4 +90,11 @@ async function submitForm(values) {
     border-color: rgb(193, 188, 188) !important;
     background-color: #278d27e6 !important;
 }
+.image {
+    background-color: transparent;
+}
+
+.singnIn {
+    font-size: 28px;
+  }
 </style>

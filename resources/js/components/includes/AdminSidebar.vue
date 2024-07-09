@@ -131,6 +131,27 @@
         </div>
     </div>
 
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header-more" id="headingThree">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" @click="toggleMoreRef()">
+                        More
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseThree" class="collapse" :class="{ 'show': more }" aria-labelledby="headingThree"
+                data-parent="#accordion">
+                <div class="card-body">
+                    <ul type="none">
+                        <li><router-link :to="{ name: 'admin.ImportData' }" exact-active-class="active">Import Data</router-link></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -171,10 +192,12 @@ const { processing, logout } = useAuth();
 // const payroll = ref(false);
 const leaves = ref(false);
 const payroll = ref(false);
+const more = ref(false);
 
 
 const toggleRef = () => { payroll.value = !payroll.value; };
 const toggleLeavesRef = () => { leaves.value = !leaves.value; };
+const toggleMoreRef = () => { more.value = !more.value; };
 
 </script>
 
