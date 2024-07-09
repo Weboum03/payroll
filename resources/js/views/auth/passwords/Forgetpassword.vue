@@ -2,6 +2,7 @@
     <div class="container1 d-flex">
         <div class="container d-flex flex-column justify-content-center align-items-center"
             style="background-color: #D9D9D9;gap: 7rem;height: 100vh;">
+
             <div class="content">
                 <h1 class="Unic"></h1>
                 <h2 class="Aven"></h2>
@@ -69,7 +70,7 @@ async function submitForm(values) {
         email: route.params.email
     });
     await submitForgotPassword(values)
-    
+
 }
 </script>
 

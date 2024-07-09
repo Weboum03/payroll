@@ -93,8 +93,12 @@ const formValues = ref({
 })
 const schema =
     yup.object({
-        password: yup.string().required("Password is required!"),
-        cpassword: yup.string().required("Confirm Password is required!"),
+        password: yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+        cpassword: yup.string()
+            .oneOf([yup.ref('password'), null], 'Passwords must match')
+            .required('Confirm Password is required'),
         otp: yup.string().required("OTP is required!"),
     });
 
