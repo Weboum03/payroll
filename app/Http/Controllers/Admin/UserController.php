@@ -9,6 +9,7 @@ use App\Imports\UsersImport;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
@@ -285,74 +286,85 @@ class UserController extends BaseController
 
         $array = (new UsersImport)->toCollection($file);
 
-        if ($array && $array[0]) {
-            $array[0]->each(function ($user) {
-                $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
-                if (!$existUser) {
-                    $jobRole = null;
-                    $role = Role::where('name', $user['job_role'])->first();
-                    if ($role) {
-                        $jobRole = $role->id;
+        DB::beginTransaction();
+
+        try {
+            if ($array && $array[0]) {
+                $array[0]->each(function ($user) {
+                    $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
+                    if (!$existUser) {
+                        $jobRole = null;
+                        $role = Role::where('name', $user['job_role'])->first();
+                        if ($role) {
+                            $jobRole = $role->id;
+                        }
+                        $dataToStore = [
+                            'as_local' => false,
+                            'first_name' => $user['first_name'],
+                            'middle_name' => $user['middle_name'],
+                            'last_name' => $user['last_name'],
+                            'employee_id' => $user['employee_id'],
+                            'email' => $user['email'],
+                            'phone' => $user['mobile'],
+                            'role_id' => $jobRole,
+                            'password' => $user['password'],
+                            'gender' => $user['gender'],
+                            'dob' => $user['date_of_birth'],
+                            'secondary_email' => $user['secondory_email'],
+                            'alternate_phone' => $user['alternate_mobile'],
+                            'address' => $user['local_address_line_1'],
+                            'address_1' => $user['local_address_line_2'],
+                            'city' => $user['local_citytown'],
+                            'state' => $user['local_state'],
+                            'country' => $user['local_country'],
+                            'postcode' => $user['local_post_code'],
+                            'p_address' => $user['permanent_address_line_1'],
+                            'p_address_1' => $user['permanent_address_line_2'],
+                            'p_city' => $user['permanent_citytown'],
+                            'p_state' => $user['permanent_state'],
+                            'p_country' => $user['permanent_country'],
+                            'p_postcode' => $user['permanent_post_code'],
+                            'doj' => $user['date_of_joining'],
+                            'prob_end_date' => $user['probation_end_date'],
+                            'company' => $user['company'],
+                            'location' => $user['location'],
+                            'qualification' => $user['qualification_degree'],
+                            'experience' => $user['work_experience'],
+                            'immediate_manager' => $user['immediate_manager'],
+                            'immediate_manager_code' => $user['immediate_manager_employee_code'],
+                            'leave_approving_auth' => $user['leave_approving_authority'],
+                            'leave_approving_code' => $user['leave_approving_authority_employee_code'],
+                            'department' => $user['department'],
+                            'job_role' => $user['job_role'],
+                            'grade' => $user['grade'],
+                            'employment_type' => $user['employement_type'],
+                            'aadhar_number' => $user['aadhar_number'],
+                            'pan_number' => $user['pan_number'],
+                            'holiday_year' => $user['holiday_year'],
+                            'work_pattern' => $user['work_pattern'],
+                            'earning_leave_entitlement' => $user['annual_earned_leave_entilement'],
+                            'this_year' => $user['this_year'],
+                            'next_year' => $user['next_year'],
+                            'salary' => $user['salary'],
+                        ];
+    
+                        $userData = $this->userRepository->create($dataToStore);
+    
+                        if ($role) {
+                            $userData->assignRole([$role->id]);
+                        }
+    
+                        $userData->info()->create($dataToStore);
                     }
-                    $dataToStore = [
-                        'as_local' => false,
-                        'first_name' => $user['first_name'],
-                        'middle_name' => $user['middle_name'],
-                        'last_name' => $user['last_name'],
-                        'employee_id' => $user['employee_id'],
-                        'email' => $user['email'],
-                        'phone' => $user['mobile'],
-                        'role_id' => $jobRole,
-                        'password' => $user['password'],
-                        'gender' => $user['gender'],
-                        'dob' => $user['date_of_birth'],
-                        'secondary_email' => $user['secondory_email'],
-                        'alternate_phone' => $user['alternate_mobile'],
-                        'address' => $user['local_address_line_1'],
-                        'address_1' => $user['local_address_line_2'],
-                        'city' => $user['local_citytown'],
-                        'state' => $user['local_state'],
-                        'country' => $user['local_country'],
-                        'postcode' => $user['local_post_code'],
-                        'p_address' => $user['permanent_address_line_1'],
-                        'p_address_1' => $user['permanent_address_line_2'],
-                        'p_city' => $user['permanent_citytown'],
-                        'p_state' => $user['permanent_state'],
-                        'p_country' => $user['permanent_country'],
-                        'p_postcode' => $user['permanent_post_code'],
-                        'doj' => $user['date_of_joining'],
-                        'prob_end_date' => $user['probation_end_date'],
-                        'company' => $user['company'],
-                        'location' => $user['location'],
-                        'qualification' => $user['qualification_degree'],
-                        'experience' => $user['work_experience'],
-                        'immediate_manager' => $user['immediate_manager'],
-                        'immediate_manager_code' => $user['immediate_manager_employee_code'],
-                        'leave_approving_auth' => $user['leave_approving_authority'],
-                        'leave_approving_code' => $user['leave_approving_authority_employee_code'],
-                        'department' => $user['department'],
-                        'job_role' => $user['job_role'],
-                        'grade' => $user['grade'],
-                        'employment_type' => $user['employement_type'],
-                        'aadhar_number' => $user['aadhar_number'],
-                        'pan_number' => $user['pan_number'],
-                        'holiday_year' => $user['holiday_year'],
-                        'work_pattern' => $user['work_pattern'],
-                        'earning_leave_entitlement' => $user['annual_earned_leave_entilement'],
-                        'this_year' => $user['this_year'],
-                        'next_year' => $user['next_year'],
-                        'salary' => $user['salary'],
-                    ];
-
-                    $userData = $this->userRepository->create($dataToStore);
-
-                    if ($role) {
-                        $userData->assignRole([$role->id]);
-                    }
-
-                    $userData->info()->create($dataToStore);
-                }
-            });
+                });
+            }
+        
+            DB::commit();
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return $this->sendError('Invalid Data format');
         }
 
         return $this->sendResponse($array[0], 'Success');
