@@ -173,6 +173,8 @@ class BatchController extends BaseController
                     'commission' => (string)$data['pivot']['commission'],
                     'bonus' => (string)$data['pivot']['bonus'],
                     'overtime' => (string)$data['pivot']['overtime'],
+                    'shift_differential' => (string)$data['pivot']['shift_differential'],
+                    'retroactive_pay' => (string)$data['pivot']['retroactive_pay'],
                     'gross_wages' => (string)$data['pivot']['gross_wages'],
                     'deduction' => (string)$data['pivot']['deduction'],
                     'net_pay' => (string)$data['pivot']['payout'],

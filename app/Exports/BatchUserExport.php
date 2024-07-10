@@ -57,6 +57,8 @@ class BatchUserExport implements FromCollection, WithHeadings
             'Commission',
             'Bonus',
             'Overtime',
+            'Shift Differential',
+            'Retroactive Pay',
             'Gross Wages',
             'Deduction',
             'Net Pay'
