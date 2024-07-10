@@ -38,11 +38,11 @@ class UserController extends BaseController
         $users = $this->userRepository->listing($request);
         $users->map(function ($user) {
             $picture = $user->getFirstMedia('user_profile_picture');
-            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->setAttribute('user_profile_picture', ($picture->original_url) ?? null);
             $user->makeHidden('media');
             return $user;
         });
-        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponse($users, __('ApiMessage.retrievedMessage'));
     }
 
     public function getUserPaginate(Request $request)
@@ -50,11 +50,11 @@ class UserController extends BaseController
         $users = $this->userRepository->listingPaginate($request);
         $users->through(function ($user) {
             $picture = $user->getFirstMedia('user_profile_picture');
-            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->setAttribute('user_profile_picture', ($picture->original_url) ?? null);
             $user->makeHidden('media');
             return $user;
         });
-        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponseWithPagination($users, __('ApiMessage.retrievedMessage'));
     }
 
     public function dashboardUser(Request $request)
@@ -62,11 +62,11 @@ class UserController extends BaseController
         $users = $this->userRepository->getDashboardUser($request);
         $users->through(function ($user) {
             $picture = $user->getFirstMedia('user_profile_picture');
-            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->setAttribute('user_profile_picture', ($picture->original_url) ?? null);
             $user->makeHidden('media');
             return $user;
         });
-        return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponseWithPagination($users, __('ApiMessage.retrievedMessage'));
     }
 
     public function getReportUsers(Request $request)
@@ -74,33 +74,39 @@ class UserController extends BaseController
         $users = $this->userRepository->listing($request);
         $users->map(function ($user) {
             $picture = $user->getFirstMedia('user_profile_picture');
-            $user->setAttribute('user_profile_picture', ($picture->original_url)??null);
+            $user->setAttribute('user_profile_picture', ($picture->original_url) ?? null);
             $user->makeHidden('media');
             return $user;
         });
-        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponse($users, __('ApiMessage.retrievedMessage'));
     }
 
     public function dashboard(Request $request)
     {
         $users = $this->userRepository->getDashboardInfo($request);
-        return $this->sendResponse($users,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponse($users, __('ApiMessage.retrievedMessage'));
     }
 
     public function compareData(Request $request)
     {
         $response = $this->userRepository->compareData($request);
-        return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));
+        return $this->sendResponse($response, __('ApiMessage.retrievedMessage'));
     }
 
     public function checkDocument($type, Request $request)
     {
         $check = $this->userRepository->checkDocument($type, $request->value, $request->user_id);
-        if($type == 'pan_number') { $message = 'This PAN number already exists'; }
-        elseif($type == 'aadhar_number') { $message = 'This aadhar number already exists'; }
-        elseif($type == 'phone') { $message = 'Phone number already exists'; }
-        elseif($type == 'email') { $message = 'Email already exists'; }
-        else { $message = 'Already exist'; }
+        if ($type == 'pan_number') {
+            $message = 'This PAN number already exists';
+        } elseif ($type == 'aadhar_number') {
+            $message = 'This aadhar number already exists';
+        } elseif ($type == 'phone') {
+            $message = 'Phone number already exists';
+        } elseif ($type == 'email') {
+            $message = 'Email already exists';
+        } else {
+            $message = 'Already exist';
+        }
         return $this->sendResponse($check, $message);
     }
 
@@ -121,41 +127,51 @@ class UserController extends BaseController
             'prob_end_date.after' => 'Probation End Date should be greater than Joining date'
         ];
         $validator = Validator::make($input, $rules, $message);
-    
+
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
         $user = $this->userRepository->create($input);
 
         $checkAll = $request->check_all;
-        if($checkAll == 'true') { $checkAll = true; } elseif($checkAll == 'false') { $checkAll = false; }
-        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
+        if ($checkAll == 'true') {
+            $checkAll = true;
+        } elseif ($checkAll == 'false') {
+            $checkAll = false;
+        }
+        if ($checkAll) {
+            $checkAll = true;
+        } else {
+            $checkAll = false;
+        }
         $input['check_all'] = $checkAll;
 
         $user->info()->create($input);
 
         $role = Role::find($request->role_id);
-        if($role) {
+        if ($role) {
             $user->assignRole([$role->id]);
             $user->role_id = $role->id;
             $user->save();
         }
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
-            if (!$request->has($collectionName)) { continue; }
+            if (!$request->has($collectionName)) {
+                continue;
+            }
             $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
 
-        
+
         $attachments = $request->attachments;
-        if($attachments) {
+        if ($attachments) {
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
-                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'],'check' => $file['check']]);
+                $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $file['check']]);
             }
         }
-        
+
         return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }
 
@@ -165,11 +181,11 @@ class UserController extends BaseController
     public function show(string $id)
     {
         $user = $this->userRepository->getById($id);
-        $user->load('info','role','deboard');
+        $user->load('info', 'role', 'deboard');
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             $picture = $user->getFirstMedia($collectionName);
-            $user->setAttribute($collectionName, ($picture->original_url)??null);
+            $user->setAttribute($collectionName, ($picture->original_url) ?? null);
         }
 
         $mediaItems = $user->getMedia("*");
@@ -192,50 +208,56 @@ class UserController extends BaseController
             'prob_end_date.after' => 'Probation End Date should be greater than Joining date'
         ];
         $validator = Validator::make($input, $rules, $message);
-    
+
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
         $user = $this->userRepository->updateById($id, $input);
         $user->info()->updateOrCreate(['user_id' => $id], $input);
         $role = Role::find($request->role_id);
-        if($role) {
+        if ($role) {
             $user->syncRoles($role);
             $user->role_id = $role->id;
             $user->save();
         }
-        
+
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
-            if (!$request->has($collectionName)) { continue; }
+            if (!$request->has($collectionName)) {
+                continue;
+            }
             $user->clearMediaCollection($collectionName);
             $user->uploadMedia($collectionName, $request->$collectionName, ['collection_name' => $collectionName]);
         }
         $checkAll = $request->check_all;
-        if($checkAll) { $checkAll = true; } else { $checkAll = false; }
+        if ($checkAll) {
+            $checkAll = true;
+        } else {
+            $checkAll = false;
+        }
         $attachments = $request->attachments;
         $files = $request->docs;
         $deletedFiles = $request->delete_files;
 
-        if($deletedFiles) {
-            foreach($deletedFiles as $file) {
-                $media = Media::where('uuid',$file)->first();
-                if($media) {
+        if ($deletedFiles) {
+            foreach ($deletedFiles as $file) {
+                $media = Media::where('uuid', $file)->first();
+                if ($media) {
                     $media->delete();
                 }
             }
         }
-        
-        if($attachments) {
+
+        if ($attachments) {
             foreach ($attachments as $file) {
                 $collectionName = $file['type'];
                 $user->clearMediaCollection($collectionName);
                 $user->uploadMedia($collectionName, $file['path'], ['collection_name' => $collectionName, 'title' => $file['title'], 'check' => $file['check']]);
             }
         }
-        if($files) {
-            foreach($files as $file) {
-                $media = Media::where('uuid',$file['id'])->first();
-                if($media) {
+        if ($files) {
+            foreach ($files as $file) {
+                $media = Media::where('uuid', $file['id'])->first();
+                if ($media) {
                     $media->setCustomProperty('check', $file['check']);
                     $media->save();
                 }
@@ -245,30 +267,147 @@ class UserController extends BaseController
         return $this->sendResponse($user, __('ApiMessage.customerUpdate'));
     }
 
-    public function importUser(Request $request) {
+    public function importUser(Request $request)
+    {
 
         $input = $request->only('attachment');
         $rule = ['attachment' => 'required'];
-        $validator = Validator::make($input,$rule);
+        $validator = Validator::make($input, $rule);
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first());
         }
 
-        if($request->mode) { $mode = $request->mode; }
+        if ($request->mode) {
+            $mode = $request->mode;
+        }
         $file = $request->file("attachment");
         $filepath = $file->getPathname();
 
         $array = (new UsersImport)->toCollection($file);
 
+        if ($array && $array[0]) {
+            $array[0]->each(function ($user) {
+                $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
+                if (!$existUser) {
+                    $jobRole = null;
+                    $role = Role::where('name', $user['job_role'])->first();
+                    if ($role) {
+                        $jobRole = $role->id;
+                    }
+                    $dataToStore = [
+                        'as_local' => false,
+                        'first_name' => $user['first_name'],
+                        'middle_name' => $user['middle_name'],
+                        'last_name' => $user['last_name'],
+                        'employee_id' => $user['employee_id'],
+                        'email' => $user['email'],
+                        'phone' => $user['mobile'],
+                        'role_id' => $jobRole,
+                        'password' => $user['password'],
+                        'gender' => $user['gender'],
+                        'dob' => $user['date_of_birth'],
+                        'secondary_email' => $user['secondory_email'],
+                        'alternate_phone' => $user['alternate_mobile'],
+                        'address' => $user['local_address_line_1'],
+                        'address_1' => $user['local_address_line_2'],
+                        'city' => $user['local_citytown'],
+                        'state' => $user['local_state'],
+                        'country' => $user['local_country'],
+                        'postcode' => $user['local_post_code'],
+                        'p_address' => $user['permanent_address_line_1'],
+                        'p_address_1' => $user['permanent_address_line_2'],
+                        'p_city' => $user['permanent_citytown'],
+                        'p_state' => $user['permanent_state'],
+                        'p_country' => $user['permanent_country'],
+                        'p_postcode' => $user['permanent_post_code'],
+                        'doj' => $user['date_of_joining'],
+                        'prob_end_date' => $user['probation_end_date'],
+                        'company' => $user['company'],
+                        'location' => $user['location'],
+                        'qualification' => $user['qualification_degree'],
+                        'experience' => $user['work_experience'],
+                        'immediate_manager' => $user['immediate_manager'],
+                        'immediate_manager_code' => $user['immediate_manager_employee_code'],
+                        'leave_approving_auth' => $user['leave_approving_authority'],
+                        'leave_approving_code' => $user['leave_approving_authority_employee_code'],
+                        'department' => $user['department'],
+                        'job_role' => $user['job_role'],
+                        'grade' => $user['grade'],
+                        'employment_type' => $user['employement_type'],
+                        'aadhar_number' => $user['aadhar_number'],
+                        'pan_number' => $user['pan_number'],
+                        'holiday_year' => $user['holiday_year'],
+                        'work_pattern' => $user['work_pattern'],
+                        'earning_leave_entitlement' => $user['annual_earned_leave_entilement'],
+                        'this_year' => $user['this_year'],
+                        'next_year' => $user['next_year'],
+                        'salary' => $user['salary'],
+                    ];
+
+                    $userData = $this->userRepository->create($dataToStore);
+
+                    if ($role) {
+                        $userData->assignRole([$role->id]);
+                    }
+
+                    $userData->info()->create($dataToStore);
+                }
+            });
+        }
+
         return $this->sendResponse($array[0], 'Success');
     }
 
-    public function exportUser(Request $request) {
+    public function exportUser(Request $request)
+    {
 
         $excel[] =   [
-                'employee_id' => '12245',
-                'name' => 'User',
-            ];
+            'First Name' => 'First',
+            'Middle Name' => 'Middle',
+            'Last Name' => 'Last',
+            'Email' => 'user@gmail.com',
+            'Secondory Email' => 'user1@gmail.com',
+            'Mobile' => '1234567894',
+            'Alternate Mobile' => '7894561235',
+            'Gender' => 'Male',
+            'Date of Birth' => '1995-07-10',
+            'Password' => '123456',
+            'Local Address Line 1' => 'Address 1',
+            'Local Address Line 2' => 'Address 2',
+            'Local City/Town' => 'City',
+            'Local Country' => 'India',
+            'Local State' => 'State',
+            'Local Post Code' => '123456',
+            'Permanent Address Line 1' => 'Address 1',
+            'Permanent Address Line 2' => 'Address 2',
+            'Permanent City/Town' => 'City',
+            'Permanent Country' => 'India',
+            'Permanent State' => 'State',
+            'Permanent Post Code' => '123456',
+            'Employee ID' => '908025',
+            'Date of joining' => '2024-01-01',
+            'Probation End Date' => '2024-02-01',
+            'Company' => 'Company',
+            'Location' => 'Location',
+            'Qualification Degree' => '',
+            'Work Experience' => '',
+            'Immediate Manager' => '',
+            'Immediate Manager Employee Code' => '',
+            'Leave Approving Authority' => '',
+            'Leave Approving Authority Employee Code' => '',
+            'Department' => '',
+            'Job Role' => 'User',
+            'Grade' => '',
+            'Employement Type' => 'Regular',
+            'Aadhar Number' => '',
+            'PAN Number' => '',
+            'Holiday Year' => '2024-2025',
+            'Work Pattern' => 'Full Time',
+            'Salary' => '0',
+            'Annual Earned Leave Entilement' => '0',
+            'This Year' => '0',
+            'Next Year' => '0',
+        ];
         Excel::store(new UsersExport($excel), 'users.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
 
         return $this->sendResponse(url('/uploads/users.xlsx'), 'Success');
@@ -288,7 +427,7 @@ class UserController extends BaseController
             'final_working_date.after' => 'Final Working date should be greater than De-Boarding date'
         ];
         $validator = Validator::make($input, $rules, $message);
-    
+
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
