@@ -3,6 +3,12 @@
 import apiService from '@/services/apiService';
 
 const getApiPath = {
+    //Users
+    exportUsers(params) { return apiService.update(`admin/user/export`, params); },
+
+    importUsers(params) { return apiService.post(`admin/user/import`, params); },
+
+    //Roles
     getRoles() { return apiService.get(`admin/roles`); },
 
     getRoleById(id) { return apiService.get(`admin/roles/${id}`); },

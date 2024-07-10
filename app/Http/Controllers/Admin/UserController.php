@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\BatchUserExport;
+use App\Exports\UsersExport;
 use App\Http\Controllers\BaseController;
+use App\Imports\UsersImport;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends BaseController
 {
@@ -239,6 +243,35 @@ class UserController extends BaseController
         }
 
         return $this->sendResponse($user, __('ApiMessage.customerUpdate'));
+    }
+
+    public function importUser(Request $request) {
+
+        $input = $request->only('attachment');
+        $rule = ['attachment' => 'required'];
+        $validator = Validator::make($input,$rule);
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors()->first());
+        }
+
+        if($request->mode) { $mode = $request->mode; }
+        $file = $request->file("attachment");
+        $filepath = $file->getPathname();
+
+        $array = (new UsersImport)->toCollection($file);
+
+        return $this->sendResponse($array[0], 'Success');
+    }
+
+    public function exportUser(Request $request) {
+
+        $excel[] =   [
+                'employee_id' => '12245',
+                'name' => 'User',
+            ];
+        Excel::store(new UsersExport($excel), 'users.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        return $this->sendResponse(url('/uploads/users.xlsx'), 'Success');
     }
 
     /**

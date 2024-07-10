@@ -51,6 +51,9 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->get('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('user/reporting', [UserController::class, 'getReportUsers']);
     $router->post('document/{type}', [UserController::class, 'checkDocument']);
+    $router->put('user/export', [UserController::class, 'exportUser']);
+    $router->post('user/import', [UserController::class, 'importUser']);
+
     $router->apiResource('batches', BatchController::class);
     $router->get('batches/{id}/users', [BatchController::class, 'getUsersByBatch']);
     $router->get('batches/{id}/process_users', [BatchController::class, 'getBatchFormUser']);

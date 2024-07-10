@@ -1,11 +1,12 @@
 import { ref, inject, computed } from "vue";
 import { useRouter } from "vue-router";
 import apiClient from "./apiClient";
+import getApiPath from "@/services/apiPaths";
 
 export default function useUsers() {
     const users = ref([]);
     const user = ref({});
-
+    const success = ref(false);
     const router = useRouter();
     const validationErrors = ref({});
     const validationMessage = ref("");
@@ -94,6 +95,53 @@ export default function useUsers() {
             .finally(() => (isLoading.value = false));
     };
 
+    const importUser = async (data) => {
+        isLoading.value = true;
+        success.value = false;
+        try {
+            let serializedPost = new FormData();
+            for (let item in data) {
+                if (data.hasOwnProperty(item)) {
+                    serializedPost.append(item, data[item]);
+                }
+            }
+            let response =  await getApiPath.importUsers(serializedPost);
+            success.value = true;
+            return response;
+        } catch (error) {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+                validationMessage.value = error.response.data.message;
+                swal({
+                    icon: "error",
+                    title: error.response.data.message,
+                });
+            }
+            return Promise.reject(error);
+        } finally {
+            isLoading.value = false;
+        }
+    };
+
+    const exportUser = async (data) => {
+        isLoading.value = true;
+        try {
+            return await getApiPath.exportUsers(data);
+        } catch (error) {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+                validationMessage.value = error.response.data.message;
+                swal({
+                    icon: "error",
+                    title: error.response.data.message,
+                });
+            }
+            return Promise.reject(error);
+        } finally {
+            isLoading.value = false;
+        }
+    };
+
     const updateUser = async (user) => {
         if (isLoading.value) return;
 
@@ -163,8 +211,11 @@ export default function useUsers() {
         updateUser,
         deleteUser,
         checkDuplicacy,
+        exportUser,
+        importUser,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
         isLoading,
+        success
     };
 }
