@@ -27,5 +27,7 @@ class Payroll extends Model
         'payout',
         'reimbursement',
         'leave_bal',
+        'shift_differential',
+        'retroactive_pay'
     ];
 }

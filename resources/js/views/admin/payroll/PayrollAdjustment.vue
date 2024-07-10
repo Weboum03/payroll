@@ -25,8 +25,8 @@
                                 <option value="reimbursement">Reimbursement Adjustment</option>
                                 <option value="salary">Salary Correction</option>
                                 <option value="leave_bal">Leave Balance Adjustment</option>
-                                <option value="salary">Shift Differential Adjustment</option>
-                                <option value="salary">Retroactive Pay Adjustment</option>
+                                <option value="shift_differential">Shift Differential Adjustment</option>
+                                <option value="retroactive_pay">Retroactive Pay Adjustment</option>
                             </select>
                             <label class="user-label">Update Mode*</label>
                         </div>
@@ -97,6 +97,12 @@
                 </template>
                 <template v-slot:cell-reimbursement="{ row }">
                     {{ row.pivot?.reimbursement }}
+                </template>
+                <template v-slot:cell-shift_differential="{ row }">
+                    {{ row.pivot?.shift_differential }}
+                </template>
+                <template v-slot:cell-retroactive_pay="{ row }">
+                    {{ row.pivot?.retroactive_pay }}
                 </template>
                 <template v-slot:cell-leave_bal="{ row }">
                     {{ row.pivot?.leave_bal }}

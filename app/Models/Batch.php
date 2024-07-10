@@ -22,7 +22,7 @@ class Batch extends Model
 
     public function users() {
         return $this->belongsToMany(User::class, Payroll::class, 'batch_id', 'user_id', 'id','id')
-        ->withPivot(['gross_wages','salary','deduction','overtime','bonus','actual_payble_days','working_days','loss_pay_days','payble_days','commission','payout','reimbursement','leave_bal']);
+        ->withPivot(['gross_wages','salary','deduction','overtime','bonus','actual_payble_days','working_days','loss_pay_days','payble_days','commission','payout','reimbursement','leave_bal','shift_differential','retroactive_pay']);
     }
 
     public function getCreatedAtAttribute($value)

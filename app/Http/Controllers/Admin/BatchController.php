@@ -73,7 +73,7 @@ class BatchController extends BaseController
     }
 
     protected function getPayoutAmount($data) {
-        $grossWages = $data->salary + $data->bonus + $data->commission + $data->overtime;
+        $grossWages = $data->salary + $data->bonus + $data->commission + $data->overtime + $data->shift_differential + $data->retroactive_pay;
         $payout = $grossWages - $data->deduction;
         return ['payout' => $payout, 'gross_wages' => $grossWages ];
     }
