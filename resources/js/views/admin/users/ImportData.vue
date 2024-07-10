@@ -23,7 +23,7 @@
                     <div>
                         <p>Drag & Drop Files Here</p>
                         <span>OR</span>
-                        <div>Browse Files</div>
+                        <div>Browse Files </div> {{ fileText }}
                     </div>
                     <input type="file" ref="file" @change="handleFileSelect" id="fileUpload-area" name="[]" multiple
                         hidden>
@@ -44,7 +44,7 @@ const { importUser, exportUser, isLoading, success } = useUsers();
 const swal = inject('$swal')
 const file = ref(null)
 const selectedFile = ref(null)
-const fileText = ref('Browse Files...')
+const fileText = ref('')
 const text = ref('Upload')
 
 const handleFileSelect = (event) => {
@@ -64,11 +64,12 @@ const uploadFile = async (event) => {
             alert("Please select a file first!");
             return;
         }
+        text.value = 'Upload';
         let response = await importUser({ attachment: selectedFile.value });
         text.value = 'Upload';
         if (success.value) {
             selectedFile.value = '';
-            fileText.value = 'Select File...';
+            fileText.value = 'Browse Files...';
             swal({
                 icon: "success",
                 title: "Sync Successfully",

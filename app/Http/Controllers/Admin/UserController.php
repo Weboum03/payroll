@@ -291,6 +291,10 @@ class UserController extends BaseController
         try {
             if ($array && $array[0]) {
                 $array[0]->each(function ($user) {
+                    $randomNumber = floor(rand() / getrandmax() * 10000000);
+                    if($user['employee_id'] == '') {
+                        $user['employee_id'] = $randomNumber;
+                    }
                     $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
                     if (!$existUser) {
                         $jobRole = null;
@@ -309,7 +313,7 @@ class UserController extends BaseController
                             'role_id' => $jobRole,
                             'password' => $user['password'],
                             'gender' => $user['gender'],
-                            'dob' => $user['date_of_birth'],
+                            'dob' => date('Y-m-d', strtotime($user['date_of_birth'])),
                             'secondary_email' => $user['secondory_email'],
                             'alternate_phone' => $user['alternate_mobile'],
                             'address' => $user['local_address_line_1'],
@@ -324,8 +328,8 @@ class UserController extends BaseController
                             'p_state' => $user['permanent_state'],
                             'p_country' => $user['permanent_country'],
                             'p_postcode' => $user['permanent_post_code'],
-                            'doj' => $user['date_of_joining'],
-                            'prob_end_date' => $user['probation_end_date'],
+                            'doj' => date('Y-m-d', strtotime($user['date_of_joining'])),
+                            'prob_end_date' => date('Y-m-d', strtotime($user['probation_end_date'])),
                             'company' => $user['company'],
                             'location' => $user['location'],
                             'qualification' => $user['qualification_degree'],
@@ -364,6 +368,7 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             DB::rollback();
             // something went wrong
+            // return $this->sendError($e->getMessage());
             return $this->sendError('Invalid Data format');
         }
 
@@ -382,7 +387,7 @@ class UserController extends BaseController
             'Mobile' => '1234567894',
             'Alternate Mobile' => '7894561235',
             'Gender' => 'Male',
-            'Date of Birth' => '1995-07-10',
+            'Date of Birth' => '10-07-1995',
             'Password' => '123456',
             'Local Address Line 1' => 'Address 1',
             'Local Address Line 2' => 'Address 2',
@@ -396,9 +401,9 @@ class UserController extends BaseController
             'Permanent Country' => 'India',
             'Permanent State' => 'State',
             'Permanent Post Code' => '123456',
-            'Employee ID' => '908025',
-            'Date of joining' => '2024-01-01',
-            'Probation End Date' => '2024-02-01',
+            'Employee ID' => '',
+            'Date of joining' => '01-01-2024',
+            'Probation End Date' => '01-01-2024',
             'Company' => 'Company',
             'Location' => 'Location',
             'Qualification Degree' => '',
