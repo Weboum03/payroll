@@ -30,6 +30,7 @@
                 <option disabled value="">Employee wise</option>
                 <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
             </select>
+            <button type="button" @click="isBulkOpened = true" class="btn selectBulkAction" data-toggle="modal" data-target="#bulkActionModal">Select Bulk Action</button>
             <button type="button" @click="refreshData" class="btn refresh"><i
                     class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
                     aria-hidden="true"></i></button>
@@ -63,6 +64,8 @@
     <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
 
     <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
+
+    <BulkActionList v-if="isBulkOpened" :user="selectedUser" @close="isBulkOpened=false"></BulkActionList>
 </template>
 
 <script setup>
@@ -71,6 +74,7 @@ import DataTable from '@/components/DataTable.vue';
 import useLeaves from "@/composables/leaves";
 import useUsers from "@/composables/users";
 import singleHistory from './singleHistory.vue';
+import BulkActionList from './BulkActionList.vue';
 import UserDetail from './UserDetail.vue'
 const { users, getUsers } = useUsers()
 const { leaves, getLeaves, isLoading } = useLeaves()
@@ -82,6 +86,7 @@ const searchQuery = ref("");
 const tableKey = ref(0);
 const selectedUser = ref({})
 const isModalOpened = ref(false)
+const isBulkOpened = ref(false)
 const isActive = ref(false)
 const tableHeaders = ref([])
 

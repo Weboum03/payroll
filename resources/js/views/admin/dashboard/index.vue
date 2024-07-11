@@ -8,40 +8,84 @@
 
     <div id="dashboard-table">
         <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
-        <div id="EmpTable_filter" class="dataTables_filter .add" style="display: flex; justify-content: space-between;">
-            <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
-                    aria-controls="EmpTable"></label>
+            <div id="EmpTable_filter" class="dataTables_filter .add"
+                style="display: flex; justify-content: space-between;">
+                <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
+                        aria-controls="EmpTable"></label>
 
-            <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }">
-                <button id="button3" class="add"
-                    style="height: 50px;width: 154px;font;font-size: 16px;font-weight: 500;font-family: sans-serif;border: none;border-radius: 5px;text-align: start;display: flex;justify-content: space-evenly;align-items: center;">Add
-                    on Board <div id="datatable-Emp-info"><span type="button" class="add1"> <i
-                                class="fa-solid fa-plus fa-xs" style="color: white;" aria-hidden="true"></i> </span>
-                    </div></button></router-link>
+                <div class="ImpoExpBtns">
+
+                    <router-link v-if="can('On-Board')" :to="{ name: 'admin.onBoard' }">
+                        <button id="button3" class="add"
+                            style="height: 50px;width: 154px;font-size: 16px;font-weight: 500;font-family: sans-serif;border: none;border-radius: 5px;text-align: start;display: flex;justify-content: space-evenly;align-items: center;">Add
+                            on Board <div id="datatable-Emp-info"><span type="button" class="add1"> <i
+                                        class="fa-solid fa-plus fa-xs" style="color: white;" aria-hidden="true"></i>
+                                </span>
+                            </div></button></router-link>
+
+                    <router-link :to="{ name: 'admin.ImportData' }">
+                        <a id="Export" href="javascript:;">
+                            <button class="Export">
+                                Export
+                                <div id="datatable-Emp-info">
+                                    <span type="button" class="Export1">
+                                        <i class="fa-solid fa-arrow-up-from-bracket fa-flip-vertical fa-xs"
+                                            style="color: white;" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </button>
+                        </a>
+                    </router-link>
+
+                    <router-link :to="{ name: 'admin.ImportData' }">
+                        <a id="Export" href="javascript:;">
+                            <button class="Export">
+                                Import
+                                <div id="datatable-Emp-info">
+                                    <span type="button" class="Export1">
+                                        <i class="fa-solid fa-arrow-up-from-bracket fa-flip-vertical fa-xs"
+                                            style="color: white;" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </button>
+                        </a>
+                    </router-link>
+
+                    
+                    <div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <table v-if="users" class="table text-center" ref="myTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Employee ID</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="user in users?.data" :key="user.id" @click="navigateToDetailPage(user.id)">
+                        <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px"
+                                height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
+                        <td>{{ user.employee_id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>{{ user.role?.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table v-if="users" class="table text-center" ref="myTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Employee ID</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Role</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="user in users?.data" :key="user.id" @click="navigateToDetailPage(user.id)">
-                    <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px"
-                            height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
-                    <td>{{ user.employee_id }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.phone }}</td>
-                    <td>{{ user.role?.name }}</td>
-                </tr>
-            </tbody>
-        </table>
     </div>
-</div>
 </template>
 
 <script setup>
