@@ -105,6 +105,14 @@ watch(leaves, (current, previous) => {
         let result = leaves.value?.data.map(a => a.id);
         statusValue.value = statusValue.value.concat(result)
     }
+
+    if(Object.keys(leaves.value?.data).length == 0) {
+        buttonStatus.value = {
+            pending : false,
+            approved:false,
+            rejected:false
+        }
+    }
 });
 
 watch(filterStatus, (current, previous) => {
