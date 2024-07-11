@@ -34,7 +34,7 @@
                                     {{ row.type.type }}
                                 </template>
                                 <template v-slot:cell-checkbox="{ row }">
-                                    <input type="checkbox" v-model="statusValue" :checked="statusValue.includes(row.id)" name="ids" :value="row.id" id="select-all">
+                                    <input type="checkbox" v-model="statusValue" :checked="statusValue.includes(row.id) || checkAll" name="ids" :value="row.id">
                                 </template>
                                 <template v-slot:cell-duration="{ row }">
                                     {{ row.duration }} Days
@@ -88,6 +88,7 @@ const tableHeaders = ref([])
 const filterStatus = ref('')
 const statusValue = ref([])
 const comment = ref('')
+const checkAll = ref(false)
 const buttonStatus = ref({
     pending : false,
     approved:false,
@@ -99,6 +100,13 @@ const props = defineProps({
     active: Boolean
 });
 
+watch(leaves, (current, previous) => {
+    if(checkAll.value) {
+        let result = leaves.value?.data.map(a => a.id);
+        statusValue.value = statusValue.value.concat(result)
+    }
+});
+
 watch(filterStatus, (current, previous) => {
     table.value.filterData.filter.push({
         key: "status",
@@ -108,8 +116,7 @@ watch(filterStatus, (current, previous) => {
 });
 
 const updateStatus = (status) => {
-    console.log('statusValue', statusValue.value)
-    return bulkUpdateLeave({ids:statusValue.value, status:status, reason : comment.value }).then( (response) => {
+    return bulkUpdateLeave({ids:statusValue.value, status:status, reason : comment.value, filter_status: filterStatus.value, check_all : checkAll.value }).then( (response) => {
         emit('close');
     });
 }
@@ -143,10 +150,29 @@ const changeStatus = () => {
 
 }
 
+$(document).on('click','#selectAll', function(event) {
+    if ($(this).is(':checked')) {
+        checkAll.value = true
+        
+        console.log('Checkbox is now checked!');
+    } else {
+        checkAll.value = false
+        console.log('Checkbox is now unchecked!');
+    }
+});
+
+// $('#myCheckbox').click(function() {
+//     if ($(this).is(':checked')) {
+//       console.log('Checkbox is now checked!');
+//     } else {
+//       console.log('Checkbox is now unchecked!');
+//     }
+//   });
+
 onMounted(() => {
     getLeaves()
     tableHeaders.value = [
-        { key: 'checkbox', label: `<input type="checkbox" v-model="statusValue" name="ids" :value="row.id" id="select-all">` },
+        { key: 'checkbox', label: `<input type="checkbox" v-model="statusValue" id="selectAll" name="ids" :value="row.id" id="select-all">` },
         { key: 'name', label: 'Employee' },
         { key: 'type', label: 'Leave Type', sorting: true },
         { key: 'from', label: 'From', sorting: true },

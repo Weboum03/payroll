@@ -77,4 +77,11 @@ class LeaveRepository extends BaseRepository
             ->whereIn('id', $ids)
             ->update($data);
     }
+
+    public function bulkUpdateByStatus($status, $data)
+    {
+        return $this->model
+            ->where('status', $status)
+            ->update($data);
+    }
 }

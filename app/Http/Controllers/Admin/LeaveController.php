@@ -122,8 +122,15 @@ class LeaveController extends BaseController
         $ids = $request->ids;
         $status = $request->status;
         $reason = $request->reason. ' ';
+        $filterStatus = $request->filter_status;
+        $checkAll = $request->check_all;
 
-        $this->leaveRepository->bulkUpdate($ids,['status' => $status, 'reason' => $reason] );
+        if($checkAll) {
+            $this->leaveRepository->bulkUpdateByStatus($filterStatus,['status' => $status, 'reason' => $reason] );
+        } else {
+            $this->leaveRepository->bulkUpdate($ids,['status' => $status, 'reason' => $reason] );
+        }
+        
         
         return $this->sendResponse([], __('ApiMessage.success'));
     }
