@@ -8,6 +8,8 @@ const getApiPath = {
 
     importUsers(params) { return apiService.post(`admin/user/import`, params); },
 
+    exportCustomUser(params) { return apiService.update(`admin/user/export/custom`, params); },
+
     //Roles
     getRoles() { return apiService.get(`admin/roles`); },
 

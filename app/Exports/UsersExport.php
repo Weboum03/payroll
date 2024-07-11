@@ -8,15 +8,17 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class UsersExport implements FromCollection, WithHeadings
 {
     protected $data;
+    protected $heading;
   
     /**
      * Write code on Method
      *
      * @return response()
      */
-    public function __construct($data)
+    public function __construct($data, $heading = [])
     {
         $this->data = $data;
+        $this->heading = $heading;
     }
   
     /**
@@ -36,6 +38,9 @@ class UsersExport implements FromCollection, WithHeadings
      */
     public function headings() :array
     {
+        if(!empty($this->heading)) {
+            return $this->heading;
+        }
         return [
             'First Name',
             'Middle Name',

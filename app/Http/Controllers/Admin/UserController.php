@@ -375,6 +375,52 @@ class UserController extends BaseController
         return $this->sendResponse($array[0], 'Success');
     }
 
+    public function exporCustomtUser(Request $request)
+    {
+        $params = $request->params;
+
+        if(empty($params)) {
+            return $this->sendError('Please select at least one Employee Management.');
+        }
+
+        $heading = [];
+        if(!empty($params)) {
+            foreach($params as $param) {
+                if($param == 'first_name') { $heading[] = 'First Name'; }
+                if($param == 'last_name') { $heading[] = 'last Name'; }
+                if($param == 'email') { $heading[] = 'Email'; }
+                if($param == 'secondary_email') { $heading[] = 'Secondary Email'; }
+                if($param == 'phone') { $heading[] = 'Mobile'; }
+                if($param == 'alternate_mobile') { $heading[] = 'Alternate Mobile'; }
+                if($param == 'gender') { $heading[] = 'Gender'; }
+                if($param == 'dob') { $heading[] = 'Date of Birth'; }
+            }
+        }
+
+        $users = $this->userRepository->getAllUsers();
+
+        $newUsers = $users->map(function ($user) use($params) {
+            $object = [];
+            if(!empty($params)) {
+                foreach($params as $param) {
+                    if($param == 'first_name') { $object['first_name'] = $user->first_name; }
+                    if($param == 'last_name') { $object['last_name'] = $user->last_name; }
+                    if($param == 'email') { $object['email'] = $user->email; }
+                    if($param == 'secondary_email') { $object['secondary_email'] = $user->info?->secondary_email; }
+                    if($param == 'phone') { $object['phone'] = $user->phone; }
+                    if($param == 'alternate_mobile') { $object['alternate_mobile'] = $user->info?->alternate_phone; }
+                    if($param == 'gender') { $object['gender'] = $user->info?->gender; }
+                    if($param == 'dob') { $object['dob'] = $user->info?->dob; }
+                }
+            }
+            return $object;
+        });
+
+        Excel::store(new UsersExport($newUsers, $heading), 'users.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        return $this->sendResponse(url('/uploads/users.xlsx'), 'Success');
+    }
+
     public function exportUser(Request $request)
     {
 

@@ -31,6 +31,11 @@ class UserRepository extends BaseRepository
         return $this->model->where('id', $userId)->get();
     }
 
+    public function getAllUsers(): Collection
+    {
+        return $this->model->with('info')->get();
+    }
+
     public function getByPhone(string $phone)
     {
         return $this->model

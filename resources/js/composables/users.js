@@ -142,6 +142,25 @@ export default function useUsers() {
         }
     };
 
+    const exportCustomUser = async (data) => {
+        isLoading.value = true;
+        try {
+            return await getApiPath.exportCustomUser(data);
+        } catch (error) {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+                validationMessage.value = error.response.data.message;
+                swal({
+                    icon: "error",
+                    title: error.response.data.message,
+                });
+            }
+            return Promise.reject(error);
+        } finally {
+            isLoading.value = false;
+        }
+    };
+
     const updateUser = async (user) => {
         if (isLoading.value) return;
 
@@ -213,6 +232,7 @@ export default function useUsers() {
         checkDuplicacy,
         exportUser,
         importUser,
+        exportCustomUser,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
         isLoading,

@@ -121,7 +121,7 @@ class LeaveController extends BaseController
     {
         $ids = $request->ids;
         $status = $request->status;
-        $reason = $request->reason;
+        $reason = $request->reason. ' ';
 
         $this->leaveRepository->bulkUpdate($ids,['status' => $status, 'reason' => $reason] );
         
