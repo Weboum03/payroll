@@ -251,6 +251,12 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.ExportData",
+                path: "ExportData",
+                component: () => import("../views/admin/users/ExportData.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 path: 'users/:id/edit',
                 name: 'UserUpdate',
                 component: () => import("../views/crud/UserUpdate.vue"),

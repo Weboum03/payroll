@@ -23,7 +23,7 @@
                                 </span>
                             </div></button></router-link>
 
-                    <router-link :to="{ name: 'admin.ImportData' }">
+                    <router-link :to="{ name: 'admin.ExportData' }">
                         <a id="Export" href="javascript:;">
                             <button class="Export">
                                 Export
