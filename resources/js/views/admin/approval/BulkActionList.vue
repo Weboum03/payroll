@@ -93,7 +93,7 @@ const buttonStatus = ref({
     approved:false,
     rejected:false
 })
-
+const tableKey = ref(0)
 const props = defineProps({
     user: Object,
     active: Boolean
@@ -135,8 +135,8 @@ const changeStatus = () => {
     }
     if(filterStatus.value == 'Rejected') {
         buttonStatus.value = {
-            pending:true,
-            approved:true,
+            pending:false,
+            approved:false,
             rejected:false,
         }
     }
@@ -146,7 +146,7 @@ const changeStatus = () => {
 onMounted(() => {
     getLeaves()
     tableHeaders.value = [
-        { key: 'checkbox', label: '' },
+        { key: 'checkbox', label: `<input type="checkbox" v-model="statusValue" name="ids" :value="row.id" id="select-all">` },
         { key: 'name', label: 'Employee' },
         { key: 'type', label: 'Leave Type', sorting: true },
         { key: 'from', label: 'From', sorting: true },

@@ -35,7 +35,7 @@
                     class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
                     aria-hidden="true"></i></button>
         </div>
-        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" ref="table">
+        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" ref="table" @rowclick="selectUser">
             <template v-slot:cell-name="{ row }">
                 <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
                     height="20px" style="border-radius: 50%;">
@@ -65,7 +65,7 @@
 
     <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
 
-    <BulkActionList v-if="isBulkOpened" :user="selectedUser" @close="isBulkOpened=false"></BulkActionList>
+    <BulkActionList v-if="isBulkOpened" :user="selectedUser" @close="() => { refreshData(); isBulkOpened=false }"></BulkActionList>
 </template>
 
 <script setup>

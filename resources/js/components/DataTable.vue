@@ -6,8 +6,8 @@
                         <tr>
                             <th v-for="(header, index) in headers" :key="index" class="text-center"
                                 :class="sortIcon(header)" @click="sortBy(header)">
-                                <span class="dt-column-title">
-                                    {{ header.label }}
+                                <span class="dt-column-title" v-html="header.label">
+                                    
                                 </span>
                                 <span class="dt-column-order"></span>
                             </th>
@@ -240,6 +240,7 @@ defineExpose({
     filterData,
     filterPayload,
     pageLength,
+    totalPages
 });
 </script>
 

@@ -87,7 +87,7 @@ const downloadFile = async (response) => {
     const url = response.data;
     const link = document.createElement('a');
     link.href = url;
-    let fileName = 'users_file.xlsx';
+    let fileName = `Employee_${(new Date().toJSON().slice(0,10))}.xlsx`
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();

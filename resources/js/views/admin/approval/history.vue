@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" ref="table">
+        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" @rowclick="selectUser" ref="table">
             <template v-slot:cell-name="{ row }">
                 <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
                     height="20px" style="border-radius: 50%;">
