@@ -25,10 +25,11 @@ class LeaveRepository extends BaseRepository
 
     public function getByUserId(int $userId): Collection
     {
-        return $this->model->where('user_id', $userId)->latest()->with('user','type')->get();
+        return $this->model->where('user_id', $userId)->latest()->with('user', 'type')->get();
     }
 
-    public function getLeaveTypes() {
+    public function getLeaveTypes()
+    {
         return LeaveType::all();
     }
 
@@ -52,36 +53,28 @@ class LeaveRepository extends BaseRepository
     public function listing($request)
     {
         $limit = $request->input('limit', 10);
-        return $this->model->latest()->with('user.info','type')
-        ->when($request->user_id, function ($query) use($request) {
-            return $query->where('user_id', $request->user_id);
-        })
-        ->when($request->status, function ($query) use($request) {
-            return $query->where('status', $request->status);
-        })
-        ->when($request->date, function ($query) use($request) {
-            return $query->whereDate('from', $request->date);
-        })
-        ->when($request->search, function ($query) use($request) {
-            return $query->whereHas('user', function ($q) use($request) {
-                return $q->where('name', 'LIKE', "%$request->search%");
-            });
-        })
-        ->whereHas('user')->paginate($limit);
+        return $this->model->latest()->with('user.info', 'type')
+            ->when($request->user_id, function ($query) use ($request) {
+                return $query->where('user_id', $request->user_id);
+            })
+            ->when($request->status, function ($query) use ($request) {
+                return $query->where('status', $request->status);
+            })
+            ->when($request->date, function ($query) use ($request) {
+                return $query->whereDate('from', $request->date);
+            })
+            ->when($request->search, function ($query) use ($request) {
+                return $query->whereHas('user', function ($q) use ($request) {
+                    return $q->where('name', 'LIKE', "%$request->search%");
+                });
+            })
+            ->whereHas('user')->paginate($limit);
     }
 
-    public function updatePassword($data)
-    {
-
-        return $this->model
-            ->where('uniquecode', $data['uniquecode'])
-            ->update(['password' => Hash::make($data['password'])]);
-    }
-
-    public function changePassword($data)
+    public function bulkUpdate($ids, $data)
     {
         return $this->model
-            ->where('customerID', auth()->user()->customerID)
-            ->update(['password' => Hash::make($data['password'])]);
+            ->whereIn('id', $ids)
+            ->update($data);
     }
 }

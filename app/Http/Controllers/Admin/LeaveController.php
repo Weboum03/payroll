@@ -114,7 +114,18 @@ class LeaveController extends BaseController
             }
         }
         $leave->save();
-        return $this->sendResponse($leave, __('ApiMessage.customerUpdate'));
+        return $this->sendResponse($leave, __('ApiMessage.success'));
+    }
+
+    public function bulkUpdate(Request $request)
+    {
+        $ids = $request->ids;
+        $status = $request->status;
+        $reason = $request->reason;
+
+        $this->leaveRepository->bulkUpdate($ids,['status' => $status, 'reason' => $reason] );
+        
+        return $this->sendResponse([], __('ApiMessage.success'));
     }
 
     /**

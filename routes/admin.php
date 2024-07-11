@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('batches/{id}/import', [BatchController::class, 'importBatch']);
     $router->delete('batches/{id}/users/{userId}', [BatchController::class, 'deleteUserByBatch']);
     $router->apiResource('leaves', LeaveController::class);
+    $router->put('leave/bulk_update', [LeaveController::class, 'bulkUpdate']);
     $router->get('leaves/user/{userId}', [LeaveController::class, 'getByUser']);
 
     $router->post('attendance/{userId}', [AttendanceController::class, 'getAttendance']);

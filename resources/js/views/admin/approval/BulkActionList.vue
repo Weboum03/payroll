@@ -15,7 +15,7 @@
                 <div class="modal-body">
 
                     <div class="divAction">
-                        <select name="status" v-model="status" id="dropdownAction" @change="changeStatus">
+                        <select name="status"  v-model="filterStatus" id="dropdownAction" @change="changeStatus">
                             <option value="">--Select Option--</option>
                             <option value="Pending">Pending</option>
                             <option value="Approved">Approved</option>
@@ -34,7 +34,7 @@
                                     {{ row.type.type }}
                                 </template>
                                 <template v-slot:cell-checkbox="{ row }">
-                                    <input type="checkbox" name="ids" :value="row.id" id="select-all">
+                                    <input type="checkbox" v-model="statusValue" :checked="statusValue.includes(row.id)" name="ids" :value="row.id" id="select-all">
                                 </template>
                                 <template v-slot:cell-duration="{ row }">
                                     {{ row.duration }} Days
@@ -54,16 +54,16 @@
                         </div>
                         <div class="d-flex justify-content-start flex-column">
                             <label for="">Comment</label>
-                            <textarea name="" id="" required></textarea>
+                            <textarea name="comment" v-model="comment" id="" required></textarea>
                         </div>
                     </div>
 
 
                 </div>
                 <div class="modal-footer justify-content-start" style="gap: 1rem;">
-                    <button v-if="buttonStatus.pending" type="button" class="btn btn-primary pendingBtn">Pending</button>
-                    <button v-if="buttonStatus.approved" type="button" class="btn btn-success approveBtn" style="">Approved</button>
-                    <button v-if="buttonStatus.rejected" type="button" class="btn btn-danger rejectBtn" style="">Rejected</button>
+                    <button v-if="buttonStatus.pending" @click="updateStatus('Pending')" type="button" class="btn btn-primary pendingBtn">Pending</button>
+                    <button v-if="buttonStatus.approved" @click="updateStatus('Approved')" type="button" class="btn btn-success approveBtn" style="">Approved</button>
+                    <button v-if="buttonStatus.rejected" @click="updateStatus('Rejected')" type="button" class="btn btn-danger rejectBtn" style="">Rejected</button>
                 </div>
             </div>
         </div>
@@ -78,44 +78,62 @@ import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.
 import $ from 'jquery';
 import { onClickOutside } from '@vueuse/core'
 import useLeaves from "@/composables/leaves";
-const { leaves, getLeaves, getLeaveByUser, deleteLeave } = useLeaves()
+const { leaves, getLeaves,bulkUpdateLeave, getLeaveByUser, deleteLeave } = useLeaves()
 const emit = defineEmits(['showHistory']);
 let dataTable = ref(null);
-const myTable = ref(null);
 const viewHistory = ref(true);
+const table = ref(null)
 const isDataTableInitialized = ref(false)
 const tableHeaders = ref([])
-const status = ref('')
+const filterStatus = ref('')
+const statusValue = ref([])
+const comment = ref('')
 const buttonStatus = ref({
     pending : false,
     approved:false,
     rejected:false
 })
+
 const props = defineProps({
     user: Object,
     active: Boolean
 });
+
+watch(filterStatus, (current, previous) => {
+    table.value.filterData.filter.push({
+        key: "status",
+        value: current,
+    })
+    table.value.filterPayload();
+});
+
+const updateStatus = (status) => {
+    console.log('statusValue', statusValue.value)
+    return bulkUpdateLeave({ids:statusValue.value, status:status, reason : comment.value }).then( (response) => {
+        emit('close');
+    });
+}
 
 const filterData = (filterValues) => {
     getLeaves(filterValues)
 }
 
 const changeStatus = () => {
-    if(status.value == 'Pending') {
+    if(filterStatus.value == 'Pending') {
         buttonStatus.value = {
             pending:false,
             approved:true,
             rejected:true,
         }
     }
-    if(status.value == 'Approved') {
+    if(filterStatus.value == 'Approved') {
         buttonStatus.value = {
             pending:true,
             approved:false,
             rejected:true,
         }
     }
-    if(status.value == 'Rejected') {
+    if(filterStatus.value == 'Rejected') {
         buttonStatus.value = {
             pending:true,
             approved:true,

@@ -98,6 +98,35 @@ export default function useLeaves() {
             .finally(() => (isLoading.value = false));
     };
 
+    const bulkUpdateLeave = async (data) => {
+        if (isLoading.value) return;
+
+        isLoading.value = true;
+        validationErrors.value = {};
+
+        return apiClient
+            .put("/admin/leave/bulk_update", data)
+            .then((response) => {
+                swal({
+                    icon: "success",
+                    title: "Leave updated successfully",
+                });
+                return Promise.resolve(response);
+            })
+            .catch((error) => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors;
+                    validationMessage.value = error.response.data.message;
+                    swal({
+                        icon: "error",
+                        title: error.response.data.message,
+                    });
+                }
+                return Promise.reject(error);
+            })
+            .finally(() => (isLoading.value = false));
+    };
+
     const deleteLeave = async (id, leave) => {
         if (isLoading.value) return;
         isLoading.value = true;
@@ -137,6 +166,7 @@ export default function useLeaves() {
         getLeaveByUser,
         storeLeave,
         updateLeave,
+        bulkUpdateLeave,
         deleteLeave,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
