@@ -38,9 +38,9 @@
                         <button @click="navigate" role="link" id="button2" class="Adjustments" style="">Adjustments</button>
                     </router-link>
 
-                    <button @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
+                    <button v-if="batches?.totalRecords > 0" @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
 
-                    <button type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: #e7272d;width: 56px;">
+                    <button v-if="batch?.data?.status == 'Generated'" type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: #e7272d;width: 56px;">
                         <i class="fa-regular fa-trash-can fa-lg" style="color: white;" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -51,7 +51,7 @@
                         style="background-color: #03A9F3;color: white;">Process</button>
                     <button id="button5"
                         class="Download" @click="downloadFileBatch" style="background-color: #03A9F3;color: white;">Download</button>
-                    <button type="buttonDelt" class="btn delete" style=" background-color: #e7272d;width: 56px;"><i
+                    <button v-if="batch?.data?.status == 'Generated'" type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: #e7272d;width: 56px;"><i
                             class="fa-regular fa-trash-can fa-lg" style="color: white;" aria-hidden="true"></i>
                     </button>
                 </div>

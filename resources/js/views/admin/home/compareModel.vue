@@ -365,7 +365,7 @@ const comparePage = () => {
 }
 </script>
 
-<style scope>
+<style scoped>
 @import '@/assets/css/Home.css';
 
 </style>

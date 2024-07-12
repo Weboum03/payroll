@@ -109,7 +109,7 @@
     
     </script>
     
-    <style>
+    <style scoped>
     @import '@/assets/css/Home.css';
     @import 'datatables.net-dt';
     
