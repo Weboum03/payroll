@@ -245,6 +245,12 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.addAttendance",
+                path: "addAttendance",
+                component: () => import("../views/admin/attendance/Create.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.ImportData",
                 path: "ImportData",
                 component: () => import("../views/admin/users/ImportData.vue"),

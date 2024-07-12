@@ -43,6 +43,16 @@ class AttendanceController extends BaseController
         return $this->sendResponse(Attendance::timeInStatus(),__('ApiMessage.retrievedMessage'));
     }
 
+    public function getAttendanceStatus(Request $request)
+    {
+        $user = Auth::user();
+        $response = [
+            'in' => $user->hasTimeIn(),
+            'out' => $user->hasTimeOut()
+        ];
+        return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));
+    }
+
     public function checkIn(Request $request)
     {
         $user = Auth::user();

@@ -69,6 +69,70 @@ export default function useLeaves() {
             .finally(() => (isLoading.value = false));
     };
 
+    const getAttendanceStatus = async () => {
+        return apiClient.get("/attendance/status").then((response) => {
+            return response.data.data;
+        });
+    };
+
+    const checkIn = async () => {
+        if (isLoading.value) return;
+
+        isLoading.value = true;
+        validationErrors.value = {};
+
+        return apiClient
+            .put("/attendance/checkin")
+            .then((response) => {
+                swal({
+                    icon: "success",
+                    title: "Check In successfully",
+                });
+                return Promise.resolve(response);
+            })
+            .catch((error) => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors;
+                    validationMessage.value = error.response.data.message;
+                    swal({
+                        icon: "error",
+                        title: error.response.data.message,
+                    });
+                }
+                return Promise.reject(error);
+            })
+            .finally(() => (isLoading.value = false));
+    };
+
+    const checkOut = async () => {
+        if (isLoading.value) return;
+
+        isLoading.value = true;
+        validationErrors.value = {};
+
+        return apiClient
+            .put("/attendance/checkout")
+            .then((response) => {
+                swal({
+                    icon: "success",
+                    title: "Check Out successfully",
+                });
+                return Promise.resolve(response);
+            })
+            .catch((error) => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors;
+                    validationMessage.value = error.response.data.message;
+                    swal({
+                        icon: "error",
+                        title: error.response.data.message,
+                    });
+                }
+                return Promise.reject(error);
+            })
+            .finally(() => (isLoading.value = false));
+    };
+
     const updateLeave = async (leave) => {
         if (isLoading.value) return;
 
@@ -167,6 +231,9 @@ export default function useLeaves() {
         storeLeave,
         updateLeave,
         bulkUpdateLeave,
+        getAttendanceStatus,
+        checkIn,
+        checkOut,
         deleteLeave,
         validationErrors: computed(() => validationErrors.value),
         validationMessage,
