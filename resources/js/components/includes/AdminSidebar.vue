@@ -79,7 +79,7 @@
         <div class="card">
             <div class="card-header-leave" id="headingTwo">
                 <h5 class="mb-0">
-                    <button class="btn btn-link " @click="toggleLeavesRef()">
+                    <button class="btn btn-link" :class="{ 'collapsed': leaves }" :aria-expanded="leaves" @click="toggleLeavesRef()">
                             Leaves
                     </button>
                 </h5>
@@ -102,7 +102,7 @@
         <div class="card">
             <div class="card-header-payroll" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" @click="toggleRef()">
+                    <button class="btn btn-link" :class="{ 'collapsed': payroll }" :aria-expanded="payroll" @click="toggleRef()">
                             Payroll
                     </button>
                 </h5>
@@ -135,7 +135,7 @@
         <div class="card">
             <div class="card-header-more" id="headingThree">
                 <h5 class="mb-0">
-                    <button class="btn btn-link" @click="toggleMoreRef()">
+                    <button class="btn btn-link" :class="{ 'collapsed': more }" :aria-expanded="more" @click="toggleMoreRef()">
                         More
                     </button>
                 </h5>
@@ -202,4 +202,9 @@ const toggleMoreRef = () => { more.value = !more.value; };
 </script>
 
 
-<style scoped></style>
+<style scoped>
+
+#accordion .card-header-emp a[aria-expanded="true"]::after, #accordion .card-header-leave button[aria-expanded="true"]::after, #accordion .card-header-payroll button[aria-expanded="true"]::after, #accordion .card-header-more button[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+</style>
