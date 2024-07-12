@@ -153,13 +153,13 @@
                 </div>
                 <DataTable v-if="paginateUser?.data" :headers="tableHeaders" :rows="paginateUser" @filter="filterData" ref="table">
                     <template v-slot:cell-company="{ row }">
-                        {{ row.info?.company }}
+                        {{ row.info?.company || '--' }}
                     </template>
                     <template v-slot:cell-location="{ row }">
-                        {{ row.info?.location }}
+                        {{ row.info?.location || '--' }}
                     </template>
                     <template v-slot:cell-department="{ row }">
-                        {{ row.info?.department }}
+                        {{ row.info?.department || '--' }}
                     </template>
                     <template v-slot:cell-salary="{ row }">
                         {{ row.pivot?.salary }}

@@ -48,7 +48,7 @@ class BatchRepository extends BaseRepository
 
     public function getBatchFormUser($batchId, $request)
     {
-        return User::latest()->with('role')
+        return User::latest()->with('role','info')
         ->whereHas('info', function ($query) use($request) {
             $query->when($request->company, function ($q) use($request) {
                 return $q->where('company', $request->company);
