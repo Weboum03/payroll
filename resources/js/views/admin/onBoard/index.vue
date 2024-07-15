@@ -859,6 +859,7 @@ const immediateManagerCode = ref([])
 const pancard = ref(null)
 
 const isModalInput = ref(false)
+const oldisModalInput = ref('')
 
 const inputRef = ref('')
 
@@ -881,12 +882,32 @@ const isModalInputOpend = (value, key) => {
 }
 
 const submitInputForm = (values) => {
-    const length = inputValues.value[inputRef.value].length;
-    const secondLastIndex = length - 1;
+    if(stringExistsInArray(inputValues.value[inputRef.value], values.docName)) {
+        swal({
+            icon: "error",
+            title: 'This value already exist',
+        });
+        return;
+    }
+    inputValues.value[inputRef.value] = removeStringFromArray(inputValues.value[inputRef.value], values.docName);
     inputValues.value[inputRef.value].push(values.docName);
     selectedOption.value[inputRef.value] = values.docName;
     isModalInput.value = false
+    swal({
+            icon: "success",
+            title: 'Added successfully',
+    });
 };
+
+function removeStringFromArray(array, stringToRemove) {
+    const lowerCaseStringToRemove = stringToRemove.toLowerCase();
+    return array.filter(item => item.toLowerCase() !== lowerCaseStringToRemove);
+}
+
+function stringExistsInArray(array, stringToCheck) {
+    const lowerCaseStringToCheck = stringToCheck.toLowerCase();
+    return array.some(item => item.toLowerCase() === lowerCaseStringToCheck);
+}
 
 const updateValue = (value) => {
     pancard.value.value = value.toUpperCase();
@@ -982,6 +1003,18 @@ const schemas = [
                 return true;
             }
             return false;
+        }).test('is-greater', 'Date of Birth can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            if (date.toISOString() <= formattedDate) {
+                return true;
+            }
+            return false;
         }),
     address: yup.string().required('Address is required'),
     address_1: yup.string().required('Address 2 is required'),
@@ -1006,6 +1039,18 @@ const schemas = [
             const date = new Date(value);
             const year = date.getFullYear();
             if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
+        }).test('is-greater', 'Date of Joining can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            if (date.toISOString() <= formattedDate) {
                 return true;
             }
             return false;

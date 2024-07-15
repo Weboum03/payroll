@@ -53,7 +53,12 @@ class LeaveRepository extends BaseRepository
     public function listing($request)
     {
         $limit = $request->input('limit', 10);
-        return $this->model->latest()->with('user.info', 'type')
+        return $this->model->with('user.info', 'type')
+            ->when($request->sort_column, function ($q) use($request) {
+                return $q->orderBy($request->sort_column, $request->sort_order);
+            }, function ($q) {
+                return $q->latest();
+            })
             ->when($request->user_id, function ($query) use ($request) {
                 return $query->where('user_id', $request->user_id);
             })

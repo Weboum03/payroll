@@ -116,10 +116,10 @@ const showHistory = (value) => {
 onMounted(() => {
     tableHeaders.value = [
         { key: 'name', label: 'Employee' },
-        { key: 'type', label: 'Leave Type', sorting: true },
+        { key: 'type', label: 'Leave Type' },
         { key: 'from', label: 'From', sorting: true },
         { key: 'to', label: 'To', sorting: true },
-        { key: 'duration', label: 'No of Days', sorting: true },
+        { key: 'duration', label: 'No of Days' },
         { key: 'status', label: 'Status', sorting: true },
     ];
 

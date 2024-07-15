@@ -836,10 +836,32 @@ const isModalInputOpend = (value, key) => {
 }
 
 const submitInputForm = (values) => {
+    if(stringExistsInArray(inputValues.value[inputRef.value], values.docName)) {
+        swal({
+            icon: "error",
+            title: 'This value already exist',
+        });
+        return;
+    }
+    inputValues.value[inputRef.value] = removeStringFromArray(inputValues.value[inputRef.value], values.docName);
     inputValues.value[inputRef.value].push(values.docName);
     userData.value[inputRef.value] = values.docName;
     isModalInput.value = false
+    swal({
+            icon: "success",
+            title: 'Added successfully',
+    });
 };
+
+function removeStringFromArray(array, stringToRemove) {
+    const lowerCaseStringToRemove = stringToRemove.toLowerCase();
+    return array.filter(item => item.toLowerCase() !== lowerCaseStringToRemove);
+}
+
+function stringExistsInArray(array, stringToCheck) {
+    const lowerCaseStringToCheck = stringToCheck.toLowerCase();
+    return array.some(item => item.toLowerCase() === lowerCaseStringToCheck);
+}
 
 const updateValue = (value) => {
     pancard.value.value = value.toUpperCase();
@@ -993,15 +1015,19 @@ watchEffect(() => {
         postcode: userData.value?.p_postcode,
     }
 
-    if (!isDropdownUpdated.value) {
+    setTimeout(() => {
+        if (!isDropdownUpdated.value) {
         for (var key in inputValues.value) {
             if (user?.info?.[key]) {
+                let name = userData.value[key];
+                inputValues.value[key] = removeStringFromArray(inputValues.value[key], userData.value[key]);
                 inputValues.value[key].push(userData.value[key]);
+                userData.value[key] = userData.value[key];
                 isDropdownUpdated.value = true
             }
         }
     }
-
+    }, 1000);
     
     let files = user?.files;
     if(files) {
@@ -1068,6 +1094,20 @@ const schemas = [
                 return true;
             }
             return false;
+        }).test('is-greater', 'Date of Birth can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            console.log('date.toISOString()', date.toISOString())
+            console.log('formattedDate', formattedDate)
+            if (date.toISOString() <= formattedDate) {
+                return true;
+            }
+            return false;
         }),
         address: yup.string().required('Address is required'),
         address_1: yup.string().required('Address 2 is required'),
@@ -1092,6 +1132,18 @@ const schemas = [
             const date = new Date(value);
             const year = date.getFullYear();
             if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
+        }).test('is-greater', 'Date of Joining can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            if (date.toISOString() <= formattedDate) {
                 return true;
             }
             return false;
@@ -1222,6 +1274,7 @@ async function submitForm(user) {
 
 async function nextStep(values, errors) {
     if (currentStep.value === 3) {
+        console.log('userData',userData.value)
         userDetail.value = values;
         userData.value.as_local = sameAsLocal.value;
         userData.value.docs = getOldUploadDocData();;

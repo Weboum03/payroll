@@ -51,6 +51,7 @@ class BatchUserExport implements FromCollection, WithHeadings
             'Payroll Month',
             'Actual Payable days',
             'Working days',
+            'Present',
             'Loss of Pay days',
             'Days Payable',
             'Salary',

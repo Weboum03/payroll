@@ -302,6 +302,8 @@ const filterData = async (values) => {
     let filters = filterValues;
     Object.assign(filters,{
         page: table.value.filterData.page,
+        sort_order: values.sort_order,
+        sort_column: values.sort_column,
         search: searchQuery.value.toLowerCase(),
         paginate: true
     })

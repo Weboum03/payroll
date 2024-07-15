@@ -176,12 +176,12 @@ const tableHeaders = [
     { key: 'sn', label: 'Sr No.' },
     { key: 'employee_id', label: 'EMP ID', sorting: true },
     { key: 'name', label: 'Name', sorting: true },
-    { key: 'role', label: 'Designation', sorting: true },
-    { key: 'status', label: 'PF', sorting: true },
-    { key: 'wages', label: 'ESIC', sorting: true },
-    { key: 'doj', label: 'DOJ', sorting: true },
-    { key: 'payout', label: 'Last Day', sorting: true },
-    { key: 'salary_slip', label: 'Payment Frequency', sorting: true },
+    { key: 'role', label: 'Designation' },
+    { key: 'status', label: 'PF' },
+    { key: 'wages', label: 'ESIC' },
+    { key: 'doj', label: 'DOJ' },
+    { key: 'payout', label: 'Last Day' },
+    { key: 'salary_slip', label: 'Payment Frequency' },
     { key: 'overtime', label: 'Over Time' },
 ];
 </script>
