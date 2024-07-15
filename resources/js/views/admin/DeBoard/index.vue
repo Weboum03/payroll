@@ -420,7 +420,7 @@ const schemas = [
     yup.object({
         reason: yup.string().required('Reason is required'),
         notice_period: yup.string().required("Notice Period is required!"),
-        start_date: yup.string().required("De-Boarding Date is required!").test('is-greater', 'Invalid Date', function(value) {
+        start_date: yup.string().required("De-Boarding Date is required!").test('is-greater', 'De-Boarding Date can not be less than current date', function(value) {
             const currentDate = new Date();
             const date = new Date(value);
             const year = date.getFullYear();
@@ -433,7 +433,7 @@ const schemas = [
             }
             return false;
         }),
-        final_employment_date: yup.string().required("Final Employment Date is required!").test('is-greater', 'Invalid Date', function(value) {
+        final_employment_date: yup.string().required("Final Employment Date is required!").test('is-greater', 'Final Employment date can not be less than current date', function(value) {
             const currentDate = new Date();
             const date = new Date(value);
             const year = date.getFullYear();
@@ -456,7 +456,7 @@ const schemas = [
         var formattedDate = year + "-" + month + "-" + day;
         return !start_date || !value || formattedDate > start_date;
         }),
-        final_working_date: yup.string().required('End date is required').test('is-greater', 'Invalid Date', function(value) {
+        final_working_date: yup.string().required('End date is required').test('is-greater', 'Final Working date can not be less than current date', function(value) {
             const currentDate = new Date();
             const date = new Date(value);
             const year = date.getFullYear();

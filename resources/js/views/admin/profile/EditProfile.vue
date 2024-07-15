@@ -1068,6 +1068,18 @@ const schemas = [
                 return true;
             }
             return false;
+        }).test('is-greater', 'Date of Birth can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day;
+            if (date.toISOString() < formattedDate && year <= 2099) {
+                return true;
+            }
+            return false;
         }),
         address: yup.string().required('Address is required'),
         address_1: yup.string().required('Address 2 is required'),
@@ -1092,6 +1104,18 @@ const schemas = [
             const date = new Date(value);
             const year = date.getFullYear();
             if (year >= 1900 && year <= 2099) {
+                return true;
+            }
+            return false;
+        }).test('is-greater', 'Date of Joining can not be greater than current date', function(value) {
+            const currentDate = new Date();
+            const date = new Date(value);
+            const year = date.getFullYear();
+            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+            var month = currentDate.toLocaleString("default", { month: "2-digit" });
+            var day = currentDate.toLocaleString("default", { day: "2-digit" });
+            var formattedDate = cyear + "-" + month + "-" + day;
+            if (date.toISOString() < formattedDate && year <= 2099) {
                 return true;
             }
             return false;
