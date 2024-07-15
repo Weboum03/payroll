@@ -38,7 +38,7 @@
                         <button @click="navigate" role="link" id="button2" class="Adjustments" style="">Adjustments</button>
                     </router-link>
 
-                    <button @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
+                    <button v-if="batches?.totalRecords > 0" @click="isPreview = true" id="button3" class="SavePre" style="">Save &amp; Preview</button>
 
                     <button v-if="batch?.data?.status == 'Generated'" type="buttonDelt" @click="deleteBatch" class="btn delete" style=" background-color: #e7272d;width: 56px;">
                         <i class="fa-regular fa-trash-can fa-lg" style="color: white;" aria-hidden="true"></i>

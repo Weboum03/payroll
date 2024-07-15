@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,9 @@ class Deboard extends Model
     use HasFactory;
 
     protected $table = 'deboards';
+
+    protected $appends = ['duration'];
+
     protected $fillable = [
         'user_id',
         'reason',
@@ -28,4 +32,10 @@ class Deboard extends Model
     protected $casts = [
         're_employable' => 'boolean'
     ];
+    
+
+    public function getDurationAttribute()
+    {
+        return (new Carbon($this->start_date))->diffInDays(new Carbon($this->final_working_date));
+    }
 }
