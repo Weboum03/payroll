@@ -168,7 +168,12 @@ class UserRepository extends BaseRepository
 
     public function listing($request)
     {
-        return $this->model->latest()->with('role')
+        return $this->model->with('role')
+        ->when($request->sort_column, function ($q) use($request) {
+            return $q->orderBy($request->sort_column, $request->sort_order);
+        }, function ($q) {
+            return $q->latest();
+        })
         ->whereHas('info', function ($query) use($request) {
             $query->when($request->company, function ($q) use($request) {
                 return $q->where('company', $request->company);
@@ -240,7 +245,12 @@ class UserRepository extends BaseRepository
             $year = Carbon::now()->year;
         }
 
-        return $this->model->latest()->with('role','info')
+        return $this->model->with('role','info')
+        ->when($request->sort_column, function ($q) use($request) {
+            return $q->orderBy($request->sort_column, $request->sort_order);
+        }, function ($q) {
+            return $q->latest();
+        })
         ->when($request->type == 'employees', function ($q) use($request, $year, $month) {
             return $q->whereYear('created_at', $year)
             ->whereMonth('created_at', $month);
