@@ -859,6 +859,7 @@ const immediateManagerCode = ref([])
 const pancard = ref(null)
 
 const isModalInput = ref(false)
+const oldisModalInput = ref('')
 
 const inputRef = ref('')
 
@@ -881,6 +882,13 @@ const isModalInputOpend = (value, key) => {
 }
 
 const submitInputForm = (values) => {
+    if(stringExistsInArray(inputValues.value[inputRef.value], values.docName)) {
+        swal({
+            icon: "error",
+            title: 'This value already exist',
+        });
+        return;
+    }
     inputValues.value[inputRef.value] = removeStringFromArray(inputValues.value[inputRef.value], values.docName);
     inputValues.value[inputRef.value].push(values.docName);
     userData.value[inputRef.value] = values.docName;
@@ -890,6 +898,11 @@ const submitInputForm = (values) => {
 function removeStringFromArray(array, stringToRemove) {
     const lowerCaseStringToRemove = stringToRemove.toLowerCase();
     return array.filter(item => item.toLowerCase() !== lowerCaseStringToRemove);
+}
+
+function stringExistsInArray(array, stringToCheck) {
+    const lowerCaseStringToCheck = stringToCheck.toLowerCase();
+    return array.some(item => item.toLowerCase() === lowerCaseStringToCheck);
 }
 
 const updateValue = (value) => {

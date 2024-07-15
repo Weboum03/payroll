@@ -89,9 +89,14 @@ class BatchRepository extends BaseRepository
     public function listing($request)
     {
         $limit = $request->input('limit', 5);
-        return Batch::latest()->withCount('employee')->withSum('employee as wages', 'gross_wages')
+        return Batch::withCount('employee')->withSum('employee as wages', 'gross_wages')
         ->when($request->search, function ($q) use($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
+        })
+        ->when($request->sort_column, function ($q) use($request) {
+            return $q->orderBy($request->sort_column, $request->sort_order);
+        }, function ($q) {
+            return $q->latest();
         })
         ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate($limit);
     }
@@ -101,6 +106,11 @@ class BatchRepository extends BaseRepository
         $batch = Batch::find($id);
         if ($batch) {
             return $batch->users()->with('role', 'info')
+                ->when($request->sort_column, function ($q) use($request) {
+                    return $q->orderBy($request->sort_column, $request->sort_order);
+                }, function ($q) {
+                    return $q->latest();
+                })
                 ->whereHas('info', function ($query) use ($request) {
                     $query->when($request->company, function ($q) use ($request) {
                         return $q->where('company', $request->company);
