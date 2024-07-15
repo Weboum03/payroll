@@ -48,7 +48,7 @@ class BatchRepository extends BaseRepository
 
     public function getBatchFormUser($batchId, $request)
     {
-        return User::latest()->with('role','info')
+        return User::with('role','info')
         ->whereHas('info', function ($query) use($request) {
             $query->when($request->company, function ($q) use($request) {
                 return $q->where('company', $request->company);
@@ -71,6 +71,11 @@ class BatchRepository extends BaseRepository
                 return $q->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('employee_id', 'like', '%' . $request->search . '%');
             });
+        })
+        ->when($request->sort_column, function ($q) use($request) {
+            return $q->orderBy($request->sort_column, $request->sort_order);
+        }, function ($q) {
+            return $q->latest();
         })
         ->whereDoesntHave('payroll', function ($q) use($batchId) {
             // return $q->where('batch_id', $batchId);

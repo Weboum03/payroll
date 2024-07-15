@@ -153,17 +153,7 @@ const paginatedRows = computed(() => {
 });
 
 const sortedRows = (a, b) => {
-    return rowsData.value.sort((a, b) => {
-        if (sortedColumn.value) {
-            const modifier = sortOrder.value === "asc" ? 1 : -1;
-            if (a[sortedColumn.value] < b[sortedColumn.value])
-                return -1 * modifier;
-            if (a[sortedColumn.value] > b[sortedColumn.value])
-                return 1 * modifier;
-            return 0;
-        }
-        return sortedColumn;
-    });
+    return rowsData.value;
 };
 
 const nextPage = () => {
@@ -198,6 +188,8 @@ const filterPayload = () => {
     let queryFilter = {
         page : currentPage.value,
         limit : pageLength.value,
+        sort_order: sortOrder.value,
+        sort_column: sortedColumn.value
     }
 
     if (filterData && filterData.value.filter.length > 0) {
@@ -205,6 +197,7 @@ const filterPayload = () => {
             Object.assign(queryFilter, {[element.key] : element.value });
         });
     }
+
     emit("filter", queryFilter);
 }
 
@@ -216,6 +209,11 @@ const sortBy = (column) => {
             sortOrder.value = "asc";
             sortedColumn.value = column.key;
         }
+        filterData.value.sorting = {
+            sort_order: sortOrder.value,
+            sort_column: sortedColumn.value
+        }
+        filterPayload();
     }
 };
 
