@@ -1075,8 +1075,10 @@ const schemas = [
             var cyear = currentDate.toLocaleString("default", { year: "numeric" });
             var month = currentDate.toLocaleString("default", { month: "2-digit" });
             var day = currentDate.toLocaleString("default", { day: "2-digit" });
-            var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() < formattedDate && year <= 2099) {
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            console.log('date.toISOString()', date.toISOString())
+            console.log('formattedDate', formattedDate)
+            if (date.toISOString() <= formattedDate) {
                 return true;
             }
             return false;
@@ -1114,8 +1116,8 @@ const schemas = [
             var cyear = currentDate.toLocaleString("default", { year: "numeric" });
             var month = currentDate.toLocaleString("default", { month: "2-digit" });
             var day = currentDate.toLocaleString("default", { day: "2-digit" });
-            var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() < formattedDate && year <= 2099) {
+            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+            if (date.toISOString() <= formattedDate) {
                 return true;
             }
             return false;

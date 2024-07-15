@@ -420,7 +420,7 @@ const schemas = [
     yup.object({
         reason: yup.string().required('Reason is required'),
         notice_period: yup.string().required("Notice Period is required!"),
-        start_date: yup.string().required("De-Boarding Date is required!").test('is-greater', 'De-Boarding Date can not be less than current date', function(value) {
+        start_date: yup.string().required("De-Boarding Date is required!").test('is-greater', 'De-Boarding Date should be greater than current date', function(value) {
             const currentDate = new Date();
             const date = new Date(value);
             const year = date.getFullYear();
@@ -428,7 +428,7 @@ const schemas = [
             var month = currentDate.toLocaleString("default", { month: "2-digit" });
             var day = currentDate.toLocaleString("default", { day: "2-digit" });
             var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() >= formattedDate && year <= 2099) {
+            if (date.toISOString() > formattedDate && year <= 2099) {
                 return true;
             }
             return false;
