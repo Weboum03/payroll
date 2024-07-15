@@ -277,13 +277,13 @@ class UserRepository extends BaseRepository
             return $q->where('role_id', $request->role);
         })
         ->when($request->type == 'leaver', function ($q) use($year, $month) {
-            return $q->with('deboard:start_date,id,user_id')->whereHas('deboard', function ($query) use($year, $month){
+            return $q->with('deboard')->whereHas('deboard', function ($query) use($year, $month){
                 return $query->whereYear('start_date', $year)
                 ->whereMonth('start_date', $month);
             });
         })
         ->when($request->type == 'on_notice_period', function ($q) use($year, $month) {
-            return $q->with('deboard:start_date,id,user_id')->whereHas('deboard', function ($query) use($year, $month){
+            return $q->with('deboard')->whereHas('deboard', function ($query) use($year, $month){
                 return $query->where('start_date','>=', "$year-$month-01")
                 ->where('final_working_date','<=', "$year-$month-31");
             });

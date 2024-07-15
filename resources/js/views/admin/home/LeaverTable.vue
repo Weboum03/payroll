@@ -33,6 +33,15 @@
                                     <template v-slot:cell-start_date="{ row }">
                                         {{ row.deboard?.start_date }}
                                     </template>
+                                    <template v-slot:cell-final_employment_date="{ row }">
+                                        {{ row.deboard?.final_employment_date }}
+                                    </template>
+                                    <template v-slot:cell-final_working_date="{ row }">
+                                        {{ row.deboard?.final_working_date }}
+                                    </template>
+                                    <template v-slot:cell-duration="{ row }">
+                                        {{ row.deboard?.duration }} Days
+                                    </template>
                                     <template v-slot:cell-leave_bal="{ row }">
                                         {{ row.pivot?.leave_bal }}
                                     </template>
@@ -96,10 +105,10 @@
         { key: 'employee_id', label: 'Employee ID', sorting: true },
         { key: 'name', label: 'Employee Name', sorting: true },
         { key: 'start_date', label: 'Date of Resignation' },
-        { key: 'blank', label: 'Last Notice Period Date as per master' },
-        { key: 'blank', label: 'Notice Period Date Selected by Employee' },
+        { key: 'final_employment_date', label: 'Last Notice Period Date as per master' },
+        { key: 'final_working_date', label: 'Notice Period Date Selected by Employee' },
         { key: 'blank', label: 'Notice Period Date Approved Department Head' },
-        { key: 'blank', label: 'Short Notice Pay in Days' },
+        { key: 'duration', label: 'Short Notice Pay in Days' },
     ];
 
     
