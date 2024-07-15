@@ -999,15 +999,19 @@ watchEffect(() => {
         postcode: userData.value?.p_postcode,
     }
 
-    if (!isDropdownUpdated.value) {
+    setTimeout(() => {
+        if (!isDropdownUpdated.value) {
         for (var key in inputValues.value) {
             if (user?.info?.[key]) {
+                let name = userData.value[key];
+                inputValues.value[key] = removeStringFromArray(inputValues.value[key], userData.value[key]);
                 inputValues.value[key].push(userData.value[key]);
+                userData.value[key] = userData.value[key];
                 isDropdownUpdated.value = true
             }
         }
     }
-
+    }, 1000);
     
     let files = user?.files;
     if(files) {
@@ -1254,6 +1258,7 @@ async function submitForm(user) {
 
 async function nextStep(values, errors) {
     if (currentStep.value === 3) {
+        console.log('userData',userData.value)
         userDetail.value = values;
         userData.value.as_local = sameAsLocal.value;
         userData.value.docs = getOldUploadDocData();;
