@@ -836,10 +836,16 @@ const isModalInputOpend = (value, key) => {
 }
 
 const submitInputForm = (values) => {
+    inputValues.value[inputRef.value] = removeStringFromArray(inputValues.value[inputRef.value], values.docName);
     inputValues.value[inputRef.value].push(values.docName);
     userData.value[inputRef.value] = values.docName;
     isModalInput.value = false
 };
+
+function removeStringFromArray(array, stringToRemove) {
+    const lowerCaseStringToRemove = stringToRemove.toLowerCase();
+    return array.filter(item => item.toLowerCase() !== lowerCaseStringToRemove);
+}
 
 const updateValue = (value) => {
     pancard.value.value = value.toUpperCase();
