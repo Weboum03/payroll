@@ -891,8 +891,12 @@ const submitInputForm = (values) => {
     }
     inputValues.value[inputRef.value] = removeStringFromArray(inputValues.value[inputRef.value], values.docName);
     inputValues.value[inputRef.value].push(values.docName);
-    userData.value[inputRef.value] = values.docName;
+    selectedOption.value[inputRef.value] = values.docName;
     isModalInput.value = false
+    swal({
+            icon: "success",
+            title: 'Added successfully',
+    });
 };
 
 function removeStringFromArray(array, stringToRemove) {
