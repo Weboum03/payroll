@@ -217,6 +217,7 @@ class BatchController extends BaseController
                 'month' => $batch->name,
                 'actual_payble_days' => (string)$data['pivot']['actual_payble_days'],
                 'working_days' => (string)$data['pivot']['working_days'],
+                'present' => (string)$data['pivot']['working_days'] - $data['pivot']['loss_pay_days'],
                 'loss_pay_days' => (string)$data['pivot']['loss_pay_days'],
                 'payble_days' => (string)$data['pivot']['payble_days'],
                 'salary' => (string)$data['pivot']['salary'],
@@ -321,9 +322,10 @@ class BatchController extends BaseController
                     'user_id' => $selectedUser,
                     'actual_payble_days' => $actualPaybleDays,
                     'working_days' => $present + $absent,
-                    'loss_pay_days' => $absent,
+                    'loss_pay_days' => $absent, 
                     'payble_days' => $paybleDays,
                     'salary' => $user->salary,
+                    'gross_wages' => $user->salary,
                     'deduction' => $deduction,
                     'payout' => $payout,
                 ];
@@ -354,6 +356,7 @@ class BatchController extends BaseController
                         'loss_pay_days' => $absent,
                         'payble_days' => $paybleDays,
                         'salary' => $user->salary,
+                        'gross_wages' => $user->salary,
                         'deduction' => $deduction,
                         'payout' => $payout,
                     ];
