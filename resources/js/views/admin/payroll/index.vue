@@ -43,13 +43,32 @@
 
 
             <div class="graph chartjs-div-payrolldata d-flex justify-content-between" style="gap: 175px;">
-                <div class="payrolldata-graph d-flex flex-column justify-content-center align-items-center">
+                <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <canvas class="payrolldata-chart"></canvas>
+                            <div class="payrolldata-chart">
+                                <Doughnut :key="tableKey" id="counter" :data="data" :options="options" />
+                            </div>
                         </div>
 
                         <div class="details">
+                            <ul>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(4, 146, 245); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>Payroll Processed {{ employeeData?.batch_processed }}</div>
+                                </li>
+                                <li style="display: flex;">
+                                    <div
+                                        style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
+                                    </div>
+                                    <div>Pending count {{ employeeData?.batch_pending }}</div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="details" ref="detail">
                             <ul></ul>
                         </div>
                     </div>
@@ -176,6 +195,8 @@
 
 import { ref, onMounted, defineProps, watch, watchEffect } from 'vue';
 import * as yup from 'yup';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Doughnut } from 'vue-chartjs'
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
@@ -317,6 +338,41 @@ watch(pagelength, (current, previous) => {
     table.value.page = 1;
     table.value.filterPayload();
 });
+
+const data = {
+    labels: ['Total employee 253', 'Pending count 5'],
+    datasets: [
+        {
+            backgroundColor: ['#0492F5', '#DAE1F3'],
+            data: [253, 5],
+            cutout: '70%'
+        }
+    ],
+    cutout: '70%',
+}
+
+
+const options = {
+    borderRadius: 2,
+    hoverBorderWidth: 0,
+    responsive: true,
+    maintainAspectRatio: false,
+    rotation: 90,
+    plugins: {
+        legend: {
+            display: false,
+        },
+        tooltip: {
+            callbacks: {
+                label: function (context) {
+                    return context.label; // Display only the label, without associated data
+                },
+            },
+        },
+    },
+}
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 </script>
 
 <style scoped>
