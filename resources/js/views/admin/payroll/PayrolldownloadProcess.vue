@@ -10,39 +10,45 @@
         <div class="header d-flex flex-column" style="background-color: white; gap: 1rem;">
 
             <div class="back-button-div   d-flex" style="gap:22rem;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                    style="margin: 0px;padding: 0px;font-size: 20px;font-weight: 500;color: black !important">
-                    <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;"
-                            aria-hidden="true"></i></span>
-                    <span style="cursor: pointer;">Back</span>
-                </button>
-                <p style=" font-size: 20px;font-weight: 500;font-family:Poppins, sans-serif ">{{ batch?.data?.name }}</p>
+
+                <router-link :to="{ name: 'admin.payroll' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="margin: 0px;padding: 0px;font-size: 20px;font-weight: 500;color: black !important">
+                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;"
+                                aria-hidden="true"></i></span>
+                        <span style="cursor: pointer;">Back</span>
+                    </button>
+                </router-link>
+
+
+                <p style=" font-size: 20px;font-weight: 500;font-family:Poppins, sans-serif ">{{ batch?.data?.name }}
+                </p>
             </div>
 
             <div class="details">
                 <span class="data1">
                     <span class="GrossWages">Gross Wages</span>
-                    <span class="GrossValue"> 5,42,152.45</span>
+                    <span class="GrossValue"> {{ batch?.data?.wages || '0.00' }}</span>
                 </span>
                 <span class="data2">
                     <span class="Deduction">Deduction</span>
-                    <span class="DeductionValue"> 1,84,651.20</span>
+                    <span class="DeductionValue"> {{ batch?.data?.deduction || '0.00' }}</span>
                 </span>
                 <span class="data3">
                     <span class="NetWages">Net Wages</span>
-                    <span class="NetValue"> 7,26,767.65</span>
+                    <span class="NetValue"> {{ batch?.data?.payout || '0.00' }}</span>
                 </span>
                 <span class="data4">
                     <span class="LeaveEncashment">Leave Encashment</span>
-                    <span class="LeaveValue"> 24,546.51</span>
+                    <span class="LeaveValue"> {{ batch?.data?.Leave_encashment || '0.00' }}</span>
                 </span>
                 <span class="data5">
                     <span class="Gratuity">Gratuity</span>
-                    <span class="GratuityValue"> 51,320.00</span>
+                    <span class="GratuityValue"> {{ batch?.data?.gratuity || '0.00' }}</span>
                 </span>
                 <span class="data6">
                     <span class="TotalPay">Total Pay</span>
-                    <span class="TotalValue"> 8,02,634.16</span>
+                    <span class="TotalValue"> {{ batch?.data?.payout || '0.00' }}</span>
                 </span>
             </div>
 
@@ -165,6 +171,7 @@ import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, w
 import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
 const { item: batch, fetchOne: getBatch } = useBatch();
+const router = useRouter();
 const route = useRoute();
 
 onMounted(() => {
@@ -174,5 +181,4 @@ onMounted(() => {
 
 <style scoped>
 @import '@/assets/css/PayrolldownloadProcess.css';
-
 </style>

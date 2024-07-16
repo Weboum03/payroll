@@ -29,6 +29,11 @@ class BatchRepository extends BaseRepository
         return $this->model->where('id', $userId)->get();
     }
 
+    public function getSinglebatchDetail($id) {
+        return $this->model->whereId($id)->withCount('employee')->withSum('employee as wages', 'gross_wages')
+        ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->first();
+    }
+
     public function getByPhone(string $phone)
     {
         return $this->model

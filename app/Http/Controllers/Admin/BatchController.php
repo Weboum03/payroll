@@ -407,7 +407,7 @@ class BatchController extends BaseController
      */
     public function show(string $id)
     {
-        $user = $this->batchRepository->getById($id);
+        $user = $this->batchRepository->getSinglebatchDetail($id);
         return $this->sendResponse($user, __('ApiMessage.retrievedMessage'));
     }
 

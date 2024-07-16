@@ -147,8 +147,17 @@
                 <template v-slot:cell-payout="{ row }">
                     {{ row.payout || '0.00' }}
                 </template>
-                <template v-slot:cell-action="{ row }">
-                    <i class="fa-solid fa-ellipsis-vertical fa-sm" style="color: #000000;"></i>
+
+                <template v-slot:cell-salary_slip="{ row }" class="salSlip">
+                    <span v-if="row.status == 'Processed'">released</span>
+                    <span v-else>Not Released</span>
+                </template>
+          
+                <template v-slot:cell-download="{ row }">
+                    <router-link v-if="row.status == 'Processed'" :to="{ name: 'admin.PayrolldownloadProcess', params: {id: row.id}}" custom v-slot="{ navigate }">
+                        <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3;"></i>
+                    </router-link>
+                    <span v-else>-</span>
                 </template>
             </DataTable>
             </div>
@@ -205,12 +214,13 @@ import UserTable from '@/views/admin/home/UserTable.vue';
 const { items: batches, fetchAll: getBatches, create: storeBatch, loading: isLoading, success } = useBatch();
 const { getDashboardDetails, getDashboardUsers, loading } = useDashboard();
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { onClickOutside } from '@vueuse/core'
 import { useAbility } from '@casl/vue';
 const { can } = useAbility()
 
 const router = useRouter();
+const route = useRoute();
 const isModalOpened = ref(false);
 const table = ref(null)
 const table2 = ref(null)
