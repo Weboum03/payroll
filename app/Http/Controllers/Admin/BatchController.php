@@ -73,6 +73,7 @@ class BatchController extends BaseController
     }
 
     protected function getPayoutAmount($data) {
+        UserDetail::where('user_id', $data->user_id)->update(['salary' => $data->salary]);
         $grossWages = $data->salary + $data->bonus + $data->commission + $data->overtime + $data->shift_differential + $data->retroactive_pay;
         $payout = $grossWages - $data->deduction;
         return ['payout' => $payout, 'gross_wages' => $grossWages ];
