@@ -242,53 +242,9 @@ defineExpose({
 });
 </script>
 
-<style scoped>
-.datatable-container {
-    overflow-x: auto;
-    margin: 20px 0;
-}
 
-.search-bar {
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
-}
 
-.datatable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.datatable-header {
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-bottom: 2px solid #ddd;
-    text-align: left;
-    cursor: pointer;
-}
-
-.datatable-header span {
-    font-size: 0.8em;
-}
-
-.datatable-cell {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-.pagination-controls {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-</style>
-
-<style scoped>
-@import "@/assets/css/Approvals.css";
-@import "@/assets/css/onBoard.css";
+<style>
 @import "datatables.net-dt";
 
 table.dataTable thead th,
@@ -349,5 +305,47 @@ table.dataTable tbody tr td {
 }
 .dt-layout-table {
     overflow-x: auto;
+}
+
+.datatable-container {
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.search-bar {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.datatable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.datatable-header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    text-align: left;
+    cursor: pointer;
+}
+
+.datatable-header span {
+    font-size: 0.8em;
+}
+
+.datatable-cell {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.pagination-controls {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 </style>

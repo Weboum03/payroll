@@ -139,54 +139,55 @@
                     <button data-v-f3042a6e="" type="button" class="close">
                         <span data-v-f3042a6e="" aria-hidden="true" style="margin-bottom: 5px;">×</span></button></div>
                 <div class="modal-body" style="scrollbar-width: thin;">
-
-                <div id="testRslt-table_filter" class="dataTables_filter">    
-                    <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="testRslt-table"></label>
-                    <button type="button" @click="showDataTable" class="close1" data-dismiss="modal" aria-label="Close" style="margin: 0px; padding: 0px; font-size: medium; color: black !important">
-                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;" aria-hidden="true"></i></span>
-                        <span style="cursor: pointer;">Back</span>
-                    </button>
-                    <button @click="showDataTable" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;" aria-hidden="true"></i>
-                        </span>
-                    </button>
+                <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
+                    <div id="testRslt-table_filter" class="dataTables_filter">    
+                        <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="testRslt-table"></label>
+                        <button type="button" @click="showDataTable" class="close1" data-dismiss="modal" aria-label="Close" style="margin: 0px; padding: 0px; font-size: medium; color: black !important">
+                            <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm" style="color: #000000;" aria-hidden="true"></i></span>
+                            <span style="cursor: pointer;">Back</span>
+                        </button>
+                        <button @click="showDataTable" type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl" style="color: #2DB9F8;" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <DataTable v-if="paginateUser?.data" :headers="tableHeaders" :rows="paginateUser" @filter="filterData" ref="table">
+                        <template v-slot:cell-company="{ row }">
+                            {{ row.info?.company || '--' }}
+                        </template>
+                        <template v-slot:cell-location="{ row }">
+                            {{ row.info?.location || '--' }}
+                        </template>
+                        <template v-slot:cell-department="{ row }">
+                            {{ row.info?.department || '--' }}
+                        </template>
+                        <template v-slot:cell-salary="{ row }">
+                            {{ row.pivot?.salary }}
+                        </template>
+                        <template v-slot:cell-deduction="{ row }">
+                            {{ row.pivot?.deduction }}
+                        </template>
+                        <template v-slot:cell-overtime="{ row }">
+                            {{ row.pivot?.overtime }}
+                        </template>
+                        <template v-slot:cell-bonus="{ row }">
+                            {{ row.pivot?.bonus }}
+                        </template>
+                        <template v-slot:cell-commission="{ row }">
+                            {{ row.pivot?.commission }}
+                        </template>
+                        <template v-slot:cell-reimbursement="{ row }">
+                            {{ row.pivot?.reimbursement }}
+                        </template>
+                        <template v-slot:cell-leave_bal="{ row }">
+                            {{ row.pivot?.leave_bal }}
+                        </template>
+                        <template v-slot:cell-action="{ row }">
+                            <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
+                                aria-hidden="true"></i>
+                        </template>
+                    </DataTable>
                 </div>
-                <DataTable v-if="paginateUser?.data" :headers="tableHeaders" :rows="paginateUser" @filter="filterData" ref="table">
-                    <template v-slot:cell-company="{ row }">
-                        {{ row.info?.company || '--' }}
-                    </template>
-                    <template v-slot:cell-location="{ row }">
-                        {{ row.info?.location || '--' }}
-                    </template>
-                    <template v-slot:cell-department="{ row }">
-                        {{ row.info?.department || '--' }}
-                    </template>
-                    <template v-slot:cell-salary="{ row }">
-                        {{ row.pivot?.salary }}
-                    </template>
-                    <template v-slot:cell-deduction="{ row }">
-                        {{ row.pivot?.deduction }}
-                    </template>
-                    <template v-slot:cell-overtime="{ row }">
-                        {{ row.pivot?.overtime }}
-                    </template>
-                    <template v-slot:cell-bonus="{ row }">
-                        {{ row.pivot?.bonus }}
-                    </template>
-                    <template v-slot:cell-commission="{ row }">
-                        {{ row.pivot?.commission }}
-                    </template>
-                    <template v-slot:cell-reimbursement="{ row }">
-                        {{ row.pivot?.reimbursement }}
-                    </template>
-                    <template v-slot:cell-leave_bal="{ row }">
-                        {{ row.pivot?.leave_bal }}
-                    </template>
-                    <template v-slot:cell-action="{ row }">
-                        <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
-                            aria-hidden="true"></i>
-                    </template>
-                </DataTable>
                     <!-- <table id="testRslt-table">
                         <thead>
                             <tr>

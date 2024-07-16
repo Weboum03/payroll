@@ -224,7 +224,10 @@ class UserRepository extends BaseRepository
             });
         })
         ->when($request->search, function ($query) use($request) {
-            return $query->where('name', 'LIKE', "%$request->search%");
+            return $query->where(function ($q) use($request) {
+                return $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+            });
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
@@ -271,7 +274,10 @@ class UserRepository extends BaseRepository
             });
         })
         ->when($request->search, function ($query) use($request) {
-            return $query->where('name', 'LIKE', "%$request->search%");
+            return $query->where(function ($q) use($request) {
+                return $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+            });
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);

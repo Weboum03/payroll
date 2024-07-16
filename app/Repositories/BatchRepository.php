@@ -91,7 +91,10 @@ class BatchRepository extends BaseRepository
         $limit = $request->input('limit', 5);
         return Batch::withCount('employee')->withSum('employee as wages', 'gross_wages')
         ->when($request->search, function ($q) use($request) {
-            return $q->where('name', 'like', '%' . $request->search . '%');
+            return $q->where(function ($q) use($request) {
+                return $q->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+            });
         })
         ->when($request->sort_column, function ($q) use($request) {
             return $q->orderBy($request->sort_column, $request->sort_order);

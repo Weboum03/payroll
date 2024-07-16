@@ -17,7 +17,7 @@
                             <select class="form-control input" v-model="mode" id="UpdateMode" required autocomplete="off"
                                 style="color: #131313;">
                                 <option value="" selected>Update Mode*</option>
-                                <option value="salary">Update Salary</option>
+                                <!-- <option value="salary">Update Salary</option> -->
                                 <option value="overtime">Overtime hours</option>
                                 <option value="bonus">Bonus Adjustment</option>
                                 <option value="commission">Commission Adjustment</option>
@@ -66,7 +66,7 @@
                     
                 </div>
             </div>
-
+            <div data-v-b15edbaa="" id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
             <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData" ref="table">
                 <template v-slot:cell-company="{ row }">
                     {{ row.info?.company }}
@@ -112,6 +112,7 @@
                         aria-hidden="true"></i>
                 </template>
             </DataTable>
+            </div>
         </div>
     </div>
 </template>

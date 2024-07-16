@@ -70,7 +70,10 @@ class LeaveRepository extends BaseRepository
             })
             ->when($request->search, function ($query) use ($request) {
                 return $query->whereHas('user', function ($q) use ($request) {
-                    return $q->where('name', 'LIKE', "%$request->search%");
+                    return $q->where(function ($q) use($request) {
+                        return $q->where('name', 'like', '%' . $request->search . '%')
+                        ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                    });
                 });
             })
             ->whereHas('user')->paginate($limit);
