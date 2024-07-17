@@ -192,12 +192,30 @@ class BatchController extends BaseController
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }
 
-    public function downloadDocument($id, Request $request) {
+    public function downloadDocument($id, $type = '', Request $request) {
 
         $batch = $this->batchRepository->getById($id);
 
         if(!$batch) {
             return $this->sendError('Not found');
+        }
+
+        if($type == 'SalaryTransferLetter') {
+            $data = [];
+            $pdf = Pdf::loadView('pdf.SalaryTransferLetter', $data);
+            return $pdf->download('SalaryTransferLetter.pdf');
+        }
+
+        elseif($type == 'AttendaceFormat') {
+            $data = [];
+            $pdf = Pdf::loadView('pdf.AttendaceFormat', $data);
+            return $pdf->download('AttendaceFormat.pdf');
+        }
+
+        elseif($type == 'SalaryFormat') {
+            $data = [];
+            $pdf = Pdf::loadView('pdf.SalaryFormat', $data);
+            return $pdf->download('SalaryFormat.blade.pdf');
         }
 
         $data = [];
