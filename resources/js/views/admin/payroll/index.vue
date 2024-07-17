@@ -46,9 +46,7 @@
                 <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <div class="payrolldata-chart">
-                                <Doughnut :key="tableKey" id="counter" :data="data" :options="options" />
-                            </div>
+                            <canvas class="payrolldata-chart"></canvas>
                         </div>
 
                         <div class="details">
@@ -204,7 +202,7 @@
 
 import { ref, onMounted, defineProps, watch, watchEffect } from 'vue';
 import * as yup from 'yup';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
@@ -301,10 +299,29 @@ const filterData2 = async (filterValues) => {
     users.value = await getDashboardUsers(filterValues);
 }
 
+let totalEmployee = 0;
+const data = [253, 5];
+const payrollchartData = {
+    labels: [`Payroll Processed ${data[0]}`, `Pending count ${data[1]}`],
+    data: data,
+};
+
 onMounted(async() => {
+
+    let script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
+    document.head.appendChild(script);
+    
     getBatches();
     let response = await getDashboardDetails();
     employeeData.value = response.data;
+    var processed = employeeData.value.batch_processed;
+    var pending = employeeData.value.batch_pending;
+    totalEmployee = employeeData.value.total_employee;
+    payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
+    payrollchartData.data = [processed, pending]
+
+    loadLater()
 });
 
 
@@ -349,40 +366,72 @@ watch(pagelength, (current, previous) => {
     table.value.filterPayload();
 });
 
-const data = {
-    labels: ['Total employee 253', 'Pending count 5'],
-    datasets: [
-        {
-            backgroundColor: ['#0492F5', '#DAE1F3'],
-            data: [253, 5],
-            cutout: '70%'
-        }
-    ],
-    cutout: '70%',
+
+function loadLater() {
+
+const counter3 = {
+    id: "counter",
+    beforeDraw(chart, args, options) {
+        const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+        ctx.save()
+        const yCenter = (height / 2) + top + 15;
+        ctx.font = '15px monospace'
+        ctx.fillStyle = 'black'
+        ctx.fillText(totalEmployee, '61', yCenter)
+    }
+}
+const counter4 = {
+    id: "counter",
+    beforeDraw(chart, args, options) {
+        const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+        ctx.save()
+        const yCenter = (height / 2) + top - 7;
+        ctx.font = '11px monospace'
+        ctx.fillStyle = 'black'
+        ctx.fillText('Total Employees', '28', yCenter)
+    }
 }
 
+const payrollChart = document.querySelector(".payrolldata-chart");
 
-const options = {
-    borderRadius: 2,
-    hoverBorderWidth: 0,
-    responsive: true,
-    maintainAspectRatio: false,
-    rotation: 90,
-    plugins: {
-        legend: {
-            display: false,
-        },
-        tooltip: {
-            callbacks: {
-                label: function (context) {
-                    return context.label; // Display only the label, without associated data
-                },
+new Chart(payrollChart, {
+    type: "doughnut",
+    data: {
+        labels: payrollchartData.labels,
+        datasets: [
+            {
+                data: payrollchartData.data,
+                backgroundColor: [     // Set background color for each label
+                    '#0492F5',   // Background color for "5 days absence"
+                    '#DAE1F3'    // Background color for "900 working days"
+                ],
+                cutout: '70%',
             },
-        },
-    },
-}
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+        ],
+
+    },
+    options: {
+        borderRadius: 2,
+        hoverBorderWidth: 0,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return context.label; // Display only the label, without associated data
+                    }
+                }
+            }
+        },
+        rotation: 90,
+    },
+    plugins: [counter4, counter3]
+});
+
+}
 </script>
 
 <style scoped>

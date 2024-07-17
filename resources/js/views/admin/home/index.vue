@@ -31,9 +31,7 @@
                 <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <div class="payrolldata-chart">
-                                <Doughnut :key="tableKey" id="counter" :data="data" :options="options" />
-                            </div>
+                            <canvas class="payrolldata-chart"></canvas>
                         </div>
 
                         <div class="details">
@@ -52,10 +50,6 @@
                                 </li>
                             </ul>
                         </div>
-
-                        <div class="details" ref="detail">
-                            <ul></ul>
-                        </div>
                     </div>
                 </div>
 
@@ -72,23 +66,28 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Employee Count</th>
-                                <td @click="viewEmployeeData(6,'employees')">{{ employeeData?.last_month?.employees }}</td>
-                                <td @click="viewEmployeeData(7,'employees')">{{ employeeData?.current_month?.employees }}</td>
+                                <td @click="viewEmployeeData(6, 'employees')">{{ employeeData?.last_month?.employees }}
+                                </td>
+                                <td @click="viewEmployeeData(7, 'employees')">{{ employeeData?.current_month?.employees
+                                    }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">New Starter</th>
-                                <td @click="viewEmployeeData(6,'new_starter')">{{ employeeData?.last_month?.new_starter }}</td>
-                                <td @click="viewEmployeeData(7,'new_starter')">{{ employeeData?.current_month?.new_starter }}</td>
+                                <td @click="viewEmployeeData(6, 'new_starter')">{{ employeeData?.last_month?.new_starter
+                                    }}</td>
+                                <td @click="viewEmployeeData(7, 'new_starter')">{{
+                                    employeeData?.current_month?.new_starter }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Leaver</th>
-                                <td @click="viewEmployeeData(6,'leaver')">{{ employeeData?.last_month?.leaver }}</td>
-                                <td @click="viewEmployeeData(7,'leaver')">{{ employeeData?.current_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(6, 'leaver')">{{ employeeData?.last_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(7, 'leaver')">{{ employeeData?.current_month?.leaver }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">On Notice Period</th>
-                                <td @click="viewEmployeeData(6,'on_notice_period')">{{ employeeData?.last_month?.on_notice_period }}</td>
-                                <td @click="viewEmployeeData(7,'on_notice_period')" id="noticPrd-Table" >
+                                <td @click="viewEmployeeData(6, 'on_notice_period')">{{
+                                    employeeData?.last_month?.on_notice_period }}</td>
+                                <td @click="viewEmployeeData(7, 'on_notice_period')" id="noticPrd-Table">
                                     {{ employeeData?.current_month?.on_notice_period }}</td>
                             </tr>
                         </tbody>
@@ -119,7 +118,7 @@
                             <h5 class="modal-title" id="staticBackdropLabel">Create New Payroll Batch</h5>
                             <button type="button" class="close" @click="closeModal">
                                 <span aria-hidden="true"><i class="fa-solid fa-circle-xmark fa-2xl"
-                                    style="color: #2DB9F8;opacity: 1;"></i></span>
+                                        style="color: #2DB9F8;opacity: 1;"></i></span>
                             </button>
                         </div>
                         <div
@@ -144,16 +143,18 @@
         </div>
 
         <!-- Modal compare-->
-        <compareModel v-if="isModalCompare" @close="isModalCompare=false"></compareModel>
+        <compareModel v-if="isModalCompare" @close="isModalCompare = false"></compareModel>
 
-        <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable=false"></UserTable>
+        <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable = false"></UserTable>
 
-        <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal=false"></LeaverTable>
+        <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal = false"></LeaverTable>
     </div>
+
+
 </template>
 
 <script setup>
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { ref, onMounted, watch } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
@@ -182,59 +183,35 @@ const isModalCompare = ref(false);
 const isModalTable = ref(false);
 const isLeaverModal = ref(false);
 const tableKey = ref(0)
-// const storeData = async (values) => {
-//     await storeBatch(values);
-//     if(success) {
-
-//     }
-// }
 
 
-const data = {
-    labels: ['Total employee 253', 'Pending count 5'],
-    datasets: [
-        {
-            backgroundColor: ['#0492F5', '#DAE1F3'],
-            data: [253, 5],
-            cutout: '70%'
-        }
-    ],
-    cutout: '70%',
-}
-
-
-const options = {
-    borderRadius: 2,
-    hoverBorderWidth: 0,
-    responsive: true,
-    maintainAspectRatio: false,
-    rotation: 90,
-    plugins: {
-        legend: {
-            display: false,
-        },
-        tooltip: {
-            callbacks: {
-                label: function (context) {
-                    return context.label; // Display only the label, without associated data
-                },
-            },
-        },
-    },
-}
-
-ChartJS.register(ArcElement, Tooltip, Legend)
 const detail = ref(null);
 
+const data = [253, 5];
+const payrollchartData = {
+    labels: [`Payroll Processed ${data[0]}`, `Pending count ${data[1]}`],
+    data: data,
+};
+
+let totalEmployee = 0;
+
 onMounted(async () => {
+    let script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
+    document.head.appendChild(script);
+
     let response = await getDashboardDetails();
     employeeData.value = response.data;
     var processed = employeeData.value.batch_processed;
     var pending = employeeData.value.batch_pending;
-    data.labels = ['Payroll Processed ' + processed, 'Pending count '+ pending]
-    data.datasets[0].data = [processed, pending]
+    totalEmployee = employeeData.value.total_employee;
+    payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
+    payrollchartData.data = [processed, pending]
     tableKey.value++;
+
+    loadLater()
 });
+
 
 
 const myTable = ref(null);
@@ -275,8 +252,8 @@ const closeModalCompare = () => {
 };
 
 const viewEmployeeData = async (month, type) => {
-    selectedMonth.value = {month: month, type: type}
-    if(type == 'leaver' || type == 'on_notice_period') {
+    selectedMonth.value = { month: month, type: type }
+    if (type == 'leaver' || type == 'on_notice_period') {
         isLeaverModal.value = true;
     } else {
         isModalTable.value = true;
@@ -289,6 +266,74 @@ onClickOutside(target, () => closeModal());
 watch(success, (current, previous) => {
     router.push({ name: "admin.PayrollBatchform" });
 });
+
+
+function loadLater() {
+
+    const counter3 = {
+        id: "counter",
+        beforeDraw(chart, args, options) {
+            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+            ctx.save()
+            const yCenter = (height / 2) + top + 15;
+            ctx.font = '15px monospace'
+            ctx.fillStyle = 'black'
+            ctx.fillText(totalEmployee, '61', yCenter)
+        }
+    }
+    const counter4 = {
+        id: "counter",
+        beforeDraw(chart, args, options) {
+            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+            ctx.save()
+            const yCenter = (height / 2) + top - 7;
+            ctx.font = '11px monospace'
+            ctx.fillStyle = 'black'
+            ctx.fillText('Total Employees', '28', yCenter)
+        }
+    }
+
+    const payrollChart = document.querySelector(".payrolldata-chart");
+
+    new Chart(payrollChart, {
+        type: "doughnut",
+        data: {
+            labels: payrollchartData.labels,
+            datasets: [
+                {
+                    data: payrollchartData.data,
+                    backgroundColor: [     // Set background color for each label
+                        '#0492F5',   // Background color for "5 days absence"
+                        '#DAE1F3'    // Background color for "900 working days"
+                    ],
+                    cutout: '70%',
+                },
+
+            ],
+
+        },
+        options: {
+            borderRadius: 2,
+            hoverBorderWidth: 0,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return context.label; // Display only the label, without associated data
+                        }
+                    }
+                }
+            },
+            rotation: 90,
+        },
+        plugins: [counter4, counter3]
+    });
+
+}
+
 
 </script>
 

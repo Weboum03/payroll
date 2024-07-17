@@ -64,6 +64,9 @@ class UserRepository extends BaseRepository
         $previousMonthNumber = $previousMonth->month;
         $previousMonthYear = $previousMonth->year;
 
+
+        $totalUserCount = User::count();
+
         // Count users created in the current month
         $usersCount = User::whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
@@ -121,6 +124,7 @@ class UserRepository extends BaseRepository
         ];
 
         return [
+            'total_employee' => $totalUserCount,
             'batch_processed' => $batchCount,
             'batch_pending' => $batchPendingCount,
             'last_month' => $lastMonth,
