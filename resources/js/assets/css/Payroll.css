@@ -271,9 +271,9 @@ body{
         background-color: #F8F8F8;
        }
      
-     .table{
+     /* .table{
          width: 451px !important;
-     }
+     } */
        .table th, .table td {
          padding: 7px !important;
      }

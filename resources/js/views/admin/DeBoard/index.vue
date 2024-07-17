@@ -89,7 +89,7 @@
 
                                         <Field required type="text" name="start_date" class="input"
                                             onfocus="(this.type='date')" autocomplete="off"
-                                            placeholder="De-Boarding Date*"
+                                            placeholder="De-Boarding Date*" v-model="deboard"
                                             :class="{ 'is-invalid': errors.start_date }" />
                                         <label for="html" class="user-label ">De-Boarding Date*</label>
                                         <ErrorMessage name="start_date" class="text-danger mt-1" />
@@ -100,7 +100,7 @@
                                         <label class="custom-checkbox d-flex justify-content-center align-items-center"
                                             style="gap: .5rem;">
                                             <span class="checkmark"></span>
-                                            <input name="dummy" type="checkbox"> Make a Leaver Immediately?
+                                            <input name="dummy" v-model="leaveImmediately" type="checkbox"> Make a Leaver Immediately?
                                         </label>
                                     </div>
                                 </div>
@@ -108,8 +108,8 @@
                                 <div class="row">
                                     <div class="col input-group-fname">
                                         <Field required type="text" name="final_employment_date" class="input"
-                                            onfocus="(this.type='date')" autocomplete="off"
-                                            placeholder="Final Employment Date*"
+                                            onfocus="(this.type='date')" autocomplete="off" v-model="leaveData.final_employment_date"
+                                            placeholder="Final Employment Date*" :disabled="leaveImmediately"
                                             :class="{ 'is-invalid': errors.final_employment_date }" />
                                         <label for="html" class="user-label ">Final Employment Date*</label>
                                         <ErrorMessage name="final_employment_date" class="text-danger mt-1" />
@@ -117,8 +117,8 @@
 
                                     <div class="col input-group-fname">
                                         <Field required type="text" name="final_working_date" class="input"
-                                            onfocus="(this.type='date')" autocomplete="off"
-                                            placeholder="Final Working Date*"
+                                            onfocus="(this.type='date')" autocomplete="off" v-model="leaveData.final_working_date"
+                                            placeholder="Final Working Date*" :disabled="leaveImmediately"
                                             :class="{ 'is-invalid': errors.final_working_date }" />
                                         <label for="html" class="user-label ">Final Working Date*</label>
                                         <ErrorMessage name="final_working_date" class="text-danger mt-1" />
@@ -351,6 +351,7 @@
 </template>
 <script setup>
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate';
+import moment from 'moment';
 import * as yup from 'yup';
 import { ref, onMounted, reactive, computed, inject, watch } from 'vue';
 import useUsers from "@/composables/users";
@@ -363,7 +364,37 @@ const swal = inject('$swal')
 const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const valErrors = ref({});
+const leaveImmediately = ref(null)
+const leaveData = ref({
+    final_employment_date:'',
+    final_working_date: ''
+})
+const deboard = ref('')
 
+
+watch(leaveImmediately, (current) => {
+    if(current) {
+        let currentDate = new Date();
+        var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+        var month = currentDate.toLocaleString("default", { month: "2-digit" });
+        var day = currentDate.toLocaleString("default", { day: "2-digit" });
+        var formattedDate = cyear + "-" + month + "-" + day;
+        deboard.value =formattedDate
+    }
+    leaveData.value = {
+        final_employment_date:formattedDateFunction(deboard.value),
+        final_working_date: formattedDateFunction(deboard.value),
+    }
+})
+
+watch(deboard, (current) => {
+    if (leaveImmediately.value) {
+        leaveData.value = {
+            final_employment_date: formattedDateFunction(current),
+            final_working_date: formattedDateFunction(current),
+        }
+    }
+})
 const uploadComponent = ref([
     {
         id : Math.random().toString(36).substring(7),
@@ -416,6 +447,10 @@ const deleteInput = (id) => {
     uploadComponent.value.splice(uploadComponent.value.findIndex(component => component.id === id), 1);
 };
 
+const formattedDateFunction = (value) => {
+      return moment(value).format('DD-MM-YYYY');;
+    }
+
 const schemas = [
     yup.object({
         reason: yup.string().required('Reason is required'),
@@ -428,7 +463,7 @@ const schemas = [
             var month = currentDate.toLocaleString("default", { month: "2-digit" });
             var day = currentDate.toLocaleString("default", { day: "2-digit" });
             var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() > formattedDate && year <= 2099) {
+            if (formattedDateFunction(date) >= formattedDateFunction(date) && year <= 2099) {
                 return true;
             }
             return false;
@@ -437,11 +472,10 @@ const schemas = [
             const currentDate = new Date();
             const date = new Date(value);
             const year = date.getFullYear();
-            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
-            var month = currentDate.toLocaleString("default", { month: "2-digit" });
-            var day = currentDate.toLocaleString("default", { day: "2-digit" });
-            var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() >= formattedDate && year <= 2099) {
+
+            console.log('date', formattedDateFunction(date))
+            console.log('currentDate', formattedDateFunction(currentDate))
+            if (formattedDateFunction(date) >= formattedDateFunction(currentDate) && year <= 2099) {
                 return true;
             }
             return false;
@@ -454,7 +488,7 @@ const schemas = [
         var month = date.toLocaleString("default", { month: "2-digit" });
         var day = date.toLocaleString("default", { day: "2-digit" });
         var formattedDate = year + "-" + month + "-" + day;
-        return !start_date || !value || formattedDate > start_date;
+        return !start_date || !value || formattedDateFunction(date) >= formattedDateFunction(start_date);
         }),
         final_working_date: yup.string().required('End date is required').test('is-greater', 'Final Working date can not be less than current date', function(value) {
             const currentDate = new Date();
@@ -464,7 +498,7 @@ const schemas = [
             var month = currentDate.toLocaleString("default", { month: "2-digit" });
             var day = currentDate.toLocaleString("default", { day: "2-digit" });
             var formattedDate = cyear + "-" + month + "-" + day;
-            if (date.toISOString() >= formattedDate && year <= 2099) {
+            if (formattedDateFunction(date) >= formattedDateFunction(currentDate) && year <= 2099) {
                 return true;
             }
             return false;
@@ -477,7 +511,7 @@ const schemas = [
         var month = date.toLocaleString("default", { month: "2-digit" });
         var day = date.toLocaleString("default", { day: "2-digit" });
         var formattedDate = year + "-" + month + "-" + day;
-        return !start_date || !value || formattedDate > start_date;
+        return !start_date || !value || formattedDateFunction(date) >= formattedDateFunction(start_date);
         }),
     }),
     yup.object({

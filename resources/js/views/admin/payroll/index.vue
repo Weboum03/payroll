@@ -8,7 +8,7 @@
     <div id="dashboard-table" class="container-fluid">
         <div id="Financial-year-dropdown">
             <span>Financial Year</span>
-            <span id="finYearDropdown"></span>
+            <span id="finYearDropdown"><select id="finYearDropdown1" class="FinanYear" style="height: 44px;width: 254px;fon;font-size: 16px;font-weight: 500;font-family: sans-serif;padding: 10px 20px;border: none;border-radius: 5px;"><option value="2023-2024">2023 - 2024</option><option value="value2">Option 2</option></select></span>
         </div>
 
         <nav aria-label="Page navigation example" class="d-flex flex-column"
@@ -115,7 +115,7 @@
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
                 
-                    <button type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
+                    <a  href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</a>
             </div>
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
@@ -204,6 +204,7 @@ import { ref, onMounted, defineProps, watch, watchEffect } from 'vue';
 import * as yup from 'yup';
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
+import $ from 'jquery';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
@@ -366,7 +367,6 @@ watch(pagelength, (current, previous) => {
     table.value.filterPayload();
 });
 
-
 function loadLater() {
 
 const counter3 = {
@@ -432,9 +432,78 @@ new Chart(payrollChart, {
 });
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function () {
+
+// Get the current date
+const currentDate = new Date();
+
+// Array of month names
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Get the current month (returns a number between 0 and 11)
+const currentMonthIndex = currentDate.getMonth();
+
+// Get the month abbreviation using the current month index
+const currentMonthAbbreviation = monthNames[currentMonthIndex];
+
+// Get the current year
+const currentYear = currentDate.getFullYear();
+
+// Combine the current month abbreviation and year
+const formattedDate = `${currentMonthAbbreviation} ${currentYear}`;
+
+// Append the formatted date to the label
+$('label[for="Year-Payrool-Batch"]').append(formattedDate);
+
+
+function generateMonths() {
+  const months = [];
+  const monthNames = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar', ];
+  for (let year = 2023; year <= 2024; year++) {
+    for (let month = 1; month <= 12; month++) {
+      months.push({ year, month });
+    }
+  }
+  return months;
+}
+
+// Function to append months to the pagination
+function appendMonths() {
+  const months = generateMonths();
+  const monthNames = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar', ];
+  const $div = $('.months-years');
+  months.forEach(({ year, month }) => {
+    const $li = $('<li>').addClass('page-item');
+    const $a = $('<a>').addClass('page-link').attr('href', '#').text(`${String(monthNames[month - 1]).padStart(2, '0')}-${year}`);
+    $li.append($a);
+    $div.append($li); // Append list item to the div with class 'months-years'
+    $a.css('color', '#A8A8A8')
+  });
+}
+// Call the function to append months
+appendMonths();
+});
 </script>
 
-<style scoped>
+<style>
 @import '@/assets/css/onBoard.css';
 @import '@/assets/css/Payroll.css';
 

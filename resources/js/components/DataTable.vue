@@ -1,7 +1,7 @@
 <template>
     <div id="leavesEmpTable_wrapper" class="dt-container dt-empty-footer">
         <div class="dt-layout-row dt-layout-table">
-                <table class="table text-center dataTable">
+                <table class="table text-center dataTable" style="width: 100% !important">
                     <thead>
                         <tr>
                             <th v-for="(header, index) in headers" :key="index" class="text-center"
@@ -243,7 +243,6 @@ defineExpose({
 </script>
 
 
-
 <style>
 @import "datatables.net-dt";
 
@@ -348,4 +347,5 @@ table.dataTable tbody tr td {
     align-items: center;
     gap: 10px;
 }
+
 </style>
