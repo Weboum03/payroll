@@ -98,8 +98,8 @@
                 <button type="button" v-if="can('Generate Payroll')" class="btn btn-primary PayrollBatchbtn"
                     @click="openModal">Create Payroll
                     Batch</button>
-                <button type="button" class="btn btn-primary JJAA"
-                    style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</button>
+                <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" class="btn btn-primary JJAA"
+                    style="padding: 8px; font-size: 13px;width: 80px;padding: 15px;">80JJAA*</a>
             </div>
 
             <div

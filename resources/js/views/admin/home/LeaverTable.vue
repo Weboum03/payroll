@@ -33,6 +33,9 @@
                                     <template v-slot:cell-start_date="{ row }">
                                         {{ row.deboard?.start_date }}
                                     </template>
+                                    <template v-slot:cell-created_at="{ row }">
+                                        {{ moment(row.deboard?.created_at).format('YYYY-MM-DD') }}
+                                    </template>
                                     <template v-slot:cell-final_employment_date="{ row }">
                                         {{ row.deboard?.final_employment_date }}
                                     </template>
@@ -60,6 +63,7 @@
     <script setup>
     import { ref, onMounted, defineProps, onUpdated, watch } from 'vue';
     import DataTable from '@/components/DataTable.vue';
+    import moment from 'moment';
     import 'datatables.net'; // Import DataTables.js library
     import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
     import $ from 'jquery';
@@ -104,10 +108,10 @@
     const tableHeaders = [
         { key: 'employee_id', label: 'Employee ID', sorting: true },
         { key: 'name', label: 'Employee Name', sorting: true },
-        { key: 'start_date', label: 'Date of Resignation' },
-        { key: 'final_employment_date', label: 'Last Notice Period Date as per master' },
-        { key: 'final_working_date', label: 'Notice Period Date Selected by Employee' },
-        { key: 'blank', label: 'Notice Period Date Approved Department Head' },
+        { key: 'created_at', label: 'Date of Resignation' },
+        { key: 'start_date', label: 'Last Notice Period Date as per master' },
+        { key: 'final_employment_date', label: 'Notice Period Date Selected by Employee' },
+        { key: 'final_working_date', label: 'Notice Period Date Approved Department Head' },
         { key: 'duration', label: 'Short Notice Pay in Days' },
     ];
 

@@ -108,7 +108,7 @@
                                 <div class="row">
                                     <div class="col input-group-fname">
                                         <Field required type="text" name="final_employment_date" class="input"
-                                            onfocus="(this.type='date')" autocomplete="off" v-model="leaveData.final_employment_date"
+                                            onfocus="(this.type='date')" autocomplete="off" v-model="final_employment_date" :value="final_employment_date" oninput="(this.type='date')"
                                             placeholder="Final Employment Date*" :disabled="leaveImmediately"
                                             :class="{ 'is-invalid': errors.final_employment_date }" />
                                         <label for="html" class="user-label ">Final Employment Date*</label>
@@ -117,7 +117,7 @@
 
                                     <div class="col input-group-fname">
                                         <Field required type="text" name="final_working_date" class="input"
-                                            onfocus="(this.type='date')" autocomplete="off" v-model="leaveData.final_working_date"
+                                            onfocus="(this.type='date')" autocomplete="off" v-model="final_working_date" :value="final_working_date"  oninput="(this.type='date')"
                                             placeholder="Final Working Date*" :disabled="leaveImmediately"
                                             :class="{ 'is-invalid': errors.final_working_date }" />
                                         <label for="html" class="user-label ">Final Working Date*</label>
@@ -364,35 +364,26 @@ const swal = inject('$swal')
 const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const valErrors = ref({});
-const leaveImmediately = ref(null)
-const leaveData = ref({
-    final_employment_date:'',
-    final_working_date: ''
-})
+const leaveImmediately = ref(false)
+const final_employment_date = ref('')
+const final_working_date = ref('')
 const deboard = ref('')
 
 
 watch(leaveImmediately, (current) => {
     if(current) {
         let currentDate = new Date();
-        var cyear = currentDate.toLocaleString("default", { year: "numeric" });
-        var month = currentDate.toLocaleString("default", { month: "2-digit" });
-        var day = currentDate.toLocaleString("default", { day: "2-digit" });
-        var formattedDate = cyear + "-" + month + "-" + day;
-        deboard.value =formattedDate
+        deboard.value = formattedDateFunction(currentDate)
     }
-    leaveData.value = {
-        final_employment_date:formattedDateFunction(deboard.value),
-        final_working_date: formattedDateFunction(deboard.value),
-    }
+    final_employment_date.value = formattedDateFunction(deboard.value)
+    final_working_date.value = formattedDateFunction(deboard.value)
+    console.log('formattedDateFunction(deboard.value)', formattedDateFunction(deboard.value))
 })
 
 watch(deboard, (current) => {
     if (leaveImmediately.value) {
-        leaveData.value = {
-            final_employment_date: formattedDateFunction(current),
-            final_working_date: formattedDateFunction(current),
-        }
+        final_employment_date.value = formattedDateFunction(deboard.value)
+        final_working_date.value = formattedDateFunction(deboard.value)
     }
 })
 const uploadComponent = ref([
@@ -448,7 +439,7 @@ const deleteInput = (id) => {
 };
 
 const formattedDateFunction = (value) => {
-      return moment(value).format('DD-MM-YYYY');;
+      return moment(value).format('YYYY-MM-DD');;
     }
 
 const schemas = [

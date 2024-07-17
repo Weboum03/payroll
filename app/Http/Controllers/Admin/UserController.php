@@ -486,11 +486,11 @@ class UserController extends BaseController
     {
         $input = $request->all();
         $rules = [
-            'final_working_date' => 'required|after:start_date',
+            'final_working_date' => 'required|after_or_equal:start_date',
         ];
 
         $message = [
-            'final_working_date.after' => 'Final Working date should be greater than De-Boarding date'
+            'final_working_date.after_or_equal' => 'Final Working date should be greater than De-Boarding date'
         ];
         $validator = Validator::make($input, $rules, $message);
 

@@ -31,7 +31,7 @@
             <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
                         <div style="font-size: 13px;margin-left: 10px;color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;opacity: 50%;line-height: 19.5px;">
                             July 2024 payroll from 1st July 2024 to 31st July 2024</div>
-                         <a href="#" style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
+                         <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
                             for deduction u/s 80JJAA for Hiring New Employee
                         </a>
 
@@ -115,7 +115,7 @@
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
                 
-                    <a  href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 8px; font-size: 13px;width: 80px;">80JJAA*</a>
+                    <a  href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 15px; font-size: 13px;width: 80px;">80JJAA*</a>
             </div>
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
@@ -342,7 +342,7 @@ const tableHeaders = [
     { key: 'wages', label: 'Gross Wages', sorting: true },
     { key: 'deduction', label: 'Deduction', sorting: true },
     { key: 'payout', label: 'Payout', sorting: true },
-    { key: 'salary_slip', label: 'Salary slip', sorting: true },
+    { key: 'salary_slip', label: 'Salary slip' },
     { key: 'download', label: 'Download' },
 ];
 
