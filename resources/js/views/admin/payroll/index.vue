@@ -8,11 +8,11 @@
     <div id="dashboard-table" class="container-fluid">
         <div id="Financial-year-dropdown">
             <span>Financial Year</span>
-            <span id="finYearDropdown"><select id="finYearDropdown1" class="FinanYear" 
+            <span id="finYearDropdown"><select id="finYearDropdown1" class="FinanYear" v-model="financialYear" 
                     style="height: 44px;width: 254px;font-size: 16px;font-weight: 500;font-family: sans-serif;padding: 10px 20px;border: none;border-radius: 5px;">
-                    <option value="2024">2024 - 2025</option>
-                    <option value="2023">2023 - 2024</option>
-                    <option value="2022">2022 - 2023</option>
+                    <option value=2024>2024 - 2025</option>
+                    <option value=2023>2023 - 2024</option>
+                    <option value=2022>2022 - 2023</option>
                 </select></span>
         </div>
 
@@ -55,7 +55,7 @@
                 <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <canvas class="payrolldata-chart"></canvas>
+                            <ChartGraph :key="tableKey" :totalEmployee="totalEmployee" :data="payrollchartData"></ChartGraph>
                         </div>
 
                         <div class="details">
@@ -175,7 +175,7 @@
                             v-slot="{ navigate }">
                             <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3; padding: 15px 30px;"></i>
                         </router-link>
-                        <span v-else>-</span>
+                        <span style="padding: 15px 30px;" v-else>-</span>
                     </template>
                 </DataTable>
             </div>
@@ -226,6 +226,7 @@ import * as yup from 'yup';
 import { Doughnut } from 'vue-chartjs'
 import $ from 'jquery';
 import DataTable from '@/components/DataTable.vue';
+import ChartGraph from './ChartGraph.vue';
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
 import LeaverTable from '@/views/admin/home/LeaverTable.vue';
@@ -249,11 +250,12 @@ const selectedMonth = ref({});
 const isModalTable = ref(false);
 const isLeaverModal = ref(false);
 const users = ref([])
+const tableKey = ref(0)
 const schema = yup.object({
     name: yup.string().required('Required'),
 });
 
-const financialYear = ref('')
+const financialYear = ref(new Date().getFullYear())
 let currentMonth = '';
 let currentYear = '';
 const months = ref([])
@@ -279,6 +281,10 @@ watch(success, (current, previous) => {
         isModalOpened.value = false;
         success.value = false;
     }
+})
+
+watch(financialYear, (value) => {
+    generateMonths(value);
 })
 
 const viewEmployeeData = async (month, type) => {
@@ -309,19 +315,6 @@ const filterData = (filterValues) => {
     getBatches(filterValues)
 }
 
-const filterRows2 = () => {
-    table2.value.filterData.filter.push({
-        key: "search",
-        value: searchQuery.value.toLowerCase(),
-    })
-    table2.value.filterPayload();
-};
-
-const filterData2 = async (filterValues) => {
-    Object.assign(filterValues, selectedMonth.value)
-    users.value = await getDashboardUsers(filterValues);
-}
-
 let totalEmployee = 0;
 const data = [253, 5];
 const payrollchartData = {
@@ -337,14 +330,10 @@ const getStatisticData = async (year, month) => {
     totalEmployee = employeeData.value.total_employee;
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
     payrollchartData.data = [processed, pending]
+    tableKey.value++;
 }
 
 onMounted(async () => {
-
-    let script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
-    document.head.appendChild(script);
-
     getBatches();
     let response = await getDashboardDetails();
     employeeData.value = response.data;
@@ -353,8 +342,7 @@ onMounted(async () => {
     totalEmployee = employeeData.value.total_employee;
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
     payrollchartData.data = [processed, pending]
-
-    loadLater()
+    tableKey.value++;
 });
 
 
@@ -378,18 +366,7 @@ const tableHeaders = [
     { key: 'download', label: 'Download' },
 ];
 
-const tableHeaders2 = [
-    { key: 'employee_id', label: 'Employee ID', sorting: true },
-    { key: 'name', label: 'Employee Name', sorting: true },
-    { key: 'company', label: 'Date of Resignation' },
-    { key: 'location', label: 'Last Notice Period Date as per master' },
-    { key: 'department', label: 'Notice Period Date Selected by Employee' },
-    { key: 'department', label: 'Notice Period Date Approved Department Head' },
-    { key: 'department', label: 'Short Notice Pay in Days' },
-];
-
 const navigateToDetailPage = (data) => {
-    console.log('navigate', data)
     router.push({ name: 'admin.PayrollBatchList', params: { id: data.id } });
 };
 
@@ -399,87 +376,24 @@ watch(pagelength, (current, previous) => {
     table.value.filterPayload();
 });
 
-function loadLater() {
-
-    const counter3 = {
-        id: "counter",
-        beforeDraw(chart, args, options) {
-            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-            ctx.save()
-            const yCenter = (height / 2) + top + 15;
-            ctx.font = '15px monospace'
-            ctx.fillStyle = 'black'
-            ctx.fillText(totalEmployee, '61', yCenter)
-        }
-    }
-    const counter4 = {
-        id: "counter",
-        beforeDraw(chart, args, options) {
-            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-            ctx.save()
-            const yCenter = (height / 2) + top - 7;
-            ctx.font = '11px monospace'
-            ctx.fillStyle = 'black'
-            ctx.fillText('Total Employees', '28', yCenter)
-        }
-    }
-
-    const payrollChart = document.querySelector(".payrolldata-chart");
-
-    new Chart(payrollChart, {
-        type: "doughnut",
-        data: {
-            labels: payrollchartData.labels,
-            datasets: [
-                {
-                    data: payrollchartData.data,
-                    backgroundColor: [     // Set background color for each label
-                        '#0492F5',   // Background color for "5 days absence"
-                        '#DAE1F3'    // Background color for "900 working days"
-                    ],
-                    cutout: '70%',
-                },
-
-            ],
-
-        },
-        options: {
-            borderRadius: 2,
-            hoverBorderWidth: 0,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.label; // Display only the label, without associated data
-                        }
-                    }
+const generateMonths = (value) => {
+    months.value = [];
+        const monthNames = [ 'Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',];
+        value = Number(value);
+        let currentYear = value + 1;
+        for (let year = value; year <= currentYear; year++) {
+            if (currentYear == year) {
+                for (let month = 1; month <= 3; month++) {
+                    months.value.push({ year, month, monthName : monthNames[month-1] });
                 }
-            },
-            rotation: 90,
-        },
-        plugins: [counter4, counter3]
-    });
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            } else {
+                for (let month = 4; month <= 12; month++) {
+                    months.value.push({ year, month, monthName : monthNames[month-1] });
+                }
+            }
+        }
+        return months;
+    }
 
 
 $(document).ready(function () {
@@ -505,42 +419,8 @@ $(document).ready(function () {
     // Append the formatted date to the label
     $('label[for="Year-Payrool-Batch"]').append(formattedDate);
 
-
-    function generateMonths() {
-        const monthNames = [ 'Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',];
-        let currentYear = 2025;
-        for (let year = 2024; year <= 2025; year++) {
-
-            if (currentYear == year) {
-                for (let month = 1; month <= 3; month++) {
-                    months.value.push({ year, month, monthName : monthNames[month-1] });
-                }
-            } else {
-                for (let month = 4; month <= 12; month++) {
-                    months.value.push({ year, month, monthName : monthNames[month-1] });
-                }
-            }
-        }
-        return months;
-    }
-
-    // Function to append months to the pagination
-    function appendMonths() {
-        const months = generateMonths();
-
-        console.log('months', months);
-        const monthNames = ['Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', ];
-        // const $div = $('.months-years');
-        // months.forEach(({ year, month }) => {
-        //     const $li = $('<li>').addClass('page-item');
-        //     const $a = $('<a>').addClass('page-link').attr('href', '#').text(`${String(monthNames[month - 1]).padStart(2, '0')}-${year}`);
-        //     $li.append($a);
-        //     $div.append($li); // Append list item to the div with class 'months-years'
-        //     $a.css('color', '#A8A8A8')
-        // });
-    }
     // Call the function to append months
-    appendMonths();
+    generateMonths(new Date().getFullYear());
 });
 </script>
 
