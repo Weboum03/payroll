@@ -34,6 +34,8 @@ Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('register', [AdminAuthController::class, 'register']);
 });
 
+$router->get('batches/{id}/donwload_doc', [BatchController::class, 'downloadDocument']);
+
 Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('logout', [AdminAuthController::class, 'logout']);
     $router->post('refresh', [AdminAuthController::class, 'refresh']);
@@ -64,6 +66,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->put('batches/{id}/download', [BatchController::class, 'downloadBatch']);
     $router->post('batches/{id}/import', [BatchController::class, 'importBatch']);
     $router->delete('batches/{id}/users/{userId}', [BatchController::class, 'deleteUserByBatch']);
+    // $router->get('batches/{id}/donwload_doc', [BatchController::class, 'downloadDocument']);
     $router->apiResource('leaves', LeaveController::class);
     $router->put('leave/bulk_update', [LeaveController::class, 'bulkUpdate']);
     $router->get('leaves/user/{userId}', [LeaveController::class, 'getByUser']);

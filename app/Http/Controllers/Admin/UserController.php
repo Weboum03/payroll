@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class UserController extends BaseController
 {
@@ -302,6 +303,8 @@ class UserController extends BaseController
                         if ($role) {
                             $jobRole = $role->id;
                         }
+
+
                         $dataToStore = [
                             'as_local' => false,
                             'first_name' => $user['first_name'],
@@ -313,7 +316,7 @@ class UserController extends BaseController
                             'role_id' => $jobRole,
                             'password' => $user['password'],
                             'gender' => $user['gender'],
-                            'dob' => date('Y-m-d', strtotime($user['date_of_birth'])),
+                            'dob' => Carbon::parse($user['date_of_birth']),
                             'secondary_email' => $user['secondory_email'],
                             'alternate_phone' => $user['alternate_mobile'],
                             'address' => $user['local_address_line_1'],
@@ -328,8 +331,8 @@ class UserController extends BaseController
                             'p_state' => $user['permanent_state'],
                             'p_country' => $user['permanent_country'],
                             'p_postcode' => $user['permanent_post_code'],
-                            'doj' => date('Y-m-d', strtotime($user['date_of_joining'])),
-                            'prob_end_date' => date('Y-m-d', strtotime($user['probation_end_date'])),
+                            'doj' => Carbon::parse($user['date_of_joining']),
+                            'prob_end_date' => Carbon::parse($user['probation_end_date']),
                             'company' => $user['company'],
                             'location' => $user['location'],
                             'qualification' => $user['qualification_degree'],
@@ -448,8 +451,8 @@ class UserController extends BaseController
             'Permanent State' => 'State',
             'Permanent Post Code' => '123456',
             'Employee ID' => '',
-            'Date of joining' => '01-01-2024',
-            'Probation End Date' => '01-01-2024',
+            'Date of joining' => '2024-01-01',
+            'Probation End Date' => '2024-01-01',
             'Company' => 'Company',
             'Location' => 'Location',
             'Qualification Degree' => '',

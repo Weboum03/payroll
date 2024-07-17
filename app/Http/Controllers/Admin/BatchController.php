@@ -10,6 +10,7 @@ use App\Models\Payroll;
 use App\Models\UserDetail;
 use App\Repositories\BatchRepository;
 use App\Services\Attendance\Models\AttendanceLog;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -189,6 +190,19 @@ class BatchController extends BaseController
         
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
+    }
+
+    public function downloadDocument($id, Request $request) {
+
+        $batch = $this->batchRepository->getById($id);
+
+        if(!$batch) {
+            return $this->sendError('Not found');
+        }
+
+        $data = [];
+        $pdf = Pdf::loadView('pdf.invoice', $data);
+        return $pdf->download('invoice.pdf');
     }
 
     public function downloadBatch($id, Request $request) {
