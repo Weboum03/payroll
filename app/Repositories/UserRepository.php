@@ -58,10 +58,13 @@ class UserRepository extends BaseRepository
         if($request->year && $request->month) {
             $date = $request->year.'-'.$request->month.'-01';
             $currentDate = Carbon::parse($date);
+
+            $currentMonthNew = Carbon::parse($date);
             $currentMonth = $currentDate->month;
             $currentYear = $currentDate->year;
         } else {
             $currentDate = Carbon::now();
+            $currentMonthNew = Carbon::now();
             // Get the current month and year
             $currentMonth = Carbon::now()->month;
             $currentYear = Carbon::now()->year;
@@ -69,7 +72,7 @@ class UserRepository extends BaseRepository
         
 
         // Get the previous month and year
-        $previousMonth = $currentDate->subMonth();
+        $previousMonth = $currentMonthNew->subMonth();
         $previousMonthNumber = $previousMonth->month;
         $previousMonthYear = $previousMonth->year;
 

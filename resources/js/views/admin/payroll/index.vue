@@ -173,7 +173,7 @@
                         <router-link v-if="row.status == 'Processed'"
                             :to="{ name: 'admin.PayrolldownloadProcess', params: { id: row.id } }" custom
                             v-slot="{ navigate }">
-                            <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3;"></i>
+                            <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3; padding: 15px 30px;"></i>
                         </router-link>
                         <span v-else>-</span>
                     </template>
