@@ -55,12 +55,21 @@ class UserRepository extends BaseRepository
 
     public function getDashboardInfo($request) {
 
-        // Get the current month and year
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
+        if($request->year && $request->month) {
+            $date = $request->year.'-'.$request->month.'-01';
+            $currentDate = Carbon::parse($date);
+            $currentMonth = $currentDate->month;
+            $currentYear = $currentDate->year;
+        } else {
+            $currentDate = Carbon::now();
+            // Get the current month and year
+            $currentMonth = Carbon::now()->month;
+            $currentYear = Carbon::now()->year;
+        }
+        
 
         // Get the previous month and year
-        $previousMonth = Carbon::now()->subMonth();
+        $previousMonth = $currentDate->subMonth();
         $previousMonthNumber = $previousMonth->month;
         $previousMonthYear = $previousMonth->year;
 
@@ -108,7 +117,7 @@ class UserRepository extends BaseRepository
         ->count();
         
         $lastMonth = [
-            'name' => 'June 2024',
+            'name' => $previousMonth->format('M Y'),
             'employees' => $previousUsersCount,
             'new_starter' => $previousUsersNewJoinCount,
             'leaver' => $previousLeaver,
@@ -116,7 +125,7 @@ class UserRepository extends BaseRepository
         ];
 
         $currentMonth = [
-            'name' => 'July 2024',
+            'name' => $currentDate->format('M Y'),
             'employees' => $usersCount,
             'new_starter' => $usersNewJoinCount,
             'leaver' => $leaver,

@@ -1,14 +1,19 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
     <div id="dashboard-table-info">
-            <span>Payroll</span>
-            <span>Payroll > Payroll Data</span>
+        <span>Payroll</span>
+        <span>Payroll > Payroll Data</span>
     </div>
 
     <div id="dashboard-table" class="container-fluid">
         <div id="Financial-year-dropdown">
             <span>Financial Year</span>
-            <span id="finYearDropdown"><select id="finYearDropdown1" class="FinanYear" style="height: 44px;width: 254px;fon;font-size: 16px;font-weight: 500;font-family: sans-serif;padding: 10px 20px;border: none;border-radius: 5px;"><option value="2023-2024">2023 - 2024</option><option value="value2">Option 2</option></select></span>
+            <span id="finYearDropdown"><select id="finYearDropdown1" class="FinanYear" 
+                    style="height: 44px;width: 254px;font-size: 16px;font-weight: 500;font-family: sans-serif;padding: 10px 20px;border: none;border-radius: 5px;">
+                    <option value="2024">2024 - 2025</option>
+                    <option value="2023">2023 - 2024</option>
+                    <option value="2022">2022 - 2023</option>
+                </select></span>
         </div>
 
         <nav aria-label="Page navigation example" class="d-flex flex-column"
@@ -20,7 +25,9 @@
                                 style="color: #000000;"></i></span>
                     </a>
                 </li>
-                <div class="months-years"></div>
+                <div class="months-years">
+                    <li v-for="month in months" class="page-item"><a class="page-link" href="#" @click="getStatisticData(month.year,month.month)" style="color: rgb(168, 168, 168);">{{ `${month.monthName}-${month.year}` }}</a></li>
+                </div>
                 <li class="page-item">
                     <a class="page-link page-item-next" href="#" aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-flip-horizontal fa-2xl"
@@ -29,11 +36,13 @@
                 </li>
             </ul>
             <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
-                        <div style="font-size: 13px;margin-left: 10px;color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;opacity: 50%;line-height: 19.5px;">
-                            July 2024 payroll from 1st July 2024 to 31st July 2024</div>
-                         <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
-                            for deduction u/s 80JJAA for Hiring New Employee
-                        </a>
+                <div
+                    style="font-size: 13px;margin-left: 10px;color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;opacity: 50%;line-height: 19.5px;">
+                    July 2024 payroll from 1st July 2024 to 31st July 2024</div>
+                <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank"
+                    style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
+                    for deduction u/s 80JJAA for Hiring New Employee
+                </a>
 
             </div>
         </nav>
@@ -85,23 +94,28 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Employee Count</th>
-                                <td @click="viewEmployeeData(6,'employees')">{{ employeeData?.last_month?.employees }}</td>
-                                <td @click="viewEmployeeData(7,'employees')">{{ employeeData?.current_month?.employees }}</td>
+                                <td @click="viewEmployeeData(6, 'employees')">{{ employeeData?.last_month?.employees }}
+                                </td>
+                                <td @click="viewEmployeeData(7, 'employees')">{{ employeeData?.current_month?.employees
+                                    }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">New Starter</th>
-                                <td @click="viewEmployeeData(6,'new_starter')">{{ employeeData?.last_month?.new_starter }}</td>
-                                <td @click="viewEmployeeData(7,'new_starter')">{{ employeeData?.current_month?.new_starter }}</td>
+                                <td @click="viewEmployeeData(6, 'new_starter')">{{ employeeData?.last_month?.new_starter
+                                    }}</td>
+                                <td @click="viewEmployeeData(7, 'new_starter')">{{
+                                    employeeData?.current_month?.new_starter }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Leaver</th>
-                                <td @click="viewEmployeeData(6,'leaver')">{{ employeeData?.last_month?.leaver }}</td>
-                                <td @click="viewEmployeeData(7,'leaver')">{{ employeeData?.current_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(6, 'leaver')">{{ employeeData?.last_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(7, 'leaver')">{{ employeeData?.current_month?.leaver }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">On Notice Period</th>
-                                <td @click="viewEmployeeData(6,'on_notice_period')">{{ employeeData?.last_month?.on_notice_period }}</td>
-                                <td @click="viewEmployeeData(7,'on_notice_period')" id="noticPrd-Table" >
+                                <td @click="viewEmployeeData(6, 'on_notice_period')">{{
+                                    employeeData?.last_month?.on_notice_period }}</td>
+                                <td @click="viewEmployeeData(7, 'on_notice_period')" id="noticPrd-Table">
                                     {{ employeeData?.current_month?.on_notice_period }}</td>
                             </tr>
                         </tbody>
@@ -114,50 +128,56 @@
                     Batch</button>
                 <button type="button" class="btn btn-secondary PayrollDocbtn" data-toggle="modal"
                     data-target="#PayrollBatch-modal" disabled>Download Documents</button>
-                
-                    <a  href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" type="button" class="btn btn-primary JJAA" data-toggle="modal" style="padding: 15px; font-size: 13px;width: 80px;">80JJAA*</a>
+
+                <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank" type="button"
+                    class="btn btn-primary JJAA" data-toggle="modal"
+                    style="padding: 15px; font-size: 13px;width: 80px;">80JJAA*</a>
             </div>
 
             <div style="font-size: 14px;padding: 12px;font-weight: 500;">Payroll Batch</div>
             <div data-v-5d5095b1="" id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
-        <div id="leavesEmpTable_filter" class="dataTables_filter" style="display: flex; justify-content: space-between;">
-            <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder="" aria-controls="Approvedleave-historyTable"></label>
-            <div class="container1" style="display: flex; gap: 1rem;">
-                <select id="dropdown2" class="allActivity" v-model="pagelength">
-                <option value="5">5 Activity</option>
-                <option value="10">10 Activity</option>
-                <option value="25">25 Activity</option>
-                <option value="50">50 Activity</option>
-            </select>
-            </div>
-        </div>
-            <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
-                @rowclick="navigateToDetailPage" ref="table">
-                <template v-slot:cell-sn="{ row }">
-                    {{ row.id }}
-                </template>
-                <template v-slot:cell-wages="{ row }">
-                    {{ row.wages || '0.00' }}
-                </template>
-                <template v-slot:cell-deduction="{ row }">
-                    {{ row.deduction || '0.00' }}
-                </template>
-                <template v-slot:cell-payout="{ row }">
-                    {{ row.payout || '0.00' }}
-                </template>
+                <div id="leavesEmpTable_filter" class="dataTables_filter"
+                    style="display: flex; justify-content: space-between;">
+                    <label>Search:<input type="search" v-model="searchQuery" @input="filterRows" class="" placeholder=""
+                            aria-controls="Approvedleave-historyTable"></label>
+                    <div class="container1" style="display: flex; gap: 1rem;">
+                        <select id="dropdown2" class="allActivity" v-model="pagelength">
+                            <option value="5">5 Activity</option>
+                            <option value="10">10 Activity</option>
+                            <option value="25">25 Activity</option>
+                            <option value="50">50 Activity</option>
+                        </select>
+                    </div>
+                </div>
+                <DataTable v-if="batches?.data" :headers="tableHeaders" :rows="batches" @filter="filterData"
+                    @rowclick="navigateToDetailPage" ref="table">
+                    <template v-slot:cell-sn="{ row }">
+                        {{ row.id }}
+                    </template>
+                    <template v-slot:cell-wages="{ row }">
+                        {{ row.wages || '0.00' }}
+                    </template>
+                    <template v-slot:cell-deduction="{ row }">
+                        {{ row.deduction || '0.00' }}
+                    </template>
+                    <template v-slot:cell-payout="{ row }">
+                        {{ row.payout || '0.00' }}
+                    </template>
 
-                <template v-slot:cell-salary_slip="{ row }" class="salSlip">
-                    <span v-if="row.status == 'Processed'">released</span>
-                    <span v-else>Not Released</span>
-                </template>
-          
-                <template v-slot:cell-download="{ row }">
-                    <router-link v-if="row.status == 'Processed'" :to="{ name: 'admin.PayrolldownloadProcess', params: {id: row.id}}" custom v-slot="{ navigate }">
-                        <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3;"></i>
-                    </router-link>
-                    <span v-else>-</span>
-                </template>
-            </DataTable>
+                    <template v-slot:cell-salary_slip="{ row }" class="salSlip">
+                        <span v-if="row.status == 'Processed'">released</span>
+                        <span v-else>Not Released</span>
+                    </template>
+
+                    <template v-slot:cell-download="{ row }">
+                        <router-link v-if="row.status == 'Processed'"
+                            :to="{ name: 'admin.PayrolldownloadProcess', params: { id: row.id } }" custom
+                            v-slot="{ navigate }">
+                            <i @click="navigate" class="fa-solid fa-download fa-lg" style="color: #03A9F3;"></i>
+                        </router-link>
+                        <span v-else>-</span>
+                    </template>
+                </DataTable>
             </div>
         </div>
     </div>
@@ -193,9 +213,9 @@
         </div>
     </div>
 
-    <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable=false"></UserTable>
+    <UserTable v-if="isModalTable" :data="selectedMonth" @close="isModalTable = false"></UserTable>
 
-    <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal=false"></LeaverTable>
+    <LeaverTable v-if="isLeaverModal" :data="selectedMonth" @close="isLeaverModal = false"></LeaverTable>
 </template>
 
 <script setup>
@@ -233,8 +253,10 @@ const schema = yup.object({
     name: yup.string().required('Required'),
 });
 
+const financialYear = ref('')
 let currentMonth = '';
 let currentYear = '';
+const months = ref([])
 // Get the current date
 const currentDate = new Date();
 const pagelength = ref(5);
@@ -260,8 +282,8 @@ watch(success, (current, previous) => {
 })
 
 const viewEmployeeData = async (month, type) => {
-    selectedMonth.value = {month: month, type: type}
-    if(type == 'leaver' || type == 'on_notice_period') {
+    selectedMonth.value = { month: month, type: type }
+    if (type == 'leaver' || type == 'on_notice_period') {
         isLeaverModal.value = true;
     } else {
         isModalTable.value = true;
@@ -307,12 +329,22 @@ const payrollchartData = {
     data: data,
 };
 
-onMounted(async() => {
+const getStatisticData = async (year, month) => {
+    let response = await getDashboardDetails({year, month});
+    employeeData.value = response.data;
+    var processed = employeeData.value.batch_processed;
+    var pending = employeeData.value.batch_pending;
+    totalEmployee = employeeData.value.total_employee;
+    payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
+    payrollchartData.data = [processed, pending]
+}
+
+onMounted(async () => {
 
     let script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
     document.head.appendChild(script);
-    
+
     getBatches();
     let response = await getDashboardDetails();
     employeeData.value = response.data;
@@ -327,7 +359,7 @@ onMounted(async() => {
 
 
 watchEffect(() => {
-    if(table.value) { table.value.pageLength = 5; }
+    if (table.value) { table.value.pageLength = 5; }
 })
 const emit = defineEmits(["modal-close"]);
 const target = ref(null)
@@ -369,67 +401,67 @@ watch(pagelength, (current, previous) => {
 
 function loadLater() {
 
-const counter3 = {
-    id: "counter",
-    beforeDraw(chart, args, options) {
-        const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-        ctx.save()
-        const yCenter = (height / 2) + top + 15;
-        ctx.font = '15px monospace'
-        ctx.fillStyle = 'black'
-        ctx.fillText(totalEmployee, '61', yCenter)
+    const counter3 = {
+        id: "counter",
+        beforeDraw(chart, args, options) {
+            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+            ctx.save()
+            const yCenter = (height / 2) + top + 15;
+            ctx.font = '15px monospace'
+            ctx.fillStyle = 'black'
+            ctx.fillText(totalEmployee, '61', yCenter)
+        }
     }
-}
-const counter4 = {
-    id: "counter",
-    beforeDraw(chart, args, options) {
-        const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-        ctx.save()
-        const yCenter = (height / 2) + top - 7;
-        ctx.font = '11px monospace'
-        ctx.fillStyle = 'black'
-        ctx.fillText('Total Employees', '28', yCenter)
+    const counter4 = {
+        id: "counter",
+        beforeDraw(chart, args, options) {
+            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
+            ctx.save()
+            const yCenter = (height / 2) + top - 7;
+            ctx.font = '11px monospace'
+            ctx.fillStyle = 'black'
+            ctx.fillText('Total Employees', '28', yCenter)
+        }
     }
-}
 
-const payrollChart = document.querySelector(".payrolldata-chart");
+    const payrollChart = document.querySelector(".payrolldata-chart");
 
-new Chart(payrollChart, {
-    type: "doughnut",
-    data: {
-        labels: payrollchartData.labels,
-        datasets: [
-            {
-                data: payrollchartData.data,
-                backgroundColor: [     // Set background color for each label
-                    '#0492F5',   // Background color for "5 days absence"
-                    '#DAE1F3'    // Background color for "900 working days"
-                ],
-                cutout: '70%',
-            },
+    new Chart(payrollChart, {
+        type: "doughnut",
+        data: {
+            labels: payrollchartData.labels,
+            datasets: [
+                {
+                    data: payrollchartData.data,
+                    backgroundColor: [     // Set background color for each label
+                        '#0492F5',   // Background color for "5 days absence"
+                        '#DAE1F3'    // Background color for "900 working days"
+                    ],
+                    cutout: '70%',
+                },
 
-        ],
+            ],
 
-    },
-    options: {
-        borderRadius: 2,
-        hoverBorderWidth: 0,
-        plugins: {
-            legend: {
-                display: false,
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return context.label; // Display only the label, without associated data
+        },
+        options: {
+            borderRadius: 2,
+            hoverBorderWidth: 0,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return context.label; // Display only the label, without associated data
+                        }
                     }
                 }
-            }
+            },
+            rotation: 90,
         },
-        rotation: 90,
-    },
-    plugins: [counter4, counter3]
-});
+        plugins: [counter4, counter3]
+    });
 
 }
 
@@ -452,54 +484,63 @@ new Chart(payrollChart, {
 
 $(document).ready(function () {
 
-// Get the current date
-const currentDate = new Date();
+    // Get the current date
+    const currentDate = new Date();
 
-// Array of month names
-const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // Array of month names
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-// Get the current month (returns a number between 0 and 11)
-const currentMonthIndex = currentDate.getMonth();
+    // Get the current month (returns a number between 0 and 11)
+    const currentMonthIndex = currentDate.getMonth();
 
-// Get the month abbreviation using the current month index
-const currentMonthAbbreviation = monthNames[currentMonthIndex];
+    // Get the month abbreviation using the current month index
+    const currentMonthAbbreviation = monthNames[currentMonthIndex];
 
-// Get the current year
-const currentYear = currentDate.getFullYear();
+    // Get the current year
+    const currentYear = currentDate.getFullYear();
 
-// Combine the current month abbreviation and year
-const formattedDate = `${currentMonthAbbreviation} ${currentYear}`;
+    // Combine the current month abbreviation and year
+    const formattedDate = `${currentMonthAbbreviation} ${currentYear}`;
 
-// Append the formatted date to the label
-$('label[for="Year-Payrool-Batch"]').append(formattedDate);
+    // Append the formatted date to the label
+    $('label[for="Year-Payrool-Batch"]').append(formattedDate);
 
 
-function generateMonths() {
-  const months = [];
-  const monthNames = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar', ];
-  for (let year = 2023; year <= 2024; year++) {
-    for (let month = 1; month <= 12; month++) {
-      months.push({ year, month });
+    function generateMonths() {
+        const monthNames = [ 'Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',];
+        let currentYear = 2025;
+        for (let year = 2024; year <= 2025; year++) {
+
+            if (currentYear == year) {
+                for (let month = 1; month <= 3; month++) {
+                    months.value.push({ year, month, monthName : monthNames[month-1] });
+                }
+            } else {
+                for (let month = 4; month <= 12; month++) {
+                    months.value.push({ year, month, monthName : monthNames[month-1] });
+                }
+            }
+        }
+        return months;
     }
-  }
-  return months;
-}
 
-// Function to append months to the pagination
-function appendMonths() {
-  const months = generateMonths();
-  const monthNames = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','Jan', 'Feb', 'Mar', ];
-  const $div = $('.months-years');
-  months.forEach(({ year, month }) => {
-    const $li = $('<li>').addClass('page-item');
-    const $a = $('<a>').addClass('page-link').attr('href', '#').text(`${String(monthNames[month - 1]).padStart(2, '0')}-${year}`);
-    $li.append($a);
-    $div.append($li); // Append list item to the div with class 'months-years'
-    $a.css('color', '#A8A8A8')
-  });
-}
-// Call the function to append months
-appendMonths();
+    // Function to append months to the pagination
+    function appendMonths() {
+        const months = generateMonths();
+
+        console.log('months', months);
+        const monthNames = ['Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', ];
+        // const $div = $('.months-years');
+        // months.forEach(({ year, month }) => {
+        //     const $li = $('<li>').addClass('page-item');
+        //     const $a = $('<a>').addClass('page-link').attr('href', '#').text(`${String(monthNames[month - 1]).padStart(2, '0')}-${year}`);
+        //     $li.append($a);
+        //     $div.append($li); // Append list item to the div with class 'months-years'
+        //     $a.css('color', '#A8A8A8')
+        // });
+    }
+    // Call the function to append months
+    appendMonths();
 });
 </script>
 
@@ -507,9 +548,8 @@ appendMonths();
 @import '@/assets/css/onBoard.css';
 @import '@/assets/css/Payroll.css';
 
-.JJAA {
+.JJAA {}
 
-}
 .modal-mask {
     position: fixed;
     z-index: 1;
@@ -545,6 +585,7 @@ appendMonths();
     font-size: 16px;
     line-height: 24px;
 }
+
 #leavesEmpTable_filter {
     float: left;
     background-color: #dae1f3;
@@ -552,6 +593,7 @@ appendMonths();
     padding: 18px 21px;
     align-items: center !important;
 }
+
 .allActivity {
     height: 40px;
     width: 136px;
