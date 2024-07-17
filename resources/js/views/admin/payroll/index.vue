@@ -38,7 +38,7 @@
             <div class="d-flex justify-content-between" style="flex-wrap: wrap;">
                 <div
                     style="font-size: 13px;margin-left: 10px;color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;opacity: 50%;line-height: 19.5px;">
-                    July 2024 payroll from 1st July 2024 to 31st July 2024</div>
+                    {{ employeeData?.current_month?.name }} payroll from {{ moment(employeeData?.date?.from).format("dddd, MMMM Do YYYY") }} to {{ employeeData?.date?.to }}</div>
                 <a href="https://cleartax.in/s/section-80jja-income-tax-act" target="_blank"
                     style="font-size: 13px; margin-right:20px; color:#2DB9F8; font-weight: 500; font-family: sans-serif;text-decoration: none;line-height: 19.5px;">Check
                     for deduction u/s 80JJAA for Hiring New Employee
@@ -225,6 +225,7 @@ import * as yup from 'yup';
 // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 import $ from 'jquery';
+import moment from 'moment';
 import DataTable from '@/components/DataTable.vue';
 import ChartGraph from './ChartGraph.vue';
 import useBatch from "@/composables/useBatch";

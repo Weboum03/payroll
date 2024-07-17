@@ -136,6 +136,7 @@ class UserRepository extends BaseRepository
         ];
 
         return [
+            'date' => ['from' => $currentDate->startOfMonth()->toDateString(), 'to' => $currentDate->endOfMonth()->toDateString()],
             'total_employee' => $totalUserCount,
             'batch_processed' => $batchCount,
             'batch_pending' => $batchPendingCount,
