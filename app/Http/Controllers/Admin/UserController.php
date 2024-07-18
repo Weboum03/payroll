@@ -304,6 +304,16 @@ class UserController extends BaseController
             $mode = $request->mode;
         }
         $file = $request->file("attachment");
+        
+        $mimeType = $file->getMimeType();
+        $acceptedMimeTypes = [
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ];
+        if (!in_array($mimeType, $acceptedMimeTypes)) {
+            return $this->sendError('Please upload excel file only.');
+        }
+    
         $filepath = $file->getPathname();
 
         $array = (new UsersImport)->toCollection($file);
@@ -314,18 +324,90 @@ class UserController extends BaseController
             if ($array && $array[0]) {
                 $array[0]->each(function ($user) {
                     $randomNumber = floor(rand() / getrandmax() * 10000000);
-                    if($user['employee_id'] == '') {
+                    
+                    if(!is_array($user)){
+                        throw new \Exception('Employee ID not exist.');
+                    }
+                    
+                    if(array_key_exists("employee_id",$user) && (!is_array($user))){
+                        throw new \Exception('Employee ID not exist.');
+                    }
+                    elseif($user['employee_id'] == '') {
                         $user['employee_id'] = $randomNumber;
                     }
+                       
                     $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
                     if (!$existUser) {
+                        
+                        
+                        if($user['date_of_joining'] == ''){
+                            $errorMsg = 'Date of joining field is required.';
+							throw new \Exception($errorMsg);
+                        }
+                        if($user['probation_end_date'] == ''){
+                            $errorMsg = 'Probation end date field is required.';
+							throw new \Exception($errorMsg);
+                        }
+                        
+                        
                         $jobRole = null;
                         $role = Role::where('name', $user['job_role'])->first();
                         if ($role) {
                             $jobRole = $role->id;
                         }
+                        
+                        
+						// check immediate_manager_employee_code 
+						$immediate_manager = $user['immediate_manager'];
+						$immediate_manager_emp_code = $user['immediate_manager_employee_code'];
+						
+						if($immediate_manager == '' && $immediate_manager_emp_code == ''){
+							$immediate_manager_emp_code = $immediate_manager = null;
+						}
+						elseif(($immediate_manager == '' && $immediate_manager_emp_code != '') || ($immediate_manager != '' && $immediate_manager_emp_code == '')){
+							$errorMsg = 'Immediate manager and his employee code both are required or both should be blank.';
+							throw new \Exception($errorMsg);
+						}
+						else{
+							$existUser = User::Where('employee_id', $immediate_manager_emp_code)->exists();
+							$role = Role::where('name', $immediate_manager)->first();
+							if (!$existUser) {
+								$errorMsg = 'Immediate manager employee code "'.$immediate_manager_emp_code.'" not exist';
+								throw new \Exception($errorMsg);
+							} elseif (!$role) {
+								$errorMsg = 'Immediate manager role "'.$immediate_manager.'" not exist';
+								throw new \Exception($errorMsg);
+							} else {
+								$immediate_manager = $role->id;
+							}
+						}
+						
+						// check leave_approving_authority_employee_code 
+						$leave_approving_authority = $user['leave_approving_authority'];
+						$leave_approve_emp_code = $user['leave_approving_authority_employee_code'];
+						
+						if($leave_approving_authority == '' && $leave_approve_emp_code == ''){
+							$leave_approve_emp_code = $leave_approving_authority = null;
+						}
+						elseif(($leave_approving_authority == '' && $leave_approve_emp_code != '') || ($leave_approving_authority != '' && $leave_approve_emp_code == '')){
+							$errorMsg = 'Leave approving authority and his employee code both are required or both should be blank.';
+							throw new \Exception($errorMsg);
+						}
+						else{
+							$existUser = User::Where('employee_id', $leave_approve_emp_code)->exists();
+							$role = Role::where('name', $leave_approving_authority)->first();
+							if (!$existUser) {
+								$errorMsg = 'Leave approving authority employee code "'.$leave_approve_emp_code.'" not exist';
+								throw new \Exception($errorMsg);
+							} elseif (!$role) {
+								$errorMsg = 'Leave approving authority role "'.$leave_approving_authority.'" not exist';
+								throw new \Exception($errorMsg);
+							} else {
+								$leave_approving_authority = $role->id;
+							}
+						}
 
-
+                        
                         $dataToStore = [
                             'as_local' => false,
                             'first_name' => $user['first_name'],
@@ -358,10 +440,10 @@ class UserController extends BaseController
                             'location' => $user['location'],
                             'qualification' => $user['qualification_degree'],
                             'experience' => $user['work_experience'],
-                            'immediate_manager' => $user['immediate_manager'],
-                            'immediate_manager_code' => $user['immediate_manager_employee_code'],
-                            'leave_approving_auth' => $user['leave_approving_authority'],
-                            'leave_approving_code' => $user['leave_approving_authority_employee_code'],
+                            'immediate_manager' => $immediate_manager,
+                            'immediate_manager_code' => $immediate_manager_emp_code,
+                            'leave_approving_auth' => $leave_approving_authority,
+                            'leave_approving_code' => $leave_approve_emp_code,
                             'department' => $user['department'],
                             'job_role' => $user['job_role'],
                             'grade' => $user['grade'],
@@ -370,10 +452,10 @@ class UserController extends BaseController
                             'pan_number' => $user['pan_number'],
                             'holiday_year' => $user['holiday_year'],
                             'work_pattern' => $user['work_pattern'],
-                            'earning_leave_entitlement' => $user['annual_earned_leave_entilement'],
-                            'this_year' => $user['this_year'],
-                            'next_year' => $user['next_year'],
-                            'salary' => $user['salary'],
+                            'earning_leave_entitlement' => is_numeric($user['annual_earned_leave_entilement']) ? $user['annual_earned_leave_entilement'] : 0,
+                            'this_year' => is_numeric($user['this_year']) ? $user['this_year'] : 0, 
+                            'next_year' => is_numeric($user['next_year']) ? $user['next_year'] : 0,
+                            'salary' => is_numeric($user['salary']) ? $user['salary'] : 0,
                         ];
     
                         $userData = $this->userRepository->create($dataToStore);
@@ -392,7 +474,7 @@ class UserController extends BaseController
         } catch (\Exception $e) {
             DB::rollback();
             // something went wrong
-            // return $this->sendError($e->getMessage());
+             return $this->sendError($e->getMessage());
             return $this->sendError('Invalid Data format');
         }
 
@@ -461,19 +543,19 @@ class UserController extends BaseController
             'Password' => '123456',
             'Local Address Line 1' => 'Address 1',
             'Local Address Line 2' => 'Address 2',
-            'Local City/Town' => 'City',
-            'Local Country' => 'India',
-            'Local State' => 'State',
+            'Local City/Town' => 'Noida',
+            'Local Country' => 'IN',
+            'Local State' => 'UP',
             'Local Post Code' => '123456',
             'Permanent Address Line 1' => 'Address 1',
             'Permanent Address Line 2' => 'Address 2',
-            'Permanent City/Town' => 'City',
-            'Permanent Country' => 'India',
-            'Permanent State' => 'State',
+            'Permanent City/Town' => 'Noida',
+            'Permanent Country' => 'IN',
+            'Permanent State' => 'UP',
             'Permanent Post Code' => '123456',
             'Employee ID' => '',
-            'Date of joining' => '2024-01-01',
-            'Probation End Date' => '2024-01-01',
+            'Date of joining' => date('d-m-Y'),
+            'Probation End Date' => date('d-m-Y'),
             'Company' => 'Company',
             'Location' => 'Location',
             'Qualification Degree' => '',

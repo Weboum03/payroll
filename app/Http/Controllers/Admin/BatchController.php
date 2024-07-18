@@ -44,6 +44,21 @@ class BatchController extends BaseController
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
+    public function activityLogs(Request $request)
+    {
+        $response = [
+            'success' => true,
+            'message' => '',
+            'totalRecords' => 0,
+            'currentPage' => 1,
+            'lastPage' => 1,
+            'perPage' => 10,
+            'data' => []
+        ];
+
+        return response()->json($response, 200);
+    }
+
     public function getBatchFormUser($id, Request $request)
     {
         $users = $this->batchRepository->getBatchFormUser($id, $request);

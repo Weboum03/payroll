@@ -257,6 +257,7 @@ class UserRepository extends BaseRepository
         if($request->month) {
             // Get the previous month and year
             $previousMonth = Carbon::parse($request->month);
+            // dd($previousMonth);
             $month = $previousMonth->month;
             $year = $previousMonth->year;
         } else {

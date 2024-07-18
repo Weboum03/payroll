@@ -27,6 +27,8 @@ const getApiPath = {
 
     getBadgeUsers(id,params = '') { return apiService.get(`admin/batches/${id}/users${params}`); },
 
+    getBadgeLogs(id,params = '') { return apiService.get(`admin/batches/${id}/logs${params}`); },
+
     getBatchFormUser(id,params = '') { return apiService.get(`admin/batches/${id}/process_users${params}`); },
 
     deleteBatchUser(id, userId) { return apiService.delete(`admin/batches/${id}/users/${userId}`); },
