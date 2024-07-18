@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\BatchExport;
 use App\Exports\BatchUserExport;
+use App\Helpers\Helper;
 use App\Http\Controllers\BaseController;
 use App\Imports\UsersImport;
 use App\Models\Payroll;
@@ -14,6 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -431,6 +433,17 @@ class BatchController extends BaseController
         //     return $this->sendError($validator->errors()->first(), $validator->errors());
         // }
         $user = $this->batchRepository->create($input);
+
+        $loginUser = Auth::user();
+        
+        $data = [
+            'title' => 'Batch Created',
+            'message' => $loginUser->name." created batch ".$input['name'],
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
+
         return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }
 
@@ -458,7 +471,20 @@ class BatchController extends BaseController
      */
     public function destroy(string $id)
     {
+        $loginUser = Auth::user();
+
+        $batch = $this->batchRepository->getSinglebatchDetail($id);
+
         $this->batchRepository->deleteById($id);
+
+        $data = [
+            'title' => 'Batch Created',
+            'message' => $loginUser->name." created batch ".$batch->name,
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
+
         return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\BaseController;
 use App\Models\LeaveApplication;
 use App\Repositories\LeaveRepository;
@@ -68,6 +69,16 @@ class LeaveController extends BaseController
         }
         $leave->save();
         $userInfo->decrement('earning_leave_entitlement', $leave->duration);
+
+        $loginUser = Auth::user();
+
+        $data = [
+            'title' => 'Leave Request',
+            'message' => $loginUser->name." requested leave",
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
         
         return $this->sendResponse($leave, __('ApiMessage.customerAdd'));
     }
