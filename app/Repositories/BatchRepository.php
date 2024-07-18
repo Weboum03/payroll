@@ -93,12 +93,12 @@ class BatchRepository extends BaseRepository
     }
 
     public function getActvityLogs($id) {
-        return Activity::when(request()->search, function ($q) {
+        return Activity::where('subject_id', $id)->when(request()->search, function ($q) {
             return $q->where(function ($q) {
                 return $q->where('log_name', 'like', '%' . request()->search . '%')
                 ->orWhere('description', 'like', '%' . request()->search . '%');
             });
-        })->paginate(10);
+        })->latest()->paginate(10);
         //return Activity::where('subject_id', $id)->where('log_name', 'LIKE', 'batch_logs')->get();
     }
 

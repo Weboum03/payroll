@@ -132,6 +132,14 @@ class BatchController extends BaseController
             });
         }
 
+        $loginUser = Auth::user();
+        activity('batch_logs')
+        ->performedOn($batch)
+        ->causedBy($loginUser)
+        ->withProperties([])
+        ->log('Batch Adjustment');
+
+
         return $this->sendResponse($array[0], 'Success');
     }
 
@@ -230,6 +238,14 @@ class BatchController extends BaseController
 
         $data = [];
         $pdf = Pdf::loadView('pdf.invoice', $data);
+
+        $loginUser = Auth::user();
+        activity('batch_logs')
+        ->performedOn($batch)
+        ->causedBy($loginUser)
+        ->withProperties([])
+        ->log('Document Downloaded');
+
         return $pdf->download('invoice.pdf');
     }
 
@@ -277,6 +293,13 @@ class BatchController extends BaseController
 
         // return $this->sendResponse($excel, 'Success');
         Excel::store(new BatchUserExport($excel), 'batch.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+
+        $loginUser = Auth::user();
+        activity('batch_logs')
+        ->performedOn($batch)
+        ->causedBy($loginUser)
+        ->withProperties([])
+        ->log('Batch Downloaded');
 
         return $this->sendResponse(url('/uploads/batch.xlsx'), 'Success');
     }
@@ -412,6 +435,15 @@ class BatchController extends BaseController
         if($addedUser == 0) {
             return $this->sendError('Employees are not available to add in this batch');
         }
+
+        $loginUser = Auth::user();
+
+        activity('batch_logs')
+        ->performedOn($batch)
+        ->causedBy($loginUser)
+        ->withProperties([])
+        ->log('Add Employee to the batch');
+        
         return $this->sendResponse($addedUser.' Employees were added to the payroll batch successfully.', 'Success');
     }
 
@@ -423,6 +455,15 @@ class BatchController extends BaseController
         }
         $batch->status = 'Processed';
         $batch->save();
+
+        $loginUser = Auth::user();
+
+        activity('batch_logs')
+        ->performedOn($batch)
+        ->causedBy($loginUser)
+        ->withProperties([])
+        ->log('Batch Proccessed');
+        
         return $this->sendSuccess('Success');
     }
 

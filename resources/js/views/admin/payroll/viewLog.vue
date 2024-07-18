@@ -36,8 +36,8 @@
                 <template v-slot:cell-doj="{ row }">
                     {{ row.info?.doj }}
                 </template>
-                <template v-slot:cell-role="{ row }">
-                    {{ row.role?.name }}
+                <template v-slot:cell-date="{ row }">
+                    {{ moment(row.created_at).format('YYYY-MM-DD') }}
                 </template>
                 <template v-slot:cell-action="{ row }">
                     <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
@@ -56,6 +56,7 @@ import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
 const { items: batches, item: batch, fetchOne: getBatch, getBatchLogs, loading, success } = useBatch()
 import { useAbility } from '@casl/vue';
+import moment from 'moment';
 const route = useRoute()
 const router = useRouter();
 const table = ref(null)
@@ -81,9 +82,10 @@ onMounted( async () => {
     tableHeaders.value = [
         { key: 'log_name', label: 'Log' },
         { key: 'description', label: 'Description' },
+        { key: 'date', label: 'Date' },
     ];
     getBatch(route.params.id)
-    logs.value = await getBatchLogs();
+    logs.value = await getBatchLogs(route.params.id);
     console.log('logs', logs)
 });
 
