@@ -52,8 +52,10 @@ export default function useBatch() {
     const getBatchLogs = async (id, filters=[]) => {
         loading.value = true;
         try {
+            console.log('queryString', filters)
             let queryString = new URLSearchParams(filters).toString();
             if(queryString) { queryString = '?'+ queryString }
+            
             return await getApiPath.getBadgeLogs(id, queryString);
         } catch (err) {
             error.value = err;

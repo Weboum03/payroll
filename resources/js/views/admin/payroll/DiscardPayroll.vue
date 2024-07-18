@@ -5,9 +5,6 @@
         <span>Payroll > Logs</span>
     </div>
     <div id="dashboard-table" class="container-fluid">
-        
-
-
         <div class="header d-flex flex-column">
 
             <div class="d-flex justify-content-start align-items-center" style="background-color: white;gap: 33%;height: 85px;">
@@ -70,7 +67,7 @@ const tableHeaders = ref([])
 const logs = ref({})
 
 const filterData = async(filterValues) => {
-    logs.value = await getBatchLogs(filterValues)
+    logs.value = await getBatchLogs(route.params.id, filterValues)
 }
 
 const filterRows = () => {
@@ -82,14 +79,9 @@ const filterRows = () => {
 };
 onMounted( async () => {
     tableHeaders.value = [
-        { key: 'name', label: 'Employee' },
-        { key: 'type', label: 'Leave Type' },
-        { key: 'from', label: 'From', sorting: true },
-        { key: 'to', label: 'To', sorting: true },
-        { key: 'duration', label: 'No of Days' },
-        { key: 'status', label: 'Status', sorting: true },
+        { key: 'log_name', label: 'Log' },
+        { key: 'description', label: 'Description' },
     ];
-    tableHeaders.value.push({ key: 'action', label: 'Action' });
     getBatch(route.params.id)
     logs.value = await getBatchLogs();
     console.log('logs', logs)

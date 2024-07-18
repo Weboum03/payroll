@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Activitylog\Models\Activity;
 
 class BatchController extends BaseController
 {
@@ -44,19 +45,11 @@ class BatchController extends BaseController
         return $this->sendResponseWithPagination($users,__('ApiMessage.retrievedMessage'));
     }
 
-    public function activityLogs(Request $request)
+    public function activityLogs($id, Request $request)
     {
-        $response = [
-            'success' => true,
-            'message' => '',
-            'totalRecords' => 0,
-            'currentPage' => 1,
-            'lastPage' => 1,
-            'perPage' => 10,
-            'data' => []
-        ];
+        $logs = $this->batchRepository->getActvityLogs($id);
 
-        return response()->json($response, 200);
+        return $this->sendResponseWithPagination($logs,__('ApiMessage.retrievedMessage'));
     }
 
     public function getBatchFormUser($id, Request $request)
@@ -458,6 +451,12 @@ class BatchController extends BaseController
         ];
 
         Helper::sendNotificationToAll($data);
+
+        activity('batch_logs')
+        ->performedOn($user)
+        ->causedBy($loginUser)
+        ->withProperties(['customProperty' => 'customValue'])
+        ->log('Batch Created');
 
         return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }

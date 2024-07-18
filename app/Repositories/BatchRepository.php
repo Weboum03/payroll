@@ -9,6 +9,7 @@ use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Activitylog\Models\Activity;
 
 /**
  * Class UserRepository.
@@ -89,6 +90,16 @@ class BatchRepository extends BaseRepository
             return $q->where('role_id', $request->role);
         })
         ->when($request->paginate , function ($q) { return $q->paginate(10); }, function ($q) { return $q->get(); });
+    }
+
+    public function getActvityLogs($id) {
+        return Activity::when(request()->search, function ($q) {
+            return $q->where(function ($q) {
+                return $q->where('log_name', 'like', '%' . request()->search . '%')
+                ->orWhere('description', 'like', '%' . request()->search . '%');
+            });
+        })->paginate(10);
+        //return Activity::where('subject_id', $id)->where('log_name', 'LIKE', 'batch_logs')->get();
     }
 
     public function listing($request)
