@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-
+                {{ moment(). subtract(1, 'months'). employeeData?.date?.from }}
 
                 <div class="FinencialTable" v-if="employeeData">
                     <table class="table table-bordered" style="margin-top: 14px;">
@@ -94,28 +94,28 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Employee Count</th>
-                                <td @click="viewEmployeeData(6, 'employees')">{{ employeeData?.last_month?.employees }}
+                                <td @click="viewEmployeeData(getPreviousMonthDate(employeeData?.date?.from), 'employees')">{{ employeeData?.last_month?.employees }}
                                 </td>
-                                <td @click="viewEmployeeData(7, 'employees')">{{ employeeData?.current_month?.employees
+                                <td @click="viewEmployeeData(employeeData?.date?.from, 'employees')">{{ employeeData?.current_month?.employees
                                     }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">New Starter</th>
-                                <td @click="viewEmployeeData(6, 'new_starter')">{{ employeeData?.last_month?.new_starter
+                                <td @click="viewEmployeeData(getPreviousMonthDate(employeeData?.date?.from), 'new_starter')">{{ employeeData?.last_month?.new_starter
                                     }}</td>
-                                <td @click="viewEmployeeData(7, 'new_starter')">{{
+                                <td @click="viewEmployeeData(employeeData?.date?.from, 'new_starter')">{{
                                     employeeData?.current_month?.new_starter }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Leaver</th>
-                                <td @click="viewEmployeeData(6, 'leaver')">{{ employeeData?.last_month?.leaver }}</td>
-                                <td @click="viewEmployeeData(7, 'leaver')">{{ employeeData?.current_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(getPreviousMonthDate(employeeData?.date?.from), 'leaver')">{{ employeeData?.last_month?.leaver }}</td>
+                                <td @click="viewEmployeeData(employeeData?.date?.from, 'leaver')">{{ employeeData?.current_month?.leaver }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">On Notice Period</th>
-                                <td @click="viewEmployeeData(6, 'on_notice_period')">{{
+                                <td @click="viewEmployeeData(getPreviousMonthDate(employeeData?.date?.from), 'on_notice_period')">{{
                                     employeeData?.last_month?.on_notice_period }}</td>
-                                <td @click="viewEmployeeData(7, 'on_notice_period')" id="noticPrd-Table">
+                                <td @click="viewEmployeeData(employeeData?.date?.from, 'on_notice_period')" id="noticPrd-Table">
                                     {{ employeeData?.current_month?.on_notice_period }}</td>
                             </tr>
                         </tbody>
@@ -283,6 +283,17 @@ watch(success, (current, previous) => {
         success.value = false;
     }
 })
+
+function getPreviousMonthDate(date) {
+  // Create a moment object from the given date
+  const givenDate = moment(date);
+
+  // Subtract one month
+  const previousMonthDate = givenDate.subtract(1, 'months');
+
+  // Format the result to a readable string or return the Moment object
+  return previousMonthDate.format('YYYY-MM-DD'); // You can format it as needed
+}
 
 watch(financialYear, (value) => {
     generateMonths(value);

@@ -116,6 +116,21 @@ export default function useBatch() {
         }
     };
 
+    const downloadDocument = async (id, type, data) => {
+        loading.value = true;
+        try {
+            
+            return await getApiPath.downloadDocument(id, type, data);
+        } catch (err) {
+            error.value = err;
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.errors;
+            }
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const downloadBatch = async (id, data) => {
         loading.value = true;
         try {
@@ -275,6 +290,7 @@ export default function useBatch() {
         processBatch,
         exportBatch,
         downloadBatch,
+        downloadDocument,
         importBatch,
         fetchOne,
         create,

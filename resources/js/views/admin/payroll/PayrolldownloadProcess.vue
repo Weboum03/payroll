@@ -85,12 +85,12 @@
                         <td>Salary Register</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option selected disabled value="">Select file type</option>
-                                <option value="pdf">Pdf</option>
+                                <option disabled value="">Select file type</option>
+                                <option selected value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="SRDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -101,12 +101,12 @@
                         <td>Attendance Register</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option selected disabled value="">Select file type</option>
-                                <option value="pdf">Pdf</option>
+                                <option disabled value="">Select file type</option>
+                                <option selected value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/AttendaceFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="ARDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -117,12 +117,12 @@
                         <td>Bank Salary Transfer Letter</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option selected disabled value="">Select file type</option>
-                                <option value="pdf">Pdf</option>
+                                <option disabled value="">Select file type</option>
+                                <option selected value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryTransferLetter')" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="BLDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -133,13 +133,13 @@
                         <td>Covering Letter for Bank</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option selected disabled value="">Select file type</option>
-                                <option value="pdf">Pdf</option>
+                                <option  disabled value="">Select file type</option>
+                                <option selected value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-primary d-flex justify-content-center align-items-center"
-                                type="button" id="CBDownload">Download
+                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                                type="button" id="SRDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
                         </td>
@@ -154,8 +154,8 @@
                             </select>
                         </td>
                         <td>
-                            <button class="btn btn-primary d-flex justify-content-center align-items-center"
-                                type="button" id="SSDownload">Download
+                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                                type="button" id="SRDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
                         </td>
@@ -176,13 +176,35 @@
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch, inject } from 'vue';
 import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
-const { item: batch, fetchOne: getBatch } = useBatch();
 const router = useRouter();
 const route = useRoute();
+const swal = inject("$swal");
+
+const { items: batches, item: batch, fetchOne: getBatch, downloadDocument, processBatch, remove, getBatchUsers, deleteBatchUser, success } = useBatch();
 
 onMounted(() => {
     getBatch(route.params.id)
 });
+
+const downloadFileBatch = async (url) => {
+    let response = await downloadDocument(route.params.id, 'SalaryTransferLetter');
+    downloadFile(url)
+}
+
+const downloadFile = async (response) => {
+    const url = response;
+    const link = document.createElement('a');
+    link.href = url;
+    let fileName = 'downloaded_file.pdf';
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    swal({
+        icon: "success",
+        title: "Download successfully",
+    });
+}
+
 </script>
 
 <style scoped>

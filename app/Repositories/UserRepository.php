@@ -254,9 +254,9 @@ class UserRepository extends BaseRepository
 
     public function getDashboardUser($request)
     {
-        if($request->month == 6) {
+        if($request->month) {
             // Get the previous month and year
-            $previousMonth = Carbon::now()->subMonth();
+            $previousMonth = Carbon::parse($request->month);
             $month = $previousMonth->month;
             $year = $previousMonth->year;
         } else {
