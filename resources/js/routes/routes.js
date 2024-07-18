@@ -161,6 +161,36 @@ export default [
                 meta: { breadCrumb: "Admin" },
             },
             {
+                name: "admin.viewLog",
+                path: "viewLog",
+                component: () => import("../views/admin/payroll/viewLog.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.RevisePayroll",
+                path: "RevisePayroll",
+                component: () => import("../views/admin/payroll/RevisePayroll.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.DiscardPayroll",
+                path: "DiscardPayroll",
+                component: () => import("../views/admin/payroll/DiscardPayroll.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.ReleaseSalarySlip",
+                path: "ReleaseSalarySlip",
+                component: () => import("../views/admin/payroll/ReleaseSalarySlip.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.DownloadDocuments",
+                path: "DownloadDocuments",
+                component: () => import("../views/admin/payroll/DownloadDocuments.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
                 name: "admin.EmpProfile",
                 path: "EmpProfile/:id",
                 component: () => import("../views/admin/profile/EmpProfile.vue"),

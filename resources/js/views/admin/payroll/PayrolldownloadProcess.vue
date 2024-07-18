@@ -54,10 +54,21 @@
 
 
             <div class="buttons-div d-flex" style="gap: 1rem;">
-                <button class="btn btn-primary" type="button" id="viewlog">View Log</button>
-                <button class="btn btn-primary" type="button" id="revisepay">Revise payroll</button>
-                <button class="btn btn-primary" type="button" id="relSalSlip">Release Salary Slip</button>
-                <button class="btn btn-primary" type="button" id="DiscardPay">Discard payroll</button>
+                <router-link :to="{ name: 'admin.viewLog' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" class="btn btn-primary" type="button" id="viewlog">View Log</button>
+                </router-link>
+                
+                <router-link :to="{ name: 'admin.RevisePayroll' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" class="btn btn-primary" type="button" id="revisepay">Revise payroll</button>
+                </router-link>
+
+                <router-link :to="{ name: 'admin.ReleaseSalarySlip' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" class="btn btn-primary" type="button" id="relSalSlip">Release Salary Slip</button>
+                </router-link>
+
+                <router-link :to="{ name: 'admin.DiscardPayroll' }" custom v-slot="{ navigate }">
+                    <button @click="navigate" class="btn btn-primary" type="button" id="DiscardPay">Discard payroll</button>
+                </router-link>
             </div>
 
             <table id="Doc-Download">
@@ -74,9 +85,8 @@
                         <td>Salary Register</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option value="">Select file type</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
+                                <option selected disabled value="">Select file type</option>
+                                <option value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
@@ -91,9 +101,8 @@
                         <td>Attendance Register</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option value="">Select file type</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
+                                <option selected disabled value="">Select file type</option>
+                                <option value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
@@ -108,9 +117,8 @@
                         <td>Bank Salary Transfer Letter</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option value="">Select file type</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
+                                <option selected disabled value="">Select file type</option>
+                                <option value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
@@ -125,9 +133,8 @@
                         <td>Covering Letter for Bank</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option value="">Select file type</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
+                                <option selected disabled value="">Select file type</option>
+                                <option value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
@@ -142,9 +149,8 @@
                         <td>Salary Slip</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option value="">Select file type</option>
-                                <option value="">Option 1</option>
-                                <option value="">Option 2</option>
+                                <option selected disabled value="">Select file type</option>
+                                <option value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
