@@ -1,24 +1,53 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
     <div id="dashboard-table-info">
-        <span>Discard Payroll</span>
-            <span>Payroll > Discard Payroll</span>
+        <span>View Logs</span>
+        <span>Payroll > Logs</span>
     </div>
-    <div id="dashboard-table">
-        <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
-            <div id="leavesEmpTable_filter" class="dataTables_filter"
-                style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
-                        v-model="searchQuery" @input="filterRows" placeholder="" aria-controls="leavesEmpTable">
-                </label>
+    <div id="dashboard-table" class="container-fluid">
+        
+
+
+        <div class="header d-flex flex-column">
+
+            <div class="d-flex justify-content-start align-items-center" style="background-color: white;gap: 33%;height: 85px;">
+                <router-link :to="{ name: 'admin.PayrolldownloadProcess', params:{id: route.params.id} }" custom v-slot="{ navigate }">
+                    <button @click="navigate" role="link" type="button" class="close1 " data-dismiss="modal"
+                        aria-label="Close"
+                        style="   margin: 0px;padding-left: 10px !important;font-size:20px;color: black !important;width: 135px;">
+                        <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                style="color: #000000;"></i></span>
+                        <span style="cursor: pointer;">Back to list</span>
+                    </button>
+                </router-link>
+                <h5>{{ batch?.data?.name }}</h5>
             </div>
-            <DataTable :key="tableKey" v-if="logs?.data" :headers="tableHeaders" :rows="logs" @filter="filterData"
-                ref="table" @rowclick="selectUser">
-                <template v-slot:cell-name="{ row }">
-                    <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture"
-                        width="20px" height="20px" style="border-radius: 50%;">
-                    {{ row.user.name }}
+
+            <div id="PayrollbatchList-Table_wrapper" class="dataTables_wrapper no-footer">
+            <div id="PayrollbatchList-Table_filter" class="dataTables_filter"
+                style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
+                        v-model="searchQuery" @input="filterRows" placeholder="" aria-controls="PayrollbatchList-Table"></label>
+
+            </div>
+            <DataTable v-if="logs?.data" :headers="tableHeaders" :rows="logs" @filter="filterData" ref="table">
+                <template v-slot:cell-sn="{ row }">
+                    {{ row.id }}
+                </template>
+                <template v-slot:cell-overtime="{ row }">
+                    {{ row.pivot?.overtime }}
+                </template>
+                <template v-slot:cell-doj="{ row }">
+                    {{ row.info?.doj }}
+                </template>
+                <template v-slot:cell-role="{ row }">
+                    {{ row.role?.name }}
+                </template>
+                <template v-slot:cell-action="{ row }">
+                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
+                        aria-hidden="true"></i>
                 </template>
             </DataTable>
+        </div>
         </div>
     </div>
 </template>
@@ -27,16 +56,15 @@
 import { ref, onMounted, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
+import { useRouter, useRoute } from "vue-router";
 const { items: batches, item: batch, fetchOne: getBatch, getBatchLogs, loading, success } = useBatch()
 import { useAbility } from '@casl/vue';
-const { can } = useAbility()
+const route = useRoute()
+const router = useRouter();
 const table = ref(null)
 const pagelength = ref(10);
 const searchQuery = ref("");
 const tableKey = ref(0);
-const selectedUser = ref({})
-const isModalOpened = ref(false)
-const isBulkOpened = ref(false)
 const isActive = ref(false)
 const tableHeaders = ref([])
 const logs = ref({})
@@ -52,10 +80,6 @@ const filterRows = () => {
     })
     table.value.filterPayload();
 };
-
-const showHistory = (value) => {
-    isActive.value = value;
-}
 onMounted( async () => {
     tableHeaders.value = [
         { key: 'name', label: 'Employee' },
@@ -66,42 +90,15 @@ onMounted( async () => {
         { key: 'status', label: 'Status', sorting: true },
     ];
     tableHeaders.value.push({ key: 'action', label: 'Action' });
-    
+    getBatch(route.params.id)
     logs.value = await getBatchLogs();
     console.log('logs', logs)
 });
-
-const selectUser = (user) => {
-    if (can('Leave Approval')) {
-        selectedUser.value = user;
-        isModalOpened.value = true;
-    }
-};
-
-const openModalHistory = () => {
-    viewHistory.value = true;
-};
-
-const openModal = () => {
-    isModalOpened.value = true;
-};
-const closeModal = () => {
-    isModalOpened.value = false;
-};
 
 const filterUser = ref('');
 watch(filterUser, (current, previous) => {
     table.value.filterData.filter.push({
         key: "user_id",
-        value: current,
-    })
-    table.value.filterPayload();
-});
-
-const filterStatus = ref('');
-watch(filterStatus, (current, previous) => {
-    table.value.filterData.filter.push({
-        key: "status",
         value: current,
     })
     table.value.filterPayload();
@@ -118,73 +115,6 @@ watch(tableHeaders, (current, previous) => {
 });
 </script>
 
-<style>
-@import '@/assets/css/Approvals.css';
-@import 'datatables.net-dt';
-
-table.dataTable thead th,
-table.dataTable thead td,
-table.dataTable tfoot th,
-table.dataTable tfoot td {
-    text-align: center;
-}
-
-.text-center {
-    text-align: center !important;
-}
-
-table.dataTable tbody tr td {
-    text-align: center;
-}
-
-.dataTables_filter input {
-    border: 1px solid #aaa;
-    border-radius: 3px;
-    padding: 5px;
-    background-color: transparent;
-    margin-left: 3px;
-}
-
-.bulkAction,
-.allActivity,
-.empWise {
-    height: 40px;
-    width: 210px;
-    font-size: 16px;
-    font-weight: 500;
-    font-family: Poppins, sans-serif;
-    padding-left: 8px;
-    border: none;
-    border-radius: 8px;
-}
-
-.modal-mask {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    width: 100%;
-    pointer-events: auto;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: .3rem;
-    outline: 0;
-    width: 100%;
-}
-
-.dt-search {
-    display: none;
-}
+<style scoped>
+@import '@/assets/css/PayrollBatchList.css';
 </style>

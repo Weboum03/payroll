@@ -54,19 +54,19 @@
 
 
             <div class="buttons-div d-flex" style="gap: 1rem;">
-                <router-link :to="{ name: 'admin.viewLog' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.viewLog', params: {id:route.params.id} }" custom v-slot="{ navigate }">
                     <button @click="navigate" class="btn btn-primary" type="button" id="viewlog">View Log</button>
                 </router-link>
                 
-                <router-link :to="{ name: 'admin.RevisePayroll' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.RevisePayroll', params: {id:route.params.id}  }" custom v-slot="{ navigate }">
                     <button @click="navigate" class="btn btn-primary" type="button" id="revisepay">Revise payroll</button>
                 </router-link>
 
-                <router-link :to="{ name: 'admin.ReleaseSalarySlip' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.ReleaseSalarySlip', params: {id:route.params.id}  }" custom v-slot="{ navigate }">
                     <button @click="navigate" class="btn btn-primary" type="button" id="relSalSlip">Release Salary Slip</button>
                 </router-link>
 
-                <router-link :to="{ name: 'admin.DiscardPayroll' }" custom v-slot="{ navigate }">
+                <router-link :to="{ name: 'admin.DiscardPayroll', params: {id:route.params.id}  }" custom v-slot="{ navigate }">
                     <button @click="navigate" class="btn btn-primary" type="button" id="DiscardPay">Discard payroll</button>
                 </router-link>
             </div>
