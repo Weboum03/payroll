@@ -58,6 +58,15 @@ const getApiPath = {
     getDashboardUsers(params) { return apiService.post(`admin/dashboard/users`,params); },
 
     getDashboardCompare(params) { return apiService.post(`admin/dashboard/compare`,params); },
+
+    //Notification
+    getNotifications() { return apiService.get(`admin/my_notifications`); },
+
+    getNotificationById(id) { return apiService.get(`admin/notifications/${id}`); },
+
+    readNotifications(params) { return apiService.get(`admin/my_notifications/read`, params); },
+
+    readAllNotifications(params) { return apiService.get(`admin/my_notifications/read_all`, params); },
 };
 
 export default getApiPath;

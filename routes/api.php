@@ -42,11 +42,11 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->get('attendance/status', [AttendanceController::class, 'getAttendanceStatus']);
 
     //Notification
-    $router->get('notifications/{notification_id}', [NotificationController::class, 'show']);
-    $router->get('my_notifications', [NotificationController::class, 'getMyNotifications']);
-    $router->post('my_notifications/read', [NotificationController::class, 'markAsRead']);
-    $router->post('my_notifications/read_all', [NotificationController::class, 'markAsReadAll']);
-    $router->get('my_notifications/unread', [NotificationController::class, 'getMyUnreadNotifications']);
-    $router->get('my_notifications/unread_count', [NotificationController::class, 'getMyUnreadNotificationsCount']);
-    $router->post('delete_notification', [NotificationController::class, 'destroy']);
+    // $router->get('notifications/{notification_id}', [NotificationController::class, 'show']);
+    // $router->get('my_notifications', [NotificationController::class, 'getMyNotifications']);
+    // $router->post('my_notifications/read', [NotificationController::class, 'markAsRead']);
+    // $router->post('my_notifications/read_all', [NotificationController::class, 'markAsReadAll']);
+    // $router->get('my_notifications/unread', [NotificationController::class, 'getMyUnreadNotifications']);
+    // $router->get('my_notifications/unread_count', [NotificationController::class, 'getMyUnreadNotificationsCount']);
+    // $router->post('delete_notification', [NotificationController::class, 'destroy']);
 });

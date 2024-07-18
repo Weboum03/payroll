@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\BatchUserExport;
 use App\Exports\UsersExport;
+use App\Helpers\Helper;
 use App\Http\Controllers\BaseController;
 use App\Imports\UsersImport;
 use App\Models\User;
+use App\Notifications\NotifyGlobal;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends BaseController
 {
@@ -174,6 +177,15 @@ class UserController extends BaseController
             }
         }
 
+        $loginUser = Auth::user();
+        $data = [
+            'title' => 'New Onboard',
+            'message' => $loginUser->name." onboard ".$user->name,
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
+
         return $this->sendResponse($user, __('ApiMessage.customerAdd'));
     }
 
@@ -265,6 +277,15 @@ class UserController extends BaseController
                 }
             }
         }
+
+        $loginUser = Auth::user();
+        $data = [
+            'title' => 'Employee update',
+            'message' => $loginUser->name." updated ".$user->name,
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
 
         return $this->sendResponse($user, __('ApiMessage.customerUpdate'));
     }
@@ -498,7 +519,20 @@ class UserController extends BaseController
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
 
+        $user = User::find($id);
+
         $this->userRepository->storeDeBoardUser($id, $input);
+
+        $loginUser = Auth::user();
+        
+        $data = [
+            'title' => 'Deboarded',
+            'message' => $loginUser->name." Deboarded ".$user->name,
+            'message_details' => 'Details',
+        ];
+
+        Helper::sendNotificationToAll($data);
+
         return $this->sendSuccess(__('ApiMessage.customerDelete'));
     }
 }

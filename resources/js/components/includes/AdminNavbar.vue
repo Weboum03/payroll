@@ -17,75 +17,19 @@
 
                         <div class="notification_dd">
                             <ul class="notification_ul">
-                                <li class="starbucks success">
+                                <li class="starbucks success" v-for="item in items?.data">
 
                                     <div class="notify_data">
                                         <div class="title">
-                                            Lorem, ipsum dolor.
+                                            {{ item.title }}
                                         </div>
                                         <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
+                                            {{ item.message }}
                                         </div>
                                     </div>
-                                    <div class="notify_status">
+                                    <!-- <div class="notify_status">
                                         <p>Success</p>
-                                    </div>
-                                </li>
-                                <li class="baskin_robbins failed">
-
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.
-                                        </div>
-                                        <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>Failed</p>
-                                    </div>
-                                </li>
-                                <li class="mcd success">
-
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.
-                                        </div>
-                                        <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>Success</p>
-                                    </div>
-                                </li>
-                                <li class="pizzahut failed">
-
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.
-                                        </div>
-                                        <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>Failed</p>
-                                    </div>
-                                </li>
-                                <li class="kfc success">
-
-                                    <div class="notify_data">
-                                        <div class="title">
-                                            Lorem, ipsum dolor.
-                                        </div>
-                                        <div class="sub_title">
-                                            Lorem ipsum dolor sit amet consectetur.
-                                        </div>
-                                    </div>
-                                    <div class="notify_status">
-                                        <p>Success</p>
-                                    </div>
+                                    </div> -->
                                 </li>
                                 <li class="show_all">
                                     <p class="link">Show All Activities</p>
@@ -206,7 +150,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
 const notify = ref(false)
@@ -214,6 +158,13 @@ const notify = ref(false)
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
+import useNotification from "@/composables/useNotification";
+const { items, getNotifications } = useNotification()
+
+onMounted( () => {
+    getNotifications();
+})
+
 </script>
 
 <style scoped></style>

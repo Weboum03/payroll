@@ -3,24 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\NotificationResource;
-use App\Models\Customer;
-use App\Models\Notification;
-use App\Notifications\Renewal;
 use App\Repositories\NotificationRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
-
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-use Kreait\Firebase\Exception\FirebaseException;
-use Kreait\Firebase\Messaging\CloudMessage;
-
-use Kreait\Firebase;
 
 class NotificationController extends BaseController
 {
@@ -37,9 +25,15 @@ class NotificationController extends BaseController
      * @param  NotificationRepository  $users
      * @return void
      */
+    // public function __construct(NotificationRepository $notificationRepository)
+    // {
+    //     $this->notificationRepository = $notificationRepository;
+    //     $this->token = 'kiLCJzdWIiOjcsInBydiI6IjFkMGEwMjBhY2Y1YzRiNmM0OTc5ODlkZjFhYmYwZmJkNGU4YzhkNjMifQ.G5h3GC20sVfGdBWr65RK6K';
+    // }
+
     public function __construct(NotificationRepository $notificationRepository)
     {
-        $this->notificationRepository = $notificationRepository;
+            $this->notificationRepository = $notificationRepository;
         $this->token = 'kiLCJzdWIiOjcsInBydiI6IjFkMGEwMjBhY2Y1YzRiNmM0OTc5ODlkZjFhYmYwZmJkNGU4YzhkNjMifQ.G5h3GC20sVfGdBWr65RK6K';
     }
 

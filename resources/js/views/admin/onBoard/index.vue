@@ -398,26 +398,26 @@
 
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="company" as="select" class="form-control input"
+                                    <Field required name="company" as="select" class="form-control input" v-model="selectedOption.company" @change="isModalInputOpend(selectedOption.company, 'company')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Company</option>
-                                        <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
-                                        <option value="Accenture Inc">Accenture Inc</option>
-										<option value="North Corp Software">North Corp Software</option>
-										<option value="Cyber Security Ltd">Cyber Security Ltd</option>
+                                        <option v-for="option in inputValues.company" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="Company" class="user-label">Company</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="location" as="select" class="form-control input"
+                                    <Field required name="location" as="select" class="form-control input" v-model="selectedOption.location" @change="isModalInputOpend(selectedOption.location, 'location')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Location</option>
-										<option value="Guru Gram"> Guru Gram</option>
-                                        <option value="Pune">Pune</option>
-                                        <option value="Bangluru">Bangluru</option>
-                                        <option value="California">California</option>
+										<option v-for="option in inputValues.location" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="location" class="user-label">Location</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
@@ -506,13 +506,13 @@
                             </div>
                             <div class="row">
                                 <div class="col input-group-fname">
-                                    <Field required name="department" as="select" class="form-control input"
+                                    <Field required name="department" as="select" class="form-control input" v-model="selectedOption.department" @change="isModalInputOpend(selectedOption.department, 'department')"
                                         autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
-                                        <option value="Software Development">Software Development</option>
-                                        <option value="Quality Testing">Quality Testing</option>
-										<option value="Designing">Designing</option>
-										<option value="Management">Management</option>
+                                        <option v-for="option in inputValues.department" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
                                     </Field>
                                     <label for="Department" class="user-label">Department</label>
                                     <ErrorMessage name="department" class="text-danger mt-1" />
@@ -864,11 +864,17 @@ const oldisModalInput = ref('')
 const inputRef = ref('')
 
 const selectedOption = ref({
+    company: '',
+    location: '',
+    department: '',
     qualification: '',
     experience: '',
     grade: ''
 });
 const inputValues = ref({
+    company : ['ABC & Company Ltd.', 'Pune', 'Bangluru', 'California'],
+    location : ['Guru Gram', 'Accenture Inc', 'North Corp Software', 'Cyber Security Ltd'],
+    department : ['Software Development', 'Quality Testing', 'Designing', 'Management'],
     qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
     experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
     grade:['Manager', 'Lead', 'Senior', 'Junior']
@@ -1042,20 +1048,20 @@ const schemas = [
                 return true;
             }
             return false;
-        }).test('is-greater', 'Date of Joining can not be greater than current date', function(value) {
-            const currentDate = new Date();
-            const date = new Date(value);
-            const year = date.getFullYear();
-            var cyear = currentDate.toLocaleString("default", { year: "numeric" });
-            var month = currentDate.toLocaleString("default", { month: "2-digit" });
-            var day = currentDate.toLocaleString("default", { day: "2-digit" });
-            var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
-            if (date.toISOString() <= formattedDate) {
-                return true;
-            }
-            return false;
         }),
-    // prob_end_date: yup.string().required("Required!"),
+        // .test('is-greater', 'Date of Joining can not be greater than current date', function(value) {
+        //     const currentDate = new Date();
+        //     const date = new Date(value);
+        //     const year = date.getFullYear();
+        //     var cyear = currentDate.toLocaleString("default", { year: "numeric" });
+        //     var month = currentDate.toLocaleString("default", { month: "2-digit" });
+        //     var day = currentDate.toLocaleString("default", { day: "2-digit" });
+        //     var formattedDate = cyear + "-" + month + "-" + day+ "T00:00:00.000Z";
+        //     if (date.toISOString() <= formattedDate) {
+        //         return true;
+        //     }
+        //     return false;
+        // }),
     prob_end_date: yup.string().required('Probation End date is required')
         .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
         const { doj } = this.parent;
@@ -1074,8 +1080,6 @@ const schemas = [
             }
             return false;
         }),
-    // aadhar_number: yup.string().required("Required!"),
-    // pan_number: yup.string().required("Required!"),
     aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', (value) => {
         if(value === null || value === '' || value.length === 12) {
             return true;
