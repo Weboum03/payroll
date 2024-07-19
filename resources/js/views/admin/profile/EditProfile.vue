@@ -546,7 +546,9 @@
                                 
                             </div>
 
+                            
                             <div class="row">
+
                                 <div class="col-6 input-group-fname">
                                     <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
                                         v-model="userData.pan_number" :class="{ 'is-invalid': errors.pan_number }"
@@ -554,7 +556,26 @@
                                     <label for="PAN Number" class="user-label">PAN Number</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
+                                <div class="col-6 input-group-fname">
+                                    <Field type="text" name="epf" placeholder="EPF Number" @input="updateValue($event.target.value)"
+                                        v-model="userData.epf" :class="{ 'is-invalid': errors.epf }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="PAN Number" class="user-label">EPF Number</label>
+                                    <ErrorMessage name="epf" class="text-danger mt-1" />
+                                </div>
                             </div>
+
+
+                            <div class="row">
+                                <div class="col-6 input-group-fname">
+                                    <Field type="text" name="esi" placeholder="ESI Number" @input="updateValue($event.target.value)"
+                                        v-model="userData.esi" :class="{ 'is-invalid': errors.esi }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="PAN Number" class="user-label">ESI Number</label>
+                                    <ErrorMessage name="esi" class="text-danger mt-1" />
+                                </div>
+                            </div>
+                            
                         </div>
                     </template>
 
@@ -1016,6 +1037,8 @@ watchEffect(() => {
         employment_type: user?.info?.employment_type,
         aadhar_number: user?.info?.aadhar_number,
         pan_number: user?.info?.pan_number,
+        epf: user?.info?.epf,
+        esi: user?.info?.esi,
         holiday_year: user?.info?.holiday_year,
         work_pattern: user?.info?.work_pattern,
         earning_leave_entitlement: user?.info?.earning_leave_entitlement,

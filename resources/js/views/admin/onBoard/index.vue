@@ -597,7 +597,25 @@
                                     <label for="PAN Number" class="user-label">PAN Number</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
+                                <div class="col-6 input-group-fname">
+                                    <Field type="text" name="epf" placeholder="EPF Number" @input="updateValue($event.target.value)"
+                                        :class="{ 'is-invalid': errors.epf }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="PAN Number" class="user-label">EPF Number</label>
+                                    <ErrorMessage name="epf" class="text-danger mt-1" />
+                                </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-6 input-group-fname">
+                                    <Field type="text" name="esi" placeholder="ESI Number" @input="updateValue($event.target.value)"
+                                        :class="{ 'is-invalid': errors.esi }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="PAN Number" class="user-label">ESI Number</label>
+                                    <ErrorMessage name="esi" class="text-danger mt-1" />
+                                </div>
+                            </div>
+
                         </div>
                     </template>
 

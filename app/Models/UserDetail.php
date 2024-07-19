@@ -47,6 +47,8 @@ class UserDetail extends Model
         'employment_type',
         'aadhar_number',
         'pan_number',
+        'epf',
+        'esi',
         'holiday_year',
         'work_pattern',
         'earning_leave_entitlement',
