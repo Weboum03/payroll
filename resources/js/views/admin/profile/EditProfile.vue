@@ -823,7 +823,10 @@ const isModalInput = ref(false)
 const isDropdownUpdated = ref(false)
 
 const inputRef = ref('')
-
+const docValues = {
+        aadhar: false,
+        pancard: false
+    }
 const inputValues = ref({
     company : ['ABC & Company Ltd.', 'Pune', 'Bangluru', 'California'],
     location : ['Guru Gram', 'Accenture Inc', 'North Corp Software', 'Cyber Security Ltd'],
@@ -1034,6 +1037,7 @@ watchEffect(() => {
     }, 1000);
     
     let files = user?.files;
+
     if(files) {
         for (var key in files) {
             let element = files[key];
@@ -1047,10 +1051,46 @@ watchEffect(() => {
                     edit: true
                 });
             }
+            
+            if(element.custom_properties.collection_name == 'aadhar_proof') {
+                docValues.aadhar = true;
+            }
+            if(element.custom_properties.collection_name == 'pan_proof') {
+                docValues.pancard = true;
+            }
         }
     }
-    
+
+    if(user?.id) {
+        defaultDocuments()
+    }
 })
+
+const defaultDocuments = () => {
+    if(!docValues.aadhar) {
+        uploadComponent.value.push({
+            id : Math.random().toString(36).substring(7),
+            title: 'Aadhar Card Number',
+            type: 'aadhar_proof',
+            check: false,
+            uploaded : false,
+            edit: false
+        });
+        docValues.aadhar = true;
+    }
+
+    if(!docValues.pancard) {
+        uploadComponent.value.push({
+            id : Math.random().toString(36).substring(7),
+            title: 'PAN Card',
+            type: 'pan_proof',
+            check: false,
+            uploaded : false,
+            edit: false
+        });
+        docValues.pancard = true;
+    }
+}
 
 watch(userData, () => {
     immediateManager.value = userData.value.immediate_manager
@@ -1153,24 +1193,7 @@ const schemas = [
             return false;
         }),
         // prob_end_date: yup.string().required("Required!"),
-        prob_end_date: yup.string().required('End date is required')
-        .test('is-greater', 'Probation date must be greater than date of joining', function(value) {
-        const { doj } = this.parent;
-        const date = new Date(value);
-        // Get year, month, and day part from the date
-        var year = date.toLocaleString("default", { year: "numeric" });
-        var month = date.toLocaleString("default", { month: "2-digit" });
-        var day = date.toLocaleString("default", { day: "2-digit" });
-        var formattedDate = year + "-" + month + "-" + day;
-        return !doj || !value || formattedDate > doj;
-        }).test('is-greater', 'Invalid Date', function(value) {
-            const date = new Date(value);
-            const year = date.getFullYear();
-            if (year >= 1900 && year <= 2099) {
-                return true;
-            }
-            return false;
-        }),
+        prob_end_date: yup.string().required('End date is required'),
         // aadhar_number: yup.string().required("Required!"),
         // pan_number: yup.string().required("Required!"),
         aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', (value) => {

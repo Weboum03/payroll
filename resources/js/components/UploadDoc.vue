@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-4">
-        <div class="card1">
+        <div class="card card1">
             <div class="card-body">
                 <div class="showalltask-card d-flex flex-column">
                     <div class="d-flex" style="gap: .5rem;">
@@ -104,3 +104,7 @@ const deleteInput = () => {
     emit('delete-input')
 };
 </script>
+
+<style scoped>
+@import '@/assets/css/onBoard.css';
+</style>
