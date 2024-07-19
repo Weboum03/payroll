@@ -617,9 +617,9 @@
 										<option value="Part Time">Part Time</option>
                                         <option value="Remote">Remote</option>
                                         <option value="General Shift">General Shift</option>
-                                        <option value="Shift A">Shift A (UK)</option>
-                                        <option value="Shift B">Shift B (USA)</option>
-                                        <option value="Shift C">Shift C (AU)</option>
+                                        <option value="Shift A (UK)">Shift A (UK)</option>
+                                        <option value="Shift B (USA)">Shift B (USA)</option>
+                                        <option value="Shift C (AU)">Shift C (AU)</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Work Pattern</label>
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
@@ -1220,6 +1220,9 @@ const schemas = [
         }),
     yup.object({
         employee_id: yup.string().required("Required!"),
+        role_id: yup.string().required("Required!"),
+        designation: yup.string().required("Designation is required!"),
+        department: yup.string().required("Department is required!"),
         role_id: yup.string().required("Required!"),
         doj: yup.string().required("Required!").test('is-greater', 'Invalid Date', function(value) {
             const date = new Date(value);

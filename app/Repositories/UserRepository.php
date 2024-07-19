@@ -121,16 +121,16 @@ class UserRepository extends BaseRepository
         
         $lastMonth = [
             'name' => $previousMonth->format('M Y'),
-            'employees' => $previousUsersCount,
-            'new_starter' => $previousUsersNewJoinCount,
+            'employees' => $previousUsersNewJoinCount,
+            'new_starter' => $previousUsersCount,
             'leaver' => $previousLeaver,
             'on_notice_period' => $previousNoticePeriod
         ];
 
         $currentMonth = [
             'name' => $currentDate->format('M Y'),
-            'employees' => $usersCount,
-            'new_starter' => $usersNewJoinCount,
+            'employees' => $usersNewJoinCount,
+            'new_starter' => $usersCount,
             'leaver' => $leaver,
             'on_notice_period' => $onNoticePeriod
         ];
@@ -272,12 +272,12 @@ class UserRepository extends BaseRepository
         }, function ($q) {
             return $q->latest();
         })
-        ->when($request->type == 'employees', function ($q) use($request, $year, $month) {
+        ->when($request->type == 'new_starter', function ($q) use($request, $year, $month) {
             return $q->whereYear('created_at', $year)
             ->whereMonth('created_at', $month);
         })
         ->whereHas('info', function ($query) use($request, $year, $month) {
-            $query->when($request->type == 'new_starter', function ($q) use($request, $year, $month) {
+            $query->when($request->type == 'employees', function ($q) use($request, $year, $month) {
                 return $q->whereYear('doj', $year)
                 ->whereMonth('doj', $month);
             })
