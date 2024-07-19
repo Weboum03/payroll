@@ -803,7 +803,7 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
-const currentStep = ref(3);
+const currentStep = ref(0);
 const boxWidth = ref(0); // Initial width
 const userData = ref({})
 const userDetail = ref({});
