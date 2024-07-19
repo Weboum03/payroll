@@ -342,6 +342,9 @@ const getStatisticData = async (year, month) => {
     totalEmployee = employeeData.value.total_employee;
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
     payrollchartData.data = [processed, pending]
+    if(processed == 0 && pending == 0) {
+        payrollchartData.data = [processed, 1]
+    }
     tableKey.value++;
 }
 
