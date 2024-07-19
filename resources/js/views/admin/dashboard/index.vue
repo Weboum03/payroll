@@ -43,7 +43,7 @@
                                 Import
                                 <div id="datatable-Emp-info">
                                     <span type="button" class="Export1">
-                                        <i class="fa-solid fa-arrow-up-from-bracket fa-flip-vertical fa-xs"
+                                        <i class="fa-solid fa-arrow-up-from-bracket fa-xs"
                                             style="color: white;" aria-hidden="true"></i>
                                     </span>
                                 </div>
