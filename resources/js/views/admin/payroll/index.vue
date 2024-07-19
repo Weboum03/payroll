@@ -444,7 +444,7 @@ $(document).ready(function () {
 });
 </script>
 
-<style>
+<style scoped>
 @import '@/assets/css/onBoard.css';
 @import '@/assets/css/Payroll.css';
 

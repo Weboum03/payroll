@@ -243,7 +243,7 @@ defineExpose({
 </script>
 
 
-<style>
+<style scoped>
 @import "datatables.net-dt";
 
 table.dataTable thead th,
