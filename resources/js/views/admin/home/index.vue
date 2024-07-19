@@ -31,7 +31,7 @@
                 <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <canvas class="payrolldata-chart"></canvas>
+                            <ChartGraph v-if="employeeData" :key="tableKey" :totalEmployee="totalEmployee" :data="payrollchartData"></ChartGraph>
                         </div>
 
                         <div class="details">
@@ -165,6 +165,7 @@ import UserTable from './UserTable.vue';
 import compareModel from './compareModel.vue';
 import useBatch from "@/composables/useBatch";
 import useDashboard from "@/composables/useDashboard";
+import ChartGraph from '@/views/admin/payroll/ChartGraph.vue';
 import * as yup from 'yup';
 import { onClickOutside } from '@vueuse/core'
 import { useRouter } from "vue-router";
@@ -188,19 +189,14 @@ const tableKey = ref(0)
 
 const detail = ref(null);
 
+let totalEmployee = 0;
 const data = [253, 5];
 const payrollchartData = {
     labels: [`Payroll Processed ${data[0]}`, `Pending count ${data[1]}`],
     data: data,
 };
 
-let totalEmployee = 0;
-
 onMounted(async () => {
-    let script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js';
-    document.head.appendChild(script);
-
     let response = await getDashboardDetails();
     employeeData.value = response.data;
     var processed = employeeData.value.batch_processed;
@@ -209,8 +205,6 @@ onMounted(async () => {
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
     payrollchartData.data = [processed, pending]
     tableKey.value++;
-
-    loadLater()
 });
 
 function getPreviousMonthDate(date) {
@@ -276,73 +270,6 @@ onClickOutside(target, () => closeModal());
 watch(success, (current, previous) => {
     router.push({ name: "admin.PayrollBatchform" });
 });
-
-
-function loadLater() {
-
-    const counter3 = {
-        id: "counter",
-        beforeDraw(chart, args, options) {
-            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-            ctx.save()
-            const yCenter = (height / 2) + top + 15;
-            ctx.font = '15px monospace'
-            ctx.fillStyle = 'black'
-            ctx.fillText(totalEmployee, '61', yCenter)
-        }
-    }
-    const counter4 = {
-        id: "counter",
-        beforeDraw(chart, args, options) {
-            const { ctx, chartArea: { top, right, bottom, left, width, height } } = chart;
-            ctx.save()
-            const yCenter = (height / 2) + top - 7;
-            ctx.font = '11px monospace'
-            ctx.fillStyle = 'black'
-            ctx.fillText('Total Employees', '28', yCenter)
-        }
-    }
-
-    const payrollChart = document.querySelector(".payrolldata-chart");
-
-    new Chart(payrollChart, {
-        type: "doughnut",
-        data: {
-            labels: payrollchartData.labels,
-            datasets: [
-                {
-                    data: payrollchartData.data,
-                    backgroundColor: [     // Set background color for each label
-                        '#0492F5',   // Background color for "5 days absence"
-                        '#DAE1F3'    // Background color for "900 working days"
-                    ],
-                    cutout: '70%',
-                },
-
-            ],
-
-        },
-        options: {
-            borderRadius: 2,
-            hoverBorderWidth: 0,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.label; // Display only the label, without associated data
-                        }
-                    }
-                }
-            },
-            rotation: 90,
-        },
-        plugins: [counter4, counter3]
-    });
-
-}
 
 
 </script>

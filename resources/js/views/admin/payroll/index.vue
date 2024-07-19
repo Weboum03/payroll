@@ -55,7 +55,7 @@
                 <div class="payrolldata-graph d-flex flex-column justify-content-center">
                     <div class="programming-stats4">
                         <div class="payrollData-container">
-                            <ChartGraph :key="tableKey" :totalEmployee="totalEmployee" :data="payrollchartData"></ChartGraph>
+                            <ChartGraph v-if="employeeData" :key="tableKey" :totalEmployee="totalEmployee" :data="payrollchartData"></ChartGraph>
                         </div>
 
                         <div class="details">
