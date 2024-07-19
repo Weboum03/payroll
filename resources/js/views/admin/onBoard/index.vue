@@ -533,17 +533,17 @@
                             <div class="row">
 
                                 <div class="col input-group-fname">
-                                    <Field required name="position" as="select" class="form-control input" v-model="selectedOption.position" @change="isModalInputOpend(selectedOption.position, 'position')"
+                                    <Field required name="designation" as="select" class="form-control input" v-model="selectedOption.designation" @change="isModalInputOpend(selectedOption.designation, 'designation')"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Position</option>
+                                        <option value="" disabled selected>Designation</option>
 										<option value="Manager">Manager</option>
-										<option v-for="option in inputValues.position" :key="option" :value="option">
+										<option v-for="option in inputValues.designation" :key="option" :value="option">
                                             {{ option }}
                                         </option>
                                         <option value="Other">Other</option>
                                     </Field>
-                                    <label for="Position" class="user-label">Position</label>
-                                    <ErrorMessage name="position" class="text-danger mt-1" />
+                                    <label for="designation" class="user-label">Designation</label>
+                                    <ErrorMessage name="designation" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
@@ -900,7 +900,7 @@ const inputValues = ref({
     department : ['Software Development', 'Quality Testing', 'Designing', 'Management'],
     qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
     experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
-    position:['Designer', 'Developer', 'QA', 'Junior'],
+    designation:['Designer', 'Developer', 'QA', 'Junior'],
     grade:['Manager', 'Lead', 'Senior', 'Junior']
 });
 
