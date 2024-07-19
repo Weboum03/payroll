@@ -316,20 +316,6 @@
 
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
-                                    <Field required name="user" as="select" v-model="userData.copy_from"
-                                        class="form-control input" autocomplete="off" :validateOnBlur="false"
-                                        :validateOnChange="false" :validateOnInput="false" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Copy Existing details</option>
-                                        <option value="Option1">Option1</option>
-                                        <option value="Option2">Option2</option>
-                                        <option value="other">Other</option>
-                                    </Field>
-                                    <label for="details" class="user-label">Copy Existing details</label>
-                                    <ErrorMessage name="user" class="text-danger mt-1" />
-                                </div>
-                            </div>
-                            <div class="row d-flex">
-                                <div class="col input-group-fname">
                                     <Field required type="text" name="employee_id" placeholder="Employee ID"
                                         v-model="userData.employee_id" :class="{ 'is-invalid': errors.employee_id }"
                                         class="input" autocomplete="off" />

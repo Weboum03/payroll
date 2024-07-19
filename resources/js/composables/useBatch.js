@@ -64,6 +64,21 @@ export default function useBatch() {
         }
     };
 
+    const getBatchLogsByType = async (id, type, filters=[]) => {
+        loading.value = true;
+        try {
+            console.log('queryString', filters)
+            let queryString = new URLSearchParams(filters).toString();
+            if(queryString) { queryString = '?'+ queryString }
+            
+            return await getApiPath.getBadgeLogsByType(id, type, queryString);
+        } catch (err) {
+            error.value = err;
+        } finally {
+            loading.value = false;
+        }
+    };
+
     const fetchOne = async (id) => {
         loading.value = true;
         try {
@@ -301,6 +316,7 @@ export default function useBatch() {
         fetchAll,
         getBatchUsers,
         getBatchLogs,
+        getBatchLogsByType,
         getBatchFormUser,
         deleteBatchUser,
         processBatch,

@@ -92,14 +92,18 @@ class BatchRepository extends BaseRepository
         ->when($request->paginate , function ($q) { return $q->paginate(10); }, function ($q) { return $q->get(); });
     }
 
-    public function getActvityLogs($id) {
-        return Activity::where('subject_id', $id)->when(request()->search, function ($q) {
+    public function getActvityLogs($id, $type = null) {
+        return Activity::where('subject_id', $id)->where('subject_type', Batch::class)
+        ->when(request()->search, function ($q) {
             return $q->where(function ($q) {
                 return $q->where('log_name', 'like', '%' . request()->search . '%')
                 ->orWhere('description', 'like', '%' . request()->search . '%');
             });
-        })->latest()->paginate(10);
-        //return Activity::where('subject_id', $id)->where('log_name', 'LIKE', 'batch_logs')->get();
+        })
+        ->when($type, function ($q) use($type) {
+            return $q->where('log_name', $type);
+        })
+        ->latest()->paginate(10);
     }
 
     public function listing($request)

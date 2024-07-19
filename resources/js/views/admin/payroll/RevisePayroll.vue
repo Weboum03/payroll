@@ -54,7 +54,7 @@ import { ref, onMounted, watch } from 'vue';
 import DataTable from '@/components/DataTable.vue';
 import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
-const { items: batches, item: batch, fetchOne: getBatch, getBatchLogs, loading, success } = useBatch()
+const { items: batches, item: batch, fetchOne: getBatch, getBatchLogsByType, loading, success } = useBatch()
 import { useAbility } from '@casl/vue';
 const route = useRoute()
 const router = useRouter();
@@ -67,7 +67,7 @@ const tableHeaders = ref([])
 const logs = ref({})
 
 const filterData = async(filterValues) => {
-    logs.value = await getBatchLogs(route.params.id, filterValues)
+    logs.value = await getBatchLogsByType(route.params.id, 'revise', filterValues)
 }
 
 const filterRows = () => {
@@ -83,7 +83,7 @@ onMounted( async () => {
         { key: 'description', label: 'Description' },
     ];
     getBatch(route.params.id)
-    logs.value = await getBatchLogs();
+    logs.value = await getBatchLogsByType(route.params.id, 'revise');
     console.log('logs', logs)
 });
 

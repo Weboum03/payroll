@@ -52,6 +52,13 @@ class BatchController extends BaseController
         return $this->sendResponseWithPagination($logs,__('ApiMessage.retrievedMessage'));
     }
 
+    public function activityLogsByName($id, $type, Request $request)
+    {
+        $logs = $this->batchRepository->getActvityLogs($id, $type);
+
+        return $this->sendResponseWithPagination($logs,__('ApiMessage.retrievedMessage'));
+    }
+
     public function getBatchFormUser($id, Request $request)
     {
         $users = $this->batchRepository->getBatchFormUser($id, $request);
@@ -133,7 +140,7 @@ class BatchController extends BaseController
         }
 
         $loginUser = Auth::user();
-        activity('batch_logs')
+        activity('revise')
         ->performedOn($batch)
         ->causedBy($loginUser)
         ->withProperties([])
@@ -438,7 +445,7 @@ class BatchController extends BaseController
 
         $loginUser = Auth::user();
 
-        activity('batch_logs')
+        activity('revise')
         ->performedOn($batch)
         ->causedBy($loginUser)
         ->withProperties([])
@@ -458,7 +465,7 @@ class BatchController extends BaseController
 
         $loginUser = Auth::user();
 
-        activity('batch_logs')
+        activity('release')
         ->performedOn($batch)
         ->causedBy($loginUser)
         ->withProperties([])
@@ -493,7 +500,7 @@ class BatchController extends BaseController
 
         Helper::sendNotificationToAll($data);
 
-        activity('batch_logs')
+        activity('created')
         ->performedOn($user)
         ->causedBy($loginUser)
         ->withProperties(['customProperty' => 'customValue'])
