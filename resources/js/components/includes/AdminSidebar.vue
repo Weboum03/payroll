@@ -152,7 +152,7 @@
 
 
 <!-- ------main-sidebar-footer-------->
-<div id="main-sidebar-footer" v-if="toggle">
+<div id="main-sidebar-footer">
     <a href="javascript:;" class="logoutBtn">
 
         <div class="sign"><svg viewBox="0 0 512 512">
