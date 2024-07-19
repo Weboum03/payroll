@@ -30,18 +30,11 @@
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
-                <template v-slot:cell-overtime="{ row }">
-                    {{ row.pivot?.overtime }}
-                </template>
-                <template v-slot:cell-doj="{ row }">
-                    {{ row.info?.doj }}
+                <template v-slot:cell-causer="{ row }">
+                    {{ row.causer?.name }} ( {{ row.causer?.employee_id }} )
                 </template>
                 <template v-slot:cell-date="{ row }">
                     {{ moment(row.created_at).format('YYYY-MM-DD') }}
-                </template>
-                <template v-slot:cell-action="{ row }">
-                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
-                        aria-hidden="true"></i>
                 </template>
             </DataTable>
         </div>
@@ -82,6 +75,7 @@ onMounted( async () => {
     tableHeaders.value = [
         { key: 'log_name', label: 'Log' },
         { key: 'description', label: 'Description' },
+        { key: 'causer', label: 'User' },
         { key: 'date', label: 'Date' },
     ];
     getBatch(route.params.id)

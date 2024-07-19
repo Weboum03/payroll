@@ -93,7 +93,7 @@ class BatchRepository extends BaseRepository
     }
 
     public function getActvityLogs($id, $type = null) {
-        return Activity::where('subject_id', $id)->where('subject_type', Batch::class)
+        return Activity::with('causer')->where('subject_id', $id)->where('subject_type', Batch::class)
         ->when(request()->search, function ($q) {
             return $q->where(function ($q) {
                 return $q->where('log_name', 'like', '%' . request()->search . '%')

@@ -1,7 +1,7 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
     <div id="dashboard-table-info">
-        <span>View Logs</span>
+        <span>Discard Logs</span>
         <span>Payroll > Logs</span>
     </div>
     <div id="dashboard-table" class="container-fluid">
@@ -30,18 +30,11 @@
                 <template v-slot:cell-sn="{ row }">
                     {{ row.id }}
                 </template>
-                <template v-slot:cell-overtime="{ row }">
-                    {{ row.pivot?.overtime }}
+                <template v-slot:cell-causer="{ row }">
+                    {{ row.causer?.name }} ( {{ row.causer?.employee_id }} )
                 </template>
-                <template v-slot:cell-doj="{ row }">
-                    {{ row.info?.doj }}
-                </template>
-                <template v-slot:cell-role="{ row }">
-                    {{ row.role?.name }}
-                </template>
-                <template v-slot:cell-action="{ row }">
-                    <i @click.prevent="deleteUser(row.id)" class="fa-regular fa-trash-can fa-lg" style="color: #f02828;"
-                        aria-hidden="true"></i>
+                <template v-slot:cell-date="{ row }">
+                    {{ moment(row.created_at).format('YYYY-MM-DD') }}
                 </template>
             </DataTable>
         </div>
@@ -56,6 +49,7 @@ import useBatch from "@/composables/useBatch";
 import { useRouter, useRoute } from "vue-router";
 const { items: batches, item: batch, fetchOne: getBatch, getBatchLogsByType, loading, success } = useBatch()
 import { useAbility } from '@casl/vue';
+import moment from 'moment';
 const route = useRoute()
 const router = useRouter();
 const table = ref(null)
@@ -67,7 +61,7 @@ const tableHeaders = ref([])
 const logs = ref({})
 
 const filterData = async(filterValues) => {
-    logs.value = await getBatchLogsByType(route.params.id, 'revise', filterValues)
+    logs.value = await getBatchLogsByType(route.params.id, 'process', filterValues)
 }
 
 const filterRows = () => {
@@ -81,9 +75,11 @@ onMounted( async () => {
     tableHeaders.value = [
         { key: 'log_name', label: 'Log' },
         { key: 'description', label: 'Description' },
+        { key: 'causer', label: 'User' },
+        { key: 'date', label: 'Date' },
     ];
     getBatch(route.params.id)
-    logs.value = await getBatchLogsByType(route.params.id, 'revise');
+    logs.value = await getBatchLogsByType(route.params.id, 'process');
     console.log('logs', logs)
 });
 

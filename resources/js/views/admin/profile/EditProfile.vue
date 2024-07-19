@@ -400,8 +400,8 @@
                                     <Field required name="immediate_manager" as="select" class="form-control input"
                                         v-model="immediateManager" autocomplete="off" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Immediate-Manager</option>
-                                        <option v-for="role in roles?.data" :key="role.id" :value="role.id">
-                                            {{ role.name }}
+                                        <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">
+                                            {{ user.name }} ({{ user.employee_id }})
                                         </option>
                                     </Field>
                                     <label for="immediate_manager" class="user-label">Immediate-Manager</label>
@@ -409,15 +409,10 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="immediate_manager_code" as="select" class="form-control input"
-                                        v-model="userData.immediate_manager_code" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Employee Code</option>
-                                        <option v-show="userData.immediate_manager_code" :value="userData.immediate_manager_code" :selected="true">{{ userData.immediate_manager_code }}</option>
-                                        <option v-for="user in immediateManagerCode" :key="user.id" :value="user.employee_id">
-                                            {{ user.name }} ( {{ user.employee_id }} )
-                                        </option>
-                                    </Field>
-                                    <label for="employee_code" class="user-label ">Employee Code</label>
+                                    <Field readonly type="text" name="immediate_manager_code" placeholder="Employee Code"
+                                        v-model="userData.immediate_manager_code" :class="{ 'is-invalid': errors.immediate_manager_code }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="Employee Code" class="user-label">Employee Code</label>
                                     <ErrorMessage name="immediate_manager_code" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -428,8 +423,8 @@
                                         v-model="leaveApprovingAuth" autocomplete="off"
                                         style="color: #7e7e7e;">
                                         <option value="" disabled selected>Leave Approving Authority</option>
-                                        <option v-for="role in roles?.data" :key="role.id" :value="role.id">
-                                            {{ role.name }}
+                                        <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">
+                                            {{ user.name }} ({{ user.employee_id }})
                                         </option>
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
@@ -438,20 +433,16 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="leave_approving_code" as="select" class="form-control input"
-                                        v-model="userData.leave_approving_code" autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Employee Code</option>
-                                        <option v-show="userData.leave_approving_code" :value="userData.leave_approving_code" :selected="true">{{ userData.leave_approving_code }}</option>
-                                        <option v-for="user in leaveApprovingAuthCode" :key="user.id" :value="user.employee_id">
-                                           {{ user.name }} ( {{ user.employee_id }} )
-                                        </option>
-                                    </Field>
-                                    <label for="employee_code" class="user-label ">Employee Code</label>
+
+                                    <Field readonly type="text" name="leave_approving_code" placeholder="Employee Code"
+                                        v-model="userData.leave_approving_code" :class="{ 'is-invalid': errors.leave_approving_code }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="Employee Code" class="user-label">Employee Code</label>
                                     <ErrorMessage name="leave_approving_code" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col input-group-fname">
+                                <!-- <div class="col input-group-fname">
                                     <Field required name="department" as="select" class="form-control input" @change="isModalInputOpend(userData.department, 'department')"
                                         autocomplete="off" v-model="userData.department" style="color: #7e7e7e;">
                                         <option value="" disabled selected>Department</option>
@@ -462,33 +453,30 @@
                                     </Field>
                                     <label for="Department" class="user-label">Department</label>
                                     <ErrorMessage name="department" class="text-danger mt-1" />
-                                </div>
+                                </div> -->
                                 <div class="col input-group-fname">
                                     <Field required name="role_id" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.role_id" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Job Role</option>
+                                        <option value="" disabled selected>Department</option>
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
                                         </option>
                                     </Field>
-                                    <label for="html" class="user-label">Job Role</label>
+                                    <label for="html" class="user-label">Department</label>
                                     <ErrorMessage name="role_id" class="text-danger mt-1" />
+                                </div>
+
+                                <div class="col input-group-fname">
+                                    <Field type="text" name="designation" placeholder="Designation"
+                                        v-model="userData.designation" :class="{ 'is-invalid': errors.designation }"
+                                        class="input" autocomplete="off" required />
+                                    <label for="Designation" class="user-label">Designation</label>
+                                    <ErrorMessage name="designation" class="text-danger mt-1" />
                                 </div>
                             </div>
                             <div class="row">
 
-                                <div class="col input-group-fname">
-                                    <Field required name="designation" as="select" class="form-control input" @change="isModalInputOpend(userData.designation, 'designation')"
-                                        autocomplete="off" v-model="userData.designation" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Designation</option>
-                                        <option v-for="option in inputValues.designation" :key="option" :value="option">
-                                            {{ option }}
-                                        </option>
-                                        <option value="Other">Other</option>
-                                    </Field>
-                                    <label for="designation" class="user-label">Designation</label>
-                                    <ErrorMessage name="designation" class="text-danger mt-1" />
-                                </div>
+                                
 
                                 <div class="col input-group-fname">
                                     <Field required name="grade" as="select" class="form-control input" @change="isModalInputOpend(userData.grade, 'grade')"
@@ -502,10 +490,6 @@
                                     <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
-                                
-                            </div>
-
-                            <div class="row">
 
                                 <div class="col input-group-fname">
                                     <Field required name="employment_type" as="select" class="form-control input"
@@ -521,6 +505,12 @@
                                     <label for="Employment Type" class="user-label">Employment Type</label>
                                     <ErrorMessage name="employment_type" class="text-danger mt-1" />
                                 </div>
+                                
+                            </div>
+
+                            <div class="row">
+
+                                
 
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="aadhar_number" placeholder="Aadhar Number"
@@ -529,11 +519,6 @@
                                     <label for="Aadhar Number" class="user-label">Aadhar Number</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
-                                
-                            </div>
-
-                            
-                            <div class="row">
 
                                 <div class="col-6 input-group-fname">
                                     <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
@@ -542,6 +527,13 @@
                                     <label for="PAN Number" class="user-label">PAN Number</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
+                                
+                            </div>
+
+                            
+                            <div class="row">
+
+                                
                                 <div class="col-6 input-group-fname">
                                     <Field type="text" name="epf" placeholder="EPF Number" @input="updateValue($event.target.value)"
                                         v-model="userData.epf" :class="{ 'is-invalid': errors.epf }"
@@ -549,10 +541,7 @@
                                     <label for="PAN Number" class="user-label">EPF Number</label>
                                     <ErrorMessage name="epf" class="text-danger mt-1" />
                                 </div>
-                            </div>
 
-
-                            <div class="row">
                                 <div class="col-6 input-group-fname">
                                     <Field type="text" name="esi" placeholder="ESI Number" @input="updateValue($event.target.value)"
                                         v-model="userData.esi" :class="{ 'is-invalid': errors.esi }"
@@ -560,6 +549,7 @@
                                     <label for="PAN Number" class="user-label">ESI Number</label>
                                     <ErrorMessage name="esi" class="text-danger mt-1" />
                                 </div>
+
                             </div>
                             
                         </div>
@@ -853,6 +843,7 @@ const immediateManagerCode = ref([])
 const pancard = ref(null)
 const isModalInput = ref(false)
 const isDropdownUpdated = ref(false)
+const users = ref({})
 
 const inputRef = ref('')
 const docValues = {
@@ -909,14 +900,14 @@ const updateValue = (value) => {
 
 watch(immediateManager, async (current, previous) => {
     userData.value.immediate_manager = current;
-    let users = await getUsers({role:immediateManager.value});
-    immediateManagerCode.value = users.data;
+    userData.value.immediate_manager_code = current;
+    immediateManagerCode.value = current;
 })
 
 watch(leaveApprovingAuth, async (current, previous) => {
     userData.value.leave_approving_auth = current;
-    let users = await getUsers({role:leaveApprovingAuth.value});
-    leaveApprovingAuthCode.value = users.data;
+    userData.value.leave_approving_code = current;
+    leaveApprovingAuthCode.value = current;
 })
 
 watch(sameAsLocal, (current, previous) => {
@@ -972,7 +963,8 @@ const getOldUploadDocData = () => {
 onMounted(async () => {
     getUser(route.params.id)
     getRoles()
-
+    users.value = await getUsers();
+    console.log('users.value', users.value)
 });
 
 const uploadComponent = ref([])
@@ -1206,10 +1198,8 @@ const schemas = [
         }),
     yup.object({
         employee_id: yup.string().required("Required!"),
-        role_id: yup.string().required("Required!"),
+        role_id: yup.string().required("Department is required!"),
         designation: yup.string().required("Designation is required!"),
-        department: yup.string().required("Department is required!"),
-        role_id: yup.string().required("Required!"),
         doj: yup.string().required("Required!").test('is-greater', 'Invalid Date', function(value) {
             const date = new Date(value);
             const year = date.getFullYear();
