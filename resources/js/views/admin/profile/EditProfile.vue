@@ -490,6 +490,20 @@
                                 </div>
                             </div>
                             <div class="row">
+
+                                <div class="col input-group-fname">
+                                    <Field required name="position" as="select" class="form-control input" @change="isModalInputOpend(userData.position, 'position')"
+                                        autocomplete="off" v-model="userData.position" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Position</option>
+                                        <option v-for="option in inputValues.position" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
+                                    </Field>
+                                    <label for="Position" class="user-label">Position</label>
+                                    <ErrorMessage name="position" class="text-danger mt-1" />
+                                </div>
+
                                 <div class="col input-group-fname">
                                     <Field required name="grade" as="select" class="form-control input" @change="isModalInputOpend(userData.grade, 'grade')"
                                         autocomplete="off" v-model="userData.grade" style="color: #7e7e7e;">
@@ -502,6 +516,11 @@
                                     <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
+                                
+                            </div>
+
+                            <div class="row">
+
                                 <div class="col input-group-fname">
                                     <Field required name="employment_type" as="select" class="form-control input"
                                         v-model="userData.employment_type" autocomplete="off" style="color: #7e7e7e;">
@@ -516,9 +535,7 @@
                                     <label for="Employment Type" class="user-label">Employment Type</label>
                                     <ErrorMessage name="employment_type" class="text-danger mt-1" />
                                 </div>
-                            </div>
 
-                            <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="aadhar_number" placeholder="Aadhar Number"
                                         v-model="userData.aadhar_number" :class="{ 'is-invalid': errors.aadhar_number }"
@@ -526,7 +543,11 @@
                                     <label for="Aadhar Number" class="user-label">Aadhar Number</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
-                                <div class="col input-group-fname">
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 input-group-fname">
                                     <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
                                         v-model="userData.pan_number" :class="{ 'is-invalid': errors.pan_number }"
                                         class="input" autocomplete="off" required />
@@ -833,7 +854,8 @@ const inputValues = ref({
     department : ['Software Development', 'Quality Testing', 'Designing', 'Management'],
     qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
     experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
-    grade:['Manager', 'Lead', 'Senior', 'Junior']
+    position:['Designer', 'Developer', 'QA', 'Junior'],
+    grade:['Manager', 'Lead', 'Senior', 'Junior'],
 });
 const isModalInputOpend = (value, key) => {
     if(value == 'Other') {

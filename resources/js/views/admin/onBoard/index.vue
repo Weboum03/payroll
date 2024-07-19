@@ -138,15 +138,6 @@
 
                                 <div class="row">
                                     <div class="col input-group-fname">
-                                        <Field v-slot="{ field, handleChange }" name="password" class="input">
-                                            <input @change="handleChange" :value="field.value"
-                                                :class="{ 'is-invalid': errors.password }" placeholder="Password*"
-                                                type="password" autocomplete="new-password" class="input" required>
-                                        </Field>
-                                        <label for="html" class="user-label ">Password</label>
-                                        <ErrorMessage name="password" class="text-danger mt-1" />
-                                    </div>
-                                    <div class="col input-group-fname">
                                         <Field v-slot="{ field, handleChange }" name="dob" class="input"
                                             autocomplete="off">
                                             <input @change="handleChange" :value="field.value"
@@ -155,6 +146,16 @@
                                         </Field>
                                         <label for="html" class="user-label ">Date of Birth*</label>
                                         <ErrorMessage name="dob" class="text-danger mt-1" />
+                                    </div>
+
+                                    <div class="col input-group-fname">
+                                        <Field v-slot="{ field, handleChange }" name="password" class="input">
+                                            <input @change="handleChange" :value="field.value"
+                                                :class="{ 'is-invalid': errors.password }" placeholder="Password*"
+                                                type="password" autocomplete="new-password" class="input" required>
+                                        </Field>
+                                        <label for="html" class="user-label ">Password</label>
+                                        <ErrorMessage name="password" class="text-danger mt-1" />
                                     </div>
                                 </div>
 
@@ -530,6 +531,21 @@
                                 </div>
                             </div>
                             <div class="row">
+
+                                <div class="col input-group-fname">
+                                    <Field required name="position" as="select" class="form-control input" v-model="selectedOption.position" @change="isModalInputOpend(selectedOption.position, 'position')"
+                                        autocomplete="off" style="color: #7e7e7e;">
+                                        <option value="" disabled selected>Position</option>
+										<option value="Manager">Manager</option>
+										<option v-for="option in inputValues.position" :key="option" :value="option">
+                                            {{ option }}
+                                        </option>
+                                        <option value="Other">Other</option>
+                                    </Field>
+                                    <label for="Position" class="user-label">Position</label>
+                                    <ErrorMessage name="position" class="text-danger mt-1" />
+                                </div>
+
                                 <div class="col input-group-fname">
                                     <Field required name="grade" as="select" class="form-control input" v-model="selectedOption.grade" @change="isModalInputOpend(selectedOption.grade, 'grade')"
                                         autocomplete="off" style="color: #7e7e7e;">
@@ -543,6 +559,11 @@
                                     <label for="Grade" class="user-label">Grade</label>
                                     <ErrorMessage name="grade" class="text-danger mt-1" />
                                 </div>
+                                
+                            </div>
+
+                            <div class="row">
+
                                 <div class="col input-group-fname">
                                     <Field required name="employment_type" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
@@ -558,9 +579,7 @@
                                     <label for="Employment Type" class="user-label">Employment Type</label>
                                     <ErrorMessage name="employment_type" class="text-danger mt-1" />
                                 </div>
-                            </div>
 
-                            <div class="row">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="aadhar_number" placeholder="Aadhar Number"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
@@ -568,7 +587,11 @@
                                     <label for="Aadhar Number" class="user-label">Aadhar Number</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
-                                <div class="col input-group-fname">
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 input-group-fname">
                                     <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
                                         :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
                                     <label for="PAN Number" class="user-label">PAN Number</label>
@@ -877,6 +900,7 @@ const inputValues = ref({
     department : ['Software Development', 'Quality Testing', 'Designing', 'Management'],
     qualification : ['Master Degree', 'B.Tech or BE', 'Other Graduate', 'Under Graduate'],
     experience : ['0 - 1 year', '1-3 years', '4-6 years', '7-9 years', '10-15 years'],
+    position:['Designer', 'Developer', 'QA', 'Junior'],
     grade:['Manager', 'Lead', 'Senior', 'Junior']
 });
 
