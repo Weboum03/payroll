@@ -11,7 +11,12 @@ body{
     height: 100vh;
   
 }
-
+input,select{
+    color:black !important;
+}
+div#leavesEmpTable_wrapper table tr td {
+    padding: 22px 15px !important;
+}
 .current-page {
   color: #03A9F3; /* Set the text color to blue */
 }
@@ -1182,7 +1187,7 @@ div#profile .navbar {
     font-weight: 500;
 }
 input#uplodePhoto::file-selector-button {
-    background: #03a9f3;
+    background: #03a9f3 !important;
 }
 .showalltask-div input {
     width: 23px !important;

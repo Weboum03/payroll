@@ -227,19 +227,23 @@ class BatchController extends BaseController
 
         if($type == 'SalaryTransferLetter') {
             $data = [];
-            $pdf = Pdf::loadView('pdf.SalaryTransferLetter', $data);
+            $users = $this->batchRepository->getUsersByBatchForDoc($id, $request);
+            $pdf = Pdf::loadView('pdf.SalaryTransferLetter', ['users' => $users]);
             return $pdf->download('SalaryTransferLetter.pdf');
         }
 
         elseif($type == 'AttendaceFormat') {
             $data = [];
-            $pdf = Pdf::loadView('pdf.AttendaceFormat', $data);
+            $users = $this->batchRepository->getUsersByBatchForDoc($id, $request);
+            // dd($users->toArray());
+            $pdf = Pdf::loadView('pdf.AttendaceFormat', ['users' => $users]);
             return $pdf->download('AttendaceFormat.pdf');
         }
 
         elseif($type == 'SalaryFormat') {
             $data = [];
-            $pdf = Pdf::loadView('pdf.SalaryFormat', $data);
+            $users = $this->batchRepository->getUsersByBatchForDoc($id, $request);
+            $pdf = Pdf::loadView('pdf.SalaryFormat', ['users' => $users]);
             return $pdf->download('SalaryFormat.blade.pdf');
         }
 

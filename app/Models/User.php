@@ -74,6 +74,11 @@ class User extends Authenticatable implements JWTSubject, HasMedia, CanLogAttend
         return $this->hasMany(Payroll::class);
     }
 
+    public function payrollSingle()
+    {
+        return $this->hasOne(Payroll::class);
+    }
+
     public function deboard()
     {
         return $this->hasOne(Deboard::class);

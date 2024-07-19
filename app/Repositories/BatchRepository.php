@@ -123,6 +123,26 @@ class BatchRepository extends BaseRepository
         ->withSum('employee as deduction', 'deduction')->withSum('employee as payout', 'payout')->paginate($limit);
     }
 
+    public function getUsersByBatchForDoc($id, $request)
+    {
+        $batch = Batch::find($id);
+        if ($batch) {
+            return $batch->users()->with('role', 'info','payrollSingle')
+                ->when($request->sort_column, function ($q) use($request) {
+                    return $q->orderBy($request->sort_column, $request->sort_order);
+                }, function ($q) {
+                    return $q->latest();
+                })
+                ->whereHas('info', function ($query) use ($request) {
+                    $query->when($request->company, function ($q) use ($request) {
+                        return $q->where('company', $request->company);
+                    });
+                })
+                ->get();
+        }
+        return [];
+    }
+
     public function getUsersByBatch($id, $request)
     {
         $batch = Batch::find($id);

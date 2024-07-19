@@ -90,7 +90,7 @@
                             </select>
                         </td>
                         <td>
-                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile(`https://payroll.wtpl.net/api/admin/batches/${route.params.id}/donwload_doc/SalaryFormat`)" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="SRDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -106,7 +106,7 @@
                             </select>
                         </td>
                         <td>
-                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/AttendaceFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile(`https://payroll.wtpl.net/api/admin/batches/${route.params.id}/donwload_doc/AttendaceFormat`)" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="ARDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -122,7 +122,7 @@
                             </select>
                         </td>
                         <td>
-                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryTransferLetter')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile(`https://payroll.wtpl.net/api/admin/batches/${route.params.id}/donwload_doc/SalaryTransferLetter`)" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="BLDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -138,7 +138,7 @@
                             </select>
                         </td>
                         <td>
-                            <button @click="downloadFile('https://payroll.wtpl.net/api/admin/batches/64/donwload_doc/SalaryFormat')" class="btn btn-primary d-flex justify-content-center align-items-center"
+                            <button @click="downloadFile(`https://payroll.wtpl.net/api/admin/batches/${route.params.id}/donwload_doc/SalaryFormat`)" class="btn btn-primary d-flex justify-content-center align-items-center"
                                 type="button" id="SRDownload">Download
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </button>
@@ -149,8 +149,8 @@
                         <td>Salary Slip</td>
                         <td>
                             <select name="" id="DocumentFormat">
-                                <option selected disabled value="">Select file type</option>
-                                <option value="pdf">Pdf</option>
+                                <option disabled value="">Select file type</option>
+                                <option selected value="pdf">Pdf</option>
                             </select>
                         </td>
                         <td>
