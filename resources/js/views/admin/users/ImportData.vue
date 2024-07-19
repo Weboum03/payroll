@@ -7,10 +7,22 @@
     <div id="dashboard-table">
         <div id="ImportDataDragDrop" class="d-flex flex-column" style="padding: 20px 25px; gap: 1rem;">
             <div class="section d-flex justify-content-between align-items">
-                <div class="d-flex flex-column" style="gap: 1rem;">
+                <div class="d-flex" style="gap: 1rem;">
+                    <div class="back-div">
+                               <router-link :to="{ name: 'admin.dashboard' }">
+                               <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                style="color: #000000;"></i></span>
+                                <span style="cursor: pointer; padding-left:5px;" >Back</span>  
+                                </router-link>
+                    </div>
+                    <div class="back-div-content" style="padding-left:40px;">
                     <p>Import data from file</p>
                     <p>Import employee data from another system or file. First row will be considered as
-                        headers</p>
+                        headers.<br>
+                        Date format must be in DD-MM-YYYY <br>
+                        
+                    </p>
+                    </div>
                 </div>
                 <div class="d-flex align-items-center">
                     <button type="button" @click="downloadFileBatch" class="btn  DownSampFile">Download Sample

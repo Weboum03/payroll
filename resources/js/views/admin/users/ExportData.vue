@@ -8,9 +8,18 @@
                 <Form @submit="submitForm" :validation-schema="schema" v-slot="{ validate, errors, handleSubmit }">
                 <div id="ExportData" class="d-flex flex-column" style="padding: 20px 25px; gap: 1rem;">
                     <div class="section d-flex flex-column justify-content-between align-items" style="gap: 1rem;">
-                        <div class="d-flex flex-column" style="gap: 5px">
+                       <div class="d-flex back-main" style="gap: 5px">
+                            <div class="back-div">
+                               <router-link :to="{ name: 'admin.dashboard' }">
+                               <span><i class="fa-solid fa-arrow-right fa-flip-horizontal fa-sm"
+                                style="color: #000000;"></i></span>
+                                <span style="cursor: pointer; padding-left:5px;" >Back</span>  
+                                </router-link>
+                            </div>
+                            <div class="back-div-content" style="padding-left:40px;">
                             <p>Export data from database</p>
                             <p>Select file format and fields which want to export</p>
+                            </div>
                         </div>
                         <div>
                             <div class="col input-group-fname">
