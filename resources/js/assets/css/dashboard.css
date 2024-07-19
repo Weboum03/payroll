@@ -11,9 +11,98 @@ body{
     height: 100vh;
   
 }
+
 .current-page {
   color: #03A9F3; /* Set the text color to blue */
 }
+
+/* -------Start Css 11-07-2024 ------ */
+table.dataTable.table {
+    width: 100% !important;
+}
+#Emp-Leaves-absences {
+    justify-content: space-between !important;
+}
+div#DataTables_Table_0_wrapper #DataTables_Table_0_info {
+    padding: 0 !important;
+    font-size: 16px !important;
+    margin-left: 10px;
+}
+div#leavesEmpTable_wrapper table th {
+    /* padding: 30px 5px !important; */
+    /* font-weight: 500; */
+    width: 0px;
+    vertical-align: middle;
+}
+ table th {
+    width: 0px;
+    vertical-align: middle;
+}
+div#PayrollbatchList-Table_filter input[type="search"] {
+    outline: none !important;
+    border: none !important;
+    margin-left: 10px !important;
+}
+div#modalLeave-list .close span {
+    padding-right: 10px !important;
+}
+div#EmpRolesTable_wrapper input[type="search"] {
+    outline: none !important;
+    border: none !important;
+    margin-left: 10px !important;
+}
+div#testRslt-table_filter input[type="search"] {
+    outline: none !important;
+    border: none !important;
+    margin-left: 10px !important;
+}
+#main-dashboard .close span {
+    margin-bottom: 0 !important;
+    font-size: 20px !important;
+}
+#dashboard-table .close1 {
+    width: auto !important;
+}
+div#leaveModal .admin-Leave-approve-profile p {
+    padding: 0 !important;
+}
+div#leaveModal .close {
+    padding: 10px 14px !important;
+    background: #03a9f3;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    margin: 0 !important;
+}
+div#leaveModal .close span {
+    color: white;
+    font-weight: normal !important;
+}
+.PayrollDocbtn[data-v-9e0c6e78] {
+    width: auto !important;
+}
+div#leavesEmpTable_wrapper table th {
+    white-space: nowrap;
+    padding: 15px 10px !important;
+}
+div#leavesEmpTable_filter select {
+    margin: 0 10px;
+}
+div#leavesEmpTable_filter .selectBulkAction {
+    font-size: 14px !important;
+}
+div#leavesEmpTable_filter .refresh {
+    margin: 0 5px;
+}
+table tr th, td {
+    white-space: nowrap !important;
+} 
+.cancle {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+/* -------End Css 11-07-2024 ------ */
 
 /* -------main-sidebar start------ */
 
@@ -1029,3 +1118,245 @@ a{
   flex-direction: row-reverse;
   gap: 20px;
 }
+/* Start Css 17-07-2024*/
+
+#dashboard-table-info {
+    padding: 23px 35px !important;
+}
+.input-group-fname>.input {
+width: 100% !important;
+}
+
+
+/* Modal Css*/
+
+.modal-body .dt-layout-row {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Start Sidebar Css*/
+
+div#profile .navbar {
+    flex-wrap: nowrap !important;
+}
+.accordion-menu #accordion ul li a {
+    text-wrap: nowrap !important;
+}
+
+/* Start Dashboard Header Css*/
+#nav-dashboard nav {
+    justify-content: space-between !important;
+}
+
+.profile .icon_wrap {
+    flex-direction: row !important;
+}
+.profile .icon_wrap img {
+    order: 1;
+}
+.profile .icon_wrap .name {
+    order: 0;
+}
+
+/*notification_ul*/
+
+.notification_dd .notification_ul {
+	padding: 4px 0;
+    margin: 0;
+}
+.notification_dd .notification_ul .show_all {
+    display: none;
+}
+.notification_dd li {
+    padding: 8px 10px;
+    width: 100%;
+}
+.notification_dd li .title {
+    font-size: 15px;
+}
+/* All Employee Page*/
+.back-div a {
+    color: #000 !important;
+    font-size: 20px;
+    font-weight: 500;
+}
+input#uplodePhoto::file-selector-button {
+    background: #03a9f3;
+}
+.showalltask-div input {
+    width: 23px !important;
+    height: 23px;
+}
+
+table#DataTables_Table_0 tr td {
+    font-weight: 500;
+    padding: 18px 10px !important;
+}
+div#Emp-Leaves-absences .flex-column {
+    width: 30%;
+    box-shadow: 0 0 7px 0px #80808057;
+}
+div#Emp-details {
+    box-shadow: 0 0 7px 0px #80808057;
+}
+
+/* Update Employee*/
+.progressbar .progress-step-active {
+    background: #0492f5 !important;
+}
+.progressbar .progress-step-active::after {
+    color: #0492f5 !important;
+    text-wrap: nowrap;
+}
+.progress-step:after {
+    text-wrap: nowrap;
+    font-size: 13px !important; 
+    font-weight: 500;
+    color: black !important;
+}
+.progress {
+    background-color: rgb(4 146 245) !important;
+}
+.progressbar .progress {
+    background: #0492f5 !important;
+    background-color: #0492f5 !important;
+}
+
+
+
+/* Planner*/
+.graph {
+    margin: 20px 0;
+}
+div#input-valuses-accord .card .btn {
+    padding: 20px 30px !important;
+    font-weight: 500 !important;
+    font-size: 17px !important;
+}
+
+/* De-board  */
+.personal-infor textarea {
+    padding: 10px !important;
+}
+.personal-infor .custom-checkbox {
+    justify-content: start !important;
+    font-size: 17px;
+}
+.showalltask-div .p1 {
+    font-size: 17px !important;
+}
+textarea{
+	 padding: 10px !important;
+}
+.cstmFullWidthField select {
+    width: 100% !important;
+}
+.cstmFullWidthField input {
+    width: 100% !important;
+}
+.p2{
+	width: 100% !important;
+}
+
+/* Leave Approval */
+
+.modal-content {
+    width: 100% !important;
+}
+div#modalLeave-list .modal-dialog {
+    max-width: 800px !important;
+}
+div#modalLeave-list .modal-dialog .modal-content {
+    padding: 0px 20px !important;
+}
+.accordion-menu #accordion button::after {
+    transform: rotate(270deg);
+}
+.accordion-menu #accordion button.collapsed::after {
+    transform: rotate(360deg) !important;
+}
+div#modalLeave-list .close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div#leavesEmpTable_wrapper table tr td {
+    font-weight: 500;
+}
+div#modalLeave-list #dropdownAction {
+    font-size: 14px;
+    padding: 10px !important;
+    margin-bottom: 15px;
+    width: 100%;
+    outline: none !important;
+}	
+div#modalLeave-list select {
+    border: solid 1px #9e9e9e;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: 22.5px;
+    height: 45px !important;
+    color: #000;
+}
+div#modalLeave-list .modal-body {
+    padding: 0 !important;
+}
+textarea#additionalComment {
+    width: 100% !important;
+}
+
+/*Payroll Data*/
+
+ul#pagination {
+    justify-content: space-between !important;
+}
+.upldExcelfile span {
+    font-weight: 400 !important;
+}
+.clsdashboarDate {
+    font-size: 16px !important;
+    margin-top: 20px;
+}
+#leavesEmpTable_wrapper table th {
+    text-wrap: wrap !important;
+    padding: 5px 10px !important;
+}
+span.dt-column-order {
+    right: 0px !important;
+}
+.onboardLocalCls {
+    margin-top: 20px !important;
+}
+div#dashboard-table button.close span {
+    padding-right: 10px !important;
+}
+
+/*Financial Year*/
+
+
+div#Financial-year-dropdown select#finYearDropdown1 {
+    font-size: 15px !important;
+    height: auto !important;
+    outline: none !important;
+}
+ul#pagination .page-item a {
+    font-size: 14px !important;
+    text-wrap: nowrap;
+}
+div#PayrollBatch-btn button {
+    text-wrap: nowrap;
+}
+div#EmpRolesTable_info {
+    padding-left: 20px;
+    padding-top: 0 !important;
+}
+
+/*PayrollAdjustment*/
+.updateMode .row {
+    width: 45%;
+}
+
+
+	
+/* End Css 17-07-2024*/
