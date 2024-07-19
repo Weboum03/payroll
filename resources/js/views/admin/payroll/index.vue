@@ -448,8 +448,6 @@ $(document).ready(function () {
 @import '@/assets/css/onBoard.css';
 @import '@/assets/css/Payroll.css';
 
-.JJAA {}
-
 .modal-mask {
     position: fixed;
     z-index: 1;
