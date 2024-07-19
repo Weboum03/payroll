@@ -19,8 +19,8 @@
         <nav aria-label="Page navigation example" class="d-flex flex-column"
             style="background-color: white; gap: 1rem;">
             <ul class="pagination" id="pagination">
-                <li class="page-item ">
-                    <a class="page-link page-item-prev" href="#" aria-label="Previous">
+                <li class="page-item">
+                    <a @click="scrollLeft" class="page-link page-item-prev" href="#" aria-label="Previous">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl"
                                 style="color: #000000;"></i></span>
                     </a>
@@ -29,7 +29,7 @@
                     <li v-for="month in months" class="page-item"><a class="page-link" href="#" @click="getStatisticData(month.year,month.month)" style="color: rgb(168, 168, 168);">{{ `${month.monthName}-${month.year}` }}</a></li>
                 </div>
                 <li class="page-item">
-                    <a class="page-link page-item-next" href="#" aria-label="Next">
+                    <a @click="scrollRight" class="page-link page-item-next" href="#" aria-label="Next">
                         <span aria-hidden="true"><i class="fa-solid fa-angle-left fa-flip-horizontal fa-2xl"
                                 style="color: #000000;"></i></span>
                     </a>
@@ -408,6 +408,14 @@ const generateMonths = (value) => {
     }
 
 
+const scrollLeft = () => {
+    let content = document.querySelector(".months-years");
+    content.scrollLeft -= 50;
+}
+const scrollRight = () => {
+    let content = document.querySelector(".months-years");
+    content.scrollLeft += 40;
+}
 $(document).ready(function () {
 
     // Get the current date

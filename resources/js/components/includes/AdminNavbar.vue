@@ -10,7 +10,7 @@
 
             <div class="notification">
                 <div class="navbar_right">
-                    <div class="notifi" :class="{ 'active': notify }">
+                    <div class="notifi" :class="{ 'active': notify }" ref="target">
                         <div class="icon_wrap" @click="notify = !notify"><span><i class="fa-regular fa-bell fa-xs"
                                     style="color: rgba(255, 255, 255)"></i></span></div>
 
@@ -152,15 +152,18 @@
 import { computed, onMounted, ref } from "vue";
 import { useStore } from 'vuex';
 import useAuth from "@/composables/auth";
-const notify = ref(false)
+import { onClickOutside } from '@vueuse/core'
+import useNotification from "@/composables/useNotification";
+
 
 const store = useStore();
 const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
-import useNotification from "@/composables/useNotification";
 const { items, getNotifications } = useNotification()
 const emit = defineEmits(['toggle']);
+const notify = ref(false)
 const sidebar = ref(false)
+
 onMounted( () => {
     getNotifications();
 })
@@ -170,4 +173,6 @@ const toggle = () => {
     emit('toggle', sidebar.value);
 }
 
+const target = ref(null)
+onClickOutside(target, () => { notify.value = false } );
 </script>
