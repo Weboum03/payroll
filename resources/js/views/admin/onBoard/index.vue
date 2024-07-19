@@ -656,6 +656,10 @@
                                         <option value="Full Time">Full Time</option>
 										<option value="Part Time">Part Time</option>
                                         <option value="Remote">Remote</option>
+                                        <option value="General Shift">General Shift</option>
+                                        <option value="Shift A">Shift A (UK)</option>
+                                        <option value="Shift B">Shift B (USA)</option>
+                                        <option value="Shift C">Shift C (AU)</option>
                                     </Field>
                                     <label for="Holiday Year" class="user-label">Work Pattern</label>
                                     <ErrorMessage name="work_pattern" class="text-danger mt-1" />
