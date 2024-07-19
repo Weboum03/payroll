@@ -118,7 +118,7 @@ const onSubmitForm2 = handleSubmitForm2(async (values) => {
 });
 </script>
 
-<style>
+<style scoped>
 .error {
     color: red;
 }

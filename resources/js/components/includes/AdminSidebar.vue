@@ -206,7 +206,7 @@ watch( currentValue, () => {
 </script>
 
 
-<style>
+<style scoped>
 
 #accordion .card-header-emp a[aria-expanded="true"]::after, #accordion .card-header-leave button[aria-expanded="true"]::after, #accordion .card-header-payroll button[aria-expanded="true"]::after, #accordion .card-header-more button[aria-expanded="true"]::after {
     transform: rotate(180deg);

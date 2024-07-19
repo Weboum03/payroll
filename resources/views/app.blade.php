@@ -15,7 +15,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Payroll</title>
 
-    <link rel="stylesheet" href="{{ asset('resources/css/dashboard.css') }}">
     <!-- Font Awesome CSS -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -42,7 +41,11 @@
     <!-- <script type="text/javascript" src="{{ asset('resources/js/jquery-3.7.1.js') }}"></script> -->
     <!-- jQuery UI -->
     <!-- <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script> -->
-
+    <style>
+        .dt-search {
+            display: none;
+        }
+    </style>
     <script>
         window.config = @json($config);
     </script>

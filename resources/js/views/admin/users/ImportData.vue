@@ -99,6 +99,6 @@ const downloadFile = async (response) => {
 
 </script>
 
-<style>
+<style scoped>
 @import '@/assets/css/ImportDragDrop.css';
 </style>

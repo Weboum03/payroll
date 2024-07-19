@@ -113,7 +113,7 @@ const loadDataTable = () => {
 };
 </script>
 
-<style>
+<style scoped>
 @import 'datatables.net-dt';
 @import '@/assets/css/Approvals.css';
 

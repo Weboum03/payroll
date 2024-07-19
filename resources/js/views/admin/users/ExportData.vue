@@ -106,6 +106,6 @@ const downloadFile = async (response) => {
 }
 
 </script>
-<style>
+<style scoped>
 @import '@/assets/css/ExportData.css';
 </style>

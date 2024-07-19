@@ -568,7 +568,7 @@ const closeModal = () => {
 </script>
 
 
-<style>
+<style scoped>
 @import '@/assets/css/de-board.css';
 
 .progressbar {

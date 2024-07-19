@@ -146,7 +146,7 @@ const tableHeaders = [
 }
 </style>
 
-<style>
+<style scoped>
 @import 'datatables.net-dt';
 
 .dt-search {

@@ -51,7 +51,7 @@
   });
   </script>
   
-  <style>
+  <style scoped>
   .error {
     color: red;
   }

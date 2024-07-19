@@ -198,7 +198,7 @@ const target = ref(null)
 onClickOutside(target, () => { emit('close'); });
 </script>
 
-<style>
+<style scoped>
 @import 'datatables.net-dt';
 @import '@/assets/css/Approvals.css';
 

@@ -107,11 +107,9 @@ watch(search_global, (current, previous) => {
 });
 
 </script>
-
-<style scoped>
+<style>
 @import '@/assets/css/EmployeeRole.css';
 </style>
-
 <style>
 @import 'datatables.net-dt';
 

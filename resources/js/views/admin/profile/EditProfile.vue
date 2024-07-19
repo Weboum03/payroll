@@ -803,7 +803,7 @@ import { useRoute, useRouter } from "vue-router";
 const route = useRoute()
 const router = useRouter();
 const swal = inject('$swal')
-const currentStep = ref(0);
+const currentStep = ref(3);
 const boxWidth = ref(0); // Initial width
 const userData = ref({})
 const userDetail = ref({});
@@ -1331,11 +1331,10 @@ const submitDocForm = (values) => {
     closeModal();
 };
 </script>
-<style>
-@import '@/assets/css/onBoard.css';
-</style>
 
 <style scoped>
+@import '@/assets/css/onBoard.css';
+
 .preview img,
 .preview video {
     max-width: 300px;

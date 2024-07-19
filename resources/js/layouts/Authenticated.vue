@@ -56,6 +56,7 @@ const toggle = (value) => {
 </script>
 
 <style scoped>
+@import '@/assets/css/dashboard.css';
 .navbar-brand {
     padding-top: .2rem;
     padding-bottom: .2rem;

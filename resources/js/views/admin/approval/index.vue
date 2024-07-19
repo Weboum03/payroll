@@ -181,7 +181,7 @@ watch(tableHeaders, (current, previous) => {
 });
 </script>
 
-<style>
+<style scoped>
 @import '@/assets/css/Approvals.css';
 @import 'datatables.net-dt';
 
