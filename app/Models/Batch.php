@@ -13,9 +13,13 @@ class Batch extends Model
     protected $table = 'payroll_batch';
     protected $fillable = [
         'name',
-        'status'
+        'status',
+        'edited'
     ];
     
+    protected $casts = [
+        'edited' => 'boolean'
+    ];
     public function employee() {
         return $this->hasMany(Payroll::class, 'batch_id');
     }

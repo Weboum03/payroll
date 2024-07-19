@@ -164,6 +164,11 @@
                         {{ row.payout || '0.00' }}
                     </template>
 
+                    <template v-slot:cell-status="{ row }">
+                        <span v-if="row.edited == true && row.status == 'Generated'" style="color: #03a9f3;">{{ row.status }}</span>
+                        <span v-else >{{ row.status }}</span>
+                    </template>
+
                     <template v-slot:cell-salary_slip="{ row }" class="salSlip">
                         <span v-if="row.status == 'Processed'">released</span>
                         <span v-else>Not Released</span>

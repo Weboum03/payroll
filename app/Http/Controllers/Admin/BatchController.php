@@ -111,7 +111,8 @@ class BatchController extends BaseController
         if(!$batch) {
             return $this->sendError('Not found');
         }
-
+        $batch->edited = 1;
+        $batch->save();
         $mode = '';
         if($request->mode) { $mode = $request->mode; }
         $file = $request->file("attachment");
