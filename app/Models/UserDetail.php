@@ -42,6 +42,7 @@ class UserDetail extends Model
         'leave_approving_code',
         'department',
         'job_role',
+        'position',
         'grade',
         'employment_type',
         'aadhar_number',
