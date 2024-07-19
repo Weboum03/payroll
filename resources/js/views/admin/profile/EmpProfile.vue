@@ -44,7 +44,7 @@
                 </div>
 
 
-                <router-link v-if="can('Update Profile')" :to="{ name: 'admin.EditProfile', params: { id: user?.id } }" custom v-slot="{ navigate }">
+                <router-link v-if="can('Update Profile') && !user.deboard" :to="{ name: 'admin.EditProfile', params: { id: user?.id } }" custom v-slot="{ navigate }">
                     <button @click="navigate" role="link" type="button" id="editButton" class="btn">Edit
                         Profile</button>
                 </router-link>
