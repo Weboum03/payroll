@@ -60,7 +60,11 @@ class LeaveRepository extends BaseRepository
                 return $q->latest();
             })
             ->when($request->user_id, function ($query) use ($request) {
-                return $query->where('user_id', $request->user_id);
+                return $query->whereHas('user', function ($q) use ($request) {
+                    return $q->where(function ($q) use($request) {
+                        return $q->where('employee_id', 'like', '%' . $request->user_id . '%');
+                    });
+                });
             })
             ->when($request->status, function ($query) use ($request) {
                 return $query->where('status', $request->status);

@@ -26,10 +26,14 @@
                 <option value="25">25 Activity</option>
                 <option value="50">50 Activity</option>
             </select>
-            <select id="dropdown1" class="empWise" v-model="filterUser">
+            <!-- <select id="dropdown1" class="empWise" v-model="filterUser">
                 <option disabled value="">Employee wise</option>
                 <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
-            </select>
+            </select> -->
+            <input list="empwise" name="browser" v-model="filterUser" id="empWise" placeholder="Employee Wise">
+            <datalist id="empwise">
+                <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">{{ user.name }}</option>
+            </datalist>
             <button type="button" @click="isBulkOpened = true" class="btn selectBulkAction" data-toggle="modal" data-target="#bulkActionModal">Select Bulk Action</button>
             <button type="button" @click="refreshData" class="btn refresh"><i
                     class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
@@ -243,5 +247,9 @@ table.dataTable tbody tr td {
 
 .dt-search {
     display: none;
+}
+
+datalist option {
+  display: none; /* Hide the display of option values */
 }
 </style>
