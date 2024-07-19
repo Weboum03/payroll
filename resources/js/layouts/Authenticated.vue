@@ -1,9 +1,9 @@
 <template>
     <section id="section-navbar">
-        <AdminSidebar />
+        <AdminSidebar :isActive="isActive" />
         <!-- -----Main-dashboard----- -->
         <div id="main-dashboard">
-            <AdminNavbar />
+            <AdminNavbar @toggle="toggle"/>
             <Suspense>
                 <router-view></router-view>
             </Suspense>
@@ -15,28 +15,14 @@
 </template>
 
 <script setup>
-
-// import '@/adminAssets/assets/js/icons/feather-icon/feather.min.js';
-// import '@/adminAssets/assets/js/icons/feather-icon/feather-icon.js';
-// import '@/adminAssets/assets/css/vendors/font-awesome.css';
-// import '@/adminAssets/assets/css/vendors/flag-icon.css';
-// import '@/adminAssets/assets/css/vendors/icofont.css';
-// import '@/adminAssets/assets/css/vendors/prism.css';
-// import '@/adminAssets/assets/css/vendors/chartist.css';
-// import '@/adminAssets/assets/css/vendors/bootstrap.css';
-// import '@/adminAssets/assets/css/style.css';
-
-
-import { computed, onUnmounted } from "vue";
+import { computed, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import AdminNavbar from "../components/includes/AdminNavbar.vue";
-import AdminHeader from "../components/includes/AdminHeader.vue";
-import AdminFooter from "../components/includes/AdminFooter.vue";
 import AdminSidebar from "../components/includes/AdminSidebar.vue";
-import Breadcrumb from "../components/includes/Breadcrumb.vue";
 import '@/assets/css/dashboard.css'
 
 const route = useRoute();
+const isActive = ref(false)
 
 const crumbs = computed(() => {
     let pathArray = route.path.split('/')
@@ -64,13 +50,9 @@ const crumbs = computed(() => {
     return breadCrumbs
 });
 
-// onUnmounted(() => {
-//     this.style.remove();
-// });
-function selected(crumb) {
-    // console.log(crumb);
+const toggle = (value) => {
+    isActive.value = value;
 }
-
 </script>
 
 <style scoped>

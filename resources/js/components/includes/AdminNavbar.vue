@@ -2,12 +2,11 @@
     <!-- -----nav-dashboard start----- -->
     <div id="nav-dashboard">
         <nav class="navbar navbar-dark bg-primary nav-icon d-flex justify-content-between">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            <button class="navbar-toggler" type="button" data-toggle="collapse" @click="toggle"
                 data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="icon"></span>
             </button>
-
 
             <div class="notification">
                 <div class="navbar_right">
@@ -160,11 +159,15 @@ const user = computed(() => store.state.auth.user)
 const { processing, logout } = useAuth();
 import useNotification from "@/composables/useNotification";
 const { items, getNotifications } = useNotification()
-
+const emit = defineEmits(['toggle']);
+const sidebar = ref(false)
 onMounted( () => {
     getNotifications();
 })
 
-</script>
+const toggle = () => {
+    sidebar.value = !sidebar.value
+    emit('toggle', sidebar.value);
+}
 
-<style scoped></style>
+</script>
