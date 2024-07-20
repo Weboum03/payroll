@@ -1,75 +1,81 @@
 <template>
     <!-- -----nav-dashboard-table start----- -->
     <div id="dashboard-table-info">
-            <span>Leaves</span>
-            <span>Employee > Leaves</span>
-        </div>
+        <span>Leaves</span>
+        <span>Employee > Leaves</span>
+    </div>
     <div id="dashboard-table">
-        
+
 
         <div id="datatable-Emp-info">
 
 
         </div>
         <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
-        <div id="leavesEmpTable_filter" class="dataTables_filter"
-            style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
-                    v-model="searchQuery" @input="filterRows" placeholder=""
-                    aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction" v-model="filterStatus">
-                <option value="" disabled>Select Status</option>
-                <option value="Pending">Pending</option>
-                <option value="Approved">Approved</option>
-                <option value="Rejected">Rejected</option>
-            </select>
-            <select id="dropdown2" class="allActivity" v-model="pagelength">
-                <option value="10">10 Activity</option>
-                <option value="25">25 Activity</option>
-                <option value="50">50 Activity</option>
-            </select>
-            <!-- <select id="dropdown1" class="empWise" v-model="filterUser">
+            <div id="leavesEmpTable_filter" class="dataTables_filter"
+                style="display: flex; justify-content: space-between;"><label>Search:<input type="search" class=""
+                        v-model="searchQuery" @input="filterRows" placeholder=""
+                        aria-controls="leavesEmpTable"></label><select id="dropdown1" class="bulkAction"
+                    v-model="filterStatus">
+                    <option value="" disabled>Select Status</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <select id="dropdown2" class="allActivity" v-model="pagelength">
+                    <option value="10">10 Activity</option>
+                    <option value="25">25 Activity</option>
+                    <option value="50">50 Activity</option>
+                </select>
+                <!-- <select id="dropdown1" class="empWise" v-model="filterUser">
                 <option disabled value="">Employee wise</option>
                 <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
             </select> -->
-            <input list="empwise" name="browser" v-model="filterUser" id="empWise" placeholder="Employee Wise">
-            <datalist id="empwise">
-                <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">{{ user.name }}</option>
-            </datalist>
-            <button type="button" @click="isBulkOpened = true" class="btn selectBulkAction" data-toggle="modal" data-target="#bulkActionModal">Select Bulk Action</button>
-            <button type="button" @click="refreshData" class="btn refresh"><i
-                    class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
-                    aria-hidden="true"></i></button>
-        </div>
-        <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData" ref="table" @rowclick="selectUser">
-            <template v-slot:cell-name="{ row }">
-                <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture" width="20px"
-                    height="20px" style="border-radius: 50%;">
-                {{ row.user.name }}
-            </template>
-            <template v-slot:cell-type="{ row }">
-                {{ row.type.type }}
-            </template>
-            <template v-slot:cell-duration="{ row }">
-                {{ row.duration }} Days
-            </template>
+                <input list="empwise" name="browser" id="empWise" @keydown.enter="addUser(filterUser)"
+                    v-model="filterUser" v-on:input="changingUser($event)" placeholder="Employee Wise">
+                <datalist id="empwise">
+                    <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">{{ user.name }}
+                    </option>
+                </datalist>
+                <button type="button" @click="isBulkOpened = true" class="btn selectBulkAction" data-toggle="modal"
+                    data-target="#bulkActionModal">Select Bulk Action</button>
+                <button type="button" @click="refreshData" class="btn refresh"><i
+                        class="fa-solid fa-rotate-right fa-flip-horizontal fa-sm" style="color: #ffffff;"
+                        aria-hidden="true"></i></button>
+            </div>
+            <DataTable :key="tableKey" v-if="leaves?.data" :headers="tableHeaders" :rows="leaves" @filter="filterData"
+                ref="table" @rowclick="selectUser">
+                <template v-slot:cell-name="{ row }">
+                    <img alt="dp" v-if="row.user?.user_profile_picture" :src="row.user?.user_profile_picture"
+                        width="20px" height="20px" style="border-radius: 50%;">
+                    {{ row.user.name }}
+                </template>
+                <template v-slot:cell-type="{ row }">
+                    {{ row.type.type }}
+                </template>
+                <template v-slot:cell-duration="{ row }">
+                    {{ row.duration }} Days
+                </template>
 
-            <template v-slot:cell-status="{ row }">
-                <button type="button" class="btn"
-                    :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
-                    id="pendingBtn">{{ row.status }}</button>
-            </template>
-            
-            <template v-slot:cell-action="{ row }">
-                <i class="fa-solid fa-ellipsis-vertical fa-sm" @click="selectUser(row)" style="color: #000000;"></i>
-            </template>
-        </DataTable>
-    </div>
+                <template v-slot:cell-status="{ row }">
+                    <button type="button" class="btn"
+                        :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
+                        id="pendingBtn">{{ row.status }}</button>
+                </template>
+
+                <template v-slot:cell-action="{ row }">
+                    <i class="fa-solid fa-ellipsis-vertical fa-sm" @click="selectUser(row)" style="color: #000000;"></i>
+                </template>
+            </DataTable>
+        </div>
     </div>
 
     <user-detail v-if="isModalOpened" :user="selectedUser" @close="closeModal" @showHistory="showHistory"></user-detail>
 
     <singleHistory v-if="isActive" :user="selectedUser" @showHistory="showHistory"></singleHistory>
 
-    <BulkActionList v-if="isBulkOpened" :user="selectedUser" @close="() => { refreshData(); isBulkOpened=false }"></BulkActionList>
+    <BulkActionList v-if="isBulkOpened" :user="selectedUser" @close="() => { refreshData(); isBulkOpened = false }">
+    </BulkActionList>
 </template>
 
 <script setup>
@@ -94,6 +100,7 @@ const isBulkOpened = ref(false)
 const isActive = ref(false)
 const tableHeaders = ref([])
 
+const selectedUser1 = ref(null)
 const filterData = (filterValues) => {
     getLeaves(filterValues)
 }
@@ -128,7 +135,7 @@ onMounted(() => {
     ];
 
     //if (can('Leave Approval')) {
-        tableHeaders.value.push({ key: 'action', label: 'Action' });
+    tableHeaders.value.push({ key: 'action', label: 'Action' });
     //}
     getLeaves();
     getUsers();
@@ -140,6 +147,23 @@ const selectUser = (user) => {
         isModalOpened.value = true;
     }
 };
+
+const addUser = () => {
+    table.value.filterData.filter.push({
+        key: "user_id",
+        value: filterUser.value,
+    })
+    table.value.filterPayload();
+
+    const user = users.value.data.find(u => u.employee_id === filterUser.value)
+    filterUser.value = user.name
+}
+
+const changingUser = (e) => {
+    if (!e.inputType) {
+        addUser()
+    }
+}
 
 const openModalHistory = () => {
     viewHistory.value = true;
@@ -153,13 +177,14 @@ const closeModal = () => {
 };
 
 const filterUser = ref('');
-watch(filterUser, (current, previous) => {
-    table.value.filterData.filter.push({
-        key: "user_id",
-        value: current,
-    })
-    table.value.filterPayload();
-});
+// watch(filterUser, (current, previous) => {
+//     console.log('current', current)
+//     table.value.filterData.filter.push({
+//         key: "user_id",
+//         value: current,
+//     })
+//     table.value.filterPayload();
+// });
 
 const filterStatus = ref('');
 watch(filterStatus, (current, previous) => {
@@ -208,7 +233,9 @@ table.dataTable tbody tr td {
     margin-left: 3px;
 }
 
-.bulkAction, .allActivity, .empWise {
+.bulkAction,
+.allActivity,
+.empWise {
     height: 40px;
     width: 210px;
     font-size: 16px;
@@ -250,6 +277,7 @@ table.dataTable tbody tr td {
 }
 
 datalist option {
-  display: none; /* Hide the display of option values */
+    display: none;
+    /* Hide the display of option values */
 }
 </style>
