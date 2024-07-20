@@ -9,7 +9,8 @@
 
         <div class=" d-flex flex-column" style="background-color: white; padding: 20px; gap: 1rem;">
             <div id="empPlanner" class=" d-flex">
-                <RouterLink :to="{ name: 'admin.EmpProfile', params: { id: route.params.id } }" custom v-slot="{ navigate }">
+                <RouterLink :to="{ name: 'admin.EmpProfile', params: { id: route.params.id } }" custom
+                    v-slot="{ navigate }">
                     <div @click="navigate" class="back-icon">
                         <i class="fa-solid fa-arrow-left fa-sm" style="color: #000000;"></i>
                     </div>
@@ -57,16 +58,16 @@
 
             <div class="row row-cols-6" style=" padding: 0px 13px;align-items: center;">
                 <div class="col input-group-fname">
-                    <input v-model="startDate" @change="filterRows" placeholder="from" required="" type="text" name="text" autocomplete="off"
-                        class="input form-control" onfocus="(this.type='date')"
+                    <input v-model="startDate" @change="filterRows" placeholder="from" required="" type="text"
+                        name="text" autocomplete="off" class="input form-control" onfocus="(this.type='date')"
                         style="width: 251px;height: 45px;">
                     <label class="user-label ">From</label>
                 </div>
                 <span
                     style="text-align: center;padding-left: 115px;padding-bottom: 4px;font-size: 16px;font-weight: 500;line-height: 24px;">to</span>
                 <div class="col input-group-fname">
-                    <input v-model="endDate" @change="filterRows" placeholder="To" required="" type="text" name="text" autocomplete="off"
-                        class="input form-control" onfocus="(this.type='date')"
+                    <input v-model="endDate" @change="filterRows" placeholder="To" required="" type="text" name="text"
+                        autocomplete="off" class="input form-control" onfocus="(this.type='date')"
                         style="width: 251px;height: 45px;">
                     <label class="user-label ">To</label>
                 </div>
@@ -77,8 +78,8 @@
                     <h6 class="chart-heading d-flex justify-content-start">Attendance</h6>
                     <div class="programming-stats">
                         <div class="attendance-container">
-                            <Doughnut :key="tableKey" id="counter" :data="attendancechartData" :options="options" width="125"
-                                height="125"
+                            <Doughnut :key="tableKey" id="counter" :data="attendancechartData" :options="options"
+                                width="125" height="125"
                                 style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
 
@@ -107,7 +108,8 @@
                     <h6 class="chart-heading d-flex justify-content-start">Earned Leaves (Days)</h6>
                     <div class="programming-stats1">
                         <div class="earned-container">
-                            <Doughnut :key="tableKey" id="counter" :data="earnedchartData" :options="options2" width="125" height="125"
+                            <Doughnut :key="tableKey" id="counter" :data="earnedchartData" :options="options2"
+                                width="125" height="125"
                                 style="display: block; box-sizing: border-box; height: 100px; width: 100px;" />
                         </div>
 
@@ -175,62 +177,20 @@
             June,2024 to July,2024 </div>
 
         <div class="accordion" id="input-valuses-accord">
-            <div class="card leaveTable-card">
-                <div class="card-header" id="input-valuses-accordOne">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                            data-target="#input-valuses-accord-collapseOne" aria-expanded="false"
-                            aria-controls="input-valuses-accord-collapseOne">
-                            February
-                        </button>
-                    </h2>
-                </div>
 
-                <div id="input-valuses-accord-collapseOne" class="collapse" aria-labelledby="input-valuses-accordOne"
-                    data-parent="#input-valuses-accord">
-                    <div class="card-body leaveTable-cardbody">
-                        <div id="hp"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card leaveTable-card">
-                <div class="card-header" id="input-valuses-accordTwo">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                            data-target="#input-valuses-accord-collapseTwo" aria-expanded="false"
-                            aria-controls="input-valuses-accord-collapseTwo">
-                            March
-                        </button>
-                    </h2>
-                </div>
-                <div id="input-valuses-accord-collapseTwo" class="collapse" aria-labelledby="input-valuses-accordTwo"
-                    data-parent="#input-valuses-accord">
-                    <div class="card-body leaveTable-cardbody">
-                        <div id="ap"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card leaveTable-card">
-                <div class="card-header" id="input-valuses-accordThree">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                            data-target="#input-valuses-accord-collapseThree" aria-expanded="false"
-                            aria-controls="input-valuses-accord-collapseThree">
-                            April
-                        </button>
-                    </h2>
-                </div>
-                <div id="input-valuses-accord-collapseThree" class="collapse"
-                    aria-labelledby="input-valuses-accordThree" data-parent="#input-valuses-accord">
-                    <div class="card-body leaveTable-cardbody">
-                        <div id="dp"></div>
-                    </div>
-                </div>
-            </div>
+            <AccordionPanel aria-title="incidents" title="July">
+                <Calender :data="{year:2024, month: 7}"/>
+            </AccordionPanel>
+
+            <AccordionPanel aria-title="incidents" title="June">
+                <Calender :data="{year:2024, month: 6}"/>
+            </AccordionPanel>
+
+            <AccordionPanel aria-title="incidents" title="May">
+                <Calender :data="{year:2024, month: 5}"/>
+            </AccordionPanel>
         </div>
     </div>
-
-    {{ attendancechartData.labels }}
 </template>
 
 <script setup>
@@ -240,6 +200,8 @@ import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { useRoute } from "vue-router";
 import useAttendance from "@/composables/useAttendance";
+import AccordionPanel from '@/components/AccordionPanel.vue';
+import Calender from './Calender.vue';
 const { getUserAttendanceCount, loading: isLoading, success } = useAttendance();
 const startDate = ref('')
 const endDate = ref('')
@@ -248,8 +210,8 @@ const route = useRoute()
 const plannerType = ref()
 const tableKey = ref(0)
 const attendanceValue = ref({
-    present : 0,
-    absent : 0,
+    present: 0,
+    absent: 0,
     leave_taken: 0,
     leave_remaining: 0
 })
@@ -257,7 +219,7 @@ const attendanceValue = ref({
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 watch(plannerType, (current, previous) => {
-    if(current == 'calendar') {
+    if (current == 'calendar') {
         // Get the current year
         const currentYear = new Date().getFullYear();
 
@@ -270,8 +232,8 @@ watch(plannerType, (current, previous) => {
         startDate.value = formatDate(firstDate);
         endDate.value = formatDate(lastDate);
         updateChart();
-    } 
-    else if(current == 'finencial') {
+    }
+    else if (current == 'finencial') {
         getFinencialYear();
         updateChart();
     }
@@ -306,11 +268,11 @@ function getFinencialYear() {
     let financialEndYear;
 
     if (currentMonth >= 3) { // April (3) to December (11) months
-    financialStartYear = currentYear;
-    financialEndYear = currentYear + 1;
+        financialStartYear = currentYear;
+        financialEndYear = currentYear + 1;
     } else { // January (0) to March (2) months
-    financialStartYear = currentYear - 1;
-    financialEndYear = currentYear;
+        financialStartYear = currentYear - 1;
+        financialEndYear = currentYear;
     }
 
     // Create date objects for the financial year's start and end
@@ -322,10 +284,10 @@ function getFinencialYear() {
 }
 // Function to format a Date object into YY-MM-DD format
 function formatDate(date) {
-  const year = String(date.getFullYear());
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 
 const updateAttendanceChartData = () => {
@@ -341,16 +303,16 @@ const updateAttendanceChartData = () => {
     earnedchartData.value.labels = [leaveTaken + " days taken", leaveRemaining + " remaining"]
     earnedchartData.value.datasets[0].data = [leaveTaken, leaveRemaining]
     attendanceValue.value = {
-        present : present,
-        absent : absent,
-        leave_remaining : leaveRemaining,
-        leave_taken : leaveTaken,
+        present: present,
+        absent: absent,
+        leave_remaining: leaveRemaining,
+        leave_taken: leaveTaken,
     }
     tableKey.value++;
 }
 
 const filterRows = async () => {
-    attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
+    attendanceData.value = await getUserAttendanceCount(route.params.id, { start: startDate.value, end: endDate.value })
     updateAttendanceChartData();
 };
 
@@ -429,11 +391,11 @@ const options2 = {
 }
 
 const updateChart = async () => {
-    attendanceData.value = await getUserAttendanceCount(route.params.id, {start: startDate.value, end: endDate.value})
+    attendanceData.value = await getUserAttendanceCount(route.params.id, { start: startDate.value, end: endDate.value })
     updateAttendanceChartData();
 }
 
-onMounted( async () => {
+onMounted(async () => {
     plannerType.value = 'month';
 });
 

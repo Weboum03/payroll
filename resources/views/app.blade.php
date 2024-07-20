@@ -36,7 +36,7 @@
     <!-- Chart.js -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script> -->
     <!-- Custom JavaScript -->
-    <script type="text/javascript" src="{{ asset('resources/js/dashboard.js') }}"></script>
+    <!-- <script type="text/javascript" src="{{ asset('resources/js/dashboard.js') }}"></script> -->
     <!-- <script type="text/javascript" src="{{ asset('resources/js/Home.js') }}"></script> -->
     <!-- <script type="text/javascript" src="{{ asset('resources/js/jquery-3.7.1.js') }}"></script> -->
     <!-- jQuery UI -->
