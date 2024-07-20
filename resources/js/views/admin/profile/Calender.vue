@@ -61,27 +61,27 @@ const loadCalender = () => {
         navigation_next: false,
         events: [
             {
-                "date": "2024-02-01",
+                "date": `2024-07-01`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark ernLeaves-div\">[day]</div>"
             },
             {
-                "date": "2024-02-05",
+                "date": `2024-${props.data.month}-05`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark PubHoly-div\">[day]</div>"
             },
             {
-                "date": "2024-02-25",
+                "date": `2024-${props.data.month}-25`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark manity-div\">[day]</div>"
             },
             {
-                "date": "2024-02-20",
+                "date": `2024-${props.data.month}-20`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark vesElemtum-div\">[day]</div>"
             },
             {
-                "date": "2024-02-30",
+                "date": `2024-${props.data.month}-30`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark donAliq-div\">[day]</div>"
             },
             {
-                "date": "2024-02-28",
+                "date": `2024-${props.data.month}-28`,
                 "markup": "<div class=\"badge rounded-pill badge-pill commonMark donAliq-div\">[day]</div>"
             },
         ]
