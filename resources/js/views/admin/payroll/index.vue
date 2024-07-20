@@ -351,6 +351,9 @@ const getStatisticData = async (year, month) => {
         payrollchartData.data = [processed, 1]
     }
     tableKey.value++;
+
+    var dateFormat = `${year}-${month}-01`;
+    getBatches({date: dateFormat});
 }
 
 onMounted(async () => {

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Batch;
 use App\Models\Payroll;
 use App\Models\User;
+use Carbon\Carbon;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -83,8 +84,10 @@ class BatchRepository extends BaseRepository
         }, function ($q) {
             return $q->latest();
         })
-        ->whereDoesntHave('payroll', function ($q) use($batchId) {
-            // return $q->where('batch_id', $batchId);
+        ->whereDoesntHave('payroll', function ($q) {
+            $currentMonth = Carbon::now();
+            $previousMonth = Carbon::now()->subMonth(1)->firstOfMonth();
+            return $q->whereBetween('created_at', [$previousMonth, $currentMonth]);
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
@@ -108,8 +111,17 @@ class BatchRepository extends BaseRepository
 
     public function listing($request)
     {
+        if($request->date) {
+            $currentMonth = Carbon::parse($request->date);
+            $previousMonth = Carbon::parse($request->date)->subMonth(1)->firstOfMonth();
+        } else {
+            $currentMonth = Carbon::now();
+            $previousMonth = Carbon::now()->subMonth(1)->firstOfMonth();
+        }
+        
         $limit = $request->input('limit', 5);
         return Batch::withCount('employee')->withSum('employee as wages', 'gross_wages')
+        ->whereBetween('created_at', [$previousMonth, $currentMonth])
         ->when($request->search, function ($q) use($request) {
             return $q->where(function ($q) use($request) {
                 return $q->where('name', 'like', '%' . $request->search . '%');

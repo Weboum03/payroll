@@ -99,8 +99,8 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" id="Specific-Emp" name="selected_user" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" :selected="!users?.data">All</option>
+                        <Field as="select" class="form-control input" id="Specific-Emp" v-model="selectUser" name="selected_user" autocomplete="off" style="color: #7e7e7e;">
+                            <option value="" selected>All</option>
                             <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
                         </Field>
                         <label class="user-label">Specific Employee(s)</label>
@@ -108,7 +108,7 @@
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" id="Exclude-Emp" name="excluded_user" autocomplete="off" style="color: #7e7e7e;">
+                        <Field as="select" class="form-control input" id="Exclude-Emp" v-model="deselectUser" name="excluded_user" autocomplete="off" style="color: #7e7e7e;">
                             <option value="" selected>All</option>
                             <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
                         </Field>
@@ -229,7 +229,7 @@
             </div>
         </div>
     </div>
-
+{{ selectUser }}
 
     <!-- Modal -->
     <div class="modal fade" id="savePayBatchForm1" tabindex="-1" aria-labelledby="savePayBatchFormLabel"
@@ -273,6 +273,8 @@ const isModalOpened = ref(false)
 const searchQuery = ref("");
 const paginateUser = ref([])
 const users = ref([])
+const deselectUser = ref('')
+const selectUser = ref('')
 const filterValues = reactive({
     company:'',
     location:'',
@@ -296,7 +298,10 @@ watch(filterValues, async (current, previous) => {
     users.value = await getBatchFormUser(route.params.id, filterValues)
     filteredValue.value = users.value.data.map(e => e.id)
     paginateUser.value = await getBatchFormUser(route.params.id, Object.assign(filterValues, {paginate : true}))
-    table.value.filterData.page = 1;
+    // table.value.filterData.page = 1;
+    console.log('filterValues');
+    deselectUser.value = ''
+    selectUser.value = ''
 });
 
 const filterData = async (values) => {
