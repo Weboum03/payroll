@@ -199,7 +199,11 @@ class UserController extends BaseController
 
         foreach (User::MEDIA_COLLECTIONS as $collectionName) {
             $picture = $user->getFirstMedia($collectionName);
-            $user->setAttribute($collectionName, ($picture->original_url) ?? null);
+            if($picture && $picture->custom_properties['check']) {
+                $user->setAttribute($collectionName, ($picture->original_url) ?? null);
+            } else {
+                $user->setAttribute($collectionName, null);
+            }
         }
 
         $mediaItems = $user->getMedia("*");
