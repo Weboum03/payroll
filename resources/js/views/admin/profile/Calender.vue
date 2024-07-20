@@ -45,7 +45,7 @@ const props = defineProps({
 onMounted(() => {
 
     const script = document.createElement("script");
-    script.src = "http://[::1]:5173/resources/js/assets/js/zabuto_calendar.min.js";
+    script.src = "../../resources/js/zabuto_calendar.min.js";
     document.head.appendChild(script);
     script.onload = () => {
         loadCalender();
