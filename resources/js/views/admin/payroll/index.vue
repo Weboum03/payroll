@@ -249,7 +249,6 @@ const router = useRouter();
 const route = useRoute();
 const isModalOpened = ref(false);
 const table = ref(null)
-const table2 = ref(null)
 const searchQuery = ref("");
 const employeeData = ref(null);
 const selectedMonth = ref({});
@@ -261,6 +260,7 @@ const schema = yup.object({
     name: yup.string().required('Required'),
 });
 
+const dateFormat = ref('')
 const financialYear = ref(new Date().getFullYear())
 let currentMonth = '';
 let currentYear = '';
@@ -314,6 +314,7 @@ const viewEmployeeData = async (month, type) => {
 }
 
 const filterRows = () => {
+    table.value.currentPage = 1;
     table.value.filterData.filter.push({
         key: "search",
         value: searchQuery.value.toLowerCase(),
@@ -329,6 +330,9 @@ const closeModal = () => {
 };
 
 const filterData = (filterValues) => {
+    Object.assign(filterValues, {
+        date: dateFormat.value
+    })
     getBatches(filterValues)
 }
 
@@ -340,6 +344,8 @@ const payrollchartData = {
 };
 
 const getStatisticData = async (year, month) => {
+    console.log('f', table.value.page);
+    table.value.currentPage = 1;
     let response = await getDashboardDetails({year, month});
     employeeData.value = response.data;
     var processed = employeeData.value.batch_processed;
@@ -351,9 +357,9 @@ const getStatisticData = async (year, month) => {
         payrollchartData.data = [processed, 1]
     }
     tableKey.value++;
-
-    var dateFormat = `${year}-${month}-01`;
-    getBatches({date: dateFormat});
+    table.value.page = 1;
+    dateFormat.value = `${year}-${month}-01`;
+    getBatches({date: dateFormat.value});
 }
 
 onMounted(async () => {

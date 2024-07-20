@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Batch;
 use App\Models\Deboard;
+use App\Models\Payroll;
 use App\Models\User;
 use App\Models\UserDetail;
 use Carbon\Carbon;
@@ -77,7 +78,13 @@ class UserRepository extends BaseRepository
         $previousMonthYear = $previousMonth->year;
 
 
-        $totalUserCount = User::count();
+        $currentMonth = Carbon::parse($currentDate)->firstOfMonth();
+        $previousMonth = Carbon::parse($currentDate)->lastOfMonth();
+        $totalUserCount = Payroll::whereBetween('payroll_batch.created_at', [$currentMonth, $previousMonth])
+        ->leftJoin('payroll_batch', function($join) {
+            $join->on('payroll_batch.id', '=', 'payrolls.batch_id');
+        })
+        ->distinct('payrolls.user_id')->count();
 
         // Count users created in the current month
         $usersCount = User::whereYear('created_at', $currentYear)

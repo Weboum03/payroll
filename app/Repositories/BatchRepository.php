@@ -85,9 +85,13 @@ class BatchRepository extends BaseRepository
             return $q->latest();
         })
         ->whereDoesntHave('payroll', function ($q) {
-            $currentMonth = Carbon::now();
-            $previousMonth = Carbon::now()->subMonth(1)->firstOfMonth();
-            return $q->whereBetween('created_at', [$previousMonth, $currentMonth]);
+            $currentMonth = Carbon::now()->firstOfMonth();
+            $previousMonth = Carbon::now()->lastOfMonth();
+            //$previousMonth = Carbon::now()->subMonth(1)->firstOfMonth();
+            return $q->whereBetween('payroll_batch.created_at', [$currentMonth, $previousMonth])
+            ->leftJoin('payroll_batch', function($join) {
+                $join->on('payroll_batch.id', '=', 'payrolls.batch_id');
+            });
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
@@ -112,16 +116,17 @@ class BatchRepository extends BaseRepository
     public function listing($request)
     {
         if($request->date) {
-            $currentMonth = Carbon::parse($request->date);
-            $previousMonth = Carbon::parse($request->date)->subMonth(1)->firstOfMonth();
+            $currentMonth = Carbon::parse($request->date)->firstOfMonth();
+            $previousMonth = Carbon::parse($request->date)->lastOfMonth();
+            // $previousMonth = Carbon::parse($request->date)->subMonth(1)->firstOfMonth();
         } else {
-            $currentMonth = Carbon::now();
-            $previousMonth = Carbon::now()->subMonth(1)->firstOfMonth();
+            $currentMonth = Carbon::now()->firstOfMonth();
+            $previousMonth = Carbon::now()->lastOfMonth();
         }
         
         $limit = $request->input('limit', 5);
         return Batch::withCount('employee')->withSum('employee as wages', 'gross_wages')
-        ->whereBetween('created_at', [$previousMonth, $currentMonth])
+        ->whereBetween('created_at', [$currentMonth, $previousMonth])
         ->when($request->search, function ($q) use($request) {
             return $q->where(function ($q) use($request) {
                 return $q->where('name', 'like', '%' . $request->search . '%');
@@ -221,8 +226,13 @@ class BatchRepository extends BaseRepository
 
     public function getAllUsersByBatch($id, $request)
     {
-        return User::whereDoesntHave('payroll', function ($q) use($id) {
-            // return $q->where('batch_id', $id);
+        return User::whereDoesntHave('payroll', function ($q) {
+            $currentMonth = Carbon::now()->firstOfMonth();
+            $previousMonth = Carbon::now()->lastOfMonth();
+            return $q->whereBetween('payroll_batch.created_at', [$currentMonth, $previousMonth])
+            ->leftJoin('payroll_batch', function($join) {
+                $join->on('payroll_batch.id', '=', 'payrolls.batch_id');
+            });
         })->with('info')->whereHas('info', function ($query) use ($request) {
             $query->when($request->company, function ($q) use ($request) {
                 return $q->where('company', $request->company);
