@@ -46,7 +46,7 @@
                                     <div
                                         style="display: flex; width: 21px; background-color: rgb(218, 225, 243); height: 21px; border-radius: 28%;">
                                     </div>
-                                    <div>Pending count {{ employeeData?.batch_pending }}</div>
+                                    <div>Generated count {{ employeeData?.batch_pending }}</div>
                                 </li>
                             </ul>
                         </div>

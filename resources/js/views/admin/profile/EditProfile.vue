@@ -457,12 +457,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="role_id" as="select" class="form-control input"
                                         autocomplete="off" v-model="userData.role_id" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Department</option>
+                                        <option value="" disabled selected>Department*</option>
                                         <option v-for="role in roles?.data" :key="role.id" :value="role.id">
                                             {{ role.name }}
                                         </option>
                                     </Field>
-                                    <label for="html" class="user-label">Department</label>
+                                    <label for="html" class="user-label">Department*</label>
                                     <ErrorMessage name="role_id" class="text-danger mt-1" />
                                 </div>
 

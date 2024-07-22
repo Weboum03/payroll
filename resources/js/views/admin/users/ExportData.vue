@@ -27,6 +27,7 @@
                                 style="color: #7e7e7e;">
                                     <option value="" disabled selected>To</option>
                                     <option value="XLSX">XLSX File</option>
+                                    <option value="PDF">PDF File</option>
                                 </Field>
                                 <label class="user-label">File Type*</label>
                             </div>
@@ -58,7 +59,7 @@
                         </div>
                             <div class="d-flex row-cols-5" style="gap:1rem;">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" v-model="checkValue" class="custom-control-input" value="alternate_mobile" id="AlternateMobile">
+                                <input type="checkbox" v-model="checkValue" class="custom-control-input" value="alternate_phone" id="AlternateMobile">
                                 <label class="custom-control-label" for="AlternateMobile">Alternate Mobile</label>
                             </div>
                             <div class="custom-control custom-checkbox">
@@ -93,9 +94,14 @@ const route = useRoute()
 const router = useRouter()
 
 const submitForm = async (values, action) => {
-    let response = await exportCustomUser({params: checkValue.value});
+    let response = await exportCustomUser({params: checkValue.value, file_type: values.file_type});
 
-    downloadFile(response)
+    if(values.file_type == 'XLSX') {
+        downloadFile(response)
+    } else {
+        downloadPdfFile(response)
+    }
+    
 }
 
 const downloadFile = async (response) => {
@@ -103,6 +109,21 @@ const downloadFile = async (response) => {
     const link = document.createElement('a');
     link.href = url;
     let fileName = 'users_file.xlsx';
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    swal({
+        icon: "success",
+        title: "Export successfully",
+    });
+
+    router.push({name:'admin.dashboard'})
+}
+const downloadPdfFile = async (response) => {
+    const url = response.data;
+    const link = document.createElement('a');
+    link.href = url;
+    let fileName = 'users_file.pdf';
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();

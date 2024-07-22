@@ -81,6 +81,8 @@ class UsersExport implements FromCollection, WithHeadings
             'Employement Type',
             'Aadhar Number',
             'PAN Number',
+            'EPF Number',
+            'ESI Number',
             'Holiday Year',
             'Work Pattern',
             'Salary',

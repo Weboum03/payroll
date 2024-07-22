@@ -18,6 +18,7 @@ use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends BaseController
 {
@@ -328,15 +329,8 @@ class UserController extends BaseController
             if ($array && $array[0]) {
                 $array[0]->each(function ($user) {
                     $randomNumber = floor(rand() / getrandmax() * 10000000);
-                    
-                    if(!is_array($user)){
-                        throw new \Exception('Employee ID not exist.');
-                    }
-                    
-                    if(array_key_exists("employee_id",$user) && (!is_array($user))){
-                        throw new \Exception('Employee ID not exist.');
-                    }
-                    elseif($user['employee_id'] == '') {
+
+                    if($user['employee_id'] == '') {
                         $user['employee_id'] = $randomNumber;
                     }
                        
@@ -344,12 +338,20 @@ class UserController extends BaseController
                     if (!$existUser) {
                         
                         
-                        if($user['date_of_joining'] == ''){
+                        if(!isset($user['date_of_joining']) || $user['date_of_joining'] == ''){
                             $errorMsg = 'Date of joining field is required.';
 							throw new \Exception($errorMsg);
                         }
-                        if($user['probation_end_date'] == ''){
+                        if(!isset($user['probation_end_date']) || $user['probation_end_date'] == ''){
                             $errorMsg = 'Probation end date field is required.';
+							throw new \Exception($errorMsg);
+                        }
+                        if(!isset($user['epf']) || $user['epf'] == ''){
+                            $errorMsg = 'EPF number field is required.';
+							throw new \Exception($errorMsg);
+                        }
+                        if(!isset($user['esi']) || $user['esi'] == ''){
+                            $errorMsg = 'ESI number field is required.';
 							throw new \Exception($errorMsg);
                         }
                         
@@ -490,6 +492,7 @@ class UserController extends BaseController
     public function exporCustomtUser(Request $request)
     {
         $params = $request->params;
+        $fileType = $request->file_type;
 
         if(empty($params)) {
             return $this->sendError('Please select at least one Employee Management.');
@@ -503,7 +506,7 @@ class UserController extends BaseController
                 if($param == 'email') { $heading[] = 'Email'; }
                 if($param == 'secondary_email') { $heading[] = 'Secondary Email'; }
                 if($param == 'phone') { $heading[] = 'Mobile'; }
-                if($param == 'alternate_mobile') { $heading[] = 'Alternate Mobile'; }
+                if($param == 'alternate_phone') { $heading[] = 'Alternate Mobile'; }
                 if($param == 'gender') { $heading[] = 'Gender'; }
                 if($param == 'dob') { $heading[] = 'Date of Birth'; }
             }
@@ -520,7 +523,7 @@ class UserController extends BaseController
                     if($param == 'email') { $object['email'] = $user->email; }
                     if($param == 'secondary_email') { $object['secondary_email'] = $user->info?->secondary_email; }
                     if($param == 'phone') { $object['phone'] = $user->phone; }
-                    if($param == 'alternate_mobile') { $object['alternate_mobile'] = $user->info?->alternate_phone; }
+                    if($param == 'alternate_phone') { $object['alternate_phone'] = $user->info?->alternate_phone; }
                     if($param == 'gender') { $object['gender'] = $user->info?->gender; }
                     if($param == 'dob') { $object['dob'] = $user->info?->dob; }
                 }
@@ -528,9 +531,16 @@ class UserController extends BaseController
             return $object;
         });
 
-        Excel::store(new UsersExport($newUsers, $heading), 'users.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
-
-        return $this->sendResponse(url('/uploads/users.xlsx'), 'Success');
+        if($fileType == 'PDF') {
+            $pdf = Pdf::loadView('pdf.exportUser', ['users' => $newUsers, 'heading' => $heading, 'params' => $params]);
+            $fileName = 'users_'.date('Y-m-d').'.pdf';
+            $pdf->setPaper('a4', 'landscape')->setWarnings(false)->save('uploads/users.pdf');
+            return $this->sendResponse(url('/uploads/users.pdf'), 'Success');
+            // return $pdf->download($fileName);
+        } else {
+            Excel::store(new UsersExport($newUsers, $heading), 'users.xlsx', 'public_uploads', \Maatwebsite\Excel\Excel::XLSX);
+            return $this->sendResponse(url('/uploads/users.xlsx'), 'Success');
+        }
     }
 
     public function exportUser(Request $request)
