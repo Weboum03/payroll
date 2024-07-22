@@ -324,20 +324,20 @@ class UserController extends BaseController
         $array = (new UsersImport)->toCollection($file);
 
         DB::beginTransaction();
-
+        $isAnyEntry = false;
         try {
             if ($array && $array[0]) {
                 $array[0]->each(function ($user) {
                     $randomNumber = floor(rand() / getrandmax() * 10000000);
 
-                    if($user['employee_id'] == '') {
+                    if(!isset($user['employee_id']) || $user['employee_id'] == '') {
                         $user['employee_id'] = $randomNumber;
                     }
                        
                     $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
                     if (!$existUser) {
                         
-                        
+                        $isAnyEntry = true;
                         if(!isset($user['date_of_joining']) || $user['date_of_joining'] == ''){
                             $errorMsg = 'Date of joining field is required.';
 							throw new \Exception($errorMsg);
@@ -476,7 +476,10 @@ class UserController extends BaseController
                     }
                 });
             }
-        
+            
+            if(!$isAnyEntry) {
+                return $this->sendError('No data to available to Import. Email, Mobile and Employee ID should be unique.');
+            }
             DB::commit();
             // all good
         } catch (\Exception $e) {

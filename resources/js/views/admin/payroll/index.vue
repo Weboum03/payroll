@@ -339,7 +339,7 @@ const filterData = (filterValues) => {
 let totalEmployee = 0;
 const data = [253, 5];
 const payrollchartData = {
-    labels: [`Payroll Processed ${data[0]}`, `Pending count ${data[1]}`],
+    labels: [`Payroll Processed ${data[0]}`, `Payroll Generated ${data[1]}`],
     data: data,
 };
 
@@ -351,7 +351,7 @@ const getStatisticData = async (year, month) => {
     var processed = employeeData.value.batch_processed;
     var pending = employeeData.value.batch_pending;
     totalEmployee = employeeData.value.total_employee;
-    payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
+    payrollchartData.labels = ['Payroll Processed ' + processed, 'Payroll Generated ' + pending]
     payrollchartData.data = [processed, pending]
     if(processed == 0 && pending == 0) {
         payrollchartData.data = [processed, 1]
@@ -369,7 +369,7 @@ onMounted(async () => {
     var processed = employeeData.value.batch_processed;
     var pending = employeeData.value.batch_pending;
     totalEmployee = employeeData.value.total_employee;
-    payrollchartData.labels = ['Payroll Processed ' + processed, 'Pending count ' + pending]
+    payrollchartData.labels = ['Payroll Processed ' + processed, 'Payroll Generated ' + pending]
     payrollchartData.data = [processed, pending]
     tableKey.value++;
 });

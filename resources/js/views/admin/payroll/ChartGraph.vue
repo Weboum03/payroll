@@ -15,7 +15,7 @@ const props = defineProps({
 let totalEmployee = 0;
 const data = [253, 5];
 let payrollchartData = {
-    labels: [`Payroll Processed ${data[0]}`, `Pending count ${data[1]}`],
+    labels: [`Payroll Processed ${data[0]}`, `Payroll Generated ${data[1]}`],
     data: data,
 };
 
