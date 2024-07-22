@@ -552,17 +552,17 @@
                                 
 
                                 <div class="col input-group-fname">
-                                    <Field required type="number" name="aadhar_number" placeholder="Aadhar Number"
+                                    <Field required type="number" name="aadhar_number" placeholder="Aadhar Number*"
                                         :class="{ 'is-invalid': errors.aadhar_number }" class="input"
                                         autocomplete="off" />
-                                    <label for="Aadhar Number" class="user-label">Aadhar Number</label>
+                                    <label for="Aadhar Number" class="user-label">Aadhar Number*</label>
                                     <ErrorMessage name="aadhar_number" class="text-danger mt-1" />
                                 </div>
                                 
                                 <div class="col-6 input-group-fname">
-                                    <Field type="text" name="pan_number" placeholder="PAN Number" ref="pancard" @input="updateValue($event.target.value)"
+                                    <Field type="text" name="pan_number" placeholder="PAN Number*" ref="pancard" @input="updateValue($event.target.value)"
                                         :class="{ 'is-invalid': errors.pan_number }" class="input" autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">PAN Number</label>
+                                    <label for="PAN Number" class="user-label">PAN Number*</label>
                                     <ErrorMessage name="pan_number" class="text-danger mt-1" />
                                 </div>
 
@@ -571,18 +571,18 @@
                             <div class="row">
                                 
                                 <div class="col-6 input-group-fname">
-                                    <Field type="text" name="epf" placeholder="EPF Number"
+                                    <Field type="text" name="epf" placeholder="EPF Number*"
                                         :class="{ 'is-invalid': errors.epf }"
                                         class="input" autocomplete="off" required />
-                                    <label for="PAN Number" class="user-label">EPF Number</label>
+                                    <label for="PAN Number" class="user-label">EPF Number*</label>
                                     <ErrorMessage name="epf" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col-6 input-group-fname">
-                                    <Field type="text" name="esi" placeholder="ESI Number"
+                                    <Field type="text" name="esi" placeholder="ESI Number*"
                                         :class="{ 'is-invalid': errors.esi }"
                                         class="input" autocomplete="off" required />
-                                    <label for="PAN Number" class="user-label">ESI Number</label>
+                                    <label for="PAN Number" class="user-label">ESI Number*</label>
                                     <ErrorMessage name="esi" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -1103,7 +1103,7 @@ const schemas = [
             }
             return false;
         }),
-    aadhar_number: yup.string().nullable().test('length', 'Invalid Aadhar number', (value) => {
+    aadhar_number: yup.string().required('Aadhar number is required').test('length', 'Invalid Aadhar number', (value) => {
         if(value === null || value === '' || value.length === 12) {
             return true;
         }
@@ -1116,7 +1116,7 @@ const schemas = [
         if(checkResponse.data == false) { return true }
         return false;
     }),
-    pan_number: yup.string().nullable()
+    pan_number: yup.string().required('PAN number is required')
     .test('is-greater', 'Invalid PAN card number', function(value) {
         const panCardPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
         if (value != null && value != '' && !panCardPattern.test(value)) {
@@ -1132,6 +1132,8 @@ const schemas = [
         if(checkResponse.data == false) { return true }
         return false;
     }),
+    epf: yup.string().required('EPF number is required'),
+    esi: yup.string().required('ESI number is required'),
   }),
   yup.object({
         earning_leave_entitlement: yup
