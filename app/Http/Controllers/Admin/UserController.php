@@ -327,41 +327,32 @@ class UserController extends BaseController
         $isAnyEntry = false;
         try {
             if ($array && $array[0]) {
-                $array[0]->each(function ($user) {
+                $array[0]->each(function ($user) use(&$isAnyEntry) {
                     $randomNumber = floor(rand() / getrandmax() * 10000000);
 
                     if(!isset($user['employee_id']) || $user['employee_id'] == '') {
                         $user['employee_id'] = $randomNumber;
+                    }
+
+                    $validate = $this->importValidation($user);
+
+                    if($validate['status'] == false) {
+                        throw new \Exception($validate['message']);
                     }
                        
                     $existUser = User::where('email', $user['email'])->orWhere('phone', $user['mobile'])->orWhere('employee_id', $user['employee_id'])->exists();
                     if (!$existUser) {
                         
                         $isAnyEntry = true;
-                        if(!isset($user['date_of_joining']) || $user['date_of_joining'] == ''){
-                            $errorMsg = 'Date of joining field is required.';
-							throw new \Exception($errorMsg);
-                        }
-                        if(!isset($user['probation_end_date']) || $user['probation_end_date'] == ''){
-                            $errorMsg = 'Probation end date field is required.';
-							throw new \Exception($errorMsg);
-                        }
-                        if(!isset($user['epf']) || $user['epf'] == ''){
-                            $errorMsg = 'EPF number field is required.';
-							throw new \Exception($errorMsg);
-                        }
-                        if(!isset($user['esi']) || $user['esi'] == ''){
-                            $errorMsg = 'ESI number field is required.';
-							throw new \Exception($errorMsg);
-                        }
-                        
                         
                         $jobRole = null;
-                        $role = Role::where('name', $user['job_role'])->first();
+                        $role = Role::where('name', $user['department'])->first();
                         if ($role) {
                             $jobRole = $role->id;
+                        } else {
+                            $role = Role::where('name', 'Employee')->value('id');
+                            $jobRole = $role->id;
                         }
-                        
                         
 						// check immediate_manager_employee_code 
 						$immediate_manager = $user['immediate_manager'];
@@ -456,8 +447,8 @@ class UserController extends BaseController
                             'employment_type' => $user['employement_type'],
                             'aadhar_number' => $user['aadhar_number'],
                             'pan_number' => $user['pan_number'],
-                            'epf' => $user['epf'],
-                            'esi' => $user['esi'],
+                            'epf' => $user['epf_number'],
+                            'esi' => $user['esi_number'],
                             'holiday_year' => $user['holiday_year'],
                             'work_pattern' => $user['work_pattern'],
                             'earning_leave_entitlement' => is_numeric($user['annual_earned_leave_entilement']) ? $user['annual_earned_leave_entilement'] : 0,
@@ -490,6 +481,117 @@ class UserController extends BaseController
         }
 
         return $this->sendResponse($array[0], 'Success');
+    }
+
+    protected function importValidation($user) {
+
+        if(!isset($user['first_name']) || $user['first_name'] == ''){
+            $errorMsg = 'First name field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+
+        if(!isset($user['last_name']) || $user['last_name'] == ''){
+            $errorMsg = 'Last Name field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+
+        if(!isset($user['email']) || $user['email'] == ''){
+            $errorMsg = 'Email field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['mobile']) || $user['mobile'] == ''){
+            $errorMsg = 'Mobile field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['date_of_birth']) || $user['date_of_birth'] == ''){
+            $errorMsg = 'Date of Birth field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_address_line_1']) || $user['local_address_line_1'] == ''){
+            $errorMsg = 'Local address line 1 field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_address_line_2']) || $user['local_address_line_2'] == ''){
+            $errorMsg = 'Local address line 2 field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_citytown']) || $user['local_citytown'] == ''){
+            $errorMsg = 'Local City/Town field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_state']) || $user['local_state'] == ''){
+            $errorMsg = 'Local State field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_country']) || $user['local_country'] == ''){
+            $errorMsg = 'Local Country field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['local_post_code']) || $user['local_post_code'] == ''){
+            $errorMsg = 'Local Post Code field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+
+        if(!isset($user['permanent_address_line_1']) || $user['permanent_address_line_1'] == ''){
+            $errorMsg = 'Permanent address line 1 field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['permanent_address_line_2']) || $user['permanent_address_line_2'] == ''){
+            $errorMsg = 'Permanent address line 2 field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['permanent_citytown']) || $user['permanent_citytown'] == ''){
+            $errorMsg = 'Permanent City/Town field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['permanent_state']) || $user['permanent_state'] == ''){
+            $errorMsg = 'Permanent State field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['permanent_country']) || $user['permanent_country'] == ''){
+            $errorMsg = 'Permanent Country field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['permanent_post_code']) || $user['permanent_post_code'] == ''){
+            $errorMsg = 'Permanent Post Code field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+
+
+        if(!isset($user['department']) || $user['department'] == ''){
+            $errorMsg = 'Department field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+
+        // if(!isset($user['designation']) || $user['designation'] == ''){
+        //     $errorMsg = 'Designation field is required.';
+        //     return ['status' => false, 'message' =>$errorMsg ];
+        // }
+        if(!isset($user['date_of_joining']) || $user['date_of_joining'] == ''){
+            $errorMsg = 'Date of joining field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['probation_end_date']) || $user['probation_end_date'] == ''){
+            $errorMsg = 'Probation End Date field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['aadhar_number']) || $user['aadhar_number'] == ''){
+            $errorMsg = 'Aadhar number field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['pan_number']) || $user['pan_number'] == ''){
+            $errorMsg = 'PAN Number field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['epf_number']) || $user['epf_number'] == ''){
+            $errorMsg = 'EPF number field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['esi_number']) || $user['esi_number'] == ''){
+            $errorMsg = 'ESI number field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        return ['status' => true, 'message' => '' ];
     }
 
     public function exporCustomtUser(Request $request)
@@ -583,8 +685,8 @@ class UserController extends BaseController
             'Immediate Manager Employee Code' => '',
             'Leave Approving Authority' => '',
             'Leave Approving Authority Employee Code' => '',
-            'Department' => '',
-            'Job Role' => 'User',
+            'Department' => 'Employee',
+            'Designation' => 'Developer',
             'Grade' => '',
             'Employement Type' => 'Regular',
             'Aadhar Number' => '',
