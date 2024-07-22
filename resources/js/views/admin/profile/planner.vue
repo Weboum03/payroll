@@ -174,20 +174,20 @@
 
         <div class="input-valuses"
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
-            June,2024 to July,2024 </div>
+            May,2024 to July,2024 </div>
 
         <div class="accordion" id="input-valuses-accord">
 
-            <AccordionPanel aria-title="incidents" title="July">
-                <Calender :data="{year:2024, month: 7}"/>
+            <AccordionPanel aria-title="incidents" title="July 2024">
+                <Calender :data="{year:2024, month: 7, selector: 'month1'}"/>
             </AccordionPanel>
 
-            <AccordionPanel aria-title="incidents" title="June">
-                <Calender :data="{year:2024, month: 6}"/>
+            <AccordionPanel aria-title="incidents" title="June 2024">
+                <Calender :data="{year:2024, month: 6, selector: 'month2'}"/>
             </AccordionPanel>
 
-            <AccordionPanel aria-title="incidents" title="May">
-                <Calender :data="{year:2024, month: 5}"/>
+            <AccordionPanel aria-title="incidents" title="May 2024">
+                <Calender :data="{year:2024, month: 5, selector: 'month3'}"/>
             </AccordionPanel>
         </div>
     </div>
