@@ -179,15 +179,15 @@
         <div class="accordion" id="input-valuses-accord">
 
             <AccordionPanel aria-title="incidents" title="July 2024">
-                <Calender :data="{year:2024, month: 7, selector: 'month1'}"/>
+                <Calender :data="{year:2024, month: 7, selector: Math.random().toString(36).substring(7)}"/>
             </AccordionPanel>
 
             <AccordionPanel aria-title="incidents" title="June 2024">
-                <Calender :data="{year:2024, month: 6, selector: 'month2'}"/>
+                <Calender :data="{year:2024, month: 6, selector: Math.random().toString(36).substring(7)}"/>
             </AccordionPanel>
 
             <AccordionPanel aria-title="incidents" title="May 2024">
-                <Calender :data="{year:2024, month: 5, selector: 'month3'}"/>
+                <Calender :data="{year:2024, month: 5, selector: Math.random().toString(36).substring(7)}"/>
             </AccordionPanel>
         </div>
     </div>
