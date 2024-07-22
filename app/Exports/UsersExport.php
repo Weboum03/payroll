@@ -76,7 +76,7 @@ class UsersExport implements FromCollection, WithHeadings
             'Leave Approving Authority',
             'Leave Approving Authority Employee Code',
             'Department',
-            'Job Role',
+            'Designation',
             'Grade',
             'Employement Type',
             'Aadhar Number',

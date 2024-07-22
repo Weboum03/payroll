@@ -442,7 +442,7 @@ class UserController extends BaseController
                             'leave_approving_auth' => $leave_approving_authority,
                             'leave_approving_code' => $leave_approve_emp_code,
                             'department' => $user['department'],
-                            'job_role' => $user['job_role'],
+                            'job_role' => $jobRole,
                             'grade' => $user['grade'],
                             'employment_type' => $user['employement_type'],
                             'aadhar_number' => $user['aadhar_number'],
@@ -589,6 +589,10 @@ class UserController extends BaseController
         }
         if(!isset($user['esi_number']) || $user['esi_number'] == ''){
             $errorMsg = 'ESI number field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
+        if(!isset($user['salary']) || $user['salary'] == '' || $user['salary'] == 0){
+            $errorMsg = 'Salary field is required.';
             return ['status' => false, 'message' =>$errorMsg ];
         }
         return ['status' => true, 'message' => '' ];
