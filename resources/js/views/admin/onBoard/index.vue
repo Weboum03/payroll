@@ -387,26 +387,26 @@
                                 <div class="col input-group-fname">
                                     <Field required name="company" as="select" class="form-control input" v-model="selectedOption.company" @change="isModalInputOpend(selectedOption.company, 'company')"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Company</option>
+                                        <option value="" disabled selected>Company*</option>
                                         <option v-for="option in inputValues.company" :key="option" :value="option">
                                             {{ option }}
                                         </option>
                                         <option value="Other">Other</option>
                                     </Field>
-                                    <label for="Company" class="user-label">Company</label>
+                                    <label for="Company" class="user-label">Company*</label>
                                     <ErrorMessage name="company" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
                                     <Field required name="location" as="select" class="form-control input" v-model="selectedOption.location" @change="isModalInputOpend(selectedOption.location, 'location')"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Location</option>
+                                        <option value="" disabled selected>Location*</option>
 										<option v-for="option in inputValues.location" :key="option" :value="option">
                                             {{ option }}
                                         </option>
                                         <option value="Other">Other</option>
                                     </Field>
-                                    <label for="location" class="user-label">Location</label>
+                                    <label for="location" class="user-label">Location*</label>
                                     <ErrorMessage name="location" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -415,26 +415,26 @@
                                 <div class="col input-group-fname">
                                     <Field required name="qualification" as="select" class="form-control input" v-model="selectedOption.qualification" @change="isModalInputOpend(selectedOption.qualification, 'qualification')"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Qualification-Degree</option>
+                                        <option value="" disabled selected>Qualification-Degree*</option>
                                         <option v-for="option in inputValues.qualification" :key="option" :value="option">
                                             {{ option }}
                                         </option>
                                         <option value="Other">Other</option>
                                     </Field>
-                                    <label for="qualification" class="user-label">Qualification-Degree</label>
+                                    <label for="qualification" class="user-label">Qualification-Degree*</label>
                                     <ErrorMessage name="qualification" class="text-danger mt-1" />
                                 </div>
 
                                 <div class="col input-group-fname">
                                     <Field required name="experience" as="select" class="form-control input" v-model="selectedOption.experience" @change="isModalInputOpend(selectedOption.experience, 'experience')"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Work Experience</option>
+                                        <option value="" disabled selected>Work Experience*</option>
                                         <option v-for="option in inputValues.experience" :key="option" :value="option">
                                             {{ option }}
                                         </option>
                                         <option value="Other">Other</option>
                                     </Field>
-                                    <label for="experience" class="user-label">Work Experience</label>
+                                    <label for="experience" class="user-label">Work Experience*</label>
                                     <ErrorMessage name="experience" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -443,12 +443,12 @@
                                 <div class="col input-group-fname">
                                     <Field required name="immediate_manager" v-model="immediateManager" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Immediate-Manager</option>
+                                        <option value="" disabled selected>Immediate-Manager*</option>
 										<option v-for="user in users?.data" :key="user.id" :value="user.employee_id">
                                             {{ user.name }} ({{user.employee_id}})
                                         </option>
                                     </Field>
-                                    <label for="immediate_manager" class="user-label">Immediate-Manager</label>
+                                    <label for="immediate_manager" class="user-label">Immediate-Manager*</label>
                                     <ErrorMessage name="immediate_manager" class="text-danger mt-1" />
                                 </div>
 
@@ -465,13 +465,13 @@
                                 <div class="col input-group-fname">
                                     <Field required name="leave_approving_auth" v-model="leaveApprovingAuth" as="select" class="form-control input"
                                         autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Leave Approving Authority</option>
+                                        <option value="" disabled selected>Leave Approving Authority*</option>
                                         <option v-for="user in users?.data" :key="user.id" :value="user.employee_id">
                                             {{ user.name }} ({{user.employee_id}})
                                         </option>
                                     </Field>
                                     <label for="leave_approving_auth" class="user-label">Leave Approving
-                                        Authority</label>
+                                        Authority*</label>
                                     <ErrorMessage name="leave_approving_auth" class="text-danger mt-1" />
                                 </div>
 
@@ -497,10 +497,10 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required type="text" name="designation" placeholder="Designation"
+                                    <Field required type="text" name="designation" placeholder="Designation*"
                                         :class="{ 'is-invalid': errors.designation }" class="input"
                                         autocomplete="off" />
-                                    <label for="Designation" class="user-label">Designation</label>
+                                    <label for="Designation" class="user-label">Designation*</label>
                                     <ErrorMessage name="designation" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -633,10 +633,10 @@
                             <div class="row d-flex">
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="salary"
-                                        placeholder="Salary"
+                                        placeholder="Salary*"
                                         :class="{ 'is-invalid': errors.salary }" class="input"
                                         autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">Salary</label>
+                                    <label for="PAN Number" class="user-label">Salary*</label>
                                     <ErrorMessage name="salary" class="text-danger mt-1" />
                                 </div>
                             </div>

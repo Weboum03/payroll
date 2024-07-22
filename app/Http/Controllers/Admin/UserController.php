@@ -351,7 +351,7 @@ class UserController extends BaseController
                             $jobRole = $role->id;
                         } else {
                             $role = Role::where('name', 'Employee')->value('id');
-                            $jobRole = $role->id;
+                            $jobRole = $role;
                         }
                         
 						// check immediate_manager_employee_code 
@@ -371,12 +371,11 @@ class UserController extends BaseController
 							if (!$existUser) {
 								$errorMsg = 'Immediate manager employee code "'.$immediate_manager_emp_code.'" not exist';
 								throw new \Exception($errorMsg);
-							} elseif (!$role) {
-								$errorMsg = 'Immediate manager role "'.$immediate_manager.'" not exist';
-								throw new \Exception($errorMsg);
 							} else {
 								$immediate_manager = $role->id;
 							}
+
+                            $immediate_manager = $immediate_manager_emp_code;
 						}
 						
 						// check leave_approving_authority_employee_code 
@@ -396,14 +395,10 @@ class UserController extends BaseController
 							if (!$existUser) {
 								$errorMsg = 'Leave approving authority employee code "'.$leave_approve_emp_code.'" not exist';
 								throw new \Exception($errorMsg);
-							} elseif (!$role) {
-								$errorMsg = 'Leave approving authority role "'.$leave_approving_authority.'" not exist';
-								throw new \Exception($errorMsg);
 							} else {
-								$leave_approving_authority = $role->id;
+								$leave_approving_authority = $leave_approve_emp_code;
 							}
 						}
-
                         
                         $dataToStore = [
                             'as_local' => false,
