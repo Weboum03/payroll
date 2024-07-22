@@ -71,16 +71,13 @@ class UserRepository extends BaseRepository
             $currentYear = Carbon::now()->year;
         }
         
-
         // Get the previous month and year
         $previousMonth = $currentMonthNew->subMonth();
         $previousMonthNumber = $previousMonth->month;
         $previousMonthYear = $previousMonth->year;
 
-
-        $currentMonth = Carbon::parse($currentDate)->firstOfMonth();
-        $previousMonth = Carbon::parse($currentDate)->lastOfMonth();
-        $totalUserCount = Payroll::whereBetween('payroll_batch.created_at', [$currentMonth, $previousMonth])
+        $totalUserCount = Payroll::whereBetween('payroll_batch.created_at', 
+        [Carbon::parse($currentDate)->firstOfMonth(), Carbon::parse($currentDate)->lastOfMonth()])
         ->leftJoin('payroll_batch', function($join) {
             $join->on('payroll_batch.id', '=', 'payrolls.batch_id');
         })
