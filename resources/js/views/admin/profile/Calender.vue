@@ -43,6 +43,25 @@ const props = defineProps({
     data: Object,
 });
 
+const publicholidays = [
+    { "name": "Republic Day", "date": "2009-01-26" },
+    { "name": "Maha Shivratri", "date": "2009-02-23" },
+    { "name": "Holi", "date": "2009-03-11" },
+    { "name": "Mahavir Jayanthi", "date": "2009-04-07" },
+    { "name": "Good Friday", "date": "2009-04-10" },
+    { "name": "May Day", "date": "2009-05-01" },
+    { "name": "Buddha Purnima", "date": "2009-05-08" },
+    { "name": "Krishna Janmastami", "date": "2009-08-14" },
+    { "name": "Independence Day", "date": "2009-08-15" },
+    { "name": "Ganesh Chaturthi", "date": "2009-08-23" },
+    { "name": "Id-Ul-Fitr", "date": "2009-09-21" },
+    { "name": "Vijaya Dashami", "date": "2009-09-28" },
+    { "name": "Mahatma Gandhi Jayanti", "date": "2009-10-02" },
+    { "name": "Diwali", "date": "2009-10-17" },
+    { "name": "Guru Nanak Jayanthi", "date": "2009-11-02" },
+    { "name": "Christmas", "date": "2009-12-25" }
+];
+
 onMounted(() => {
 
     const script = document.createElement("script");

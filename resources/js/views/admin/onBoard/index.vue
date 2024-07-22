@@ -571,7 +571,7 @@
                             <div class="row">
                                 
                                 <div class="col-6 input-group-fname">
-                                    <Field type="text" name="epf" placeholder="EPF Number" @input="updateValue($event.target.value)"
+                                    <Field type="text" name="epf" placeholder="EPF Number"
                                         :class="{ 'is-invalid': errors.epf }"
                                         class="input" autocomplete="off" required />
                                     <label for="PAN Number" class="user-label">EPF Number</label>
@@ -579,7 +579,7 @@
                                 </div>
 
                                 <div class="col-6 input-group-fname">
-                                    <Field type="text" name="esi" placeholder="ESI Number" @input="updateValue($event.target.value)"
+                                    <Field type="text" name="esi" placeholder="ESI Number"
                                         :class="{ 'is-invalid': errors.esi }"
                                         class="input" autocomplete="off" required />
                                     <label for="PAN Number" class="user-label">ESI Number</label>
