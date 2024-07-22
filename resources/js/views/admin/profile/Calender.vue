@@ -20,7 +20,7 @@
                 </div>
                 <div class="d-flex align-items-start">
                     <div class="col vesElemtum-div commonLable"></div>
-                    <div class="col vesElemtum">Vestibulum elementum</div>
+                    <div class="col vesElemtum">Sick Leave</div>
                 </div>
                 <div class="d-flex align-items-start">
                     <div class="col donAliq-div commonLable"></div>
@@ -75,10 +75,30 @@ onMounted(() => {
 const loadCalender = () => {
     let leaves = [];
     props.data.holiday.forEach(i=>{
-        leaves.push({
-            date: i,
-            markup: '<div class=\"badge rounded-pill badge-pill commonMark ernLeaves-div\">[day]</div>'
-        });
+        if(i.type == 'Maternity Leave') {
+            leaves.push({
+                date: i.date,
+                markup: '<div class=\"badge rounded-pill badge-pill commonMark manity-div\">[day]</div>'
+            });
+        }
+        else if(i.type == 'Sick Leave') {
+            leaves.push({
+                date: i.date,
+                markup: '<div class=\"badge rounded-pill badge-pill commonMark vesElemtum-div\">[day]</div>'
+            });
+        }
+        else if(i.type == 'Casual Leave') {
+            leaves.push({
+                date: i.date,
+                markup: '<div class=\"badge rounded-pill badge-pill commonMark donAliq-div\">[day]</div>'
+            });
+        }
+        else {
+            leaves.push({
+                date: i.date,
+                markup: '<div class=\"badge rounded-pill badge-pill commonMark ernLeaves-div\">[day]</div>'
+            });
+        }
     })
 
     $('#'+props.data.selector).zabuto_calendar({

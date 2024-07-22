@@ -134,12 +134,12 @@ class AttendanceController extends BaseController
         $endOfMonth = Carbon::parse($start)->endOfMonth();
 
 
-        $leaves = LeaveApplication::where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
-            ->where('to', '<=', $endOfMonth)->select('from','to')->get();
-
+        $leaves = LeaveApplication::with('type')->where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->get();
+        
         $leaveDates = [];
         $leaves = $leaves->map(function ($leave) use(&$leaveDates) {
-            $leaveDates = array_merge($leaveDates, $this->generateDateList($leave->from, $leave->to));
+            $leaveDates = array_merge($leaveDates, $this->generateDateList($leave));
             return $leaveDates;
         });
 
@@ -149,12 +149,12 @@ class AttendanceController extends BaseController
             $startOfMonth = Carbon::parse($startOfMonth)->addMonth()->startOfMonth();
             $endOfMonth = Carbon::parse($startOfMonth)->addMonth()->endOfMonth();
 
-            $leaves = LeaveApplication::where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
-            ->where('to', '<=', $endOfMonth)->select('from','to')->get();
+            $leaves = LeaveApplication::with('type')->where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->get();
 
             $leaveDates = [];
             $leaves = $leaves->map(function ($leave) use(&$leaveDates) {
-                $leaveDates = array_merge($leaveDates, $this->generateDateList($leave->from, $leave->to));
+                $leaveDates = array_merge($leaveDates, $this->generateDateList($leave));
                 return $leaveDates;
             });
             $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaveDates];
@@ -164,11 +164,12 @@ class AttendanceController extends BaseController
         // return ['month' '', 'leaves' => []];
     }
 
-    protected function generateDateList($startDate, $endDate)
+    protected function generateDateList($leave)
     {
+
         // Parse the start and end dates
-        $start = Carbon::parse($startDate);
-        $end = Carbon::parse($endDate);
+        $start = Carbon::parse($leave->from);
+        $end = Carbon::parse($leave->to);
         
         // Generate the period between the dates
         $period = CarbonPeriod::create($start, $end);
@@ -176,7 +177,7 @@ class AttendanceController extends BaseController
         // Convert the period to an array of dates
         $dates = [];
         foreach ($period as $date) {
-            $dates[] = $date->format('Y-m-d');
+            $dates[] = ['date' => $date->format('Y-m-d'), 'type' => $leave->type?->type];
         }
 
         return $dates;
