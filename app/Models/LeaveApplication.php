@@ -48,11 +48,11 @@ class LeaveApplication extends Model
 
     public function getFromAttribute($value)
     {
-        return (new Carbon($value))->toFormattedDateString();
+        return (new Carbon($value))->format('Y-m-d');
     }
     public function getToAttribute($value)
     {
-        return ($value) ? (new Carbon($value))->toFormattedDateString() : $value;
+        return ($value) ? (new Carbon($value))->format('Y-m-d') : $value;
     }
 
     public function getCreatedAtAttribute($value)

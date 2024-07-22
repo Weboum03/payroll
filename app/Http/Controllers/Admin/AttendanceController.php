@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends BaseController
 {
@@ -74,7 +75,83 @@ class AttendanceController extends BaseController
         $response['leave_taken'] = round($leavesCount);
         $response['leave_remaining'] = $remaining;
 
+        $calendarMonth = [];
+        $monthlyCalendar = Carbon::parse($start)->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $monthlyCalendar = Carbon::parse($monthlyCalendar)->addMonth()->startOfMonth();
+        if($monthlyCalendar <= Carbon::parse($end)->startOfMonth()) {
+            $calendarMonth[] = $monthlyCalendar->format('Y-m-d');
+        }
+        $response['calendar_month'] = $this->getGraphLeaves($userId, $start, $end);
         return $this->sendResponse($response,__('ApiMessage.retrievedMessage'));
+    }
+
+    protected function getGraphLeaves($userId, $start, $end) {
+        $calendarMonth = [];
+        $startOfMonth = Carbon::parse($start)->startOfMonth();
+        $endOfMonth = Carbon::parse($start)->endOfMonth();
+
+
+        $leaves = LeaveApplication::where('user_id', $userId)->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->select('from')->pluck('from');
+            // dd($userId);
+        $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaves];
+
+        while($startOfMonth < Carbon::parse($end)->startOfMonth()) {
+
+            $startOfMonth = Carbon::parse($startOfMonth)->startOfMonth();
+            $endOfMonth = Carbon::parse($startOfMonth)->endOfMonth();
+
+            $startOfMonth = Carbon::parse($startOfMonth)->addMonth()->startOfMonth();
+            $leaves = LeaveApplication::where('user_id', $userId)->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->pluck('from');
+            $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaves];
+        }
+        // dd($calendarMonth);
+        return $calendarMonth;
+        // return ['month' '', 'leaves' => []];
     }
 
     function getAllDaysOfMonth($start, $end)

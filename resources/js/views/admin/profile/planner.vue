@@ -178,17 +178,17 @@
 
         <div class="accordion" id="input-valuses-accord">
 
-            <AccordionPanel aria-title="incidents" title="July 2024">
-                <Calender :data="{year:2024, month: 7, selector: Math.random().toString(36).substring(7)}"/>
+            <AccordionPanel v-for="month in attendanceData?.data?.calendar_month" aria-title="incidents" :title="moment(month.date).format('MMMM YYYY')">
+                <Calender :data="{year:moment(month.date).format('YYYY'), month: moment(month.date).format('MM'), selector: Math.random().toString(36).substring(7), holiday: month.leaves}"/>
             </AccordionPanel>
 
-            <AccordionPanel aria-title="incidents" title="June 2024">
+            <!-- <AccordionPanel aria-title="incidents" title="June 2024">
                 <Calender :data="{year:2024, month: 6, selector: Math.random().toString(36).substring(7)}"/>
             </AccordionPanel>
 
             <AccordionPanel aria-title="incidents" title="May 2024">
                 <Calender :data="{year:2024, month: 5, selector: Math.random().toString(36).substring(7)}"/>
-            </AccordionPanel>
+            </AccordionPanel> -->
         </div>
     </div>
 </template>
@@ -202,6 +202,7 @@ import { useRoute } from "vue-router";
 import useAttendance from "@/composables/useAttendance";
 import AccordionPanel from '@/components/AccordionPanel.vue';
 import Calender from './Calender.vue';
+import moment from 'moment';
 const { getUserAttendanceCount, loading: isLoading, success } = useAttendance();
 const startDate = ref('')
 const endDate = ref('')

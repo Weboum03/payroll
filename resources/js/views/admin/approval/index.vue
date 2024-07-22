@@ -56,7 +56,13 @@
                 <template v-slot:cell-duration="{ row }">
                     {{ row.duration }} Days
                 </template>
-
+                <template v-slot:cell-from="{ row }">
+                    {{ moment(row.from).format('M MMMM, Y') }}
+                </template>
+                <template v-slot:cell-to="{ row }">
+                    {{ moment(row.to).format('M MMMM, Y') }}
+                </template>
+                
                 <template v-slot:cell-status="{ row }">
                     <button type="button" class="btn"
                         :class="{ 'btn-outline-primary': row.status == 'Pending', 'btn-outline-danger': row.status == 'Rejected', 'btn-outline-success': row.status == 'Approved' }"
@@ -89,6 +95,7 @@ import UserDetail from './UserDetail.vue'
 const { users, getUsers } = useUsers()
 const { leaves, getLeaves, isLoading } = useLeaves()
 import { useAbility } from '@casl/vue';
+import moment from 'moment';
 const { can } = useAbility()
 const table = ref(null)
 const pagelength = ref(10);

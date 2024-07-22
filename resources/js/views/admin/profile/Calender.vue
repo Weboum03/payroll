@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import $ from 'jquery';
+import $, { event } from 'jquery';
 import { ref } from 'vue';
 window.$ = window.jQuery = $;
 import { onMounted } from 'vue';
@@ -54,40 +54,21 @@ onMounted(() => {
 })
 
 const loadCalender = () => {
-    console.log('props.data.selector', props.data.selector);
-    console.log('props.data.month', props.data.month)
+    let leaves = [];
+    props.data.holiday.forEach(i=>{
+        leaves.push({
+            date: i,
+            markup: '<div class=\"badge rounded-pill badge-pill commonMark ernLeaves-div\">[day]</div>'
+        });
+    })
+
     $('#'+props.data.selector).zabuto_calendar({
         classname: 'table',
-        year: props.data.year,
-        month: props.data.month,
+        year: Number(props.data.year),
+        month: Number(props.data.month),
         navigation_prev: false,
         navigation_next: false,
-        events: [
-            {
-                "date": `2024-07-01`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark ernLeaves-div\">[day]</div>"
-            },
-            {
-                "date": `2024-07-05`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark PubHoly-div\">[day]</div>"
-            },
-            {
-                "date": `2024-07-25`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark manity-div\">[day]</div>"
-            },
-            {
-                "date": `2024-07-20`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark vesElemtum-div\">[day]</div>"
-            },
-            {
-                "date": `2024-07-30`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark donAliq-div\">[day]</div>"
-            },
-            {
-                "date": `2024-07-28`,
-                "markup": "<div class=\"badge rounded-pill badge-pill commonMark donAliq-div\">[day]</div>"
-            },
-        ]
+        events : leaves,
     });
 }
 </script>
