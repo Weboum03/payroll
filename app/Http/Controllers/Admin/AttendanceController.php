@@ -134,24 +134,52 @@ class AttendanceController extends BaseController
         $endOfMonth = Carbon::parse($start)->endOfMonth();
 
 
-        $leaves = LeaveApplication::where('user_id', $userId)->where('from', '>=', $startOfMonth)
-            ->where('to', '<=', $endOfMonth)->select('from')->pluck('from');
-            // dd($userId);
-        $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaves];
+        $leaves = LeaveApplication::where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->select('from','to')->get();
+
+        $leaveDates = [];
+        $leaves = $leaves->map(function ($leave) use(&$leaveDates) {
+            $leaveDates = array_merge($leaveDates, $this->generateDateList($leave->from, $leave->to));
+            return $leaveDates;
+        });
+
+        $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaveDates];
 
         while($startOfMonth < Carbon::parse($end)->startOfMonth()) {
-
-            $startOfMonth = Carbon::parse($startOfMonth)->startOfMonth();
-            $endOfMonth = Carbon::parse($startOfMonth)->endOfMonth();
-
             $startOfMonth = Carbon::parse($startOfMonth)->addMonth()->startOfMonth();
-            $leaves = LeaveApplication::where('user_id', $userId)->where('from', '>=', $startOfMonth)
-            ->where('to', '<=', $endOfMonth)->pluck('from');
-            $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaves];
+            $endOfMonth = Carbon::parse($startOfMonth)->addMonth()->endOfMonth();
+
+            $leaves = LeaveApplication::where('user_id', $userId)->where('status', '<>', 'Rejected')->where('from', '>=', $startOfMonth)
+            ->where('to', '<=', $endOfMonth)->select('from','to')->get();
+
+            $leaveDates = [];
+            $leaves = $leaves->map(function ($leave) use(&$leaveDates) {
+                $leaveDates = array_merge($leaveDates, $this->generateDateList($leave->from, $leave->to));
+                return $leaveDates;
+            });
+            $calendarMonth[] = ['date' => $startOfMonth->format('Y-m-d'), 'leaves' => $leaveDates];
         }
         // dd($calendarMonth);
         return $calendarMonth;
         // return ['month' '', 'leaves' => []];
+    }
+
+    protected function generateDateList($startDate, $endDate)
+    {
+        // Parse the start and end dates
+        $start = Carbon::parse($startDate);
+        $end = Carbon::parse($endDate);
+        
+        // Generate the period between the dates
+        $period = CarbonPeriod::create($start, $end);
+        
+        // Convert the period to an array of dates
+        $dates = [];
+        foreach ($period as $date) {
+            $dates[] = $date->format('Y-m-d');
+        }
+
+        return $dates;
     }
 
     function getAllDaysOfMonth($start, $end)
