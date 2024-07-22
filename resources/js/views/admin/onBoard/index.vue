@@ -497,19 +497,12 @@
                                 </div>
 
                                 <div class="col input-group-fname">
-                                    <Field required name="designation" as="select" class="form-control input" v-model="selectedOption.designation" @change="isModalInputOpend(selectedOption.designation, 'designation')"
-                                        autocomplete="off" style="color: #7e7e7e;">
-                                        <option value="" disabled selected>Designation</option>
-										<option value="Manager">Manager</option>
-										<option v-for="option in inputValues.designation" :key="option" :value="option">
-                                            {{ option }}
-                                        </option>
-                                        <option value="Other">Other</option>
-                                    </Field>
-                                    <label for="designation" class="user-label">Designation</label>
+                                    <Field required type="text" name="designation" placeholder="Designation"
+                                        :class="{ 'is-invalid': errors.designation }" class="input"
+                                        autocomplete="off" />
+                                    <label for="Designation" class="user-label">Designation</label>
                                     <ErrorMessage name="designation" class="text-danger mt-1" />
                                 </div>
-
                             </div>
                             <div class="row">
 
