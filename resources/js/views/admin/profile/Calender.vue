@@ -24,7 +24,7 @@
                 </div>
                 <div class="d-flex align-items-start">
                     <div class="col donAliq-div commonLable"></div>
-                    <div class="col donAliq">Donec aliquet</div>
+                    <div class="col donAliq">Casual Leave</div>
                 </div>
             </div>
 
@@ -44,22 +44,22 @@ const props = defineProps({
 });
 
 const publicholidays = [
-    { "name": "Republic Day", "date": "2009-01-26" },
-    { "name": "Maha Shivratri", "date": "2009-02-23" },
-    { "name": "Holi", "date": "2009-03-11" },
-    { "name": "Mahavir Jayanthi", "date": "2009-04-07" },
-    { "name": "Good Friday", "date": "2009-04-10" },
-    { "name": "May Day", "date": "2009-05-01" },
-    { "name": "Buddha Purnima", "date": "2009-05-08" },
-    { "name": "Krishna Janmastami", "date": "2009-08-14" },
-    { "name": "Independence Day", "date": "2009-08-15" },
-    { "name": "Ganesh Chaturthi", "date": "2009-08-23" },
-    { "name": "Id-Ul-Fitr", "date": "2009-09-21" },
-    { "name": "Vijaya Dashami", "date": "2009-09-28" },
-    { "name": "Mahatma Gandhi Jayanti", "date": "2009-10-02" },
-    { "name": "Diwali", "date": "2009-10-17" },
-    { "name": "Guru Nanak Jayanthi", "date": "2009-11-02" },
-    { "name": "Christmas", "date": "2009-12-25" }
+    { "name": "Republic Day", "date": "2024-01-26" },
+    { "name": "Maha Shivratri", "date": "2024-02-23" },
+    { "name": "Holi", "date": "2024-03-11" },
+    { "name": "Mahavir Jayanthi", "date": "2024-04-07" },
+    { "name": "Good Friday", "date": "2024-04-10" },
+    { "name": "May Day", "date": "2024-05-01" },
+    { "name": "Buddha Purnima", "date": "2024-05-08" },
+    { "name": "Krishna Janmastami", "date": "2024-08-14" },
+    { "name": "Independence Day", "date": "2024-08-15" },
+    { "name": "Ganesh Chaturthi", "date": "2024-08-23" },
+    { "name": "Id-Ul-Fitr", "date": "2024-09-21" },
+    { "name": "Vijaya Dashami", "date": "2024-09-28" },
+    { "name": "Mahatma Gandhi Jayanti", "date": "2024-10-02" },
+    { "name": "Diwali", "date": "2024-10-17" },
+    { "name": "Guru Nanak Jayanthi", "date": "2024-11-02" },
+    { "name": "Christmas", "date": "2024-12-25" }
 ];
 
 onMounted(() => {
@@ -100,6 +100,16 @@ const loadCalender = () => {
             });
         }
     })
+
+    publicholidays.forEach(i=>{
+        console.log('i',i);
+        leaves.push({
+                date: i.date,
+                markup: '<div class=\"badge rounded-pill badge-pill commonMark PubHoly-div\">[day]</div>'
+        });
+    })
+
+    console.log('leaves', leaves);
 
     $('#'+props.data.selector).zabuto_calendar({
         classname: 'table',
