@@ -191,18 +191,6 @@ const props = defineProps({
     isActive: Boolean
 });
 
-let currentValue = '';
-
-onMounted( () => {
-    currentValue = localStorage.getItem("myToggle") === "true";
-    toggle.value = currentValue;
-})
-
-watch( currentValue, () => {
-    currentValue = localStorage.getItem("myToggle") === "true";
-    toggle.value = currentValue;
-})
-
 </script>
 
 

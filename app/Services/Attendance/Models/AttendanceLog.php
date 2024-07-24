@@ -43,7 +43,7 @@ class AttendanceLog extends Model
         return AttendanceLogFactory::new();
     }
 
-    public static function getMondaysBetween($startDate, $endDate)
+    public static function getMondaysBetween($startDate, $endDate, $day = 'Mon')
     {
         // Parse the start and end dates
         $start = Carbon::parse($startDate);
@@ -53,13 +53,32 @@ class AttendanceLog extends Model
         $period = CarbonPeriod::create($start, $end);
 
         // Filter to get only Mondays
-        $mondays = [];
+        $dates = [];
         foreach ($period as $date) {
-            if ($date->isMonday()) {
-                $mondays[] = $date->format('Y-m-d');
+            if ($day == 'Mon' && $date->isMonday()) {
+                $dates[] = $date->format('Y-m-d');
             }
+            if ($day == 'Tues' && $date->isTuesday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+            if ($day == 'Wed' && $date->isWednesday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+            if ($day == 'Thu' && $date->isThursday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+            if ($day == 'Fri' && $date->isFriday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+            if ($day == 'Sat' && $date->isSaturday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+            if ($day == 'Sun' && $date->isSunday()) {
+                $dates[] = $date->format('Y-m-d');
+            }
+
         }
 
-        return $mondays;
+        return $dates;
     }
 }

@@ -127,12 +127,11 @@ class AttendanceController extends BaseController
         $response['calendar_month'] = $this->getGraphLeaves($userId, $start, $end);
 
         $daysArray = ['Mon','Tues','Wed','Thu','Fri','Sat', 'Sun'];
-        $daysInMonth = $this->getAllDaysOfMonth($start, $end);
         $hearMaps = [];
         foreach($daysArray as $value) {
-            $dates = AttendanceLog::getMondaysBetween($start, $end);
+            $dates = AttendanceLog::getMondaysBetween($start, $end, $value);
             $count = AttendanceLog::where('user_id', $userId)->whereIn('date', $dates)->where('type', 'in')->count();
-            $hearMaps[] = ['name' => $value, 'count' => count($daysInMonth) - $count];
+            $hearMaps[] = ['name' => $value, 'count' => count($dates) - $count];
         }
         
         $response['maps'] = $hearMaps;

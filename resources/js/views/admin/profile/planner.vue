@@ -138,9 +138,9 @@
                     <div class="chart-heading d-flex justify-content-start">Absent hear map</div>
                     <div class="programming-stats3">
 
-                        <div class="form-row weekdays-container">
+                        <div class="form-row weekdays-container" :key="tableKey">
                             <div v-for="map in attendanceData?.data?.maps" class="col-md-3 hear">
-                                <div class="mon" v-if="map.count > 0" style="background-color: #f68838;">{{map.name }}</div>
+                                <div class="mon" v-if="map.count > 0" style="background-color: #f68838;">{{map.name }} {{ map.count }}</div>
                                 <div class="mon" v-else style="background-color: #1b8a5a;">{{map.name }}</div>
                             </div>
                             <!-- <div class="col-md-3 ">
@@ -174,7 +174,7 @@
 
         <div class="input-valuses"
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
-            May,2024 to July,2024 </div>
+            {{ moment(startDate).format('MMMM, YYY')}} to {{ moment(endDate).format('MMMM, YYY')}} </div>
 
         <div class="accordion" :key="tableKey" id="input-valuses-accord">
 
@@ -304,6 +304,9 @@ const updateAttendanceChartData = () => {
 
     earnedchartData.value.labels = [leaveTaken + " days taken", leaveRemaining + " remaining"]
     earnedchartData.value.datasets[0].data = [leaveTaken, leaveRemaining]
+    if(leaveTaken == 0 && leaveRemaining == 0) {
+        earnedchartData.value.datasets[0].data = [0, 1]
+    }
     attendanceValue.value = {
         present: present,
         absent: absent,
@@ -416,6 +419,14 @@ onMounted(async () => {
     margin-left: -5px;
 }
 .hear div {
-    margin-bottom: 5px;;
+    margin-bottom: 5px;
+    width: 60px;
+}
+
+.weekdays-container {
+    width: 260px;
+}
+.programming-stats3 {
+    padding-left: 0;
 }
 </style>
