@@ -40,9 +40,13 @@
                     <input type="file" ref="file" @change="handleFileSelect" id="fileUpload-area" name="[]" multiple
                         hidden>
                 </label>
-                <div v-if="selectedFile" class="d-flex flex-column justify-content-center align-items-center"
+                <div v-if="selectedFile && !isLoading" class="d-flex flex-column justify-content-center align-items-center"
                     style="margin-top: 30px;"> <a :disable="!selectedFile" @click="uploadFile"
-                        href="javascript:;"><button type="button" class="UP">{{ text }}</button></a></div>
+                        href="javascript:;"><button type="button" class="UP">Upload</button></a></div>
+
+                <div v-if="isLoading" class="d-flex flex-column justify-content-center align-items-center"
+                    style="margin-top: 30px;"> <a :disable="!selectedFile"
+                        href="javascript:;"><button type="button" class="UP">Processing</button></a></div>
             </div>
         </div>
     </div>
@@ -76,8 +80,8 @@ const uploadFile = async (event) => {
             alert("Please select a file first!");
             return;
         }
-        text.value = 'Upload';
         let response = await importUser({ attachment: selectedFile.value });
+        
         text.value = 'Upload';
         if (success.value) {
             selectedFile.value = '';

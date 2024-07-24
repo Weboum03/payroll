@@ -322,7 +322,6 @@ class UserController extends BaseController
         $filepath = $file->getPathname();
 
         $array = (new UsersImport)->toCollection($file);
-
         DB::beginTransaction();
         $isAnyEntry = false;
         try {
@@ -350,8 +349,10 @@ class UserController extends BaseController
                         if ($role) {
                             $jobRole = $role->id;
                         } else {
-                            $role = Role::where('name', 'Employee')->value('id');
-                            $jobRole = $role;
+                            $role = Role::where('name', 'Employee')->first();
+                            if($role) {
+                                $jobRole = $role->id;
+                            }
                         }
                         
 						// check immediate_manager_employee_code 
@@ -367,12 +368,11 @@ class UserController extends BaseController
 						}
 						else{
 							$existUser = User::Where('employee_id', $immediate_manager_emp_code)->exists();
-							$role = Role::where('name', $immediate_manager)->first();
 							if (!$existUser) {
 								$errorMsg = 'Immediate manager employee code "'.$immediate_manager_emp_code.'" not exist';
 								throw new \Exception($errorMsg);
 							} else {
-								$immediate_manager = $role->id;
+								$immediate_manager = $immediate_manager_emp_code;
 							}
 
                             $immediate_manager = $immediate_manager_emp_code;
@@ -391,7 +391,6 @@ class UserController extends BaseController
 						}
 						else{
 							$existUser = User::Where('employee_id', $leave_approve_emp_code)->exists();
-							$role = Role::where('name', $leave_approving_authority)->first();
 							if (!$existUser) {
 								$errorMsg = 'Leave approving authority employee code "'.$leave_approve_emp_code.'" not exist';
 								throw new \Exception($errorMsg);
@@ -406,8 +405,8 @@ class UserController extends BaseController
                             'middle_name' => $user['middle_name'],
                             'last_name' => $user['last_name'],
                             'employee_id' => $user['employee_id'],
-                            'email' => $user['email'],
-                            'phone' => $user['mobile'],
+                            'email' => str_replace(' ', '', $user['email']),
+                            'phone' => str_replace(' ', '', $user['mobile']),
                             'role_id' => $jobRole,
                             'password' => $user['password'],
                             'gender' => $user['gender'],
@@ -437,6 +436,7 @@ class UserController extends BaseController
                             'leave_approving_auth' => $leave_approving_authority,
                             'leave_approving_code' => $leave_approve_emp_code,
                             'department' => $user['department'],
+                            'designation' => $user['designation'],
                             'job_role' => $jobRole,
                             'grade' => $user['grade'],
                             'employment_type' => $user['employement_type'],
@@ -558,10 +558,10 @@ class UserController extends BaseController
             return ['status' => false, 'message' =>$errorMsg ];
         }
 
-        // if(!isset($user['designation']) || $user['designation'] == ''){
-        //     $errorMsg = 'Designation field is required.';
-        //     return ['status' => false, 'message' =>$errorMsg ];
-        // }
+        if(!isset($user['designation']) || $user['designation'] == ''){
+            $errorMsg = 'Designation field is required.';
+            return ['status' => false, 'message' =>$errorMsg ];
+        }
         if(!isset($user['date_of_joining']) || $user['date_of_joining'] == ''){
             $errorMsg = 'Date of joining field is required.';
             return ['status' => false, 'message' =>$errorMsg ];

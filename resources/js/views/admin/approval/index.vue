@@ -57,10 +57,10 @@
                     {{ row.duration }} Days
                 </template>
                 <template v-slot:cell-from="{ row }">
-                    {{ moment(row.from).format('M MMMM, Y') }}
+                    {{ moment(row.from).format('D MMMM, Y') }}
                 </template>
                 <template v-slot:cell-to="{ row }">
-                    {{ moment(row.to).format('M MMMM, Y') }}
+                    {{ moment(row.to).format('D MMMM, Y') }}
                 </template>
                 
                 <template v-slot:cell-status="{ row }">

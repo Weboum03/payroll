@@ -176,11 +176,12 @@
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
             May,2024 to July,2024 </div>
 
-        <div class="accordion" id="input-valuses-accord">
+        <div class="accordion" :key="tableKey" id="input-valuses-accord">
 
-            <AccordionPanel v-for="month in attendanceData?.data?.calendar_month" aria-title="incidents" :title="moment(month.date).format('MMMM YYYY')">
+                <AccordionPanel v-for="month in attendanceData?.data?.calendar_month" aria-title="incidents" :title="moment(month.date).format('MMMM YYYY')">
                 <Calender :data="{year:moment(month.date).format('YYYY'), month: moment(month.date).format('MM'), selector: Math.random().toString(36).substring(7), holiday: month.leaves}"/>
             </AccordionPanel>
+            
 
             <!-- <AccordionPanel aria-title="incidents" title="June 2024">
                 <Calender :data="{year:2024, month: 6, selector: Math.random().toString(36).substring(7)}"/>
