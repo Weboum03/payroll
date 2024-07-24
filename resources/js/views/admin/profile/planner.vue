@@ -139,10 +139,11 @@
                     <div class="programming-stats3">
 
                         <div class="form-row weekdays-container">
-                            <div class="col-md-3 ">
-                                <div class="mon" style="background-color: #f68838;">MON</div>
+                            <div v-for="map in attendanceData?.data?.maps" class="col-md-3 hear">
+                                <div class="mon" v-if="map.count > 0" style="background-color: #f68838;">{{map.name }}</div>
+                                <div class="mon" v-else style="background-color: #1b8a5a;">{{map.name }}</div>
                             </div>
-                            <div class="col-md-3 ">
+                            <!-- <div class="col-md-3 ">
                                 <div class="tue" style="background-color: #1b8a5a;">TUE</div>
                             </div>
                             <div class="col-md-3 ">
@@ -151,8 +152,7 @@
                             <div class="col-md-3 ">
                                 <div class="thu" style="background-color: #1b8a5a;">THU</div>
                             </div>
-                        </div>
-                        <div class="form-row weekdays-container">
+
                             <div class="col-md-3 ">
                                 <div class="fri" style="background-color: #1b8a5a;">FRI</div>
                             </div>
@@ -161,7 +161,7 @@
                             </div>
                             <div class="col-md-3 ">
                                 <div class="sun" style="background-color: #1b8a5a;">Sun</div>
-                            </div>
+                            </div> -->
                         </div>
 
                     </div>
@@ -414,5 +414,8 @@ onMounted(async () => {
     flex-wrap: wrap;
     margin-right: -5px;
     margin-left: -5px;
+}
+.hear div {
+    margin-bottom: 5px;;
 }
 </style>
