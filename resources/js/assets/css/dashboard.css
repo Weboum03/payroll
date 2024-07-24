@@ -21,6 +21,32 @@ div#leavesEmpTable_wrapper table tr td {
   color: #03A9F3; /* Set the text color to blue */
 }
 
+
+/* -------Start Css 23-07-2024 ------ */
+table#EmpRolesTable {
+    width: 100% !important;
+}
+div#leavesEmpTable_filter .selectBulkAction {
+    margin-left: 10px !important;
+}
+table#EmpRolesTable tr td {
+    text-wrap: wrap !important;
+}
+
+/* -------Start Css 22-07-2024 ------ */
+.form-step .card {
+    border: none !important;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    background-color: #eee !important;
+    box-shadow: 0 0 8px #d8d8d8;
+}
+div#DataTables_Table_4_info {
+    padding-left: 20px !important;
+}
+
 /* -------Start Css 11-07-2024 ------ */
 table.dataTable.table {
     width: 100% !important;
