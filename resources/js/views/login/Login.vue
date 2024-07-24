@@ -54,7 +54,7 @@
 
                 <div class="d-flex justify-content-between">
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="remMe">
+                        <input type="checkbox" class="custom-control-input" :class="{ 'is-invalid': errors.password }" v-model="loginForm.remember" id="remMe">
                         <label class="custom-control-label" for="remMe">Remember me</label>
                     </div>
 

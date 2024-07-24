@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Spatie\Permission\Models\Role;
 
 class AuthController extends BaseController
@@ -24,14 +26,16 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(Request $request)
     {
         $credentials = request(['email', 'password']);
-
-        if (! $token = auth()->attempt($credentials)) {
+        $rememberMe = $request->input('remember_me');
+        $tokenTTL = $rememberMe ? 525600 : config('jwt.ttl'); // 525600 minutes = 1 year
+        JWTAuth::factory()->setTTL($tokenTTL);
+        if (! $token = Auth::attempt($credentials,true)) {
             return response()->json(['error' => 'Email or password is incorrect'], 422);
         }
-
+        
         return $this->respondWithToken($token);
     }
 

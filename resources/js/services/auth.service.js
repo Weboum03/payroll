@@ -10,12 +10,20 @@ class AuthService {
         password: user.password
       })
       .then(response => {
+        console.log('user', user);
+        if (user.remember) {
+          localStorage.setItem('auth_token', response.data?.access_token);
+        } else {
+          sessionStorage.setItem('auth_token', response.data?.access_token);
+        }
         return response.data;
       });
   }
 
   logout() {
     localStorage.removeItem('user');
+    localStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token');
   }
 
   register(user) {
