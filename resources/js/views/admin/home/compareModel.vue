@@ -233,20 +233,20 @@ const schemas = [
   yup.object({
     year_one: yup.string().required('Financial Years-1 is required'),
     year_two: yup.string().required('Financial Years-2 is required'),
-    year_three: yup.string().required('Financial Years-3 is required'),
+    // year_three: yup.string().required('Financial Years-3 is required'),
   }),
   yup.object({
     year_one: yup.string().required('Calender Years-1 is required'),
     year_two: yup.string().required('Calender Years-2 is required'),
-    year_three: yup.string().required('Calender Years-3 is required'),
+    // year_three: yup.string().required('Calender Years-3 is required'),
   }),
   yup.object({
     year_one: yup.string().required('Years-1 is required'),
     year_two: yup.string().required('Years-2 is required'),
-    year_three: yup.string().required('Years-3 is required'),
+    // year_three: yup.string().required('Years-3 is required'),
     month_one: yup.string().required('Month-1 is required'),
     month_two: yup.string().required('Month-2 is required'),
-    month_three: yup.string().required('Month-3 is required'),
+    // month_three: yup.string().required('Month-3 is required'),
   }),
 ];
 
@@ -265,14 +265,6 @@ watch(formValues, () => {
     tableKey.value++;
 })
 
-
-// Creates a submission handler
-// It validate all fields and doesn't call your function unless all fields are valid
-// const onSubmit = handleSubmit(values => {
-//     console.log('values',values);
-//     alert('rfsg');
-//   alert(JSON.stringify(values, null, 2));
-// });
 function onInvalidSubmit({ values, errors, results }) {
     let current = valErrors.value;
     if (Object.keys(current).length > 0) {
@@ -290,7 +282,12 @@ const onSubmit = async (values) => {
             date_type: values.date_type,
             year_one: `${values.year_one}-${values.month_one}`,
             year_two: `${values.year_two}-${values.month_two}`,
-            year_three: `${values.year_three}-${values.month_three}`,
+        }
+
+        if(values?.year_three && values?.month_three) {
+            Object.assign(params, {
+               year_three: `${values.year_three}-${values.month_three}`
+            })
         }
     } else {
         params = values;
@@ -310,14 +307,20 @@ onMounted(() => {
             currentStep.value = 3;
             let custom_one = queryParams.year_one.split('-');
             let custom_two = queryParams.year_two.split('-');
-            let custom_three = queryParams.year_three.split('-');
+            
             let defaultSelect = {
                 year_one : custom_one[0],
                 month_one: custom_one[1],
                 year_two : custom_two[0],
                 month_two: custom_two[1],
-                year_three : custom_three[0],
-                month_three: custom_three[1],
+            }
+
+            if(queryParams.year_three) {
+                let custom_three = queryParams.year_three.split('-');
+                Object.assign(defaultSelect, {
+                    year_three : custom_three[0],
+                    month_three: custom_three[1],
+                })
             }
             formValues.value = defaultSelect;
         } else {
@@ -360,9 +363,6 @@ const calenderYears = [
 
 const years = [2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015];
 
-const comparePage = () => {
-    router.push({name:'admin.FinancialYearCompareTable'})
-}
 </script>
 
 <style scoped>

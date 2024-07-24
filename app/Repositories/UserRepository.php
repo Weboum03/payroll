@@ -182,8 +182,11 @@ class UserRepository extends BaseRepository
         $getResult = $this->getUserFilterCount($request->date_type, $request->year_two);
         $response[] = $getResult;
 
-        $getResult = $this->getUserFilterCount($request->date_type, $request->year_three);
-        $response[] = $getResult;
+        if($request->date_type && $request->year_three) {
+            $getResult = $this->getUserFilterCount($request->date_type, $request->year_three);
+            $response[] = $getResult;
+        }
+        
         return $response;
     }
 

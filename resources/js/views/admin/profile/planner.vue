@@ -174,7 +174,7 @@
 
         <div class="input-valuses"
             style="padding: 29px;font-size: 18px;font-family: system-ui;font-weight: 500;background-color: #DAE1F3 ">
-            {{ moment(startDate).format('MMMM, YYY')}} to {{ moment(endDate).format('MMMM, YYY')}} </div>
+            {{ moment(startDate).format('MMMM, YYYY')}} to {{ moment(endDate).format('MMMM, YYYY')}} </div>
 
         <div class="accordion" :key="tableKey" id="input-valuses-accord">
 
