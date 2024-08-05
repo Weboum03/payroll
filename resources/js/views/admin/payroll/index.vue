@@ -371,6 +371,9 @@ onMounted(async () => {
     totalEmployee = employeeData.value.total_employee;
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Payroll Generated ' + pending]
     payrollchartData.data = [processed, pending]
+    if(processed == 0 && pending == 0) {
+        payrollchartData.data = [processed, 1]
+    }
     tableKey.value++;
 });
 

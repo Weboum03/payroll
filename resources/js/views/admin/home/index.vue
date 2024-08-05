@@ -19,7 +19,7 @@
             <div class="d-flex" style="gap: 15rem;">
                 <div
                     style="font-size: 13px; margin-left: 15px; color: #212121;font-weight: 500;font-family: sans-serif;background-color: white;line-height: 19.5px;opacity: 50%;">
-                    July 2024 payroll from 1st July 2024 to 31st July 2024</div>
+                    {{ employeeData?.current_month?.name }} payroll from {{ moment(employeeData?.date?.from).format("dddd, MMMM Do YYYY") }} to {{ moment(employeeData?.date?.to).format("dddd, MMMM Do YYYY") }}</div>
             </div>
         </nav>
 
@@ -204,6 +204,9 @@ onMounted(async () => {
     totalEmployee = employeeData.value.total_employee;
     payrollchartData.labels = ['Payroll Processed ' + processed, 'Payroll Generated ' + pending]
     payrollchartData.data = [processed, pending]
+    if(processed == 0 && pending == 0) {
+        payrollchartData.data = [processed, 1]
+    }
     tableKey.value++;
 });
 
