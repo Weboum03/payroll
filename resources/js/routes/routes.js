@@ -58,6 +58,11 @@ export default [
                 beforeEnter: guest,
             },
             {
+                path: "admin/login",
+                name: "admin.auth.login",
+                component: () => import("../views/login/AdminLogin.vue"),
+            },
+            {
                 path: "login",
                 name: "auth.login",
                 component: () => import("../views/login/Login.vue"),

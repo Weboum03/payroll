@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\Auth\ResetPasswordController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,8 +28,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 
-Route::post('password/forgot',[ForgotPasswordController::class,'forgotPassword']);
-Route::post('password/reset',[ResetPasswordController::class,'resetPassword']);
+Route::post('password/forgot', [ForgotPasswordController::class, 'forgotPassword']);
+Route::post('password/reset', [ResetPasswordController::class, 'resetPassword']);
 
 Route::group(['prefix' => 'auth'], function ($router) {
     $router->post('login', [AdminAuthController::class, 'login']);
@@ -37,7 +38,7 @@ Route::group(['prefix' => 'auth'], function ($router) {
 
 $router->get('batches/{id}/donwload_doc/{type?}', [BatchController::class, 'downloadDocument']);
 
-Route::group(['middleware' => 'auth:api'], function ($router) {
+Route::group(['middleware' => 'auth'], function ($router) {
     $router->post('logout', [AdminAuthController::class, 'logout']);
     $router->post('refresh', [AdminAuthController::class, 'refresh']);
     $router->get('user', [AdminAuthController::class, 'me']);
@@ -86,8 +87,15 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->get('my_notifications/unread', [NotificationController::class, 'getMyUnreadNotifications']);
     $router->get('my_notifications/unread_count', [NotificationController::class, 'getMyUnreadNotificationsCount']);
     $router->post('delete_notification', [NotificationController::class, 'destroy']);
-    
-    $router->get('abilities', function(Request $request) {
+});
+
+$router->get('abilities', function (Request $request) {
+    if (Auth::guard('adminApi')->check()) {
+        return Permission::pluck('name')
+            ->unique()
+            ->values()
+            ->toArray();
+    } else {
         return Auth::user()->roles()->with('permissions')
             ->get()
             ->pluck('permissions')
@@ -96,5 +104,5 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
             ->unique()
             ->values()
             ->toArray();
-    });
+    }
 });

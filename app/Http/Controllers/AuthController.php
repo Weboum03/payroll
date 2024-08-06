@@ -28,6 +28,23 @@ class AuthController extends BaseController
      */
     public function login(Request $request)
     {
+        if($request->admin) {
+            $credentials = request(['email', 'password']);
+            $rememberMe = $request->input('remember_me');
+            $tokenTTL = $rememberMe ? 525600 : config('jwt.ttl'); // 525600 minutes = 1 year
+            JWTAuth::factory()->setTTL($tokenTTL);
+            if (! $token = Auth::guard('adminApi')->attempt($credentials,true)) {
+                return response()->json(['error' => 'Email or password is incorrect'], 422);
+            }
+            
+            return response()->json([
+                'name' => auth()->guard('adminApi')->user()->name,
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
+        }
+
         $credentials = request(['email', 'password']);
         $rememberMe = $request->input('remember_me');
         $tokenTTL = $rememberMe ? 525600 : config('jwt.ttl'); // 525600 minutes = 1 year

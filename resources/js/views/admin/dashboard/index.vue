@@ -175,11 +175,15 @@ table.dataTable tbody tr td {
     background-color: transparent;
     margin-left: 3px;
 }
+
 </style>
 
 <style>
 @import 'datatables.net-dt';
 
+.dt-empty {
+    text-align: center !important;
+}
 
 .dt-search {
     display: none;

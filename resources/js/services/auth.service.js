@@ -7,7 +7,8 @@ class AuthService {
     return apiClient
       .post(API_PATH + 'login', {
         email: user.email,
-        password: user.password
+        password: user.password,
+        admin: user.admin,
       })
       .then(response => {
         localStorage.setItem('auth_token', response.data?.access_token);

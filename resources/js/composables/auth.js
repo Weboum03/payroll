@@ -20,6 +20,7 @@ export default function useAuth() {
     const loginForm = reactive({
         email: "",
         password: "",
+        admin:false,
         remember: false,
     });
 
@@ -45,7 +46,6 @@ export default function useAuth() {
 
     const submitLogin = async () => {
         if (processing.value) return;
-
         processing.value = true;
         validationErrors.value = {};
         store.dispatch("auth/login", loginForm).then(
@@ -67,28 +67,32 @@ export default function useAuth() {
                 });
             }
         );
+    };
 
-        // await axios.post('/api/auth/login', loginForm)
-        //     .then(async response => {
-        //         await store.dispatch('auth/getUser')
-        //         await loginUser()
-        //         if (response.data.access_token) {
-        //             localStorage.setItem('user', JSON.stringify(response.data));
-        //           }
-        //         swal({
-        //             icon: 'success',
-        //             title: 'Login successfully 1',
-        //             showConfirmButton: false,
-        //             timer: 1500
-        //         })
-        //         await router.push({ name: 'admin.index' })
-        //     })
-        //     .catch(error => {
-        //         if (error.response?.data) {
-        //             validationErrors.value = error.response.data.errors
-        //         }
-        //     })
-        //     .finally(() => processing.value = false)
+    const submitAdminLogin = async () => {
+        if (processing.value) return;
+        processing.value = true;
+        validationErrors.value = {};
+        Object.assign(loginForm, {admin:true})
+        store.dispatch("auth/login", loginForm).then(
+            async () => {
+                await loginUser();
+                router.push({ name: "admin.index" });
+            },
+            (error) => {
+                processing.value = false;
+                let message =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.error) ||
+                        error.response.data.message ||
+                    error.toString();
+                swal({
+                    icon: "error",
+                    title: message,
+                });
+            }
+        );
     };
 
     const submitRegister =  () => {
@@ -242,6 +246,7 @@ export default function useAuth() {
         validationErrors,
         processing,
         submitLogin,
+        submitAdminLogin,
         submitRegister,
         submitForgotPassword,
         submitResetPassword,
