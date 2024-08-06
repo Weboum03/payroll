@@ -84,7 +84,7 @@ class UserRepository extends BaseRepository
         ->distinct('payrolls.user_id')->count();
 
         // Count users created in the current month
-        $usersCount = User::whereYear('created_at', $currentYear)
+        $usersCount = User::whereHas('info')->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->count();
 
@@ -99,7 +99,7 @@ class UserRepository extends BaseRepository
         ->where('final_working_date','<=', "$currentYear-$currentMonth-31")->count();
 
         // Count users created in the previous month
-        $previousUsersCount = User::whereYear('created_at', $previousMonthYear)
+        $previousUsersCount = User::whereHas('info')->whereYear('created_at', $previousMonthYear)
             ->whereMonth('created_at', $previousMonthNumber)
             ->count();
 
