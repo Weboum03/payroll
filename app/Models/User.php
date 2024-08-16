@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject, HasMedia, CanLogAttend
 
     public const MEDIA_COLLECTIONS = [self::MEDIA_COLLECTION_PROFILE_PICTURE, 'aadhar_proof', 'pan_proof'];
 
+    protected $guard_name = ['api'];
     /**
      * The attributes that are mass assignable.
      *

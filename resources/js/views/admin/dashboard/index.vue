@@ -10,7 +10,7 @@
         <div id="EmpTable_wrapper" class="dataTables_wrapper no-footer">
             <div id="EmpTable_filter" class="dataTables_filter .add"
                 style="display: flex; justify-content: space-between;">
-                <label>Search:<input type="search" v-model="search_global" class="" placeholder=""
+                <label>Search:<input type="search" class="" v-model="searchQuery" @input="filterRows" placeholder=""
                         aria-controls="EmpTable"></label>
 
                 <div class="ImpoExpBtns">
@@ -43,110 +43,71 @@
                                 Import
                                 <div id="datatable-Emp-info">
                                     <span type="button" class="Export1">
-                                        <i class="fa-solid fa-arrow-up-from-bracket fa-xs"
-                                            style="color: white;" aria-hidden="true"></i>
+                                        <i class="fa-solid fa-arrow-up-from-bracket fa-xs" style="color: white;"
+                                            aria-hidden="true"></i>
                                     </span>
                                 </div>
                             </button>
                         </a>
                     </router-link>
-
-                    
                     <div>
                     </div>
                 </div>
-
-
-
-
-
-
-
             </div>
-            <table v-if="users" class="table text-center" ref="myTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Employee ID</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Role</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="user in users?.data" :key="user.id" @click="navigateToDetailPage(user.id)">
-                        <td><img alt="dp" v-if="user.user_profile_picture" :src="user.user_profile_picture" width="20px"
-                                height="20px" style="border-radius: 50%;"> {{ user.first_name }}</td>
-                        <td>{{ user.employee_id }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>{{ user.phone }}</td>
-                        <td>{{ user.role?.name }}</td>
-                    </tr>
-                </tbody>
-            </table>
+
+            <DataTable v-if="users?.data" :headers="tableHeaders" :rows="users" @filter="filterData" @rowclick="navigateToDetailPage" ref="table">
+                <template v-slot:cell-role="{ row }">
+                    {{ row.role?.name }}
+                </template>
+            </DataTable>
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUpdated, watchEffect, nextTick, reactive, computed, watch } from 'vue';
-import useUsers from "../../../composables/users";
+import useUsers from "@/composables/users";
 import { useAbility } from '@casl/vue';
-const { users, getUsers, deleteUser } = useUsers()
+import DataTable from '@/components/DataTable.vue';
+const { users, getUsersPaginate, deleteUser } = useUsers()
 import { useRouter } from "vue-router";
-import 'datatables.net'; // Import DataTables.js library
-import 'datatables.net-bs4/css/dataTables.bootstrap4.css'; // Import DataTables.css
-import $ from 'jquery';
+import debounce from 'lodash.debounce'
 
+const searchQuery = ref("");
+const table = ref(null)
 const { can } = useAbility()
 const router = useRouter();
-const myTable = ref(null);
-const search_global = ref('');
-let dataTable = ref(null);
-const isDataTableInitialized = ref(false)
-// let table = ref(null)
 
 onMounted(async () => {
-    getUsers();
+    getUsersPaginate();
 });
 
-onUpdated(() => {
-    setTimeout(() => {
-        loadDataTable();
-    }, 500);
-})
+const filterData = (filterValues) => {
+    getUsersPaginate(filterValues)
+}
 
-const loadDataTable = () => {
-    console.log('load datatable')
-    const dataTableOptions = {
-        "pagingType": "full_numbers",
-        "order": [],
-        "bLengthChange": false,
-        "columnDefs": [
-            { "className": "text-center", "targets": "_all" } // Center-align all columns
-        ],
-        processing: true,
-    }
-    if (!isDataTableInitialized.value) {
-        dataTable = $(myTable.value).DataTable(dataTableOptions);
-        isDataTableInitialized.value = true;
-    }
-}
-const commaSeparated = (jsonArray) => {
-    // Use array map function to extract names
-    const namesArray = jsonArray.map(obj => obj.name);
-    // Join the names with comma
-    return namesArray.join(', ');
-}
-const navigateToDetailPage = (itemId) => {
+const filterRows = debounce(() => {
+    console.log('searchQuery.value.toLowerCase()', searchQuery.value.toLowerCase())
+    table.value.filterData.filter.push({
+        key: "search",
+        value: searchQuery.value.toLowerCase(),
+    })
+    table.value.filterPayload();
+}, 500)
+
+const tableHeaders = [
+    { key: 'name', label: 'Name' },
+    { key: 'employee_id', label: 'Employee ID' },
+    { key: 'email', label: 'Email', sorting: true },
+    { key: 'phone', label: 'Phone', sorting: true },
+    { key: 'role', label: 'Designation' },
+];
+
+const navigateToDetailPage = (item) => {
     if (can('View Profile')) {
-        router.push({ name: 'admin.EmpProfile', params: { id: itemId } });
+        router.push({ name: 'admin.EmpProfile', params: { id: item.id } });
     }
 };
-
-watch(search_global, (current, previous) => {
-    dataTable.search(search_global.value).draw();
-});
 
 </script>
 
@@ -175,7 +136,6 @@ table.dataTable tbody tr td {
     background-color: transparent;
     margin-left: 3px;
 }
-
 </style>
 
 <style>

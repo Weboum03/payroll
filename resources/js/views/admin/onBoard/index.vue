@@ -1129,6 +1129,7 @@ const schemas = [
     esi: yup.string().required('ESI number is required'),
   }),
   yup.object({
+        salary: yup.string().required('Salary is required'),
         earning_leave_entitlement: yup
           .number(),
         this_year: yup.string().nullable().matches(/^[0-9]+$/, 'Must be numeric')

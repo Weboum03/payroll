@@ -29,9 +29,9 @@ Route::group(['prefix' => 'auth'], function ($router) {
 });
 
 Route::group(['middleware' => 'auth:api'], function ($router) {
-    $router->post('logout', [AuthController::class, 'logout']);
-    $router->post('refresh', [AuthController::class, 'refresh']);
-    $router->get('user', [AuthController::class, 'me']);
+    $router->post('auth/logout', [AuthController::class, 'logout']);
+    $router->post('auth/refresh', [AuthController::class, 'refresh']);
+    $router->get('auth/user', [AuthController::class, 'me']);
 
     $router->post('leaves', [LeaveController::class, 'store']);
     $router->get('leaves_type', [LeaveController::class, 'getLeaveTypes']);

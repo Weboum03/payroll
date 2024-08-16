@@ -39,6 +39,7 @@ class AuthController extends BaseController
             
             return response()->json([
                 'name' => auth()->guard('adminApi')->user()->name,
+                'role' => 'Admin',
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
@@ -131,6 +132,7 @@ class AuthController extends BaseController
     {
         return response()->json([
             'name' => auth()->user()->name,
+            'role' => auth()->user()->role()->value('name'),
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60

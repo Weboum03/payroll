@@ -604,10 +604,10 @@
                                 <div class="col input-group-fname">
                                     <Field required type="number" name="salary"
                                         v-model="userData.salary"
-                                        placeholder="Salary"
+                                        placeholder="Salary*"
                                         :class="{ 'is-invalid': errors.salary }" class="input"
                                         autocomplete="off" />
-                                    <label for="PAN Number" class="user-label">Salary</label>
+                                    <label for="PAN Number" class="user-label">Salary*</label>
                                     <ErrorMessage name="salary" class="text-danger mt-1" />
                                 </div>
                             </div>
@@ -1257,6 +1257,7 @@ const schemas = [
         
     }),
       yup.object({
+        salary: yup.string().required('Salary is required'),
         earning_leave_entitlement: yup
           .string()
           .matches(/^[0-9]+$/, 'Must be numeric'),

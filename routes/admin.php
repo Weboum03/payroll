@@ -38,7 +38,7 @@ Route::group(['prefix' => 'auth'], function ($router) {
 
 $router->get('batches/{id}/donwload_doc/{type?}', [BatchController::class, 'downloadDocument']);
 
-Route::group(['middleware' => 'auth'], function ($router) {
+Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->post('logout', [AdminAuthController::class, 'logout']);
     $router->post('refresh', [AdminAuthController::class, 'refresh']);
     $router->get('user', [AdminAuthController::class, 'me']);

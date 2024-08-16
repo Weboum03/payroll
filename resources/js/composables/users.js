@@ -29,11 +29,11 @@ export default function useUsers() {
         console.log('getUsersPaginate', filters);
         let queryString = new URLSearchParams(filters).toString();
         if(queryString) { queryString = '?'+ queryString }
-        console.log('queryString', queryString);
         return apiClient
             .get(
                 "/admin/user/pagination"+queryString)
             .then((response) => {
+                users.value = response.data;
                 return response.data;
             });
     };

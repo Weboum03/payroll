@@ -237,9 +237,6 @@ class UserRepository extends BaseRepository
             ->when($request->department, function ($q) use($request) {
                 return $q->where('department', $request->department);
             })
-            // ->when($request->job_role, function ($q) use($request) {
-            //     return $q->where('job_role', $request->job_role);
-            // })
             ->when($request->gender, function ($q) use($request) {
                 return $q->where('gender', $request->gender);
             })
@@ -250,7 +247,9 @@ class UserRepository extends BaseRepository
         ->when($request->search, function ($query) use($request) {
             return $query->where(function ($q) use($request) {
                 return $q->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('employee_id', 'like', '%' . $request->search . '%');
+                ->orWhere('employee_id', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%')
+                ->orWhere('phone', 'like', '%' . $request->search . '%');
             });
         })
         ->when($request->role, function ($q) use($request) {
