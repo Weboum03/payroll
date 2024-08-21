@@ -1,6 +1,7 @@
 import axios from "axios";
 import store from "../store";
 import Swal from "sweetalert2";
+import router from "../routes";
 let baseURL = import.meta.env.VITE_AXIOS_BASE_URL;
 if (baseURL) {
     baseURL = baseURL + "/api/";
@@ -41,8 +42,10 @@ apiClient.interceptors.response.use(
         return Promise.resolve(response);
     },
     (error) => {
+        
         if (error.response.status === 401) {
-            window.location.href = "/login";
+            // Redirect to login page if unauthorized
+            router.push('/login');
         }
 
         else if (error.response.status == 422) {
