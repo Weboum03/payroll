@@ -23,95 +23,59 @@
                 already added to another batch and meet the below criteria will be added </div>
             <Form @submit="submitForm">
             <div class="payForm d-flex flex-column" style="gap: 1rem;">
+
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.company" id="Companies" name="company" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option value="ABC & Company Ltd.">ABC & Company Ltd.</option>
-                            <option value="Accenture Inc">Accenture Inc</option>
-                            <option value="North Corp Software">North Corp Software</option>
-                            <option value="Cyber Security Ltd">Cyber Security Ltd</option>
-                        </Field>
+                        <multiselect v-model="filterValues.company" :options="selectoptions.company" placeholder="Select Company" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Companies</label>
                     </div>
                 </div>
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.location" id="Location" name="location" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option value="Guru Gram"> Guru Gram</option>
-                            <option value="Pune">Pune</option>
-                            <option value="Bangluru">Bangluru</option>
-                            <option value="California">California</option>
-                        </Field>
+                        <multiselect v-model="filterValues.location" :options="selectoptions.location" placeholder="Select Location" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Location</label>
                     </div>
                 </div>
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.department" id="Department" name="department" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option value="Software Development">Software Development</option>
-                            <option value="Quality Testing">Quality Testing</option>
-                            <option value="Designing">Designing</option>
-                            <option value="Management">Management</option>
-                        </Field>
+                        <multiselect v-model="filterValues.department" :options="selectoptions.department" placeholder="Select Department" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Department</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.role" id="Job-Role" name="role" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option v-for="role in roles?.data" :key="role.id" :value="role.id">
-                                {{ role.name }}
-                            </option>
-                        </Field>
+                        <multiselect v-model="filterValues.role" :options="roleOptions" placeholder="Select Role" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Job Role</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.gender" id="Grader" name="gender" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </Field>
+                        <multiselect v-model="filterValues.gender" :options="selectoptions.gender" placeholder="Select Gender" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Gender</label>
                     </div>
                 </div>
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" v-model="filterValues.employment_type" id="Emp-type" name="employment_type" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option value="Regular">Regular</option>
-                            <option value="Consultant">Contract</option>
-                            <option value="Trainee">Trainee</option>
-                            <option value="Apprenticeship">Apprenticeship</option>
-                            <option value="Casual">Casual</option>
-                            <option value="Temporary">Temporary </option>
-                        </Field>
+                        <multiselect v-model="filterValues.employment_type" :options="selectoptions.employment_type" placeholder="Select Employment Type" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Employment Type</label>
                     </div>
                 </div>
+
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" id="Specific-Emp" v-model="selectUser" name="selected_user" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
-                        </Field>
+                        <multiselect v-model="selectUser" label="name" track-by="name" :options="selectedUserOption" placeholder="Select User" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Specific Employee(s)</label>
                     </div>
                 </div>
+
+                
+
+
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <Field as="select" class="form-control input" id="Exclude-Emp" v-model="deselectUser" name="excluded_user" autocomplete="off" style="color: #7e7e7e;">
-                            <option value="" selected>All</option>
-                            <option v-for="user in users?.data" :key="user.id" :value="user.id">{{ user.name }}</option>
-                        </Field>
+                        <multiselect v-model="deselectUser" label="name" track-by="name" :options="deselectedUserOption" placeholder="Select User" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Exclude Employee(s)</label>
                     </div>
                 </div>
@@ -121,7 +85,6 @@
                     <router-link :to="{ name: 'admin.PayrollBatchList', params: { id: route.params.id } }" custom v-slot="{ navigate }">
                         <a @click="navigate" href="javascipt:;" class="btn btn-outline-light cancle">Cancel</a>
                     </router-link>
-                    
                 </div>
             </div>
             </Form>
@@ -229,7 +192,6 @@
             </div>
         </div>
     </div>
-{{ selectUser }}
 
     <!-- Modal -->
     <div class="modal fade" id="savePayBatchForm1" tabindex="-1" aria-labelledby="savePayBatchFormLabel"
@@ -252,16 +214,19 @@
             </div>
         </div>
     </div>
+   
 </template>
 
 <script setup>
 import { useRouter,useRoute } from "vue-router";
+import 'vue-multiselect/dist/vue-multiselect.css'
+import Multiselect from 'vue-multiselect'
 import { Form, Field, ErrorMessage } from "vee-validate";
 import DataTable from '@/components/DataTable.vue';
 import useUsers from "@/composables/users";
 import useBatch from "@/composables/useBatch";
 import useRoles from "@/composables/roles";
-import { onMounted, reactive, watch, ref } from "vue";
+import { onMounted, reactive, watch, ref, computed } from "vue";
 // const { users, getUsers, getUsersPaginate, is } = useUsers()
 const { items: batches, item: batch, fetchOne: getBatch, getBatchUsers,getBatchFormUser, addEmployee, loading, success } = useBatch()
 const { roles, getRoles } = useRoles()
@@ -273,15 +238,16 @@ const isModalOpened = ref(false)
 const searchQuery = ref("");
 const paginateUser = ref([])
 const users = ref([])
-const deselectUser = ref('')
-const selectUser = ref('')
+const deselectUser = ref([])
+const selectUser = ref([])
+const roleOptions = ref([]);
 const filterValues = reactive({
-    company:'',
-    location:'',
-    department:'',
-    role:'',
-    gender:'',
-    employment_type:'',
+    company:[],
+    location:[],
+    department:[],
+    role:[],
+    gender:[],
+    employment_type:[],
     filtered_users:[]
 });
 
@@ -294,14 +260,40 @@ const showDataTable = () => {
     isModalOpened.value = !isModalOpened.value;
 }
 
+const value = [
+        {name: 'Javascript', code: 'js'}
+      ]
+
+const addTag = (newTag) => {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
+    }
+
+const selectoptions = {
+    company: [
+        'ABC & Company Ltd.',
+        'Accenture Inc',
+        'North Corp Software',
+        'Cyber Security Ltd'
+    ],
+    location: ['Guru Gram', 'Pune', 'Bangluru', 'California'],
+    department:['Software Development', 'Quality Testing', 'Designing', 'Management'],
+    gender:['Male', 'Female', 'Other'],
+    employment_type:['Regular', 'Consultant', 'Trainee', 'Apprenticeship', 'Casual', 'Temporary'],
+}
+
+const rolesName = computed(() => roles?.data?.map(role => role.name))
+
 watch(filterValues, async (current, previous) => {
     users.value = await getBatchFormUser(route.params.id, filterValues)
     filteredValue.value = users.value.data.map(e => e.id)
     paginateUser.value = await getBatchFormUser(route.params.id, Object.assign(filterValues, {paginate : true}))
-    // table.value.filterData.page = 1;
-    console.log('filterValues');
-    deselectUser.value = ''
-    selectUser.value = ''
+    deselectUser.value = []
+    selectUser.value = []
 });
 
 const filterData = async (values) => {
@@ -324,6 +316,7 @@ const tableHeaders = [
     { key: 'department', label: 'Department' }
 ];
 
+
 onMounted( async () => {
     users.value = await getBatchFormUser(route.params.id, filterValues)
     getBatch(route.params.id)
@@ -331,12 +324,28 @@ onMounted( async () => {
     fetPaginateData()
 })
 
+watch(roles,() => {
+    roleOptions.value = roles.value.data.map((role => role.name))
+})
+
+const selectedUserOption = ref([])
+const deselectedUserOption = ref([])
+
+watch(users,() => {
+    selectedUserOption.value = users.value.data.map(user => ({name:user.name, id : user.id}))
+    deselectedUserOption.value = users.value.data.map(user => ({name:user.name, id : user.id}))
+})
+
 const fetPaginateData = async () => {
     paginateUser.value = await getBatchFormUser(route.params.id, {paginate:true})
 }
 
 const submitForm = async (values) => {
-    await addEmployee(route.params.id, values);
+    Object.assign(filterValues, {
+        selected_user: selectUser.value.map(user => user.id),
+        excluded_user: deselectUser.value.map(user => user.id),
+    })
+    await addEmployee(route.params.id, filterValues);
     if(success) {
         router.push({ name: 'admin.PayrollBatchList', params: { id: route.params.id } });
     }
@@ -380,4 +389,9 @@ const submitForm = async (values) => {
 .modal-content{
   height:auto;
 }
+</style>
+
+
+<style scoped>
+
 </style>

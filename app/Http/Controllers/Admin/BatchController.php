@@ -376,45 +376,45 @@ class BatchController extends BaseController
         }
 
         $addedUser = 0;
-        $selectedUser = $request->selected_user;
-        $excludedUser = $request->excluded_user;
-        if($selectedUser) {
-            if($selectedUser == $excludedUser) {
-                return $this->sendError('You cannot choose same employee to specific and exclude employee field');
+        $selectedUsers = $request->selected_user;
+        $excludedUsers = $request->excluded_user;
+        if($selectedUsers) {
+            foreach($selectedUsers as $selectedUser) {
+                $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
+                if(!$exits && !in_array($selectedUser, $excludedUsers)) {
+                    $user = UserDetail::where('user_id', $selectedUser)->first();
+                    $month = Carbon::now()->subMonth();
+                    $start = Carbon::parse($month)->startOfMonth();
+                    $end = Carbon::parse($month)->endOfMonth();
+                    $response = $this->getMonthlyAttendance($user->user_id, $start, $end);
+                    $actualPaybleDays = date('d', strtotime('last day of previous month'));
+                    $present = $response['present_count'];
+                    $absent = $response['absent_count'];
+                    $paybleDays = $actualPaybleDays - $absent;
+                    $percent = round(($paybleDays/$actualPaybleDays)*100,2);
+                    $payout = round(($percent/100)*$user->salary,2);
+                    $deduction = $user->salary - $payout;
+                    $dataToStore = [
+                        'user_id' => $selectedUser,
+                        'actual_payble_days' => $actualPaybleDays,
+                        'working_days' => $present + $absent,
+                        'loss_pay_days' => $absent, 
+                        'payble_days' => $paybleDays,
+                        'salary' => $user->salary,
+                        'gross_wages' => $user->salary,
+                        'deduction' => $deduction,
+                        'payout' => $payout,
+                    ];
+                    $batch->employee()->create($dataToStore);
+                    $addedUser++;
+                }
             }
-            $exits = $batch->employee()->where('user_id', $selectedUser)->exists();
-            if(!$exits) {
-                $user = UserDetail::where('user_id', $selectedUser)->first();
-                $month = Carbon::now()->subMonth();
-                $start = Carbon::parse($month)->startOfMonth();
-                $end = Carbon::parse($month)->endOfMonth();
-                $response = $this->getMonthlyAttendance($user->user_id, $start, $end);
-                $actualPaybleDays = date('d', strtotime('last day of previous month'));
-                $present = $response['present_count'];
-                $absent = $response['absent_count'];
-                $paybleDays = $actualPaybleDays - $absent;
-                $percent = round(($paybleDays/$actualPaybleDays)*100,2);
-                $payout = round(($percent/100)*$user->salary,2);
-                $deduction = $user->salary - $payout;
-                $dataToStore = [
-                    'user_id' => $selectedUser,
-                    'actual_payble_days' => $actualPaybleDays,
-                    'working_days' => $present + $absent,
-                    'loss_pay_days' => $absent, 
-                    'payble_days' => $paybleDays,
-                    'salary' => $user->salary,
-                    'gross_wages' => $user->salary,
-                    'deduction' => $deduction,
-                    'payout' => $payout,
-                ];
-                $batch->employee()->create($dataToStore);
-                $addedUser++;
-            }
+
         } else {
             $users = $this->batchRepository->getAllUsersByBatch($id, $request);
-            $users->each(function ($data) use($batch, $excludedUser, &$addedUser) {
+            $users->each(function ($data) use($batch, $excludedUsers, &$addedUser) {
                 $exits = $batch->employee()->where('user_id', $data->id)->exists();
-                if(!$exits && $excludedUser != $data->id) {
+                if(!$exits && $excludedUsers != $data->id) {
                     $user = UserDetail::where('user_id', $data->id)->first();
                     $month = Carbon::now()->subMonth();
                     $start = Carbon::parse($month)->startOfMonth();

@@ -58,19 +58,19 @@ class BatchRepository extends BaseRepository
         return User::with('role','info')
         ->whereHas('info', function ($query) use($request) {
             $query->when($request->company, function ($q) use($request) {
-                return $q->where('company', $request->company);
+                return $q->whereIn('company', explode(',', $request->company));
             })
             ->when($request->location, function ($q) use($request) {
-                return $q->where('location', $request->location);
+                return $q->whereIn('location', explode(',', $request->location));
             })
             ->when($request->department, function ($q) use($request) {
-                return $q->where('department', $request->department);
+                return $q->whereIn('department', explode(',', $request->department));
             })
             ->when($request->gender, function ($q) use($request) {
-                return $q->where('gender', $request->gender);
+                return $q->whereIn('gender', explode(',', $request->gender));
             })
             ->when($request->employment_type, function ($q) use($request) {
-                return $q->where('employment_type', $request->employment_type);
+                return $q->whereIn('employment_type', explode(',', $request->employment_type));
             });
         })
         ->when($request->search, function ($q) use($request) {
@@ -235,19 +235,19 @@ class BatchRepository extends BaseRepository
             });
         })->with('info')->whereHas('info', function ($query) use ($request) {
             $query->when($request->company, function ($q) use ($request) {
-                return $q->where('company', $request->company);
+                return $q->whereIn('company', $request->company);
             })
                 ->when($request->location, function ($q) use ($request) {
-                    return $q->where('location', $request->location);
+                    return $q->whereIn('location', $request->location);
                 })
                 ->when($request->department, function ($q) use ($request) {
-                    return $q->where('department', $request->department);
+                    return $q->whereIn('department', $request->department);
                 })
                 // ->when($request->job_role, function ($q) use($request) {
                 //     return $q->where('job_role', $request->job_role);
                 // })
                 ->when($request->gender, function ($q) use ($request) {
-                    return $q->where('gender', $request->gender);
+                    return $q->whereIn('gender', $request->gender);
                 });
             // ->when($request->employment_type, function ($q) use($request) {
             //     return $q->where('employment_type', $request->employment_type);
