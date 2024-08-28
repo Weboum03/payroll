@@ -65,7 +65,7 @@
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <multiselect v-model="selectUser" label="name" track-by="name" :options="selectedUserOption" placeholder="Select User" :searchable="true" :multiple="true"></multiselect>
+                        <multiselect v-model="selectUser" label="name" track-by="name" :options="selectedUserOption" placeholder="Specific Employee(s)" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Specific Employee(s)</label>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
 
                 <div class="row d-flex">
                     <div class="col input-group-fname">
-                        <multiselect v-model="deselectUser" label="name" track-by="name" :options="deselectedUserOption" placeholder="Select User" :searchable="true" :multiple="true"></multiselect>
+                        <multiselect v-model="deselectUser" label="name" track-by="name" :options="deselectedUserOption" placeholder="Exclude Employee(s)" :searchable="true" :multiple="true"></multiselect>
                         <label class="user-label">Exclude Employee(s)</label>
                     </div>
                 </div>

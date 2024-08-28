@@ -318,6 +318,9 @@ table.dataTable tbody tr td {
     box-sizing: border-box;
 }
 
+div.dt-container div.dt-layout-row.dt-layout-table {
+    display: block;
+}
 .datatable {
     width: 100%;
     border-collapse: collapse;

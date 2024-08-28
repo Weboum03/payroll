@@ -61,14 +61,16 @@ class UserRepository extends BaseRepository
             $currentDate = Carbon::parse($date);
 
             $currentMonthNew = Carbon::parse($date);
-            $currentMonth = $currentDate->month;
+            $currentMonth = $currentDate->format('m');
             $currentYear = $currentDate->year;
+            // dd($currentMonthNew);
         } else {
             $currentDate = Carbon::now();
             $currentMonthNew = Carbon::now();
             // Get the current month and year
-            $currentMonth = Carbon::now()->month;
+            $currentMonth = Carbon::now()->format('m');
             $currentYear = Carbon::now()->year;
+            
         }
         
         // Get the previous month and year
@@ -84,17 +86,13 @@ class UserRepository extends BaseRepository
         ->distinct('payrolls.user_id')->count();
 
         // Count users created in the current month
-        $usersCount = User::whereHas('info')->whereYear('created_at', $currentYear)
-            ->whereMonth('created_at', $currentMonth)
+        $usersCount = UserDetail::whereYear('doj', $currentYear)
+            ->whereMonth('doj', $currentMonth)
             ->count();
 
         $usersNewJoinCount = UserDetail::
-            where(function ($q) use($currentYear, $currentMonth) {
-                return $q->whereYear('doj', $currentYear)
-                ->whereMonth('doj', $currentMonth);
-            })->orWhere(function ($q) use($currentYear, $currentMonth) {
-                return $q->whereYear('created_at', $currentYear)
-                ->whereMonth('created_at', $currentMonth);
+            where(function ($q) use($currentDate) {
+                return $q->whereDate('doj', '<=', $currentDate->format('Y-m-31'));
             })->count();
         
         $leaver = Deboard::whereYear('start_date', $currentYear)
@@ -104,16 +102,13 @@ class UserRepository extends BaseRepository
         ->where('final_working_date','<=', "$currentYear-$currentMonth-31")->count();
 
         // Count users created in the previous month
-        $previousUsersCount = User::whereHas('info')->whereYear('created_at', $previousMonthYear)
-            ->whereMonth('created_at', $previousMonthNumber)
+        $previousUsersCount = UserDetail::whereYear('doj', $previousMonthYear)
+            ->whereMonth('doj', $previousMonthNumber)
             ->count();
 
-        $previousUsersNewJoinCount = UserDetail::where(function ($q) use($previousMonthYear, $previousMonthNumber) {
-            return $q->whereYear('doj', $previousMonthYear)
-            ->whereMonth('doj', $previousMonthNumber);
-        })->orWhere(function ($q) use($previousMonthYear, $previousMonthNumber) {
-            return $q->whereYear('created_at', $previousMonthYear)
-            ->whereMonth('created_at', $previousMonthNumber);
+
+        $previousUsersNewJoinCount = UserDetail::where(function ($q) use($previousMonth) {
+            return $q->whereDate('doj', '<=', $previousMonth->format('Y-m-31'));
         })->count();
         
         $previousLeaver = Deboard::whereYear('start_date', $previousMonthYear)
@@ -171,7 +166,7 @@ class UserRepository extends BaseRepository
             $title = Carbon::parse($from)->format('F  Y').' to '.Carbon::parse($to)->format('F  Y');
         }
 
-        $usersCount = User::whereBetween('created_at', [$from, $to])->count();
+        $usersCount = UserDetail::whereDate('doj', '<=', $to)->count();
 
         $usersNewJoinCount = UserDetail::whereBetween('doj', [$from, $to])->count();
 
@@ -292,18 +287,17 @@ class UserRepository extends BaseRepository
         }, function ($q) {
             return $q->latest();
         })
-        ->when($request->type == 'new_starter', function ($q) use($request, $year, $month) {
-            return $q->whereYear('created_at', $year)
-            ->whereMonth('created_at', $month);
-        })
         ->whereHas('info', function ($query) use($request, $year, $month) {
             $query->when($request->type == 'employees', function ($q) use($request, $year, $month) {
                 return $q->where(function ($q) use($year, $month) {
+                    return $q->whereYear('doj', '<=', $year)
+                    ->whereMonth('doj', '<=', $month);
+                });
+            })
+            ->when($request->type == 'new_starter', function ($q) use($request, $year, $month) {
+                return $q->where(function ($q) use($year, $month) {
                     return $q->whereYear('doj', $year)
                     ->whereMonth('doj', $month);
-                })->orWhere(function ($q) use($year, $month) {
-                    return $q->whereYear('created_at', $year)
-                    ->whereMonth('created_at', $month);
                 });
             })
             ->when($request->department, function ($q) use($request) {
