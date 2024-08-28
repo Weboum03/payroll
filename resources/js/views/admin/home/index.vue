@@ -79,7 +79,7 @@
                                     employeeData?.current_month?.new_starter }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Leaver</th>
+                                <th scope="row">Left</th>
                                 <td @click="viewEmployeeData(getPreviousMonthDate(employeeData?.date?.from), 'leaver')">{{ employeeData?.last_month?.leaver }}</td>
                                 <td @click="viewEmployeeData(employeeData?.date?.from, 'leaver')">{{ employeeData?.current_month?.leaver }}</td>
                             </tr>

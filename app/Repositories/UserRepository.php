@@ -88,9 +88,14 @@ class UserRepository extends BaseRepository
             ->whereMonth('created_at', $currentMonth)
             ->count();
 
-        $usersNewJoinCount = UserDetail::whereYear('doj', $currentYear)
-            ->whereMonth('doj', $currentMonth)
-            ->count();
+        $usersNewJoinCount = UserDetail::
+            where(function ($q) use($currentYear, $currentMonth) {
+                return $q->whereYear('doj', $currentYear)
+                ->whereMonth('doj', $currentMonth);
+            })->orWhere(function ($q) use($currentYear, $currentMonth) {
+                return $q->whereYear('created_at', $currentYear)
+                ->whereMonth('created_at', $currentMonth);
+            })->count();
         
         $leaver = Deboard::whereYear('start_date', $currentYear)
         ->whereMonth('start_date', $currentMonth)->distinct('user_id')->count();
@@ -103,9 +108,13 @@ class UserRepository extends BaseRepository
             ->whereMonth('created_at', $previousMonthNumber)
             ->count();
 
-        $previousUsersNewJoinCount = UserDetail::whereYear('doj', $previousMonthYear)
-            ->whereMonth('doj', $previousMonthNumber)
-            ->count();
+        $previousUsersNewJoinCount = UserDetail::where(function ($q) use($previousMonthYear, $previousMonthNumber) {
+            return $q->whereYear('doj', $previousMonthYear)
+            ->whereMonth('doj', $previousMonthNumber);
+        })->orWhere(function ($q) use($previousMonthYear, $previousMonthNumber) {
+            return $q->whereYear('created_at', $previousMonthYear)
+            ->whereMonth('created_at', $previousMonthNumber);
+        })->count();
         
         $previousLeaver = Deboard::whereYear('start_date', $previousMonthYear)
             ->whereMonth('start_date', $previousMonthNumber)->distinct('user_id')->count();
@@ -226,7 +235,7 @@ class UserRepository extends BaseRepository
 
     public function listingPaginate($request)
     {
-        return $this->model->latest()->with('role','info')
+        return $this->model->with('role','info')
         ->whereHas('info', function ($query) use($request) {
             $query->when($request->company, function ($q) use($request) {
                 return $q->where('company', $request->company);
@@ -251,6 +260,11 @@ class UserRepository extends BaseRepository
                 ->orWhere('email', 'like', '%' . $request->search . '%')
                 ->orWhere('phone', 'like', '%' . $request->search . '%');
             });
+        })
+        ->when($request->sort_column, function ($q) use($request) {
+            return $q->orderBy($request->sort_column, $request->sort_order);
+        }, function ($q) {
+            return $q->latest();
         })
         ->when($request->role, function ($q) use($request) {
             return $q->where('role_id', $request->role);
@@ -284,8 +298,13 @@ class UserRepository extends BaseRepository
         })
         ->whereHas('info', function ($query) use($request, $year, $month) {
             $query->when($request->type == 'employees', function ($q) use($request, $year, $month) {
-                return $q->whereYear('doj', $year)
-                ->whereMonth('doj', $month);
+                return $q->where(function ($q) use($year, $month) {
+                    return $q->whereYear('doj', $year)
+                    ->whereMonth('doj', $month);
+                })->orWhere(function ($q) use($year, $month) {
+                    return $q->whereYear('created_at', $year)
+                    ->whereMonth('created_at', $month);
+                });
             })
             ->when($request->department, function ($q) use($request) {
                 return $q->where('department', $request->department);

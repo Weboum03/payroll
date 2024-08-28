@@ -77,6 +77,16 @@ export default [
                 name: "auth.forgot-password",
                 component: () => import("../views/auth/passwords/Forgetpassword.vue"),
             },
+            {
+                path: "counter",
+                name: "counter",
+                component: () => import("../views/counter.vue"),
+            },
+            {
+                path: "items",
+                name: "items",
+                component: () => import("../views/items.vue"),
+            },
             // {
             //     path: "forgot-password",
             //     name: "auth.forgot-password",

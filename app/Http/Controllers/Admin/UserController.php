@@ -231,6 +231,11 @@ class UserController extends BaseController
         if ($validator->fails()) {
             return $this->sendError($validator->errors()->first(), $validator->errors());
         }
+
+        if(!isset($input['password']) || $input['password'] == '') {
+            unset($input['password']);
+        }
+
         $user = $this->userRepository->updateById($id, $input);
         $user->info()->updateOrCreate(['user_id' => $id], $input);
         $role = Role::find($request->role_id);

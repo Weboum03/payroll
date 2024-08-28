@@ -73,6 +73,7 @@ const choosFile = (event) => {
             }
         }).then((response) => {
             const tempPath = response.data.temporary_path;
+            uploaded.value = true;
             fileData.value = { title: props.is.title, type: props.is.type, path: tempPath, check: checked };
             text.value = 'Re-Upload';
             swal({
@@ -97,6 +98,7 @@ defineExpose({
     childMethod,
     fileData,
     checked,
+    uploaded,
     id
 });
 

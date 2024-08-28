@@ -87,7 +87,7 @@ const filterData = (filterValues) => {
 }
 
 const filterRows = debounce(() => {
-    console.log('searchQuery.value.toLowerCase()', searchQuery.value.toLowerCase())
+    table.value.currentPage = 1;
     table.value.filterData.filter.push({
         key: "search",
         value: searchQuery.value.toLowerCase(),
@@ -96,8 +96,8 @@ const filterRows = debounce(() => {
 }, 500)
 
 const tableHeaders = [
-    { key: 'name', label: 'Name' },
-    { key: 'employee_id', label: 'Employee ID' },
+    { key: 'name', label: 'Name', sorting: true },
+    { key: 'employee_id', label: 'Employee ID', sorting: true },
     { key: 'email', label: 'Email', sorting: true },
     { key: 'phone', label: 'Phone', sorting: true },
     { key: 'role', label: 'Designation' },

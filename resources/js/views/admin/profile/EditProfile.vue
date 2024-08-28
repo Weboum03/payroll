@@ -1179,6 +1179,14 @@ const schemas = [
             }
             return false;
         }),
+        password: yup
+            .string()
+            .nullable() // Allows null value
+            .test('is-strong-password', 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.', value => {
+            if (!value) return true; // If value is null or empty, skip validation
+            const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+            return strongPasswordRegex.test(value);
+            }),
         address: yup.string().required('Address is required'),
         address_1: yup.string().required('Address 2 is required'),
         city: yup.string().required('City is required'),
@@ -1330,7 +1338,6 @@ async function submitForm(user) {
 
 async function nextStep(values, errors) {
     if (currentStep.value === 3) {
-        console.log('userData',userData.value)
         userDetail.value = values;
         userData.value.as_local = sameAsLocal.value;
         userData.value.docs = getOldUploadDocData();;
@@ -1344,7 +1351,45 @@ async function nextStep(values, errors) {
             check_all: checkAll.value
         });
         userData.value.attachments = getUploadDocData();
+
         userData.value.delete_files = deleteFiles.value;
+
+        // childComponents.value.forEach((childRef) => {
+        //     if (childRef && childRef.uploaded === false && childRef.checked === true) {
+        //         swal({
+        //             icon: "error",
+        //             title: `Please upload file to proceed`,
+        //         });
+        //         return
+        //     }
+        // });
+
+        var exists = childComponents.value.find(childRef => childRef && childRef.uploaded === false && childRef.checked === true);
+        if(exists) {
+            swal({
+            icon: "error",
+            title: "Please upload file to proceed",
+        });
+        return
+        }
+        // var exists = userData.value.attachments.some(component => component.check === true);
+        // if(!exists && userData.value.attachments.length > 0) {
+        //     swal({
+        //     icon: "error",
+        //     title: "Please select at least one doc",
+        // });
+        // return
+        // }
+
+        // var exists = userData.value.docs.some(component => component.check === true);
+        // if(!exists && userData.value.docs.length > 0) {
+        //     swal({
+        //     icon: "error",
+        //     title: "Please select at least one doc",
+        // });
+        // return
+        // }
+
         return submitForm(userData.value).then(response => { currentStep.value++; boxWidth.value = '95'; }).catch(error => { return });
     }
     userDetail.value = values;

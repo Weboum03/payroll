@@ -115,7 +115,7 @@
                     <div class="form-row d-flex justify-content-around" style="margin-left: 30px;">
                         <div class="col-md-12 mb-3">
                             <div id="Address">Address</div>
-                            <div id="Address-value" class="address-Value">{{ user?.info?.address }}</div>
+                            <div id="Address-value" class="address-Value">{{ user?.info?.address }}, {{ user?.info?.city }}, {{ user?.info?.state }}, {{ user?.info?.country }}, {{ user?.info?.postcode }}</div>
                         </div>
                     </div>
 

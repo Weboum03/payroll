@@ -1016,7 +1016,6 @@ const schemas = [
     alternate_phone: yup.string().nullable().test('length', 'The field must be exactly 10 characters long or null', 
           value => value === null || value === '' || value.length === 10),
     gender: yup.string().required('Gender is required'),
-    password: yup.string().required('Password is required'),
     dob: yup.string().required('Date of Birth is required').test('is-greater', 'Invalid Date', function(value) {
             const date = new Date(value);
             const year = date.getFullYear();
@@ -1037,6 +1036,14 @@ const schemas = [
             }
             return false;
         }),
+    password: yup
+            .string()
+            .required('Password is required')
+            .test('is-strong-password', 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.', value => {
+            if (!value) return true; // If value is null or empty, skip validation
+            const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+            return strongPasswordRegex.test(value);
+            }),
     address: yup.string().required('Address is required'),
     address_1: yup.string().required('Address 2 is required'),
     city: yup.string().required('City is required'),
@@ -1262,6 +1269,26 @@ async function nextStep(values) {
     userDetail.value.check_all = checkAll.value;
     userDetail.value.user_profile_picture = profilePic.value;
     userDetail.value.attachments = getUploadDocData();
+
+    // childComponents.value.forEach((childRef) => {
+    //     if (childRef && childRef.uploaded === false && childRef.checked === true) {
+    //         swal({
+    //             icon: "error",
+    //             title: `Please upload file to proceed`,
+    //         });
+    //         return
+    //     }
+    // });
+
+    var exists = childComponents.value.find(childRef => childRef && childRef.uploaded === false && childRef.checked === true);
+        if(exists) {
+            swal({
+            icon: "error",
+            title: "Please upload file to proceed",
+        });
+        return
+    }
+
     return submitForm(userDetail.value).then(response => { currentStep.value++; boxWidth.value = '95'; } ).catch(error => { return });
   }
   userDetail.value = values;
