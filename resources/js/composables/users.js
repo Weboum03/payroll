@@ -26,12 +26,23 @@ export default function useUsers() {
     };
 
     const getUsersPaginate = async (filters=[]) => {
-        console.log('getUsersPaginate', filters);
         let queryString = new URLSearchParams(filters).toString();
         if(queryString) { queryString = '?'+ queryString }
         return apiClient
             .get(
                 "/admin/user/pagination"+queryString)
+            .then((response) => {
+                users.value = response.data;
+                return response.data;
+            });
+    };
+
+    const getUserUnverified = async (filters=[]) => {
+        let queryString = new URLSearchParams(filters).toString();
+        if(queryString) { queryString = '?'+ queryString }
+        return apiClient
+            .get(
+                "/admin/user/unverified"+queryString)
             .then((response) => {
                 users.value = response.data;
                 return response.data;
@@ -224,6 +235,7 @@ export default function useUsers() {
         user,
         getUsers,
         getUsersPaginate,
+        getUserUnverified,
         getReportingUsers,
         getUser,
         storeUser,

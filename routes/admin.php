@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->apiResource('roles', RoleController::class);
     $router->apiResource('users', UserController::class);
     $router->get('user/pagination', [UserController::class, 'getUserPaginate']);
+    $router->get('user/unverified', [UserController::class, 'getUserUnverified']);
     $router->post('dashboard', [UserController::class, 'dashboard']);
     $router->post('dashboard/users', [UserController::class, 'dashboardUser']);
     $router->post('dashboard/compare', [UserController::class, 'compareData']);

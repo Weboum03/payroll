@@ -50,6 +50,13 @@
                             </button>
                         </a>
                     </router-link>
+                    <router-link :to="{ name: 'admin.unverified' }">
+                        <a id="Export" href="javascript:;">
+                            <button class="Export">
+                                Unverified
+                            </button>
+                        </a>
+                    </router-link>
                     <div>
                     </div>
                 </div>

@@ -77,16 +77,16 @@ export default [
                 name: "auth.forgot-password",
                 component: () => import("../views/auth/passwords/Forgetpassword.vue"),
             },
-            {
-                path: "counter",
-                name: "counter",
-                component: () => import("../views/counter.vue"),
-            },
-            {
-                path: "items",
-                name: "items",
-                component: () => import("../views/items.vue"),
-            },
+            // {
+            //     path: "counter",
+            //     name: "counter",
+            //     component: () => import("../views/counter.vue"),
+            // },
+            // {
+            //     path: "items",
+            //     name: "items",
+            //     component: () => import("../views/items.vue"),
+            // },
             // {
             //     path: "forgot-password",
             //     name: "auth.forgot-password",
@@ -125,6 +125,12 @@ export default [
                 name: "admin.dashboard",
                 path: "dashboard",
                 component: () => import("../views/admin/dashboard/index.vue"),
+                meta: { breadCrumb: "Admin" },
+            },
+            {
+                name: "admin.unverified",
+                path: "unverified",
+                component: () => import("../views/admin/dashboard/unverified.vue"),
                 meta: { breadCrumb: "Admin" },
             },
             {
